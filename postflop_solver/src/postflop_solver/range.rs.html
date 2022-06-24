@@ -963,6 +963,8 @@
 <span id="957">957</span>
 <span id="958">958</span>
 <span id="959">959</span>
+<span id="960">960</span>
+<span id="961">961</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
 <span class="kw">use</span> <span class="ident">regex::Regex</span>;
 <span class="kw">use</span> <span class="ident">std::fmt::Write</span>;
@@ -1156,13 +1158,15 @@
 
 <span class="doccomment">/// Attempts to convert a card into a string.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use postflop_solver::card_to_string;</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// assert_eq!(card_to_string(0), Ok(&quot;2c&quot;.to_string()));</span>
-<span class="doccomment">/// assert_eq!(card_to_string(1), Ok(&quot;2d&quot;.to_string()));</span>
-<span class="doccomment">/// assert_eq!(card_to_string(2), Ok(&quot;2h&quot;.to_string()));</span>
+<span class="doccomment">/// assert_eq!(card_to_string(5), Ok(&quot;3d&quot;.to_string()));</span>
+<span class="doccomment">/// assert_eq!(card_to_string(10), Ok(&quot;4h&quot;.to_string()));</span>
 <span class="doccomment">/// assert_eq!(card_to_string(51), Ok(&quot;As&quot;.to_string()));</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -1318,7 +1322,7 @@
 
     <span class="doccomment">/// Obtains the weight by card indices.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Input card ID: 2c2d2h2s =&gt; `0-3`, 3c3d3h3s =&gt; `4-7`, ..., AcAdAhAs =&gt; `48-51`.</span>
+    <span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_weight_by_cards</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">card1</span>: <span class="ident">u8</span>, <span class="ident">card2</span>: <span class="ident">u8</span>) -&gt; <span class="ident">f32</span> {
         <span class="self">self</span>.<span class="ident">data</span>[<span class="ident">card_pair_index</span>(<span class="ident">card1</span>, <span class="ident">card2</span>)]
@@ -1344,7 +1348,7 @@
 
     <span class="doccomment">/// Sets the weight by card indices.</span>
     <span class="doccomment">///</span>
-    <span class="doccomment">/// Input card ID: 2c2d2h2s =&gt; `0-3`, 3c3d3h3s =&gt; `4-7`, ..., AcAdAhAs =&gt; `48-51`.</span>
+    <span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_by_cards</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">card1</span>: <span class="ident">u8</span>, <span class="ident">card2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="ident">check_card</span>(<span class="ident">card1</span>)<span class="question-mark">?</span>;

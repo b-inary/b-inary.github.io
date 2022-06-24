@@ -2002,9 +2002,6 @@
 <span id="1996">1996</span>
 <span id="1997">1997</span>
 <span id="1998">1998</span>
-<span id="1999">1999</span>
-<span id="2000">2000</span>
-<span id="2001">2001</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::bet_size</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::interface</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::mutex_like</span>::<span class="kw-2">*</span>;
@@ -2015,9 +2012,9 @@
 <span class="kw">use</span> <span class="ident">std::slice</span>;
 <span class="kw">use</span> <span class="ident">std::sync::atomic</span>::{<span class="ident">AtomicU64</span>, <span class="ident">AtomicUsize</span>, <span class="ident">Ordering</span>};
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::alloc</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">std::vec</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;holdem-hand-evaluator&quot;</span>))]</span>
@@ -2178,7 +2175,6 @@
     <span class="ident">Chance</span>(<span class="ident">u8</span>),
 }
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>)]</span>
 <span class="kw">struct</span> <span class="ident">BuildTreeInfo</span><span class="op">&lt;</span><span class="lifetime">&#39;a</span><span class="op">&gt;</span> {
     <span class="ident">last_action</span>: <span class="ident">Action</span>,
     <span class="ident">last_bet</span>: [<span class="ident">i32</span>; <span class="number">2</span>],
@@ -2189,12 +2185,7 @@
     <span class="ident">max_stack_size</span>: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a</span> [<span class="ident">AtomicUsize</span>; <span class="number">2</span>],
 }
 
-<span class="doccomment">/// The index of player who is out of position.</span>
 <span class="kw">const</span> <span class="ident">PLAYER_OOP</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0</span>;
-
-<span class="doccomment">/// The index of player who is in position.</span>
-<span class="kw">const</span> <span class="ident">PLAYER_IP</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">1</span>;
-
 <span class="kw">const</span> <span class="ident">PLAYER_CHANCE</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0xff</span>;
 <span class="kw">const</span> <span class="ident">PLAYER_MASK</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0xff</span>;
 <span class="kw">const</span> <span class="ident">PLAYER_TERMINAL_FLAG</span>: <span class="ident">u16</span> <span class="op">=</span> <span class="number">0x100</span>;
@@ -2203,7 +2194,7 @@
 <span class="doccomment">/// Constant representing that the card is not yet dealt.</span>
 <span class="kw">pub</span> <span class="kw">const</span> <span class="ident">NOT_DEALT</span>: <span class="ident">u8</span> <span class="op">=</span> <span class="number">0xff</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>))]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">fn</span> <span class="ident">align_up</span>(<span class="ident">size</span>: <span class="ident">usize</span>) -&gt; <span class="ident">usize</span> {
     <span class="ident">size</span>
@@ -2322,13 +2313,13 @@
         <span class="kw">else</span> {
             <span class="comment">// use 64-bit floating point values</span>
             <span class="kw">let</span> <span class="ident">num_private_hands</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">num_private_hands</span>(<span class="ident">player</span>);
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result_f64</span> <span class="op">=</span> <span class="ident">vec::from_elem_in</span>(<span class="number">0.0</span>, <span class="ident">num_private_hands</span>, <span class="ident">StackAlloc</span>);
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result_tmp</span> <span class="op">=</span> <span class="ident">vec::from_elem_in</span>(<span class="number">0.0</span>, <span class="ident">num_private_hands</span>, <span class="ident">StackAlloc</span>);
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>))]</span>
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result_f64</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">num_private_hands</span>];
-            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>))]</span>
+            <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result_tmp</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">num_private_hands</span>];
 
             <span class="kw">let</span> <span class="ident">flop</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">config</span>.<span class="ident">flop</span>;
@@ -2650,11 +2641,11 @@
             ));
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">range</span>[<span class="ident">PLAYER_OOP</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">is_empty</span>() {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">range</span>[<span class="number">0</span>].<span class="ident">is_empty</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;OOP range is empty&quot;</span>.<span class="ident">to_string</span>());
         }
 
-        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">range</span>[<span class="ident">PLAYER_IP</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">is_empty</span>() {
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">range</span>[<span class="number">1</span>].<span class="ident">is_empty</span>() {
             <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;IP range is empty&quot;</span>.<span class="ident">to_string</span>());
         }
 
@@ -2754,8 +2745,8 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">next_index</span> <span class="op">=</span> <span class="number">1</span>;
         <span class="lifetime">&#39;outer</span>: <span class="kw">for</span> <span class="ident">suit2</span> <span class="kw">in</span> <span class="number">1</span>..<span class="number">4</span> {
             <span class="kw">for</span> <span class="ident">suit1</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">suit2</span> {
-                <span class="kw">if</span> <span class="ident">range</span>[<span class="ident">PLAYER_OOP</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">is_suit_isomorphic</span>(<span class="ident">suit1</span>, <span class="ident">suit2</span>)
-                    <span class="op">&amp;&amp;</span> <span class="ident">range</span>[<span class="ident">PLAYER_IP</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">is_suit_isomorphic</span>(<span class="ident">suit1</span>, <span class="ident">suit2</span>)
+                <span class="kw">if</span> <span class="ident">range</span>[<span class="number">0</span>].<span class="ident">is_suit_isomorphic</span>(<span class="ident">suit1</span>, <span class="ident">suit2</span>)
+                    <span class="op">&amp;&amp;</span> <span class="ident">range</span>[<span class="number">1</span>].<span class="ident">is_suit_isomorphic</span>(<span class="ident">suit1</span>, <span class="ident">suit2</span>)
                 {
                     <span class="ident">suit_isomorphism</span>[<span class="ident">suit2</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> <span class="ident">suit_isomorphism</span>[<span class="ident">suit1</span> <span class="kw">as</span> <span class="ident">usize</span>];
                     <span class="kw">continue</span> <span class="lifetime">&#39;outer</span>;
@@ -3026,7 +3017,7 @@
             <span class="ident">max_stack_size</span>[<span class="number">1</span>].<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>),
         );
 
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
         <span class="ident">STACK_UNIT_SIZE</span>.<span class="ident">store</span>(<span class="number">4</span> <span class="op">*</span> <span class="ident">stack_size</span>, <span class="ident">Ordering::Relaxed</span>);
 
         <span class="kw">let</span> <span class="ident">current_memory_usage</span> <span class="op">=</span> <span class="ident">current_memory_usage</span>.<span class="ident">load</span>(<span class="ident">Ordering::Relaxed</span>);
@@ -3691,13 +3682,14 @@
 
 <span class="doccomment">/// Attempts to convert an optionally space-separated string into a sorted flop array.</span>
 <span class="doccomment">///</span>
+<span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
+<span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">/// ```</span>
 <span class="doccomment">/// use postflop_solver::flop_from_str;</span>
 <span class="doccomment">///</span>
-<span class="doccomment">/// let flop = flop_from_str(&quot;2c 3d 4h&quot;);</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// assert_eq!(flop, Ok([0, 5, 10]));</span>
+<span class="doccomment">/// assert_eq!(flop_from_str(&quot;2c3d4h&quot;), Ok([0, 5, 10]));</span>
+<span class="doccomment">/// assert_eq!(flop_from_str(&quot;As Ah Ks&quot;), Ok([47, 50, 51]));</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">flop_from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>[<span class="ident">u8</span>; <span class="number">3</span>], <span class="ident">String</span><span class="op">&gt;</span> {
@@ -3722,6 +3714,8 @@
 }
 
 <span class="doccomment">/// Attempts to convert a string into a card.</span>
+<span class="doccomment">///</span>
+<span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
 <span class="doccomment">///</span>
 <span class="doccomment">/// # Examples</span>
 <span class="doccomment">/// ```</span>

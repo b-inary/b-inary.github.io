@@ -276,7 +276,7 @@
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Features</span>
-<span class="doccomment">//! - `custom_alloc`: Uses custom memory allocator in solving process.</span>
+<span class="doccomment">//! - `custom-alloc`: Uses custom memory allocator in solving process.</span>
 <span class="doccomment">//!   It significantly reduces the number of calls of the default allocator,</span>
 <span class="doccomment">//!   so it is recommended to use this feature when the default allocator is not so efficient.</span>
 <span class="doccomment">//!   Disabled by default.</span>
@@ -289,7 +289,7 @@
 <span class="doccomment">//! [holdem-hand-evaluator]: https://github.com/b-inary/holdem-hand-evaluator</span>
 <span class="doccomment">//! [rayon]: https://github.com/rayon-rs/rayon</span>
 
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>, <span class="ident">feature</span>(<span class="ident">allocator_api</span>))]</span>
+<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>, <span class="ident">feature</span>(<span class="ident">allocator_api</span>))]</span>
 
 <span class="kw">mod</span> <span class="ident">bet_size</span>;
 <span class="kw">mod</span> <span class="ident">game</span>;
@@ -301,7 +301,7 @@
 <span class="kw">mod</span> <span class="ident">solver</span>;
 <span class="kw">mod</span> <span class="ident">utility</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">alloc</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;holdem-hand-evaluator&quot;</span>))]</span>
@@ -316,7 +316,7 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">solver</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utility</span>::<span class="kw-2">*</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom_alloc&quot;</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">alloc</span>::<span class="kw-2">*</span>;
 </code></pre></div>
 </section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (43347397f 2022-06-23)" ></div>
