@@ -1,0 +1,146 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="An open-source postflop solver library."><meta name="keywords" content="rust, rustlang, rust-lang, postflop_solver"><title>postflop_solver - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script src="../crates.js"></script><script defer src="../main.js"></script>
+    <noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"></h2>
+    </nav>
+    <nav class="sidebar"><a class="sidebar-logo" href="../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div>
+        </a><h2 class="location"><a href="#">Crate postflop_solver</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.1.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section><div id="sidebar-vars" data-name="postflop_solver" data-ty="mod" data-relpath=""></div><script defer src="sidebar-items.js"></script></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../postflop_solver/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+                                <a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div>
+                        </div></form></nav></div><section id="main-content" class="content"><div class="main-heading">
+    <h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">postflop_solver</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/postflop_solver/lib.rs.html#1-144">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>An open-source postflop solver library.</p>
+<h2 id="examples"><a href="#examples">Examples</a></h2>
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">postflop_solver</span>::<span class="kw-2">*</span>;
+
+<span class="comment">// configure game specification</span>
+<span class="kw">let</span> <span class="ident">oop_range</span> <span class="op">=</span> <span class="string">&quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;</span>;
+<span class="kw">let</span> <span class="ident">ip_range</span> <span class="op">=</span> <span class="string">&quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;</span>;
+<span class="kw">let</span> <span class="ident">bet_sizes</span> <span class="op">=</span> <span class="ident">BetSizeCandidates::try_from</span>((<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;50%&quot;</span>)).<span class="ident">unwrap</span>();
+<span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">GameConfig</span> {
+    <span class="ident">flop</span>: <span class="ident">flop_from_str</span>(<span class="string">&quot;Td9d6h&quot;</span>).<span class="ident">unwrap</span>(),
+    <span class="ident">turn</span>: <span class="ident">card_from_str</span>(<span class="string">&quot;Qh&quot;</span>).<span class="ident">unwrap</span>(),
+    <span class="ident">river</span>: <span class="ident">NOT_DEALT</span>,
+    <span class="ident">starting_pot</span>: <span class="number">200</span>,
+    <span class="ident">effective_stack</span>: <span class="number">900</span>,
+    <span class="ident">range</span>: [<span class="ident">oop_range</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>(), <span class="ident">ip_range</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>()],
+    <span class="ident">flop_bet_sizes</span>: [<span class="ident">bet_sizes</span>.<span class="ident">clone</span>(), <span class="ident">bet_sizes</span>.<span class="ident">clone</span>()],
+    <span class="ident">turn_bet_sizes</span>: [<span class="ident">bet_sizes</span>.<span class="ident">clone</span>(), <span class="ident">bet_sizes</span>.<span class="ident">clone</span>()],
+    <span class="ident">river_bet_sizes</span>: [<span class="ident">bet_sizes</span>.<span class="ident">clone</span>(), <span class="ident">bet_sizes</span>.<span class="ident">clone</span>()],
+    <span class="ident">add_all_in_threshold</span>: <span class="number">1.2</span>,
+    <span class="ident">force_all_in_threshold</span>: <span class="number">0.1</span>,
+    <span class="ident">adjust_last_two_bet_sizes</span>: <span class="bool-val">true</span>,
+};
+
+<span class="comment">// build game tree</span>
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">game</span> <span class="op">=</span> <span class="ident">PostFlopGame::with_config</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>).<span class="ident">unwrap</span>();
+
+<span class="comment">// obtain private hands</span>
+<span class="kw">let</span> <span class="ident">oop_hands</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">private_hand_cards</span>(<span class="number">0</span>);
+<span class="macro">println!</span>(
+    <span class="string">&quot;oop_hands[0]: {}{}&quot;</span>,
+    <span class="ident">card_to_string</span>(<span class="ident">oop_hands</span>[<span class="number">0</span>].<span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="comment">// 5c</span>
+    <span class="ident">card_to_string</span>(<span class="ident">oop_hands</span>[<span class="number">0</span>].<span class="number">0</span>).<span class="ident">unwrap</span>()  <span class="comment">// 4c</span>
+);
+
+<span class="comment">// check memory usage</span>
+<span class="kw">let</span> (<span class="ident">mem_usage</span>, <span class="ident">mem_usage_compressed</span>) <span class="op">=</span> <span class="ident">game</span>.<span class="ident">memory_usage</span>();
+<span class="macro">println!</span>(
+    <span class="string">&quot;Memory usage without compression: {:.2}GB&quot;</span>,
+    <span class="ident">mem_usage</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> (<span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span>)
+);
+<span class="macro">println!</span>(
+    <span class="string">&quot;Memory usage with compression: {:.2}GB&quot;</span>,
+    <span class="ident">mem_usage_compressed</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> (<span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span>)
+);
+
+<span class="comment">// allocate memory without compression</span>
+<span class="ident">game</span>.<span class="ident">allocate_memory</span>(<span class="bool-val">false</span>);
+
+<span class="comment">// allocate memory with compression</span>
+<span class="comment">// game.allocate_memory(true);</span>
+
+<span class="comment">// solve the game</span>
+<span class="kw">let</span> <span class="ident">max_num_iterations</span> <span class="op">=</span> <span class="number">1000</span>;
+<span class="kw">let</span> <span class="ident">target_exploitability</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">starting_pot</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.005</span>;
+<span class="kw">let</span> <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">solve</span>(<span class="kw-2">&amp;mut</span> <span class="ident">game</span>, <span class="ident">max_num_iterations</span>, <span class="ident">target_exploitability</span>, <span class="bool-val">true</span>);
+<span class="macro">println!</span>(<span class="string">&quot;Exploitability: {:.2}&quot;</span>, <span class="ident">exploitability</span>);
+
+<span class="comment">// create result interpreter</span>
+<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">interpreter</span> <span class="op">=</span> <span class="ident">Interpreter::new</span>(<span class="kw-2">&amp;</span><span class="ident">game</span>, <span class="number">0.0</span>);
+
+<span class="comment">// get EV and equity of a specific hand</span>
+<span class="ident">interpreter</span>.<span class="ident">cache_normalized_weights</span>();
+<span class="kw">let</span> <span class="ident">ev</span> <span class="op">=</span> <span class="ident">interpreter</span>.<span class="ident">expected_values</span>();
+<span class="kw">let</span> <span class="ident">equity</span> <span class="op">=</span> <span class="ident">interpreter</span>.<span class="ident">equity</span>();
+<span class="macro">println!</span>(<span class="string">&quot;EV of oop_hands[0]: {:.2}&quot;</span>, <span class="ident">ev</span>[<span class="number">0</span>]);
+<span class="macro">println!</span>(<span class="string">&quot;Equity of oop_hands[0]: {:.2}%&quot;</span>, <span class="number">100.0</span> <span class="op">*</span> <span class="ident">equity</span>[<span class="number">0</span>]);
+
+<span class="comment">// get EV and equity of whole hand</span>
+<span class="kw">let</span> <span class="ident">weights</span> <span class="op">=</span> <span class="ident">interpreter</span>.<span class="ident">normalized_weights</span>(<span class="ident">interpreter</span>.<span class="ident">current_player</span>());
+<span class="kw">let</span> <span class="ident">average_ev</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>, <span class="ident">weights</span>);
+<span class="kw">let</span> <span class="ident">average_equity</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">equity</span>, <span class="ident">weights</span>);
+<span class="macro">println!</span>(<span class="string">&quot;Average EV: {:.2}&quot;</span>, <span class="ident">average_ev</span>);
+<span class="macro">println!</span>(<span class="string">&quot;Average equity: {:.2}%&quot;</span>, <span class="number">100.0</span> <span class="op">*</span> <span class="ident">average_equity</span>);
+
+<span class="comment">// get available actions</span>
+<span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">interpreter</span>.<span class="ident">available_actions</span>();
+<span class="macro">println!</span>(<span class="string">&quot;Available actions: {:?}&quot;</span>, <span class="ident">actions</span>); <span class="comment">// [Check, Bet(100)]</span>
+
+<span class="comment">// play `Bet(100)`</span>
+<span class="ident">interpreter</span>.<span class="ident">play</span>(<span class="number">1</span>);
+
+<span class="comment">// get available actions</span>
+<span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">interpreter</span>.<span class="ident">available_actions</span>();
+<span class="macro">println!</span>(<span class="string">&quot;Available actions: {:?}&quot;</span>, <span class="ident">actions</span>); <span class="comment">// [Fold, Call, Raise(300)]</span>
+
+<span class="comment">// play `Call`</span>
+<span class="ident">interpreter</span>.<span class="ident">play</span>(<span class="number">1</span>);
+
+<span class="comment">// confirm that the current node is a chance node</span>
+<span class="macro">assert!</span>(<span class="ident">interpreter</span>.<span class="ident">is_chance_node</span>());
+
+<span class="comment">// confirm that &quot;7s&quot; may be dealt</span>
+<span class="kw">let</span> <span class="ident">card</span> <span class="op">=</span> <span class="ident">card_from_str</span>(<span class="string">&quot;7s&quot;</span>).<span class="ident">unwrap</span>();
+<span class="macro">assert!</span>(<span class="ident">interpreter</span>.<span class="ident">possible_cards</span>() <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">card</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>);
+
+<span class="comment">// deal &quot;7s&quot;</span>
+<span class="ident">interpreter</span>.<span class="ident">play</span>(<span class="ident">card</span> <span class="kw">as</span> <span class="ident">usize</span>);</code></pre></div>
+<h2 id="features"><a href="#features">Features</a></h2>
+<ul>
+<li><code>custom_alloc</code>: Uses custom memory allocator in solving process.
+It significantly reduces the number of calls of the default allocator,
+so it is recommended to use this feature when the default allocator is not so efficient.
+Disabled by default.</li>
+<li><code>holdem-hand-evaluator</code>: Uses <a href="https://github.com/b-inary/holdem-hand-evaluator">holdem-hand-evaluator</a> crate to evaluate hands.
+It makes the tree construction slightly faster, but the program size will increase by about 200KB.
+Enabled by default.</li>
+<li><code>rayon</code>: Uses <a href="https://github.com/rayon-rs/rayon">rayon</a> crate for parallelization.
+Enabled by default.</li>
+</ul>
+</div></details><h2 id="structs" class="small-section-header"><a href="#structs">Structs</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.BetSizeCandidates.html" title="postflop_solver::BetSizeCandidates struct">BetSizeCandidates</a></div><div class="item-right docblock-short"><p>Bet size candidates for the first bet and raise.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.GameConfig.html" title="postflop_solver::GameConfig struct">GameConfig</a></div><div class="item-right docblock-short"><p>A struct for postflop game configuration.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Interpreter.html" title="postflop_solver::Interpreter struct">Interpreter</a></div><div class="item-right docblock-short"><p>A solved result interpreter of <a href="struct.PostFlopGame.html" title="PostFlopGame"><code>PostFlopGame</code></a> struct.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.MutexGuardLike.html" title="postflop_solver::MutexGuardLike struct">MutexGuardLike</a></div><div class="item-right docblock-short"><p>Smart pointer like wrapper that is returned when <a href="struct.MutexLike.html" title="MutexLike"><code>MutexLike</code></a> is “locked”.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.MutexLike.html" title="postflop_solver::MutexLike struct">MutexLike</a></div><div class="item-right docblock-short"><p>Mutex-like wrapper, but it actually does not perform any locking.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.PostFlopGame.html" title="postflop_solver::PostFlopGame struct">PostFlopGame</a></div><div class="item-right docblock-short"><p>A struct representing a postflop game.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.PostFlopNode.html" title="postflop_solver::PostFlopNode struct">PostFlopNode</a></div><div class="item-right docblock-short"><p>A struct representing a node in postflop game tree.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="struct" href="struct.Range.html" title="postflop_solver::Range struct">Range</a></div><div class="item-right docblock-short"><p>A struct representing a player’s range.</p>
+</div></div></div><h2 id="enums" class="small-section-header"><a href="#enums">Enums</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.Action.html" title="postflop_solver::Action enum">Action</a></div><div class="item-right docblock-short"><p>Available actions in a postflop game.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="enum" href="enum.BetSize.html" title="postflop_solver::BetSize enum">BetSize</a></div><div class="item-right docblock-short"><p>Bet size specification.</p>
+</div></div></div><h2 id="constants" class="small-section-header"><a href="#constants">Constants</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="constant" href="constant.NOT_DEALT.html" title="postflop_solver::NOT_DEALT constant">NOT_DEALT</a></div><div class="item-right docblock-short"><p>Constant representing that the card is not yet dealt.</p>
+</div></div></div><h2 id="traits" class="small-section-header"><a href="#traits">Traits</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.Game.html" title="postflop_solver::Game trait">Game</a></div><div class="item-right docblock-short"><p>The trait representing a game.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="trait" href="trait.GameNode.html" title="postflop_solver::GameNode trait">GameNode</a></div><div class="item-right docblock-short"><p>The trait representing a node in game tree.</p>
+</div></div></div><h2 id="functions" class="small-section-header"><a href="#functions">Functions</a></h2>
+<div class="item-table"><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.card_from_str.html" title="postflop_solver::card_from_str fn">card_from_str</a></div><div class="item-right docblock-short"><p>Attempts to convert a string into a card.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.card_to_string.html" title="postflop_solver::card_to_string fn">card_to_string</a></div><div class="item-right docblock-short"><p>Attempts to convert a card into a string.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.compute_average.html" title="postflop_solver::compute_average fn">compute_average</a></div><div class="item-right docblock-short"><p>Computes the average with given weights.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.compute_exploitability.html" title="postflop_solver::compute_exploitability fn">compute_exploitability</a></div><div class="item-right docblock-short"><p>Computes the exploitability of the current strategy.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.finalize.html" title="postflop_solver::finalize fn">finalize</a></div><div class="item-right docblock-short"><p>Finalizes the solving process.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.flop_from_str.html" title="postflop_solver::flop_from_str fn">flop_from_str</a></div><div class="item-right docblock-short"><p>Attempts to convert an optionally space-separated string into a sorted flop array.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.solve.html" title="postflop_solver::solve fn">solve</a></div><div class="item-right docblock-short"><p>Performs Discounted CFR algorithm until the given number of iterations or exploitability is
+satisfied.</p>
+</div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.solve_step.html" title="postflop_solver::solve_step fn">solve_step</a></div><div class="item-right docblock-short"><p>Proceeds Discounted CFR algorithm for one iteration.</p>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (5750a6aa2 2022-06-20)" ></div>
+</body></html>

@@ -1,0 +1,3 @@
+(function() {var implementors = {};
+implementors["postflop_solver"] = [{"text":"impl <a class=\"trait\" href=\"https://doc.rust-lang.org/nightly/core/cmp/trait.Ord.html\" title=\"trait core::cmp::Ord\">Ord</a> for <a class=\"enum\" href=\"postflop_solver/enum.Action.html\" title=\"enum postflop_solver::Action\">Action</a>","synthetic":false,"types":["postflop_solver::game::Action"]}];
+if (window.register_implementors) {window.register_implementors(implementors);} else {window.pending_implementors = implementors;}})()
