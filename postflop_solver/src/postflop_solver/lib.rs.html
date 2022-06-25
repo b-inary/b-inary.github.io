@@ -159,8 +159,6 @@
 <span id="153">153</span>
 <span id="154">154</span>
 <span id="155">155</span>
-<span id="156">156</span>
-<span id="157">157</span>
 </pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
@@ -233,46 +231,46 @@
 <span class="doccomment">//! // }</span>
 <span class="doccomment">//! // finalize(&amp;mut game);</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! // create result interpreter</span>
-<span class="doccomment">//! let mut interpreter = Interpreter::new(&amp;game, 0.0);</span>
-<span class="doccomment">//!</span>
 <span class="doccomment">//! // get EV and equity of a specific hand</span>
-<span class="doccomment">//! interpreter.cache_normalized_weights();</span>
-<span class="doccomment">//! let ev = interpreter.expected_values();</span>
-<span class="doccomment">//! let equity = interpreter.equity();</span>
+<span class="doccomment">//! game.cache_normalized_weights();</span>
+<span class="doccomment">//! let ev = game.expected_values();</span>
+<span class="doccomment">//! let equity = game.equity();</span>
 <span class="doccomment">//! println!(&quot;EV of oop_hands[0]: {:.2}&quot;, ev[0]);</span>
 <span class="doccomment">//! println!(&quot;Equity of oop_hands[0]: {:.2}%&quot;, 100.0 * equity[0]);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // get EV and equity of whole hand</span>
-<span class="doccomment">//! let weights = interpreter.normalized_weights(interpreter.current_player());</span>
+<span class="doccomment">//! let weights = game.normalized_weights(game.current_player());</span>
 <span class="doccomment">//! let average_ev = compute_average(&amp;ev, weights);</span>
 <span class="doccomment">//! let average_equity = compute_average(&amp;equity, weights);</span>
 <span class="doccomment">//! println!(&quot;Average EV: {:.2}&quot;, average_ev);</span>
 <span class="doccomment">//! println!(&quot;Average equity: {:.2}%&quot;, 100.0 * average_equity);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // get available actions</span>
-<span class="doccomment">//! let actions = interpreter.available_actions();</span>
+<span class="doccomment">//! let actions = game.available_actions();</span>
 <span class="doccomment">//! println!(&quot;Available actions: {:?}&quot;, actions); // [Check, Bet(100)]</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // play `Bet(100)`</span>
-<span class="doccomment">//! interpreter.play(1);</span>
+<span class="doccomment">//! game.play(1);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // get available actions</span>
-<span class="doccomment">//! let actions = interpreter.available_actions();</span>
+<span class="doccomment">//! let actions = game.available_actions();</span>
 <span class="doccomment">//! println!(&quot;Available actions: {:?}&quot;, actions); // [Fold, Call, Raise(300)]</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // play `Call`</span>
-<span class="doccomment">//! interpreter.play(1);</span>
+<span class="doccomment">//! game.play(1);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // confirm that the current node is a chance node</span>
-<span class="doccomment">//! assert!(interpreter.is_chance_node());</span>
+<span class="doccomment">//! assert!(game.is_chance_node());</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // confirm that &quot;7s&quot; may be dealt</span>
 <span class="doccomment">//! let card = card_from_str(&quot;7s&quot;).unwrap();</span>
-<span class="doccomment">//! assert!(interpreter.possible_cards() &amp; (1 &lt;&lt; card) != 0);</span>
+<span class="doccomment">//! assert!(game.possible_cards() &amp; (1 &lt;&lt; card) != 0);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // deal &quot;7s&quot;</span>
-<span class="doccomment">//! interpreter.play(card as usize);</span>
+<span class="doccomment">//! game.play(card as usize);</span>
+<span class="doccomment">//!</span>
+<span class="doccomment">//! // back to the root node</span>
+<span class="doccomment">//! game.back_to_root();</span>
 <span class="doccomment">//! ```</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Features</span>
@@ -294,7 +292,6 @@
 <span class="kw">mod</span> <span class="ident">bet_size</span>;
 <span class="kw">mod</span> <span class="ident">game</span>;
 <span class="kw">mod</span> <span class="ident">interface</span>;
-<span class="kw">mod</span> <span class="ident">interpreter</span>;
 <span class="kw">mod</span> <span class="ident">mutex_like</span>;
 <span class="kw">mod</span> <span class="ident">range</span>;
 <span class="kw">mod</span> <span class="ident">sliceop</span>;
@@ -310,7 +307,6 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bet_size</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">game</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interface</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interpreter</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mutex_like</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">range</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">solver</span>::<span class="kw-2">*</span>;
@@ -319,5 +315,5 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">alloc</span>::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (43347397f 2022-06-23)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.63.0-nightly (fdca237d5 2022-06-24)" ></div>
 </body></html>
