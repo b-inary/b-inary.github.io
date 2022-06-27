@@ -2,7 +2,7 @@
         </a><h2 class="location"></h2>
     </nav>
     <nav class="sidebar"><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div>
-        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><button type="button" id="help-button" title="help">?</button><div id="settings-menu" tabindex="-1">
+        </a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1">
                                 <a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div>
                         </div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
 <span id="2">2</span>
@@ -542,7 +542,7 @@
 <span class="doccomment">/// This method returns the exploitability of the obtained strategy.</span>
 <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">solve</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Game</span><span class="op">&gt;</span>(
     <span class="ident">game</span>: <span class="kw-2">&amp;mut</span> <span class="ident">T</span>,
-    <span class="ident">num_iterations</span>: <span class="ident">u32</span>,
+    <span class="ident">max_num_iterations</span>: <span class="ident">u32</span>,
     <span class="ident">target_exploitability</span>: <span class="ident">f32</span>,
     <span class="ident">print_progress</span>: <span class="ident">bool</span>,
 ) -&gt; <span class="ident">f32</span> {
@@ -560,12 +560,12 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">f32::INFINITY</span>;
 
     <span class="kw">if</span> <span class="ident">print_progress</span> {
-        <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {}&quot;</span>, <span class="ident">num_iterations</span>);
+        <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {}&quot;</span>, <span class="ident">max_num_iterations</span>);
         <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, <span class="ident">exploitability</span>);
         <span class="ident">io::stdout</span>().<span class="ident">flush</span>().<span class="ident">unwrap</span>();
     }
 
-    <span class="kw">for</span> <span class="ident">t</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">num_iterations</span> {
+    <span class="kw">for</span> <span class="ident">t</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">max_num_iterations</span> {
         <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">DiscountParams::new</span>(<span class="ident">t</span>);
 
         <span class="comment">// alternating updates</span>
@@ -582,12 +582,12 @@
             );
         }
 
-        <span class="kw">if</span> (<span class="ident">t</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">%</span> <span class="number">10</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">num_iterations</span> {
+        <span class="kw">if</span> (<span class="ident">t</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">%</span> <span class="number">10</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">max_num_iterations</span> {
             <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">compute_exploitability</span>(<span class="ident">game</span>);
         }
 
         <span class="kw">if</span> <span class="ident">print_progress</span> {
-            <span class="macro">print!</span>(<span class="string">&quot;\riteration: {} / {} &quot;</span>, <span class="ident">t</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">num_iterations</span>);
+            <span class="macro">print!</span>(<span class="string">&quot;\riteration: {} / {} &quot;</span>, <span class="ident">t</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">max_num_iterations</span>);
             <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, <span class="ident">exploitability</span>);
             <span class="ident">io::stdout</span>().<span class="ident">flush</span>().<span class="ident">unwrap</span>();
         }
@@ -999,5 +999,5 @@
     <span class="ident">result</span>
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (20a6f3a8a 2022-06-25)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (c80c4b8fd 2022-06-26)" ></div>
 </body></html>
