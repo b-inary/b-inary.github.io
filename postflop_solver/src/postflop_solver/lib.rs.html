@@ -242,19 +242,19 @@
 <span class="doccomment">//! // }</span>
 <span class="doccomment">//! // finalize(&amp;mut game);</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! // get EV and equity of a specific hand</span>
+<span class="doccomment">//! // get equity and EV of a specific hand</span>
 <span class="doccomment">//! game.cache_normalized_weights();</span>
+<span class="doccomment">//! let equity = game.equity(game.current_player());</span>
 <span class="doccomment">//! let ev = game.expected_values();</span>
-<span class="doccomment">//! let equity = game.equity();</span>
-<span class="doccomment">//! println!(&quot;EV of oop_hands[0]: {:.2}&quot;, ev[0]);</span>
 <span class="doccomment">//! println!(&quot;Equity of oop_hands[0]: {:.2}%&quot;, 100.0 * equity[0]);</span>
+<span class="doccomment">//! println!(&quot;EV of oop_hands[0]: {:.2}&quot;, ev[0]);</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! // get EV and equity of whole hand</span>
+<span class="doccomment">//! // get equity and EV of whole hand</span>
 <span class="doccomment">//! let weights = game.normalized_weights(game.current_player());</span>
-<span class="doccomment">//! let average_ev = compute_average(&amp;ev, weights);</span>
 <span class="doccomment">//! let average_equity = compute_average(&amp;equity, weights);</span>
-<span class="doccomment">//! println!(&quot;Average EV: {:.2}&quot;, average_ev);</span>
+<span class="doccomment">//! let average_ev = compute_average(&amp;ev, weights);</span>
 <span class="doccomment">//! println!(&quot;Average equity: {:.2}%&quot;, 100.0 * average_equity);</span>
+<span class="doccomment">//! println!(&quot;Average EV: {:.2}&quot;, average_ev);</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! // get available actions</span>
 <span class="doccomment">//! let actions = game.available_actions();</span>
@@ -337,5 +337,5 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">solver</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utility</span>::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (2f3ddd9f5 2022-06-27)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (27eb6d701 2022-07-04)" ></div>
 </body></html>

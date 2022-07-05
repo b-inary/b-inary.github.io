@@ -75,19 +75,19 @@
 <span class="comment">// }</span>
 <span class="comment">// finalize(&amp;mut game);</span>
 
-<span class="comment">// get EV and equity of a specific hand</span>
+<span class="comment">// get equity and EV of a specific hand</span>
 <span class="ident">game</span>.<span class="ident">cache_normalized_weights</span>();
+<span class="kw">let</span> <span class="ident">equity</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">equity</span>(<span class="ident">game</span>.<span class="ident">current_player</span>());
 <span class="kw">let</span> <span class="ident">ev</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">expected_values</span>();
-<span class="kw">let</span> <span class="ident">equity</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">equity</span>();
-<span class="macro">println!</span>(<span class="string">&quot;EV of oop_hands[0]: {:.2}&quot;</span>, <span class="ident">ev</span>[<span class="number">0</span>]);
 <span class="macro">println!</span>(<span class="string">&quot;Equity of oop_hands[0]: {:.2}%&quot;</span>, <span class="number">100.0</span> <span class="op">*</span> <span class="ident">equity</span>[<span class="number">0</span>]);
+<span class="macro">println!</span>(<span class="string">&quot;EV of oop_hands[0]: {:.2}&quot;</span>, <span class="ident">ev</span>[<span class="number">0</span>]);
 
-<span class="comment">// get EV and equity of whole hand</span>
+<span class="comment">// get equity and EV of whole hand</span>
 <span class="kw">let</span> <span class="ident">weights</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">normalized_weights</span>(<span class="ident">game</span>.<span class="ident">current_player</span>());
-<span class="kw">let</span> <span class="ident">average_ev</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>, <span class="ident">weights</span>);
 <span class="kw">let</span> <span class="ident">average_equity</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">equity</span>, <span class="ident">weights</span>);
-<span class="macro">println!</span>(<span class="string">&quot;Average EV: {:.2}&quot;</span>, <span class="ident">average_ev</span>);
+<span class="kw">let</span> <span class="ident">average_ev</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>, <span class="ident">weights</span>);
 <span class="macro">println!</span>(<span class="string">&quot;Average equity: {:.2}%&quot;</span>, <span class="number">100.0</span> <span class="op">*</span> <span class="ident">average_equity</span>);
+<span class="macro">println!</span>(<span class="string">&quot;Average EV: {:.2}&quot;</span>, <span class="ident">average_ev</span>);
 
 <span class="comment">// get available actions</span>
 <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">available_actions</span>();
@@ -166,5 +166,5 @@ Enabled by default.</li>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.solve.html" title="postflop_solver::solve fn">solve</a></div><div class="item-right docblock-short"><p>Performs Discounted CFR algorithm until the given number of iterations or exploitability is
 satisfied.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.solve_step.html" title="postflop_solver::solve_step fn">solve_step</a></div><div class="item-right docblock-short"><p>Proceeds Discounted CFR algorithm for one iteration.</p>
-</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (2f3ddd9f5 2022-06-27)" ></div>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (27eb6d701 2022-07-04)" ></div>
 </body></html>

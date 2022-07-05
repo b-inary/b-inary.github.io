@@ -560,7 +560,7 @@
     <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">f32::INFINITY</span>;
 
     <span class="kw">if</span> <span class="ident">print_progress</span> {
-        <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {}&quot;</span>, <span class="ident">max_num_iterations</span>);
+        <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {} &quot;</span>, <span class="ident">max_num_iterations</span>);
         <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, <span class="ident">exploitability</span>);
         <span class="ident">io::stdout</span>().<span class="ident">flush</span>().<span class="ident">unwrap</span>();
     }
@@ -653,7 +653,7 @@
 ) {
     <span class="comment">// returns the counterfactual values when the `node` is terminal</span>
     <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">is_terminal</span>() {
-        <span class="ident">game</span>.<span class="ident">evaluate</span>(<span class="ident">result</span>, <span class="ident">node</span>, <span class="ident">player</span>, <span class="ident">cfreach</span>, <span class="bool-val">false</span>);
+        <span class="ident">game</span>.<span class="ident">evaluate</span>(<span class="ident">result</span>, <span class="ident">node</span>, <span class="ident">player</span>, <span class="ident">cfreach</span>);
         <span class="kw">return</span>;
     }
 
@@ -851,9 +851,9 @@
         } <span class="kw">else</span> {
             <span class="ident">regret_matching</span>(<span class="ident">node</span>.<span class="ident">cum_regret</span>(), <span class="ident">num_actions</span>)
         };
-        <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">cfreach_actions</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
 
         <span class="comment">// updates the reach probabilities</span>
+        <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">cfreach_actions</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
         <span class="ident">cfreach_actions</span>.<span class="ident">chunks_mut</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
             <span class="ident">mul_slice</span>(<span class="ident">row</span>, <span class="ident">cfreach</span>);
         });
@@ -999,5 +999,5 @@
     <span class="ident">result</span>
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (2f3ddd9f5 2022-06-27)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (27eb6d701 2022-07-04)" ></div>
 </body></html>
