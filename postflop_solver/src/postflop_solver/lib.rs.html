@@ -165,12 +165,6 @@
 <span id="159">159</span>
 <span id="160">160</span>
 <span id="161">161</span>
-<span id="162">162</span>
-<span id="163">163</span>
-<span id="164">164</span>
-<span id="165">165</span>
-<span id="166">166</span>
-<span id="167">167</span>
 </pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
@@ -304,20 +298,17 @@
 <span class="doccomment">//!   It significantly reduces the number of calls of the default allocator,</span>
 <span class="doccomment">//!   so it is recommended to use this feature when the default allocator is not so efficient.</span>
 <span class="doccomment">//!   Disabled by default.</span>
-<span class="doccomment">//! - `holdem-hand-evaluator`: Uses [holdem-hand-evaluator] crate to evaluate hands.</span>
-<span class="doccomment">//!   It makes the tree construction slightly faster, but the program size will increase by about 200KB.</span>
-<span class="doccomment">//!   Enabled by default.</span>
 <span class="doccomment">//! - `rayon`: Uses [rayon] crate for parallelization.</span>
 <span class="doccomment">//!   Enabled by default.</span>
 <span class="doccomment">//!</span>
-<span class="doccomment">//! [holdem-hand-evaluator]: https://github.com/b-inary/holdem-hand-evaluator</span>
 <span class="doccomment">//! [rayon]: https://github.com/rayon-rs/rayon</span>
 
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>, <span class="ident">feature</span>(<span class="ident">allocator_api</span>))]</span>
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>, <span class="ident">feature</span>(<span class="ident">iter_collect_into</span>))]</span>
 
 <span class="kw">mod</span> <span class="ident">bet_size</span>;
 <span class="kw">mod</span> <span class="ident">game</span>;
+<span class="kw">mod</span> <span class="ident">hand</span>;
+<span class="kw">mod</span> <span class="ident">hand_table</span>;
 <span class="kw">mod</span> <span class="ident">interface</span>;
 <span class="kw">mod</span> <span class="ident">mutex_like</span>;
 <span class="kw">mod</span> <span class="ident">range</span>;
@@ -328,9 +319,6 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">mod</span> <span class="ident">alloc</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;holdem-hand-evaluator&quot;</span>))]</span>
-<span class="kw">mod</span> <span class="ident">hand</span>;
-
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bet_size</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">game</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interface</span>::<span class="kw-2">*</span>;
@@ -339,5 +327,5 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">solver</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utility</span>::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (7b46aa594 2022-07-05)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (1517f5de0 2022-07-07)" ></div>
 </body></html>

@@ -2412,7 +2412,98 @@
 <span id="2406">2406</span>
 <span id="2407">2407</span>
 <span id="2408">2408</span>
+<span id="2409">2409</span>
+<span id="2410">2410</span>
+<span id="2411">2411</span>
+<span id="2412">2412</span>
+<span id="2413">2413</span>
+<span id="2414">2414</span>
+<span id="2415">2415</span>
+<span id="2416">2416</span>
+<span id="2417">2417</span>
+<span id="2418">2418</span>
+<span id="2419">2419</span>
+<span id="2420">2420</span>
+<span id="2421">2421</span>
+<span id="2422">2422</span>
+<span id="2423">2423</span>
+<span id="2424">2424</span>
+<span id="2425">2425</span>
+<span id="2426">2426</span>
+<span id="2427">2427</span>
+<span id="2428">2428</span>
+<span id="2429">2429</span>
+<span id="2430">2430</span>
+<span id="2431">2431</span>
+<span id="2432">2432</span>
+<span id="2433">2433</span>
+<span id="2434">2434</span>
+<span id="2435">2435</span>
+<span id="2436">2436</span>
+<span id="2437">2437</span>
+<span id="2438">2438</span>
+<span id="2439">2439</span>
+<span id="2440">2440</span>
+<span id="2441">2441</span>
+<span id="2442">2442</span>
+<span id="2443">2443</span>
+<span id="2444">2444</span>
+<span id="2445">2445</span>
+<span id="2446">2446</span>
+<span id="2447">2447</span>
+<span id="2448">2448</span>
+<span id="2449">2449</span>
+<span id="2450">2450</span>
+<span id="2451">2451</span>
+<span id="2452">2452</span>
+<span id="2453">2453</span>
+<span id="2454">2454</span>
+<span id="2455">2455</span>
+<span id="2456">2456</span>
+<span id="2457">2457</span>
+<span id="2458">2458</span>
+<span id="2459">2459</span>
+<span id="2460">2460</span>
+<span id="2461">2461</span>
+<span id="2462">2462</span>
+<span id="2463">2463</span>
+<span id="2464">2464</span>
+<span id="2465">2465</span>
+<span id="2466">2466</span>
+<span id="2467">2467</span>
+<span id="2468">2468</span>
+<span id="2469">2469</span>
+<span id="2470">2470</span>
+<span id="2471">2471</span>
+<span id="2472">2472</span>
+<span id="2473">2473</span>
+<span id="2474">2474</span>
+<span id="2475">2475</span>
+<span id="2476">2476</span>
+<span id="2477">2477</span>
+<span id="2478">2478</span>
+<span id="2479">2479</span>
+<span id="2480">2480</span>
+<span id="2481">2481</span>
+<span id="2482">2482</span>
+<span id="2483">2483</span>
+<span id="2484">2484</span>
+<span id="2485">2485</span>
+<span id="2486">2486</span>
+<span id="2487">2487</span>
+<span id="2488">2488</span>
+<span id="2489">2489</span>
+<span id="2490">2490</span>
+<span id="2491">2491</span>
+<span id="2492">2492</span>
+<span id="2493">2493</span>
+<span id="2494">2494</span>
+<span id="2495">2495</span>
+<span id="2496">2496</span>
+<span id="2497">2497</span>
+<span id="2498">2498</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::bet_size</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hand</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::interface</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::mutex_like</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::range</span>::<span class="kw-2">*</span>;
@@ -2429,15 +2520,10 @@
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident">std::vec</span>;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;holdem-hand-evaluator&quot;</span>))]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hand::Hand</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;holdem-hand-evaluator&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">holdem_hand_evaluator::Hand</span>;
-
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Copy</span>, <span class="ident">Clone</span>, <span class="ident">PartialEq</span>, <span class="ident">Eq</span>, <span class="ident">PartialOrd</span>, <span class="ident">Ord</span>)]</span>
 <span class="kw">struct</span> <span class="ident">StrengthItem</span> {
-    <span class="ident">strength</span>: <span class="ident">usize</span>,
-    <span class="ident">index</span>: <span class="ident">usize</span>,
+    <span class="ident">strength</span>: <span class="ident">u16</span>,
+    <span class="ident">index</span>: <span class="ident">u16</span>,
 }
 
 <span class="kw">type</span> <span class="ident">SwapList</span> <span class="op">=</span> [<span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">usize</span>, <span class="ident">usize</span>)<span class="op">&gt;</span>; <span class="number">2</span>];
@@ -2453,6 +2539,9 @@
     <span class="ident">initial_weight</span>: [<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>; <span class="number">2</span>],
     <span class="ident">private_hand_cards</span>: [<span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>)<span class="op">&gt;</span>; <span class="number">2</span>],
     <span class="ident">same_hand_index</span>: [<span class="ident">Vec</span><span class="op">&lt;</span><span class="prelude-ty">Option</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span><span class="op">&gt;</span>; <span class="number">2</span>],
+    <span class="ident">valid_indices_flop</span>: [<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>; <span class="number">2</span>],
+    <span class="ident">valid_indices_turn</span>: <span class="ident">Vec</span><span class="op">&lt;</span>[<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>; <span class="number">2</span>]<span class="op">&gt;</span>,
+    <span class="ident">valid_indices_river</span>: <span class="ident">Vec</span><span class="op">&lt;</span>[<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>; <span class="number">2</span>]<span class="op">&gt;</span>,
     <span class="ident">hand_strength</span>: <span class="ident">Vec</span><span class="op">&lt;</span>[<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">StrengthItem</span><span class="op">&gt;</span>; <span class="number">2</span>]<span class="op">&gt;</span>,
     <span class="ident">turn_isomorphism</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>,
     <span class="ident">turn_isomorphism_cards</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">u8</span><span class="op">&gt;</span>,
@@ -2682,8 +2771,8 @@
     }
 
     <span class="kw">fn</span> <span class="ident">evaluate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">result</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">f32</span>], <span class="ident">node</span>: <span class="kw-2">&amp;</span><span class="ident"><span class="self">Self</span>::Node</span>, <span class="ident">player</span>: <span class="ident">usize</span>, <span class="ident">cfreach</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>]) {
-        <span class="kw">let</span> <span class="ident">amount</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">starting_pot</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="number">0.5</span> <span class="op">+</span> <span class="ident">node</span>.<span class="ident">amount</span> <span class="kw">as</span> <span class="ident">f64</span>;
-        <span class="kw">let</span> <span class="ident">amount_normalized</span> <span class="op">=</span> <span class="ident">amount</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">num_combinations_inv</span>;
+        <span class="kw">let</span> <span class="ident">amount_raw</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">starting_pot</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">*</span> <span class="number">0.5</span> <span class="op">+</span> <span class="ident">node</span>.<span class="ident">amount</span> <span class="kw">as</span> <span class="ident">f64</span>;
+        <span class="kw">let</span> <span class="ident">amount</span> <span class="op">=</span> <span class="ident">amount_raw</span> <span class="op">*</span> <span class="self">self</span>.<span class="ident">num_combinations_inv</span>;
 
         <span class="kw">let</span> <span class="ident">player_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span>];
         <span class="kw">let</span> <span class="ident">opponent_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
@@ -2693,49 +2782,45 @@
 
         <span class="comment">// someone folded</span>
         <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">player</span> <span class="op">&amp;</span> <span class="ident">PLAYER_FOLD_FLAG</span> <span class="op">==</span> <span class="ident">PLAYER_FOLD_FLAG</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">board_mask</span> <span class="op">=</span> <span class="number">0u64</span>;
-            <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">turn</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NOT_DEALT</span> {
-                <span class="ident">board_mask</span> <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">node</span>.<span class="ident">turn</span>;
-            }
-            <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">river</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NOT_DEALT</span> {
-                <span class="ident">board_mask</span> <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">node</span>.<span class="ident">river</span>;
-            }
-
             <span class="kw">let</span> <span class="ident">folded_player</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">player</span> <span class="op">&amp;</span> <span class="ident">PLAYER_MASK</span>;
-            <span class="kw">let</span> <span class="ident">payoff_normalized</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">folded_player</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">==</span> <span class="ident">player</span> {
-                <span class="op">-</span><span class="ident">amount_normalized</span>
+            <span class="kw">let</span> <span class="ident">payoff</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">folded_player</span> <span class="kw">as</span> <span class="ident">usize</span> <span class="op">==</span> <span class="ident">player</span> {
+                <span class="op">-</span><span class="ident">amount</span>
             } <span class="kw">else</span> {
-                <span class="ident">amount_normalized</span>
+                <span class="ident">amount</span>
             };
 
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">cfreach</span>.<span class="ident">len</span>() {
+            <span class="kw">let</span> <span class="ident">valid_indices</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span> {
+                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_flop</span>
+            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">river</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span> {
+                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_turn</span>[<span class="ident">node</span>.<span class="ident">turn</span> <span class="kw">as</span> <span class="ident">usize</span>]
+            } <span class="kw">else</span> {
+                <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_river</span>[<span class="ident">card_pair_index</span>(<span class="ident">node</span>.<span class="ident">turn</span>, <span class="ident">node</span>.<span class="ident">river</span>)]
+            };
+
+            <span class="kw">let</span> <span class="ident">opponent_indices</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">valid_indices</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
+            <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">i</span> <span class="kw">in</span> <span class="ident">opponent_indices</span> {
                 <span class="kw">unsafe</span> {
                     <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>);
-                    <span class="kw">let</span> <span class="ident">hand_mask</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">c1</span>) <span class="op">|</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">c2</span>);
-                    <span class="kw">if</span> <span class="ident">hand_mask</span> <span class="op">&amp;</span> <span class="ident">board_mask</span> <span class="op">==</span> <span class="number">0</span> {
-                        <span class="kw">let</span> <span class="ident">cfreach_i</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">cfreach</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>) <span class="kw">as</span> <span class="ident">f64</span>;
-                        <span class="ident">cfreach_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_i</span>;
-                        <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_i</span>;
-                        <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_i</span>;
-                    }
+                    <span class="kw">let</span> <span class="ident">cfreach_i</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">cfreach</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>) <span class="kw">as</span> <span class="ident">f64</span>;
+                    <span class="ident">cfreach_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_i</span>;
+                    <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_i</span>;
+                    <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_i</span>;
                 }
             }
 
+            <span class="kw">let</span> <span class="ident">player_indices</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">valid_indices</span>[<span class="ident">player</span>];
             <span class="kw">let</span> <span class="ident">same_hand_index</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">same_hand_index</span>[<span class="ident">player</span>];
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">result</span>.<span class="ident">len</span>() {
+            <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">i</span> <span class="kw">in</span> <span class="ident">player_indices</span> {
                 <span class="kw">unsafe</span> {
                     <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>);
-                    <span class="kw">let</span> <span class="ident">hand_mask</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">c1</span>) <span class="op">|</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">c2</span>);
-                    <span class="kw">if</span> <span class="ident">hand_mask</span> <span class="op">&amp;</span> <span class="ident">board_mask</span> <span class="op">==</span> <span class="number">0</span> {
-                        <span class="comment">// inclusion-exclusion principle</span>
-                        <span class="kw">let</span> <span class="ident">cfreach</span> <span class="op">=</span> <span class="ident">cfreach_sum</span>
-                            <span class="op">-</span> <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>)
-                            <span class="op">-</span> <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>)
-                            <span class="op">+</span> <span class="ident">same_hand_index</span>
-                                .<span class="ident">get_unchecked</span>(<span class="ident">i</span>)
-                                .<span class="ident">map_or</span>(<span class="number">0.0</span>, <span class="op">|</span><span class="ident">j</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">cfreach</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>) <span class="kw">as</span> <span class="ident">f64</span>);
-                        <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">i</span>) <span class="op">=</span> (<span class="ident">payoff_normalized</span> <span class="op">*</span> <span class="ident">cfreach</span>) <span class="kw">as</span> <span class="ident">f32</span>;
-                    }
+                    <span class="comment">// inclusion-exclusion principle</span>
+                    <span class="kw">let</span> <span class="ident">cfreach</span> <span class="op">=</span> <span class="ident">cfreach_sum</span>
+                        <span class="op">-</span> <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>)
+                        <span class="op">-</span> <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>)
+                        <span class="op">+</span> <span class="ident">same_hand_index</span>
+                            .<span class="ident">get_unchecked</span>(<span class="ident">i</span>)
+                            .<span class="ident">map_or</span>(<span class="number">0.0</span>, <span class="op">|</span><span class="ident">j</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">cfreach</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>) <span class="kw">as</span> <span class="ident">f64</span>);
+                    <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">i</span>) <span class="op">=</span> (<span class="ident">payoff</span> <span class="op">*</span> <span class="ident">cfreach</span>) <span class="kw">as</span> <span class="ident">f32</span>;
                 }
             }
         }
@@ -2745,16 +2830,16 @@
             <span class="kw">let</span> <span class="ident">player_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">hand_strength</span>[<span class="ident">player</span>];
             <span class="kw">let</span> <span class="ident">opponent_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">hand_strength</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
 
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="number">0</span>;
             <span class="kw">let</span> <span class="ident">player_len</span> <span class="op">=</span> <span class="ident">player_strength</span>.<span class="ident">len</span>();
             <span class="kw">let</span> <span class="ident">opponent_len</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">len</span>();
 
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">player_len</span> {
+            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="number">1</span>;
+
+            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">player_len</span> <span class="op">-</span> <span class="number">1</span> {
                 <span class="kw">unsafe</span> {
                     <span class="kw">let</span> <span class="ident">StrengthItem</span> { <span class="ident">strength</span>, <span class="ident">index</span> } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>);
-                    <span class="kw">while</span> <span class="ident">j</span> <span class="op">&lt;</span> <span class="ident">opponent_len</span> <span class="op">&amp;&amp;</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">strength</span> <span class="op">&lt;</span> <span class="ident">strength</span>
-                    {
-                        <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">index</span>;
+                    <span class="kw">while</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">strength</span> <span class="op">&lt;</span> <span class="ident">strength</span> {
+                        <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>;
                         <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>);
                         <span class="kw">let</span> <span class="ident">cfreach_opp</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">cfreach</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>) <span class="kw">as</span> <span class="ident">f64</span>;
                         <span class="ident">cfreach_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_opp</span>;
@@ -2762,23 +2847,23 @@
                         <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_opp</span>;
                         <span class="ident">j</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                     }
-                    <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span>);
+                    <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>);
                     <span class="kw">let</span> <span class="ident">cfreach</span> <span class="op">=</span> <span class="ident">cfreach_sum</span>
                         <span class="op">-</span> <span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>)
                         <span class="op">-</span> <span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                    <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span>) <span class="op">=</span> (<span class="ident">amount_normalized</span> <span class="op">*</span> <span class="ident">cfreach</span>) <span class="kw">as</span> <span class="ident">f32</span>;
+                    <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">=</span> (<span class="ident">amount</span> <span class="op">*</span> <span class="ident">cfreach</span>) <span class="kw">as</span> <span class="ident">f32</span>;
                 }
             }
 
             <span class="ident">cfreach_sum</span> <span class="op">=</span> <span class="number">0.0</span>;
             <span class="ident">cfreach_minus</span>.<span class="ident">fill</span>(<span class="number">0.0</span>);
-            <span class="ident">j</span> <span class="op">=</span> <span class="ident">opponent_len</span>;
+            <span class="ident">j</span> <span class="op">=</span> <span class="ident">opponent_len</span> <span class="op">-</span> <span class="number">2</span>;
 
-            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">0</span>..<span class="ident">player_len</span>).<span class="ident">rev</span>() {
+            <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">1</span>..<span class="ident">player_len</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">rev</span>() {
                 <span class="kw">unsafe</span> {
                     <span class="kw">let</span> <span class="ident">StrengthItem</span> { <span class="ident">strength</span>, <span class="ident">index</span> } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>);
-                    <span class="kw">while</span> <span class="ident">j</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">strength</span> <span class="op">&gt;</span> <span class="ident">strength</span> {
-                        <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">index</span>;
+                    <span class="kw">while</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">strength</span> <span class="op">&gt;</span> <span class="ident">strength</span> {
+                        <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>;
                         <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>);
                         <span class="kw">let</span> <span class="ident">cfreach_opp</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">cfreach</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>) <span class="kw">as</span> <span class="ident">f64</span>;
                         <span class="ident">cfreach_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_opp</span>;
@@ -2786,11 +2871,11 @@
                         <span class="kw-2">*</span><span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">cfreach_opp</span>;
                         <span class="ident">j</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
                     }
-                    <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span>);
+                    <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>);
                     <span class="kw">let</span> <span class="ident">cfreach</span> <span class="op">=</span> <span class="ident">cfreach_sum</span>
                         <span class="op">-</span> <span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>)
                         <span class="op">-</span> <span class="ident">cfreach_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                    <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span>) <span class="op">-</span><span class="op">=</span> (<span class="ident">amount_normalized</span> <span class="op">*</span> <span class="ident">cfreach</span>) <span class="kw">as</span> <span class="ident">f32</span>;
+                    <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span><span class="op">=</span> (<span class="ident">amount</span> <span class="op">*</span> <span class="ident">cfreach</span>) <span class="kw">as</span> <span class="ident">f32</span>;
                 }
             }
         }
@@ -3038,8 +3123,8 @@
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">init</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="self">self</span>.<span class="ident">init_range</span>();
-        <span class="self">self</span>.<span class="ident">init_isomorphism</span>();
         <span class="self">self</span>.<span class="ident">init_hand_strength</span>();
+        <span class="self">self</span>.<span class="ident">init_isomorphism</span>();
         <span class="self">self</span>.<span class="ident">init_root</span>();
 
         <span class="comment">// interpreter</span>
@@ -3091,6 +3176,140 @@
             <span class="kw">let</span> <span class="ident">opponent_hands</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
             <span class="kw">for</span> <span class="ident">hand</span> <span class="kw">in</span> <span class="ident">player_hands</span> {
                 <span class="ident">same_hand_index</span>.<span class="ident">push</span>(<span class="ident">opponent_hands</span>.<span class="ident">binary_search</span>(<span class="ident">hand</span>).<span class="ident">ok</span>());
+            }
+        }
+
+        <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span> {
+            <span class="self">self</span>.<span class="ident">valid_indices_flop</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">valid_indices</span>(<span class="ident">NOT_DEALT</span>, <span class="ident">NOT_DEALT</span>);
+        } <span class="kw">else</span> {
+            <span class="self">self</span>.<span class="ident">valid_indices_flop</span> <span class="op">=</span> <span class="ident">Default::default</span>();
+        }
+
+        <span class="self">self</span>.<span class="ident">valid_indices_turn</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">Default::default</span>(); <span class="number">52</span>];
+        <span class="kw">for</span> <span class="ident">turn</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
+            <span class="kw">if</span> <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">turn</span>)
+                <span class="op">&amp;&amp;</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span> <span class="op">|</span><span class="op">|</span> <span class="ident">turn</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span>)
+                <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span>
+            {
+                <span class="self">self</span>.<span class="ident">valid_indices_turn</span>[<span class="ident">turn</span> <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">valid_indices</span>(<span class="ident">turn</span>, <span class="ident">NOT_DEALT</span>);
+            }
+        }
+
+        <span class="self">self</span>.<span class="ident">valid_indices_river</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">Default::default</span>(); <span class="number">52</span> <span class="op">*</span> <span class="number">51</span> <span class="op">/</span> <span class="number">2</span>];
+        <span class="kw">for</span> <span class="ident">board1</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
+            <span class="kw">for</span> <span class="ident">board2</span> <span class="kw">in</span> <span class="ident">board1</span> <span class="op">+</span> <span class="number">1</span>..<span class="number">52</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">board1</span>)
+                    <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">board2</span>)
+                    <span class="op">&amp;&amp;</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board1</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board2</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span>)
+                    <span class="op">&amp;&amp;</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board1</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board2</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span>)
+                {
+                    <span class="kw">let</span> <span class="ident">index</span> <span class="op">=</span> <span class="ident">card_pair_index</span>(<span class="ident">board1</span>, <span class="ident">board2</span>);
+                    <span class="self">self</span>.<span class="ident">valid_indices_river</span>[<span class="ident">index</span>] <span class="op">=</span> <span class="self">self</span>.<span class="ident">valid_indices</span>(<span class="ident">board1</span>, <span class="ident">board2</span>);
+                }
+            }
+        }
+    }
+
+    <span class="doccomment">/// Initializes a valid indices.</span>
+    <span class="kw">fn</span> <span class="ident">valid_indices</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">board1</span>: <span class="ident">u8</span>, <span class="ident">board2</span>: <span class="ident">u8</span>) -&gt; [<span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">usize</span><span class="op">&gt;</span>; <span class="number">2</span>] {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">board_mask</span>: <span class="ident">u64</span> <span class="op">=</span> <span class="number">0</span>;
+        <span class="kw">if</span> <span class="ident">board1</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NOT_DEALT</span> {
+            <span class="ident">board_mask</span> <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">board1</span>;
+        }
+        <span class="kw">if</span> <span class="ident">board2</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NOT_DEALT</span> {
+            <span class="ident">board_mask</span> <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">board2</span>;
+        }
+
+        <span class="kw">let</span> <span class="ident">private_hand_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>;
+
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">valid_indices</span> <span class="op">=</span> [
+            <span class="ident">Vec::with_capacity</span>(<span class="ident">private_hand_cards</span>[<span class="number">0</span>].<span class="ident">len</span>()),
+            <span class="ident">Vec::with_capacity</span>(<span class="ident">private_hand_cards</span>[<span class="number">1</span>].<span class="ident">len</span>()),
+        ];
+
+        <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
+            <span class="ident">valid_indices</span>[<span class="ident">player</span>].<span class="ident">extend</span>(<span class="ident">private_hand_cards</span>[<span class="ident">player</span>].<span class="ident">iter</span>().<span class="ident">enumerate</span>().<span class="ident">filter_map</span>(
+                <span class="op">|</span>(<span class="ident">index</span>, (<span class="ident">c1</span>, <span class="ident">c2</span>))<span class="op">|</span> {
+                    <span class="kw">let</span> <span class="ident">hand_mask</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">c1</span>) <span class="op">|</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">c2</span>);
+                    <span class="kw">if</span> <span class="ident">hand_mask</span> <span class="op">&amp;</span> <span class="ident">board_mask</span> <span class="op">==</span> <span class="number">0</span> {
+                        <span class="prelude-val">Some</span>(<span class="ident">index</span>)
+                    } <span class="kw">else</span> {
+                        <span class="prelude-val">None</span>
+                    }
+                },
+            ));
+
+            <span class="ident">valid_indices</span>[<span class="ident">player</span>].<span class="ident">shrink_to_fit</span>();
+        }
+
+        <span class="ident">valid_indices</span>
+    }
+
+    <span class="doccomment">/// Initializes a field `hand_strength`.</span>
+    <span class="kw">fn</span> <span class="ident">init_hand_strength</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">flop</span> <span class="op">=</span> <span class="ident">Hand::new</span>();
+        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">card</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">config</span>.<span class="ident">flop</span> {
+            <span class="ident">flop</span> <span class="op">=</span> <span class="ident">flop</span>.<span class="ident">add_card</span>(<span class="ident">card</span> <span class="kw">as</span> <span class="ident">usize</span>);
+        }
+
+        <span class="self">self</span>.<span class="ident">hand_strength</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">Default::default</span>(); <span class="number">52</span> <span class="op">*</span> <span class="number">51</span> <span class="op">/</span> <span class="number">2</span>];
+        <span class="kw">let</span> <span class="ident">private_hand_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>;
+
+        <span class="kw">for</span> <span class="ident">board1</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
+            <span class="kw">for</span> <span class="ident">board2</span> <span class="kw">in</span> <span class="ident">board1</span> <span class="op">+</span> <span class="number">1</span>..<span class="number">52</span> {
+                <span class="kw">if</span> <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="ident">board1</span> <span class="kw">as</span> <span class="ident">usize</span>)
+                    <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="ident">board2</span> <span class="kw">as</span> <span class="ident">usize</span>)
+                    <span class="op">&amp;&amp;</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board1</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board2</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span>)
+                    <span class="op">&amp;&amp;</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span> <span class="op">==</span> <span class="ident">NOT_DEALT</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board1</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span>
+                        <span class="op">|</span><span class="op">|</span> <span class="ident">board2</span> <span class="op">==</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span>)
+                {
+                    <span class="kw">let</span> <span class="ident">board</span> <span class="op">=</span> <span class="ident">flop</span>.<span class="ident">add_card</span>(<span class="ident">board1</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">add_card</span>(<span class="ident">board2</span> <span class="kw">as</span> <span class="ident">usize</span>);
+                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strength</span> <span class="op">=</span> [
+                        <span class="ident">Vec::with_capacity</span>(<span class="ident">private_hand_cards</span>[<span class="number">0</span>].<span class="ident">len</span>() <span class="op">+</span> <span class="number">2</span>),
+                        <span class="ident">Vec::with_capacity</span>(<span class="ident">private_hand_cards</span>[<span class="number">1</span>].<span class="ident">len</span>() <span class="op">+</span> <span class="number">2</span>),
+                    ];
+
+                    <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
+                        <span class="comment">// add weakest and strongest sentinel</span>
+                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">push</span>(<span class="ident">StrengthItem</span> {
+                            <span class="ident">strength</span>: <span class="number">0</span>,
+                            <span class="ident">index</span>: <span class="number">0</span>,
+                        });
+                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">push</span>(<span class="ident">StrengthItem</span> {
+                            <span class="ident">strength</span>: <span class="ident">u16::MAX</span>,
+                            <span class="ident">index</span>: <span class="ident">u16::MAX</span>,
+                        });
+
+                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">extend</span>(
+                            <span class="ident">private_hand_cards</span>[<span class="ident">player</span>].<span class="ident">iter</span>().<span class="ident">enumerate</span>().<span class="ident">filter_map</span>(
+                                <span class="op">|</span>(<span class="ident">index</span>, <span class="kw-2">&amp;</span>(<span class="ident">hand1</span>, <span class="ident">hand2</span>))<span class="op">|</span> {
+                                    <span class="kw">let</span> (<span class="ident">hand1</span>, <span class="ident">hand2</span>) <span class="op">=</span> (<span class="ident">hand1</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">hand2</span> <span class="kw">as</span> <span class="ident">usize</span>);
+                                    <span class="kw">if</span> <span class="ident">board</span>.<span class="ident">contains</span>(<span class="ident">hand1</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">board</span>.<span class="ident">contains</span>(<span class="ident">hand2</span>) {
+                                        <span class="prelude-val">None</span>
+                                    } <span class="kw">else</span> {
+                                        <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">board</span>.<span class="ident">add_card</span>(<span class="ident">hand1</span>).<span class="ident">add_card</span>(<span class="ident">hand2</span>);
+                                        <span class="prelude-val">Some</span>(<span class="ident">StrengthItem</span> {
+                                            <span class="ident">strength</span>: <span class="ident">hand</span>.<span class="ident">evaluate</span>(),
+                                            <span class="ident">index</span>: <span class="ident">index</span> <span class="kw">as</span> <span class="ident">u16</span>,
+                                        })
+                                    }
+                                },
+                            ),
+                        );
+
+                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">shrink_to_fit</span>();
+                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">sort_unstable</span>();
+                    }
+
+                    <span class="self">self</span>.<span class="ident">hand_strength</span>[<span class="ident">card_pair_index</span>(<span class="ident">board1</span>, <span class="ident">board2</span>)] <span class="op">=</span> <span class="ident">strength</span>;
+                }
             }
         }
     }
@@ -3290,62 +3509,6 @@
         }
     }
 
-    <span class="doccomment">/// Initializes a field `hand_strength`.</span>
-    <span class="kw">fn</span> <span class="ident">init_hand_strength</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">flop</span> <span class="op">=</span> <span class="ident">Hand::new</span>();
-        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">card</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">config</span>.<span class="ident">flop</span> {
-            <span class="ident">flop</span> <span class="op">=</span> <span class="ident">flop</span>.<span class="ident">add_card</span>(<span class="ident">card</span> <span class="kw">as</span> <span class="ident">usize</span>);
-        }
-
-        <span class="self">self</span>.<span class="ident">hand_strength</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="ident">Default::default</span>(); <span class="number">52</span> <span class="op">*</span> <span class="number">51</span> <span class="op">/</span> <span class="number">2</span>];
-        <span class="kw">let</span> <span class="ident">private_hand_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>;
-
-        <span class="kw">for</span> <span class="ident">board1</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
-            <span class="kw">for</span> <span class="ident">board2</span> <span class="kw">in</span> <span class="ident">board1</span> <span class="op">+</span> <span class="number">1</span>..<span class="number">52</span> {
-                <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_possible</span> <span class="op">=</span>
-                    <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="ident">board1</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">flop</span>.<span class="ident">contains</span>(<span class="ident">board2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NOT_DEALT</span> {
-                    <span class="ident">is_possible</span> <span class="op">&amp;=</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">board1</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span> <span class="op">==</span> <span class="ident">board2</span>)
-                        <span class="op">|</span><span class="op">|</span> (<span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">board2</span> <span class="op">&amp;&amp;</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span> <span class="op">==</span> <span class="ident">board1</span>);
-                } <span class="kw">else</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">!</span><span class="op">=</span> <span class="ident">NOT_DEALT</span> {
-                    <span class="ident">is_possible</span> <span class="op">&amp;=</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">board1</span> <span class="op">|</span><span class="op">|</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">turn</span> <span class="op">==</span> <span class="ident">board2</span>;
-                }
-
-                <span class="kw">if</span> <span class="ident">is_possible</span> {
-                    <span class="kw">let</span> <span class="ident">board</span> <span class="op">=</span> <span class="ident">flop</span>.<span class="ident">add_card</span>(<span class="ident">board1</span> <span class="kw">as</span> <span class="ident">usize</span>).<span class="ident">add_card</span>(<span class="ident">board2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strength</span> <span class="op">=</span> [
-                        <span class="ident">Vec::with_capacity</span>(<span class="ident">private_hand_cards</span>[<span class="number">0</span>].<span class="ident">len</span>()),
-                        <span class="ident">Vec::with_capacity</span>(<span class="ident">private_hand_cards</span>[<span class="number">1</span>].<span class="ident">len</span>()),
-                    ];
-
-                    <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
-                        <span class="ident">strength</span>[<span class="ident">player</span>] <span class="op">=</span> <span class="ident">private_hand_cards</span>[<span class="ident">player</span>]
-                            .<span class="ident">iter</span>()
-                            .<span class="ident">enumerate</span>()
-                            .<span class="ident">filter_map</span>(<span class="op">|</span>(<span class="ident">index</span>, <span class="kw-2">&amp;</span>(<span class="ident">hand1</span>, <span class="ident">hand2</span>))<span class="op">|</span> {
-                                <span class="kw">let</span> (<span class="ident">hand1</span>, <span class="ident">hand2</span>) <span class="op">=</span> (<span class="ident">hand1</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">hand2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                                <span class="kw">if</span> <span class="ident">board</span>.<span class="ident">contains</span>(<span class="ident">hand1</span>) <span class="op">|</span><span class="op">|</span> <span class="ident">board</span>.<span class="ident">contains</span>(<span class="ident">hand2</span>) {
-                                    <span class="prelude-val">None</span>
-                                } <span class="kw">else</span> {
-                                    <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">board</span>.<span class="ident">add_card</span>(<span class="ident">hand1</span>).<span class="ident">add_card</span>(<span class="ident">hand2</span>);
-                                    <span class="prelude-val">Some</span>(<span class="ident">StrengthItem</span> {
-                                        <span class="ident">strength</span>: <span class="ident">hand</span>.<span class="ident">evaluate</span>() <span class="kw">as</span> <span class="ident">usize</span>,
-                                        <span class="ident">index</span>,
-                                    })
-                                }
-                            })
-                            .<span class="ident">collect</span>();
-
-                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">shrink_to_fit</span>();
-                        <span class="ident">strength</span>[<span class="ident">player</span>].<span class="ident">sort_unstable</span>();
-                    }
-
-                    <span class="self">self</span>.<span class="ident">hand_strength</span>[<span class="ident">card_pair_index</span>(<span class="ident">board1</span>, <span class="ident">board2</span>)] <span class="op">=</span> <span class="ident">strength</span>;
-                }
-            }
-        }
-    }
-
     <span class="doccomment">/// Initializes the root node of game tree.</span>
     <span class="kw">fn</span> <span class="ident">init_root</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>) {
         <span class="kw">let</span> <span class="ident">current_memory_usage</span> <span class="op">=</span> <span class="ident">AtomicU64::new</span>(<span class="ident">mem::size_of</span>::<span class="op">&lt;</span><span class="ident">PostFlopNode</span><span class="op">&gt;</span>() <span class="kw">as</span> <span class="ident">u64</span>);
@@ -3387,6 +3550,8 @@
 
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">memory_usage</span> <span class="op">=</span> <span class="ident">current_memory_usage</span> <span class="op">+</span> <span class="ident">stack_usage</span>;
 
+        <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_turn</span>);
+        <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_river</span>);
         <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">hand_strength</span>);
         <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">turn_isomorphism</span>);
         <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">turn_isomorphism_cards</span>);
@@ -3398,6 +3563,13 @@
             <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">initial_weight</span>[<span class="ident">i</span>]);
             <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">i</span>]);
             <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">same_hand_index</span>[<span class="ident">i</span>]);
+            <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_flop</span>[<span class="ident">i</span>]);
+            <span class="kw">for</span> <span class="ident">indices</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_turn</span> {
+                <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="ident">indices</span>[<span class="ident">i</span>]);
+            }
+            <span class="kw">for</span> <span class="ident">indices</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">valid_indices_river</span> {
+                <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="ident">indices</span>[<span class="ident">i</span>]);
+            }
             <span class="kw">for</span> <span class="ident">strength</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">hand_strength</span> {
                 <span class="ident">memory_usage</span> <span class="op">+</span><span class="op">=</span> <span class="ident">vec_memory_usage</span>(<span class="kw-2">&amp;</span><span class="ident">strength</span>[<span class="ident">i</span>]);
             }
@@ -4230,6 +4402,17 @@
 
     <span class="doccomment">/// Internal method for calculating the equity.</span>
     <span class="kw">fn</span> <span class="ident">equity_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">result</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">f64</span>], <span class="ident">player</span>: <span class="ident">usize</span>, <span class="ident">turn</span>: <span class="ident">u8</span>, <span class="ident">river</span>: <span class="ident">u8</span>, <span class="ident">amount</span>: <span class="ident">f64</span>) {
+        <span class="kw">let</span> <span class="ident">hand_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">hand_strength</span>[<span class="ident">card_pair_index</span>(<span class="ident">turn</span>, <span class="ident">river</span>)];
+        <span class="kw">let</span> <span class="ident">player_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">hand_strength</span>[<span class="ident">player</span>];
+        <span class="kw">let</span> <span class="ident">opponent_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">hand_strength</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
+
+        <span class="kw">let</span> <span class="ident">player_len</span> <span class="op">=</span> <span class="ident">player_strength</span>.<span class="ident">len</span>();
+        <span class="kw">let</span> <span class="ident">opponent_len</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">len</span>();
+
+        <span class="kw">if</span> <span class="ident">player_len</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">opponent_len</span> <span class="op">==</span> <span class="number">0</span> {
+            <span class="kw">return</span>;
+        }
+
         <span class="kw">let</span> <span class="ident">player_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span>];
         <span class="kw">let</span> <span class="ident">opponent_cards</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
 
@@ -4237,19 +4420,13 @@
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">weight_sum</span> <span class="op">=</span> <span class="number">0.0</span>;
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">weight_minus</span> <span class="op">=</span> [<span class="number">0.0</span>; <span class="number">52</span>];
 
-        <span class="kw">let</span> <span class="ident">hand_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">hand_strength</span>[<span class="ident">card_pair_index</span>(<span class="ident">turn</span>, <span class="ident">river</span>)];
-        <span class="kw">let</span> <span class="ident">player_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">hand_strength</span>[<span class="ident">player</span>];
-        <span class="kw">let</span> <span class="ident">opponent_strength</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">hand_strength</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>];
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="number">1</span>;
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">j</span> <span class="op">=</span> <span class="number">0</span>;
-        <span class="kw">let</span> <span class="ident">player_len</span> <span class="op">=</span> <span class="ident">player_strength</span>.<span class="ident">len</span>();
-        <span class="kw">let</span> <span class="ident">opponent_len</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">len</span>();
-
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">player_len</span> {
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">1</span>..<span class="ident">player_len</span> <span class="op">-</span> <span class="number">1</span> {
             <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">StrengthItem</span> { <span class="ident">strength</span>, <span class="ident">index</span> } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>);
-                <span class="kw">while</span> <span class="ident">j</span> <span class="op">&lt;</span> <span class="ident">opponent_len</span> <span class="op">&amp;&amp;</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">strength</span> <span class="op">&lt;</span> <span class="ident">strength</span> {
-                    <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">index</span>;
+                <span class="kw">while</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">strength</span> <span class="op">&lt;</span> <span class="ident">strength</span> {
+                    <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>;
                     <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>);
                     <span class="kw">let</span> <span class="ident">weight</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_weights</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>) <span class="kw">as</span> <span class="ident">f64</span>;
                     <span class="ident">weight_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">weight</span>;
@@ -4257,23 +4434,23 @@
                     <span class="kw-2">*</span><span class="ident">weight_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">weight</span>;
                     <span class="ident">j</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
                 }
-                <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span>);
+                <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>);
                 <span class="kw">let</span> <span class="ident">opponent_weight</span> <span class="op">=</span> <span class="ident">weight_sum</span>
                     <span class="op">-</span> <span class="ident">weight_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>)
                     <span class="op">-</span> <span class="ident">weight_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">amount</span> <span class="op">*</span> <span class="ident">opponent_weight</span>;
+                <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">amount</span> <span class="op">*</span> <span class="ident">opponent_weight</span>;
             }
         }
 
         <span class="ident">weight_sum</span> <span class="op">=</span> <span class="number">0.0</span>;
         <span class="ident">weight_minus</span>.<span class="ident">fill</span>(<span class="number">0.0</span>);
-        <span class="ident">j</span> <span class="op">=</span> <span class="ident">opponent_len</span>;
+        <span class="ident">j</span> <span class="op">=</span> <span class="ident">opponent_len</span> <span class="op">-</span> <span class="number">2</span>;
 
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">0</span>..<span class="ident">player_len</span>).<span class="ident">rev</span>() {
+        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> (<span class="number">1</span>..<span class="ident">player_len</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">rev</span>() {
             <span class="kw">unsafe</span> {
                 <span class="kw">let</span> <span class="ident">StrengthItem</span> { <span class="ident">strength</span>, <span class="ident">index</span> } <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>);
-                <span class="kw">while</span> <span class="ident">j</span> <span class="op">&gt;</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">strength</span> <span class="op">&gt;</span> <span class="ident">strength</span> {
-                    <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">index</span>;
+                <span class="kw">while</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">strength</span> <span class="op">&gt;</span> <span class="ident">strength</span> {
+                    <span class="kw">let</span> <span class="ident">opponent_index</span> <span class="op">=</span> <span class="ident">opponent_strength</span>.<span class="ident">get_unchecked</span>(<span class="ident">j</span>).<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>;
                     <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>);
                     <span class="kw">let</span> <span class="ident">weight</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">opponent_weights</span>.<span class="ident">get_unchecked</span>(<span class="ident">opponent_index</span>) <span class="kw">as</span> <span class="ident">f64</span>;
                     <span class="ident">weight_sum</span> <span class="op">+</span><span class="op">=</span> <span class="ident">weight</span>;
@@ -4281,11 +4458,11 @@
                     <span class="kw-2">*</span><span class="ident">weight_minus</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">+</span><span class="op">=</span> <span class="ident">weight</span>;
                     <span class="ident">j</span> <span class="op">-</span><span class="op">=</span> <span class="number">1</span>;
                 }
-                <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span>);
+                <span class="kw">let</span> (<span class="ident">c1</span>, <span class="ident">c2</span>) <span class="op">=</span> <span class="kw-2">*</span><span class="ident">player_cards</span>.<span class="ident">get_unchecked</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>);
                 <span class="kw">let</span> <span class="ident">opponent_weight</span> <span class="op">=</span> <span class="ident">weight_sum</span>
                     <span class="op">-</span> <span class="ident">weight_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c1</span> <span class="kw">as</span> <span class="ident">usize</span>)
                     <span class="op">-</span> <span class="ident">weight_minus</span>.<span class="ident">get_unchecked</span>(<span class="ident">c2</span> <span class="kw">as</span> <span class="ident">usize</span>);
-                <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span>) <span class="op">-</span><span class="op">=</span> <span class="ident">amount</span> <span class="op">*</span> <span class="ident">opponent_weight</span>;
+                <span class="kw-2">*</span><span class="ident">result</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">index</span> <span class="kw">as</span> <span class="ident">usize</span>) <span class="op">-</span><span class="op">=</span> <span class="ident">amount</span> <span class="op">*</span> <span class="ident">opponent_weight</span>;
             }
         }
     }
@@ -4436,6 +4613,9 @@
             <span class="ident">initial_weight</span>: <span class="ident">Default::default</span>(),
             <span class="ident">private_hand_cards</span>: <span class="ident">Default::default</span>(),
             <span class="ident">same_hand_index</span>: <span class="ident">Default::default</span>(),
+            <span class="ident">valid_indices_flop</span>: <span class="ident">Default::default</span>(),
+            <span class="ident">valid_indices_turn</span>: <span class="ident">Default::default</span>(),
+            <span class="ident">valid_indices_river</span>: <span class="ident">Default::default</span>(),
             <span class="ident">hand_strength</span>: <span class="ident">Vec::default</span>(),
             <span class="ident">turn_isomorphism</span>: <span class="ident">Vec::default</span>(),
             <span class="ident">turn_isomorphism_cards</span>: <span class="ident">Vec::default</span>(),
@@ -4821,5 +5001,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (7b46aa594 2022-07-05)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (1517f5de0 2022-07-07)" ></div>
 </body></html>
