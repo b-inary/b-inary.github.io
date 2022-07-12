@@ -4432,7 +4432,7 @@
             <span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">available_actions</span>();
             <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">action_index</span> <span class="op">=</span> <span class="ident">usize::MAX</span>;
 
-            <span class="comment">// finds the action index from available actions</span>
+            <span class="comment">// find the action index from available actions</span>
             <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">action</span>) <span class="kw">in</span> <span class="ident">actions</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
                 <span class="kw">if</span> <span class="ident">action</span> <span class="op">==</span> <span class="ident">Action::Chance</span>(<span class="ident">action_card</span>) {
                     <span class="ident">action_index</span> <span class="op">=</span> <span class="ident">i</span>;
@@ -4440,7 +4440,7 @@
                 }
             }
 
-            <span class="comment">// finds the action index from isomorphic chances</span>
+            <span class="comment">// find the action index from isomorphic chances</span>
             <span class="kw">if</span> <span class="ident">action_index</span> <span class="op">==</span> <span class="ident">usize::MAX</span> {
                 <span class="kw">let</span> <span class="ident">isomorphism</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">isomorphic_chances</span>(<span class="self">self</span>.<span class="ident">node</span>());
                 <span class="kw">let</span> <span class="ident">isomorphic_cards</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">isomorphic_cards</span>(<span class="self">self</span>.<span class="ident">node</span>());
@@ -4463,12 +4463,12 @@
                 }
             }
 
-            <span class="comment">// panics if the action is not found</span>
+            <span class="comment">// panic if the action is not found</span>
             <span class="kw">if</span> <span class="ident">action_index</span> <span class="op">==</span> <span class="ident">usize::MAX</span> {
                 <span class="macro">panic!</span>(<span class="string">&quot;invalid action&quot;</span>);
             }
 
-            <span class="comment">// updates the state</span>
+            <span class="comment">// update the state</span>
             <span class="self">self</span>.<span class="ident">node_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">node</span>().<span class="ident">play</span>(<span class="ident">action_index</span>);
             <span class="kw">if</span> <span class="ident">is_turn</span> {
                 <span class="self">self</span>.<span class="ident">turn</span> <span class="op">=</span> <span class="ident">actual_card</span>;
@@ -4480,12 +4480,12 @@
         }
         <span class="comment">// not chance node</span>
         <span class="kw">else</span> {
-            <span class="comment">// panics if the action is invalid</span>
+            <span class="comment">// panic if the action is invalid</span>
             <span class="kw">if</span> <span class="ident">action</span> <span class="op">&gt;</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">node</span>().<span class="ident">num_actions</span>() {
                 <span class="macro">panic!</span>(<span class="string">&quot;invalid action&quot;</span>);
             }
 
-            <span class="comment">// updates the weights</span>
+            <span class="comment">// update the weights</span>
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">node</span>().<span class="ident">num_actions</span>() <span class="op">&gt;</span> <span class="number">1</span> {
                 <span class="kw">let</span> <span class="ident">player</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">node</span>().<span class="ident">player</span>();
                 <span class="kw">let</span> <span class="ident">strategy</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">strategy</span>();
@@ -4493,7 +4493,7 @@
                 <span class="ident">mul_slice</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">weights</span>[<span class="ident">player</span>], <span class="ident">weights</span>);
             }
 
-            <span class="comment">// updates the node</span>
+            <span class="comment">// update the node</span>
             <span class="self">self</span>.<span class="ident">node_ptr</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="self">self</span>.<span class="ident">node</span>().<span class="ident">play</span>(<span class="ident">action</span>);
         }
 
