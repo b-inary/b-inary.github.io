@@ -186,8 +186,16 @@
 <span id="180">180</span>
 <span id="181">181</span>
 <span id="182">182</span>
+<span id="183">183</span>
+<span id="184">184</span>
+<span id="185">185</span>
+<span id="186">186</span>
+<span id="187">187</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
 <span class="kw">use</span> <span class="ident">regex::Regex</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">bincode</span>::{<span class="ident">Decode</span>, <span class="ident">Encode</span>};
 
 <span class="kw">const</span> <span class="ident">FLOAT_PAT</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">r&quot;(?P&lt;float&gt;(?:[1-9]\d*(?:\.\d*)?)|(?:0?\.\d+))&quot;</span>;
 
@@ -208,6 +216,7 @@
 <span class="doccomment">/// assert_eq!(bet_size.raise, vec![PotRelative(0.75), LastBetRelative(2.5)]);</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>, <span class="ident">derive</span>(<span class="ident">Decode</span>, <span class="ident">Encode</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BetSizeCandidates</span> {
     <span class="doccomment">/// Bet size candidates for first bet.</span>
     <span class="kw">pub</span> <span class="ident">bet</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">BetSize</span><span class="op">&gt;</span>,
@@ -218,6 +227,7 @@
 
 <span class="doccomment">/// Bet size specification.</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">PartialOrd</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>, <span class="ident">derive</span>(<span class="ident">Decode</span>, <span class="ident">Encode</span>))]</span>
 <span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BetSize</span> {
     <span class="doccomment">/// Bet size relative to the current pot size.</span>
     <span class="ident">PotRelative</span>(<span class="ident">f32</span>),
@@ -369,5 +379,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (6dba4ed21 2022-07-09)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (38b72154d 2022-07-11)" ></div>
 </body></html>

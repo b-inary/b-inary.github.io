@@ -965,11 +965,18 @@
 <span id="959">959</span>
 <span id="960">960</span>
 <span id="961">961</span>
+<span id="962">962</span>
+<span id="963">963</span>
+<span id="964">964</span>
+<span id="965">965</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
 <span class="kw">use</span> <span class="ident">regex::Regex</span>;
 <span class="kw">use</span> <span class="ident">std::fmt::Write</span>;
 <span class="kw">use</span> <span class="ident">std::mem</span>;
 <span class="kw">use</span> <span class="ident">std::str::FromStr</span>;
+
+<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>)]</span>
+<span class="kw">use</span> <span class="ident">bincode</span>::{<span class="ident">Decode</span>, <span class="ident">Encode</span>};
 
 <span class="doccomment">/// A struct representing a player&#39;s range.</span>
 <span class="doccomment">///</span>
@@ -992,6 +999,7 @@
 <span class="doccomment">/// assert_eq!(range.get_weight_offsuit(ace_rank, king_rank), 0.0);</span>
 <span class="doccomment">/// ```</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>)]</span>
+<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>, <span class="ident">derive</span>(<span class="ident">Decode</span>, <span class="ident">Encode</span>))]</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Range</span> {
     <span class="ident">data</span>: [<span class="ident">f32</span>; <span class="number">52</span> <span class="op">*</span> <span class="number">51</span> <span class="op">/</span> <span class="number">2</span>],
 }
@@ -1927,5 +1935,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (6dba4ed21 2022-07-09)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (38b72154d 2022-07-11)" ></div>
 </body></html>

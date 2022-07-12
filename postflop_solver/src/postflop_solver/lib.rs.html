@@ -165,6 +165,11 @@
 <span id="159">159</span>
 <span id="160">160</span>
 <span id="161">161</span>
+<span id="162">162</span>
+<span id="163">163</span>
+<span id="164">164</span>
+<span id="165">165</span>
+<span id="166">166</span>
 </pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Examples</span>
@@ -294,13 +299,18 @@
 <span class="doccomment">//! [Discounted CFR]: https://arxiv.org/abs/1809.04040</span>
 <span class="doccomment">//!</span>
 <span class="doccomment">//! # Crate features</span>
+<span class="doccomment">//! - `bincode`: Uses [bincode] crate (2.0.0-rc.1) to serialize and deserialize the `PostFlopGame` struct.</span>
+<span class="doccomment">//!   Disabled by default.</span>
 <span class="doccomment">//! - `custom-alloc`: Uses custom memory allocator in solving process (only available in nightly Rust).</span>
 <span class="doccomment">//!   It significantly reduces the number of calls of the default allocator,</span>
 <span class="doccomment">//!   so it is recommended to use this feature when the default allocator is not so efficient.</span>
+<span class="doccomment">//!   Note that this feature assumes that, at most, only one instance of `PostFlopGame` is available</span>
+<span class="doccomment">//!   when solving in a program.</span>
 <span class="doccomment">//!   Disabled by default.</span>
 <span class="doccomment">//! - `rayon`: Uses [rayon] crate for parallelization.</span>
 <span class="doccomment">//!   Enabled by default.</span>
 <span class="doccomment">//!</span>
+<span class="doccomment">//! [bincode]: https://github.com/bincode-org/bincode</span>
 <span class="doccomment">//! [rayon]: https://github.com/rayon-rs/rayon</span>
 
 <span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>, <span class="ident">feature</span>(<span class="ident">allocator_api</span>))]</span>
@@ -327,5 +337,5 @@
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">solver</span>::<span class="kw-2">*</span>;
 <span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utility</span>::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (6dba4ed21 2022-07-09)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (38b72154d 2022-07-11)" ></div>
 </body></html>
