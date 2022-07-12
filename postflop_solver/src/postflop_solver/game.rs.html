@@ -2806,7 +2806,6 @@
 <span id="2800">2800</span>
 <span id="2801">2801</span>
 <span id="2802">2802</span>
-<span id="2803">2803</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::bet_size</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hand</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::interface</span>::<span class="kw-2">*</span>;
@@ -2826,7 +2825,7 @@
     <span class="ident">Decode</span>, <span class="ident">Encode</span>,
 };
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">std::cell::RefCell</span>;
+<span class="kw">use</span> <span class="ident">std::cell::Cell</span>;
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::alloc</span>::<span class="kw-2">*</span>;
@@ -5066,7 +5065,7 @@
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>)]</span>
 <span class="macro">thread_local!</span> {
-    <span class="kw">static</span> <span class="ident">BASE_PTR</span>: <span class="ident">RefCell</span><span class="op">&lt;</span>(<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="kw-2">*mut</span> <span class="ident">u8</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">RefCell::new</span>((<span class="ident">ptr::null_mut</span>(), <span class="ident">ptr::null_mut</span>()));
+    <span class="kw">static</span> <span class="ident">BASE_PTR</span>: <span class="ident">Cell</span><span class="op">&lt;</span>(<span class="kw-2">*mut</span> <span class="ident">u8</span>, <span class="kw-2">*mut</span> <span class="ident">u8</span>)<span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Cell::new</span>((<span class="ident">ptr::null_mut</span>(), <span class="ident">ptr::null_mut</span>()));
 }
 
 <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>)]</span>
@@ -5075,13 +5074,14 @@
         <span class="comment">// store base pointer</span>
         <span class="ident">BASE_PTR</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ps</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_memory_allocated</span> {
-                <span class="ident">ps</span>.<span class="ident">borrow_mut</span>().<span class="number">0</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_compression_enabled</span> {
+                <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">is_compression_enabled</span> {
                     <span class="self">self</span>.<span class="ident">storage1_compressed</span>.<span class="ident">lock</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>
                 } <span class="kw">else</span> {
                     <span class="self">self</span>.<span class="ident">storage1</span>.<span class="ident">lock</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>
                 };
+                <span class="ident">ps</span>.<span class="ident">set</span>((<span class="ident">base</span>, <span class="ident">ptr::null_mut</span>()));
             } <span class="kw">else</span> {
-                <span class="ident">ps</span>.<span class="ident">borrow_mut</span>().<span class="number">0</span> <span class="op">=</span> <span class="ident">ptr::null_mut</span>();
+                <span class="ident">ps</span>.<span class="ident">set</span>((<span class="ident">ptr::null_mut</span>(), <span class="ident">ptr::null_mut</span>()));
             }
         });
 
@@ -5118,10 +5118,7 @@
         <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="kw">if</span> <span class="self">self</span>.<span class="ident">storage1</span>.<span class="ident">is_null</span>() {
             <span class="number">0</span>
         } <span class="kw">else</span> {
-            <span class="ident">BASE_PTR</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ps</span><span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">base</span> <span class="op">=</span> <span class="ident">ps</span>.<span class="ident">borrow</span>().<span class="number">0</span>;
-                <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">storage1</span>.<span class="ident">offset_from</span>(<span class="ident">base</span>) }
-            })
+            <span class="ident">BASE_PTR</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ps</span><span class="op">|</span> <span class="kw">unsafe</span> { <span class="self">self</span>.<span class="ident">storage1</span>.<span class="ident">offset_from</span>(<span class="ident">ps</span>.<span class="ident">get</span>().<span class="number">0</span>) })
         };
 
         <span class="comment">// contents</span>
@@ -5177,7 +5174,7 @@
         <span class="comment">// store base pointers</span>
         <span class="ident">BASE_PTR</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ps</span><span class="op">|</span> {
             <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_memory_allocated</span> {
-                <span class="kw-2">*</span><span class="ident">ps</span>.<span class="ident">borrow_mut</span>() <span class="op">=</span> <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_compression_enabled</span> {
+                <span class="kw">let</span> <span class="ident">bases</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_compression_enabled</span> {
                     (
                         <span class="ident">game</span>.<span class="ident">storage1_compressed</span>.<span class="ident">lock</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>,
                         <span class="ident">game</span>.<span class="ident">storage2_compressed</span>.<span class="ident">lock</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>,
@@ -5188,8 +5185,9 @@
                         <span class="ident">game</span>.<span class="ident">storage2</span>.<span class="ident">lock</span>().<span class="ident">as_mut_ptr</span>() <span class="kw">as</span> <span class="kw-2">*mut</span> <span class="ident">u8</span>,
                     )
                 };
+                <span class="ident">ps</span>.<span class="ident">set</span>(<span class="ident">bases</span>);
             } <span class="kw">else</span> {
-                <span class="kw-2">*</span><span class="ident">ps</span>.<span class="ident">borrow_mut</span>() <span class="op">=</span> (<span class="ident">ptr::null_mut</span>(), <span class="ident">ptr::null_mut</span>());
+                <span class="ident">ps</span>.<span class="ident">set</span>((<span class="ident">ptr::null_mut</span>(), <span class="ident">ptr::null_mut</span>()));
             }
         });
 
@@ -5234,7 +5232,7 @@
 
         <span class="comment">// pointers</span>
         <span class="kw">let</span> <span class="ident">offset</span> <span class="op">=</span> <span class="ident">isize::decode</span>(<span class="ident">decoder</span>)<span class="question-mark">?</span>;
-        <span class="kw">let</span> (<span class="ident">base1</span>, <span class="ident">base2</span>) <span class="op">=</span> <span class="ident">BASE_PTR</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ps</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">ps</span>.<span class="ident">borrow</span>());
+        <span class="kw">let</span> (<span class="ident">base1</span>, <span class="ident">base2</span>) <span class="op">=</span> <span class="ident">BASE_PTR</span>.<span class="ident">with</span>(<span class="op">|</span><span class="ident">ps</span><span class="op">|</span> <span class="ident">ps</span>.<span class="ident">get</span>());
         <span class="kw">if</span> <span class="op">!</span><span class="ident">base1</span>.<span class="ident">is_null</span>() {
             <span class="ident">node</span>.<span class="ident">storage1</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">base1</span>.<span class="ident">offset</span>(<span class="ident">offset</span>) };
             <span class="ident">node</span>.<span class="ident">storage2</span> <span class="op">=</span> <span class="kw">unsafe</span> { <span class="ident">base2</span>.<span class="ident">offset</span>(<span class="ident">offset</span>) };
