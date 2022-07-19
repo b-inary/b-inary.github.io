@@ -948,9 +948,9 @@
         <span class="kw">let</span> <span class="ident">isomorphic_chances</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">isomorphic_chances</span>(<span class="ident">node</span>);
 
         <span class="comment">// process isomorphic chances</span>
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">isomorphic_chances</span>.<span class="ident">len</span>() {
+        <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">isomorphic_index</span>) <span class="kw">in</span> <span class="ident">isomorphic_chances</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">let</span> <span class="ident">swap_list</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">game</span>.<span class="ident">isomorphic_swap</span>(<span class="ident">node</span>, <span class="ident">i</span>)[<span class="ident">player</span>];
-            <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>, <span class="ident">isomorphic_chances</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">num_hands</span>);
+            <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>, <span class="ident">isomorphic_index</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">num_hands</span>);
 
             <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">i</span>, <span class="ident">j</span>) <span class="kw">in</span> <span class="ident">swap_list</span> {
                 <span class="kw">unsafe</span> {
@@ -1170,9 +1170,9 @@
         <span class="kw">let</span> <span class="ident">isomorphic_chances</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">isomorphic_chances</span>(<span class="ident">node</span>);
 
         <span class="comment">// process isomorphic chances</span>
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">isomorphic_chances</span>.<span class="ident">len</span>() {
+        <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">isomorphic_index</span>) <span class="kw">in</span> <span class="ident">isomorphic_chances</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
             <span class="kw">let</span> <span class="ident">swap_list</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">game</span>.<span class="ident">isomorphic_swap</span>(<span class="ident">node</span>, <span class="ident">i</span>)[<span class="ident">player</span>];
-            <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>, <span class="ident">isomorphic_chances</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">num_hands</span>);
+            <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>, <span class="ident">isomorphic_index</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">num_hands</span>);
 
             <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">i</span>, <span class="ident">j</span>) <span class="kw">in</span> <span class="ident">swap_list</span> {
                 <span class="kw">unsafe</span> {
@@ -1299,5 +1299,5 @@
     });
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (263edd43c 2022-07-17)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (f8588549c 2022-07-18)" ></div>
 </body></html>
