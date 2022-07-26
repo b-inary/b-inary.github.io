@@ -2812,19 +2812,6 @@
 <span id="2806">2806</span>
 <span id="2807">2807</span>
 <span id="2808">2808</span>
-<span id="2809">2809</span>
-<span id="2810">2810</span>
-<span id="2811">2811</span>
-<span id="2812">2812</span>
-<span id="2813">2813</span>
-<span id="2814">2814</span>
-<span id="2815">2815</span>
-<span id="2816">2816</span>
-<span id="2817">2817</span>
-<span id="2818">2818</span>
-<span id="2819">2819</span>
-<span id="2820">2820</span>
-<span id="2821">2821</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::bet_size</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hand</span>::<span class="kw-2">*</span>;
 <span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::interface</span>::<span class="kw-2">*</span>;
@@ -3489,25 +3476,12 @@
             <span class="ident">board_mask</span> <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="self">self</span>.<span class="ident">config</span>.<span class="ident">river</span>;
         }
 
-        <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">config</span>.<span class="ident">range</span>;
-
+        <span class="kw">let</span> <span class="ident">ranges</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">config</span>.<span class="ident">range</span>;
         <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
-            <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">range</span>[<span class="ident">player</span>];
-            <span class="kw">let</span> <span class="ident">initial_weight</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">initial_weight</span>[<span class="ident">player</span>];
-            <span class="kw">let</span> <span class="ident">private_hand_cards</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span>];
-            <span class="ident">initial_weight</span>.<span class="ident">clear</span>();
-            <span class="ident">private_hand_cards</span>.<span class="ident">clear</span>();
-
-            <span class="kw">for</span> <span class="ident">card1</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
-                <span class="kw">for</span> <span class="ident">card2</span> <span class="kw">in</span> <span class="ident">card1</span> <span class="op">+</span> <span class="number">1</span>..<span class="number">52</span> {
-                    <span class="kw">let</span> <span class="ident">hand_mask</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">card1</span>) <span class="op">|</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">card2</span>);
-                    <span class="kw">let</span> <span class="ident">weight</span> <span class="op">=</span> <span class="ident">range</span>.<span class="ident">get_weight_by_cards</span>(<span class="ident">card1</span>, <span class="ident">card2</span>);
-                    <span class="kw">if</span> <span class="ident">weight</span> <span class="op">&gt;</span> <span class="number">0.0</span> <span class="op">&amp;&amp;</span> <span class="ident">hand_mask</span> <span class="op">&amp;</span> <span class="ident">board_mask</span> <span class="op">==</span> <span class="number">0</span> {
-                        <span class="ident">initial_weight</span>.<span class="ident">push</span>(<span class="ident">weight</span>);
-                        <span class="ident">private_hand_cards</span>.<span class="ident">push</span>((<span class="ident">card1</span>, <span class="ident">card2</span>));
-                    }
-                }
-            }
+            <span class="kw">let</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident">ranges</span>[<span class="ident">player</span>];
+            <span class="kw">let</span> (<span class="ident">hands</span>, <span class="ident">weights</span>) <span class="op">=</span> <span class="ident">range</span>.<span class="ident">get_hands_weights</span>(<span class="ident">board_mask</span>);
+            <span class="self">self</span>.<span class="ident">initial_weight</span>[<span class="ident">player</span>] <span class="op">=</span> <span class="ident">weights</span>;
+            <span class="self">self</span>.<span class="ident">private_hand_cards</span>[<span class="ident">player</span>] <span class="op">=</span> <span class="ident">hands</span>;
         }
 
         <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
@@ -5647,5 +5621,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (d68e7ebc3 2022-07-20)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (6dbae3ad1 2022-07-25)" ></div>
 </body></html>

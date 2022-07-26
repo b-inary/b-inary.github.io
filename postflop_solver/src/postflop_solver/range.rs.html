@@ -969,6 +969,30 @@
 <span id="963">963</span>
 <span id="964">964</span>
 <span id="965">965</span>
+<span id="966">966</span>
+<span id="967">967</span>
+<span id="968">968</span>
+<span id="969">969</span>
+<span id="970">970</span>
+<span id="971">971</span>
+<span id="972">972</span>
+<span id="973">973</span>
+<span id="974">974</span>
+<span id="975">975</span>
+<span id="976">976</span>
+<span id="977">977</span>
+<span id="978">978</span>
+<span id="979">979</span>
+<span id="980">980</span>
+<span id="981">981</span>
+<span id="982">982</span>
+<span id="983">983</span>
+<span id="984">984</span>
+<span id="985">985</span>
+<span id="986">986</span>
+<span id="987">987</span>
+<span id="988">988</span>
+<span id="989">989</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
 <span class="kw">use</span> <span class="ident">regex::Regex</span>;
 <span class="kw">use</span> <span class="ident">std::fmt::Write</span>;
@@ -1449,23 +1473,47 @@
         <span class="kw">let</span> <span class="ident">weight</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">data</span>[<span class="ident">indices</span>[<span class="number">0</span>]];
         <span class="ident">indices</span>
             .<span class="ident">iter</span>()
-            .<span class="ident">all</span>(<span class="op">|</span><span class="ident">i</span><span class="op">|</span> (<span class="self">self</span>.<span class="ident">data</span>[<span class="kw-2">*</span><span class="ident">i</span>] <span class="op">-</span> <span class="ident">weight</span>).<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="number">1e-4</span>)
+            .<span class="ident">all</span>(<span class="op">|</span><span class="kw-2">&amp;</span><span class="ident">i</span><span class="op">|</span> (<span class="self">self</span>.<span class="ident">data</span>[<span class="ident">i</span>] <span class="op">-</span> <span class="ident">weight</span>).<span class="ident">abs</span>() <span class="op">&lt;</span> <span class="number">1e-4</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">get_average_weight</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">indices</span>: <span class="kw-2">&amp;</span>[<span class="ident">usize</span>]) -&gt; <span class="ident">f32</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">sum</span> <span class="op">=</span> <span class="number">0.0</span>;
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">indices</span> {
-            <span class="ident">sum</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">data</span>[<span class="kw-2">*</span><span class="ident">i</span>] <span class="kw">as</span> <span class="ident">f64</span>;
+        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">i</span> <span class="kw">in</span> <span class="ident">indices</span> {
+            <span class="ident">sum</span> <span class="op">+</span><span class="op">=</span> <span class="self">self</span>.<span class="ident">data</span>[<span class="ident">i</span>] <span class="kw">as</span> <span class="ident">f64</span>;
         }
         (<span class="ident">sum</span> <span class="op">/</span> <span class="ident">indices</span>.<span class="ident">len</span>() <span class="kw">as</span> <span class="ident">f64</span>) <span class="kw">as</span> <span class="ident">f32</span>
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">fn</span> <span class="ident">set_weight</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">indices</span>: <span class="kw-2">&amp;</span>[<span class="ident">usize</span>], <span class="ident">weight</span>: <span class="ident">f32</span>) {
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="ident">indices</span> {
-            <span class="self">self</span>.<span class="ident">data</span>[<span class="kw-2">*</span><span class="ident">i</span>] <span class="op">=</span> <span class="ident">weight</span>;
+        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">i</span> <span class="kw">in</span> <span class="ident">indices</span> {
+            <span class="self">self</span>.<span class="ident">data</span>[<span class="ident">i</span>] <span class="op">=</span> <span class="ident">weight</span>;
         }
+    }
+
+    <span class="doccomment">/// Returns a list of all hands in this range and their associated weights.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// If there are no dead cards, pass `0` to `dead_cards_mask`.</span>
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_hands_weights</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">dead_cards_mask</span>: <span class="ident">u64</span>) -&gt; (<span class="ident">Vec</span><span class="op">&lt;</span>(<span class="ident">u8</span>, <span class="ident">u8</span>)<span class="op">&gt;</span>, <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>) {
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hands</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="number">128</span>);
+        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">weights</span> <span class="op">=</span> <span class="ident">Vec::with_capacity</span>(<span class="number">128</span>);
+
+        <span class="kw">for</span> <span class="ident">card1</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
+            <span class="kw">for</span> <span class="ident">card2</span> <span class="kw">in</span> <span class="ident">card1</span> <span class="op">+</span> <span class="number">1</span>..<span class="number">52</span> {
+                <span class="kw">let</span> <span class="ident">hand_mask</span>: <span class="ident">u64</span> <span class="op">=</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">card1</span>) <span class="op">|</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">card2</span>);
+                <span class="kw">let</span> <span class="ident">weight</span> <span class="op">=</span> <span class="self">self</span>.<span class="ident">get_weight_by_cards</span>(<span class="ident">card1</span>, <span class="ident">card2</span>);
+                <span class="kw">if</span> <span class="ident">weight</span> <span class="op">&gt;</span> <span class="number">0.0</span> <span class="op">&amp;&amp;</span> <span class="ident">hand_mask</span> <span class="op">&amp;</span> <span class="ident">dead_cards_mask</span> <span class="op">==</span> <span class="number">0</span> {
+                    <span class="ident">hands</span>.<span class="ident">push</span>((<span class="ident">card1</span>, <span class="ident">card2</span>));
+                    <span class="ident">weights</span>.<span class="ident">push</span>(<span class="ident">weight</span>);
+                }
+            }
+        }
+
+        <span class="ident">hands</span>.<span class="ident">shrink_to_fit</span>();
+        <span class="ident">weights</span>.<span class="ident">shrink_to_fit</span>();
+
+        (<span class="ident">hands</span>, <span class="ident">weights</span>)
     }
 
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -1935,5 +1983,5 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (d68e7ebc3 2022-07-20)" ></div>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (6dbae3ad1 2022-07-25)" ></div>
 </body></html>
