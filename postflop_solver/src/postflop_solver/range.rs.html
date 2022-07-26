@@ -1094,6 +1094,11 @@
 <span id="1088">1088</span>
 <span id="1089">1089</span>
 <span id="1090">1090</span>
+<span id="1091">1091</span>
+<span id="1092">1092</span>
+<span id="1093">1093</span>
+<span id="1094">1094</span>
+<span id="1095">1095</span>
 </pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
 <span class="kw">use</span> <span class="ident">regex::Regex</span>;
 <span class="kw">use</span> <span class="ident">std::fmt::Write</span>;
@@ -1448,15 +1453,6 @@
 }
 
 <span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">check_rank</span>(<span class="ident">rank</span>: <span class="ident">u8</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-    <span class="kw">if</span> <span class="ident">rank</span> <span class="op">&lt;</span> <span class="number">13</span> {
-        <span class="prelude-val">Ok</span>(())
-    } <span class="kw">else</span> {
-        <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Invalid rank: {rank}&quot;</span>))
-    }
-}
-
-<span class="attribute">#[<span class="ident">inline</span>]</span>
 <span class="kw">fn</span> <span class="ident">check_weight</span>(<span class="ident">weight</span>: <span class="ident">f32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
     <span class="kw">if</span> (<span class="number">0.0</span>..<span class="op">=</span><span class="number">1.0</span>).<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">weight</span>) {
         <span class="prelude-val">Ok</span>(())
@@ -1516,7 +1512,13 @@
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">from_hands_weights</span>(<span class="ident">hands</span>: <span class="kw-2">&amp;</span>[(<span class="ident">u8</span>, <span class="ident">u8</span>)], <span class="ident">weights</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>]) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident">String</span><span class="op">&gt;</span> {
         <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">range</span> <span class="op">=</span> <span class="ident"><span class="self">Self</span>::default</span>();
         <span class="kw">for</span> (<span class="kw-2">&amp;</span>(<span class="ident">card1</span>, <span class="ident">card2</span>), <span class="kw-2">&amp;</span><span class="ident">weight</span>) <span class="kw">in</span> <span class="ident">hands</span>.<span class="ident">iter</span>().<span class="ident">zip</span>(<span class="ident">weights</span>.<span class="ident">iter</span>()) {
-            <span class="ident">range</span>.<span class="ident">set_weight_by_cards</span>(<span class="ident">card1</span>, <span class="ident">card2</span>, <span class="ident">weight</span>)<span class="question-mark">?</span>;
+            <span class="ident">check_card</span>(<span class="ident">card1</span>)<span class="question-mark">?</span>;
+            <span class="ident">check_card</span>(<span class="ident">card2</span>)<span class="question-mark">?</span>;
+            <span class="ident">check_weight</span>(<span class="ident">weight</span>)<span class="question-mark">?</span>;
+            <span class="kw">if</span> <span class="ident">card1</span> <span class="op">==</span> <span class="ident">card2</span> {
+                <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="string">&quot;Hand must consist of two different cards&quot;</span>.<span class="ident">to_string</span>());
+            }
+            <span class="ident">range</span>.<span class="ident">set_weight_by_cards</span>(<span class="ident">card1</span>, <span class="ident">card2</span>, <span class="ident">weight</span>);
         }
         <span class="prelude-val">Ok</span>(<span class="ident">range</span>)
     }
@@ -1597,7 +1599,11 @@
         <span class="self">self</span>.<span class="ident">data</span>.<span class="ident">iter</span>().<span class="ident">all</span>(<span class="op">|</span><span class="ident">el</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">el</span> <span class="op">==</span> <span class="number">0.0</span>)
     }
 
-    <span class="doccomment">/// Obtains the weight by card indices.</span>
+    <span class="doccomment">/// Obtains the weight of a specified hand.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `card1` or `card2` is not less than `52`</span>
+    <span class="doccomment">///   - `card1` is equal to `card2`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
@@ -1605,73 +1611,77 @@
         <span class="self">self</span>.<span class="ident">data</span>[<span class="ident">card_pair_index</span>(<span class="ident">card1</span>, <span class="ident">card2</span>)]
     }
 
-    <span class="doccomment">/// Obtains the average weight of a pair.</span>
+    <span class="doccomment">/// Obtains the average weight of specified pair hands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if `rank` is not less than `13`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_weight_pair</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rank</span>: <span class="ident">u8</span>) -&gt; <span class="ident">f32</span> {
         <span class="self">self</span>.<span class="ident">get_average_weight</span>(<span class="kw-2">&amp;</span><span class="ident">pair_indices</span>(<span class="ident">rank</span>))
     }
 
-    <span class="doccomment">/// Obtains the average weight of a suited hand.</span>
+    <span class="doccomment">/// Obtains the average weight of specified suited hands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `rank1` or `rank2` is not less than `13`</span>
+    <span class="doccomment">///   - `rank1` is equal to `rank2`</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_weight_suited</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rank1</span>: <span class="ident">u8</span>, <span class="ident">rank2</span>: <span class="ident">u8</span>) -&gt; <span class="ident">f32</span> {
         <span class="self">self</span>.<span class="ident">get_average_weight</span>(<span class="kw-2">&amp;</span><span class="ident">suited_indices</span>(<span class="ident">rank1</span>, <span class="ident">rank2</span>))
     }
 
-    <span class="doccomment">/// Obtains the average weight of an offsuit hand.</span>
+    <span class="doccomment">/// Obtains the average weight of specified offsuit hands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `rank1` or `rank2` is not less than `13`</span>
+    <span class="doccomment">///   - `rank1` is equal to `rank2`</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
     <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">get_weight_offsuit</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">rank1</span>: <span class="ident">u8</span>, <span class="ident">rank2</span>: <span class="ident">u8</span>) -&gt; <span class="ident">f32</span> {
         <span class="self">self</span>.<span class="ident">get_average_weight</span>(<span class="kw-2">&amp;</span><span class="ident">offsuit_indices</span>(<span class="ident">rank1</span>, <span class="ident">rank2</span>))
     }
 
-    <span class="doccomment">/// Sets the weight by card indices.</span>
+    <span class="doccomment">/// Sets the weight of a specified hand.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `card1` or `card2` is not less than `52`</span>
+    <span class="doccomment">///   - `card1` is equal to `card2`</span>
+    <span class="doccomment">///   - `weight` is not in the range `[0.0, 1.0]`</span>
     <span class="doccomment">///</span>
     <span class="doccomment">/// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_by_cards</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">card1</span>: <span class="ident">u8</span>, <span class="ident">card2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">check_card</span>(<span class="ident">card1</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_card</span>(<span class="ident">card2</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_weight</span>(<span class="ident">weight</span>)<span class="question-mark">?</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_by_cards</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">card1</span>: <span class="ident">u8</span>, <span class="ident">card2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) {
         <span class="self">self</span>.<span class="ident">data</span>[<span class="ident">card_pair_index</span>(<span class="ident">card1</span>, <span class="ident">card2</span>)] <span class="op">=</span> <span class="ident">weight</span>;
-        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Sets the weight of a specified pair.</span>
+    <span class="doccomment">/// Sets the weights of specified pair hands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `rank` is not less than `13`</span>
+    <span class="doccomment">///   - `weight` is not in the range `[0.0, 1.0]`</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_pair</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">rank</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">check_rank</span>(<span class="ident">rank</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_weight</span>(<span class="ident">weight</span>)<span class="question-mark">?</span>;
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_pair</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">rank</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) {
         <span class="self">self</span>.<span class="ident">set_weight</span>(<span class="kw-2">&amp;</span><span class="ident">pair_indices</span>(<span class="ident">rank</span>), <span class="ident">weight</span>);
-        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Sets the weight of a specified suited hand.</span>
+    <span class="doccomment">/// Sets the weights of specified suited hands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `rank1` or `rank2` is not less than `13`</span>
+    <span class="doccomment">///   - `rank1` is equal to `rank2`</span>
+    <span class="doccomment">///   - `weight` is not in the range `[0.0, 1.0]`</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_suited</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">rank1</span>: <span class="ident">u8</span>, <span class="ident">rank2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">check_rank</span>(<span class="ident">rank1</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_rank</span>(<span class="ident">rank2</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_weight</span>(<span class="ident">weight</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">rank1</span> <span class="op">==</span> <span class="ident">rank2</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;set_weight_suited() accepts non-pairs, but got rank1 = rank2 = {rank1}&quot;</span>
-            ));
-        }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_suited</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">rank1</span>: <span class="ident">u8</span>, <span class="ident">rank2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) {
         <span class="self">self</span>.<span class="ident">set_weight</span>(<span class="kw-2">&amp;</span><span class="ident">suited_indices</span>(<span class="ident">rank1</span>, <span class="ident">rank2</span>), <span class="ident">weight</span>);
-        <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Sets the weight of a specified offsuit hand.</span>
+    <span class="doccomment">/// Sets the weights of specified offsuit hands.</span>
+    <span class="doccomment">///</span>
+    <span class="doccomment">/// Undefined behavior if:</span>
+    <span class="doccomment">///   - `rank1` or `rank2` is not less than `13`</span>
+    <span class="doccomment">///   - `rank1` is equal to `rank2`</span>
+    <span class="doccomment">///   - `weight` is not in the range `[0.0, 1.0]`</span>
     <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_offsuit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">rank1</span>: <span class="ident">u8</span>, <span class="ident">rank2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span>(), <span class="ident">String</span><span class="op">&gt;</span> {
-        <span class="ident">check_rank</span>(<span class="ident">rank1</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_rank</span>(<span class="ident">rank2</span>)<span class="question-mark">?</span>;
-        <span class="ident">check_weight</span>(<span class="ident">weight</span>)<span class="question-mark">?</span>;
-        <span class="kw">if</span> <span class="ident">rank1</span> <span class="op">==</span> <span class="ident">rank2</span> {
-            <span class="kw">return</span> <span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;set_weight_offsuit() accepts non-pairs, but got rank1 = rank2 = {rank1}&quot;</span>
-            ));
-        }
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">set_weight_offsuit</span>(<span class="kw-2">&amp;mut</span> <span class="self">self</span>, <span class="ident">rank1</span>: <span class="ident">u8</span>, <span class="ident">rank2</span>: <span class="ident">u8</span>, <span class="ident">weight</span>: <span class="ident">f32</span>) {
         <span class="self">self</span>.<span class="ident">set_weight</span>(<span class="kw-2">&amp;</span><span class="ident">offsuit_indices</span>(<span class="ident">rank1</span>, <span class="ident">rank2</span>), <span class="ident">weight</span>);
-        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Returns whether the two suits are isomorphic.</span>
