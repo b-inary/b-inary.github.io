@@ -1,113 +1,113 @@
 <!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="An open-source postflop solver library."><meta name="keywords" content="rust, rustlang, rust-lang, postflop_solver"><title>postflop_solver - Rust</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../normalize.css"><link rel="stylesheet" type="text/css" href="../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../dark.css" disabled><link rel="stylesheet" type="text/css" href="../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../storage.js"></script><script defer src="../crates.js"></script><script defer src="../main.js"></script><noscript><link rel="stylesheet" href="../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../favicon.svg"></head><body class="rustdoc mod crate"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></div></a><h2 class="location"><a href="#">Crate postflop_solver</a></h2><div class="sidebar-elems"><div class="block"><ul><li class="version">Version 0.1.0</li><li><a id="all-types" href="all.html">All Items</a></li></ul></div><section><div class="block"><ul><li><a href="#structs">Structs</a></li><li><a href="#enums">Enums</a></li><li><a href="#constants">Constants</a></li><li><a href="#traits">Traits</a></li><li><a href="#functions">Functions</a></li></ul></div></section></div></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../postflop_solver/index.html"><img class="rust-logo" src="../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="main-heading"><h1 class="fqn"><span class="in-band">Crate <a class="mod" href="#">postflop_solver</a><button id="copy-path" onclick="copy_path(this)" title="Copy item path to clipboard"><img src="../clipboard.svg" width="19" height="18" alt="Copy item path"></button></span></h1><span class="out-of-band"><a class="srclink" href="../src/postflop_solver/lib.rs.html#1-166">source</a> · <a id="toggle-all-docs" href="javascript:void(0)" title="collapse all docs">[<span class="inner">&#x2212;</span>]</a></span></div><details class="rustdoc-toggle top-doc" open><summary class="hideme"><span>Expand description</span></summary><div class="docblock"><p>An open-source postflop solver library.</p>
 <h2 id="examples"><a href="#examples">Examples</a></h2>
-<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use</span> <span class="ident">postflop_solver</span>::<span class="kw-2">*</span>;
+<div class="example-wrap"><pre class="rust rust-example-rendered"><code><span class="kw">use </span>postflop_solver::<span class="kw-2">*</span>;
 
-<span class="comment">// configure game specification</span>
-<span class="kw">let</span> <span class="ident">oop_range</span> <span class="op">=</span> <span class="string">&quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;</span>;
-<span class="kw">let</span> <span class="ident">ip_range</span> <span class="op">=</span> <span class="string">&quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;</span>;
-<span class="kw">let</span> <span class="ident">bet_sizes</span> <span class="op">=</span> <span class="ident">BetSizeCandidates::try_from</span>((<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;50%&quot;</span>)).<span class="ident">unwrap</span>();
-<span class="kw">let</span> <span class="ident">config</span> <span class="op">=</span> <span class="ident">GameConfig</span> {
-    <span class="ident">flop</span>: <span class="ident">flop_from_str</span>(<span class="string">&quot;Td9d6h&quot;</span>).<span class="ident">unwrap</span>(),
-    <span class="ident">turn</span>: <span class="ident">card_from_str</span>(<span class="string">&quot;Qh&quot;</span>).<span class="ident">unwrap</span>(),
-    <span class="ident">river</span>: <span class="ident">NOT_DEALT</span>,
-    <span class="ident">starting_pot</span>: <span class="number">200</span>,
-    <span class="ident">effective_stack</span>: <span class="number">900</span>,
-    <span class="ident">range</span>: [<span class="ident">oop_range</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>(), <span class="ident">ip_range</span>.<span class="ident">parse</span>().<span class="ident">unwrap</span>()],
-    <span class="ident">flop_bet_sizes</span>: [<span class="ident">bet_sizes</span>.<span class="ident">clone</span>(), <span class="ident">bet_sizes</span>.<span class="ident">clone</span>()],
-    <span class="ident">turn_bet_sizes</span>: [<span class="ident">bet_sizes</span>.<span class="ident">clone</span>(), <span class="ident">bet_sizes</span>.<span class="ident">clone</span>()],
-    <span class="ident">river_bet_sizes</span>: [<span class="ident">bet_sizes</span>.<span class="ident">clone</span>(), <span class="ident">bet_sizes</span>.<span class="ident">clone</span>()],
-    <span class="ident">add_all_in_threshold</span>: <span class="number">1.2</span>,
-    <span class="ident">force_all_in_threshold</span>: <span class="number">0.1</span>,
-    <span class="ident">adjust_last_two_bet_sizes</span>: <span class="bool-val">true</span>,
+<span class="comment">// configure game specification
+</span><span class="kw">let </span>oop_range = <span class="string">&quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;</span>;
+<span class="kw">let </span>ip_range = <span class="string">&quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;</span>;
+<span class="kw">let </span>bet_sizes = BetSizeCandidates::try_from((<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;50%&quot;</span>)).unwrap();
+<span class="kw">let </span>config = GameConfig {
+    flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
+    turn: card_from_str(<span class="string">&quot;Qh&quot;</span>).unwrap(),
+    river: NOT_DEALT,
+    starting_pot: <span class="number">200</span>,
+    effective_stack: <span class="number">900</span>,
+    range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
+    flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+    turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+    river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+    add_all_in_threshold: <span class="number">1.2</span>,
+    force_all_in_threshold: <span class="number">0.1</span>,
+    adjust_last_two_bet_sizes: <span class="bool-val">true</span>,
 };
 
-<span class="comment">// build game tree</span>
-<span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">game</span> <span class="op">=</span> <span class="ident">PostFlopGame::with_config</span>(<span class="kw-2">&amp;</span><span class="ident">config</span>).<span class="ident">unwrap</span>();
+<span class="comment">// build game tree
+</span><span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
 
-<span class="comment">// obtain private hands</span>
-<span class="kw">let</span> <span class="ident">oop_hands</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">private_hand_cards</span>(<span class="number">0</span>);
+<span class="comment">// obtain private hands
+</span><span class="kw">let </span>oop_hands = game.private_hand_cards(<span class="number">0</span>);
 <span class="macro">println!</span>(
     <span class="string">&quot;oop_hands[0]: {}{}&quot;</span>,
-    <span class="ident">card_to_string</span>(<span class="ident">oop_hands</span>[<span class="number">0</span>].<span class="number">1</span>).<span class="ident">unwrap</span>(), <span class="comment">// 5c</span>
-    <span class="ident">card_to_string</span>(<span class="ident">oop_hands</span>[<span class="number">0</span>].<span class="number">0</span>).<span class="ident">unwrap</span>()  <span class="comment">// 4c</span>
-);
+    card_to_string(oop_hands[<span class="number">0</span>].<span class="number">1</span>).unwrap(), <span class="comment">// 5c
+    </span>card_to_string(oop_hands[<span class="number">0</span>].<span class="number">0</span>).unwrap()  <span class="comment">// 4c
+</span>);
 
-<span class="comment">// check memory usage</span>
-<span class="kw">let</span> (<span class="ident">mem_usage</span>, <span class="ident">mem_usage_compressed</span>) <span class="op">=</span> <span class="ident">game</span>.<span class="ident">memory_usage</span>();
+<span class="comment">// check memory usage
+</span><span class="kw">let </span>(mem_usage, mem_usage_compressed) = game.memory_usage();
 <span class="macro">println!</span>(
     <span class="string">&quot;Memory usage without compression: {:.2}GB&quot;</span>,
-    <span class="ident">mem_usage</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> (<span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span>)
+    mem_usage <span class="kw">as </span>f64 / (<span class="number">1024.0 </span>* <span class="number">1024.0 </span>* <span class="number">1024.0</span>)
 );
 <span class="macro">println!</span>(
     <span class="string">&quot;Memory usage with compression: {:.2}GB&quot;</span>,
-    <span class="ident">mem_usage_compressed</span> <span class="kw">as</span> <span class="ident">f64</span> <span class="op">/</span> (<span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span> <span class="op">*</span> <span class="number">1024.0</span>)
+    mem_usage_compressed <span class="kw">as </span>f64 / (<span class="number">1024.0 </span>* <span class="number">1024.0 </span>* <span class="number">1024.0</span>)
 );
 
-<span class="comment">// allocate memory without compression</span>
-<span class="ident">game</span>.<span class="ident">allocate_memory</span>(<span class="bool-val">false</span>);
+<span class="comment">// allocate memory without compression
+</span>game.allocate_memory(<span class="bool-val">false</span>);
 
-<span class="comment">// allocate memory with compression</span>
-<span class="comment">// game.allocate_memory(true);</span>
+<span class="comment">// allocate memory with compression
+// game.allocate_memory(true);
 
-<span class="comment">// solve the game</span>
-<span class="kw">let</span> <span class="ident">max_num_iterations</span> <span class="op">=</span> <span class="number">1000</span>;
-<span class="kw">let</span> <span class="ident">target_exploitability</span> <span class="op">=</span> <span class="ident">config</span>.<span class="ident">starting_pot</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="number">0.005</span>;
-<span class="kw">let</span> <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">solve</span>(<span class="kw-2">&amp;mut</span> <span class="ident">game</span>, <span class="ident">max_num_iterations</span>, <span class="ident">target_exploitability</span>, <span class="bool-val">true</span>);
-<span class="macro">println!</span>(<span class="string">&quot;Exploitability: {:.2}&quot;</span>, <span class="ident">exploitability</span>);
+// solve the game
+</span><span class="kw">let </span>max_num_iterations = <span class="number">1000</span>;
+<span class="kw">let </span>target_exploitability = config.starting_pot <span class="kw">as </span>f32 * <span class="number">0.005</span>;
+<span class="kw">let </span>exploitability = solve(<span class="kw-2">&amp;mut </span>game, max_num_iterations, target_exploitability, <span class="bool-val">true</span>);
+<span class="macro">println!</span>(<span class="string">&quot;Exploitability: {:.2}&quot;</span>, exploitability);
 
-<span class="comment">// solve the game manually</span>
-<span class="comment">// for i in 0..max_num_iterations {</span>
-<span class="comment">//     solve_step(&amp;game, i);</span>
-<span class="comment">//     if (i + 1) % 10 == 0 {</span>
-<span class="comment">//         let exploitability = compute_exploitability(&amp;game);</span>
-<span class="comment">//         if exploitability &lt;= target_exploitability {</span>
-<span class="comment">//             println!(&quot;Exploitability: {:.2}&quot;, exploitability);</span>
-<span class="comment">//             break;</span>
-<span class="comment">//         }</span>
-<span class="comment">//     }</span>
-<span class="comment">// }</span>
-<span class="comment">// finalize(&amp;mut game);</span>
+<span class="comment">// solve the game manually
+// for i in 0..max_num_iterations {
+//     solve_step(&amp;game, i);
+//     if (i + 1) % 10 == 0 {
+//         let exploitability = compute_exploitability(&amp;game);
+//         if exploitability &lt;= target_exploitability {
+//             println!(&quot;Exploitability: {:.2}&quot;, exploitability);
+//             break;
+//         }
+//     }
+// }
+// finalize(&amp;mut game);
 
-<span class="comment">// get equity and EV of a specific hand</span>
-<span class="ident">game</span>.<span class="ident">cache_normalized_weights</span>();
-<span class="kw">let</span> <span class="ident">equity</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">equity</span>(<span class="ident">game</span>.<span class="ident">current_player</span>());
-<span class="kw">let</span> <span class="ident">ev</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">expected_values</span>();
-<span class="macro">println!</span>(<span class="string">&quot;Equity of oop_hands[0]: {:.2}%&quot;</span>, <span class="number">100.0</span> <span class="op">*</span> <span class="ident">equity</span>[<span class="number">0</span>]);
-<span class="macro">println!</span>(<span class="string">&quot;EV of oop_hands[0]: {:.2}&quot;</span>, <span class="ident">ev</span>[<span class="number">0</span>]);
+// get equity and EV of a specific hand
+</span>game.cache_normalized_weights();
+<span class="kw">let </span>equity = game.equity(game.current_player());
+<span class="kw">let </span>ev = game.expected_values();
+<span class="macro">println!</span>(<span class="string">&quot;Equity of oop_hands[0]: {:.2}%&quot;</span>, <span class="number">100.0 </span>* equity[<span class="number">0</span>]);
+<span class="macro">println!</span>(<span class="string">&quot;EV of oop_hands[0]: {:.2}&quot;</span>, ev[<span class="number">0</span>]);
 
-<span class="comment">// get equity and EV of whole hand</span>
-<span class="kw">let</span> <span class="ident">weights</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">normalized_weights</span>(<span class="ident">game</span>.<span class="ident">current_player</span>());
-<span class="kw">let</span> <span class="ident">average_equity</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">equity</span>, <span class="ident">weights</span>);
-<span class="kw">let</span> <span class="ident">average_ev</span> <span class="op">=</span> <span class="ident">compute_average</span>(<span class="kw-2">&amp;</span><span class="ident">ev</span>, <span class="ident">weights</span>);
-<span class="macro">println!</span>(<span class="string">&quot;Average equity: {:.2}%&quot;</span>, <span class="number">100.0</span> <span class="op">*</span> <span class="ident">average_equity</span>);
-<span class="macro">println!</span>(<span class="string">&quot;Average EV: {:.2}&quot;</span>, <span class="ident">average_ev</span>);
+<span class="comment">// get equity and EV of whole hand
+</span><span class="kw">let </span>weights = game.normalized_weights(game.current_player());
+<span class="kw">let </span>average_equity = compute_average(<span class="kw-2">&amp;</span>equity, weights);
+<span class="kw">let </span>average_ev = compute_average(<span class="kw-2">&amp;</span>ev, weights);
+<span class="macro">println!</span>(<span class="string">&quot;Average equity: {:.2}%&quot;</span>, <span class="number">100.0 </span>* average_equity);
+<span class="macro">println!</span>(<span class="string">&quot;Average EV: {:.2}&quot;</span>, average_ev);
 
-<span class="comment">// get available actions</span>
-<span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">available_actions</span>();
-<span class="macro">println!</span>(<span class="string">&quot;Available actions: {:?}&quot;</span>, <span class="ident">actions</span>); <span class="comment">// [Check, Bet(100)]</span>
+<span class="comment">// get available actions
+</span><span class="kw">let </span>actions = game.available_actions();
+<span class="macro">println!</span>(<span class="string">&quot;Available actions: {:?}&quot;</span>, actions); <span class="comment">// [Check, Bet(100)]
 
-<span class="comment">// play `Bet(100)`</span>
-<span class="ident">game</span>.<span class="ident">play</span>(<span class="number">1</span>);
+// play `Bet(100)`
+</span>game.play(<span class="number">1</span>);
 
-<span class="comment">// get available actions</span>
-<span class="kw">let</span> <span class="ident">actions</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">available_actions</span>();
-<span class="macro">println!</span>(<span class="string">&quot;Available actions: {:?}&quot;</span>, <span class="ident">actions</span>); <span class="comment">// [Fold, Call, Raise(300)]</span>
+<span class="comment">// get available actions
+</span><span class="kw">let </span>actions = game.available_actions();
+<span class="macro">println!</span>(<span class="string">&quot;Available actions: {:?}&quot;</span>, actions); <span class="comment">// [Fold, Call, Raise(300)]
 
-<span class="comment">// play `Call`</span>
-<span class="ident">game</span>.<span class="ident">play</span>(<span class="number">1</span>);
+// play `Call`
+</span>game.play(<span class="number">1</span>);
 
-<span class="comment">// confirm that the current node is a chance node</span>
-<span class="macro">assert!</span>(<span class="ident">game</span>.<span class="ident">is_chance_node</span>());
+<span class="comment">// confirm that the current node is a chance node
+</span><span class="macro">assert!</span>(game.is_chance_node());
 
-<span class="comment">// confirm that &quot;7s&quot; may be dealt</span>
-<span class="kw">let</span> <span class="ident">card</span> <span class="op">=</span> <span class="ident">card_from_str</span>(<span class="string">&quot;7s&quot;</span>).<span class="ident">unwrap</span>();
-<span class="macro">assert!</span>(<span class="ident">game</span>.<span class="ident">possible_cards</span>() <span class="op">&amp;</span> (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">card</span>) <span class="op">!</span><span class="op">=</span> <span class="number">0</span>);
+<span class="comment">// confirm that &quot;7s&quot; may be dealt
+</span><span class="kw">let </span>card = card_from_str(<span class="string">&quot;7s&quot;</span>).unwrap();
+<span class="macro">assert!</span>(game.possible_cards() &amp; (<span class="number">1 </span>&lt;&lt; card) != <span class="number">0</span>);
 
-<span class="comment">// deal &quot;7s&quot;</span>
-<span class="ident">game</span>.<span class="ident">play</span>(<span class="ident">card</span> <span class="kw">as</span> <span class="ident">usize</span>);
+<span class="comment">// deal &quot;7s&quot;
+</span>game.play(card <span class="kw">as </span>usize);
 
-<span class="comment">// back to the root node</span>
-<span class="ident">game</span>.<span class="ident">back_to_root</span>();</code></pre></div>
+<span class="comment">// back to the root node
+</span>game.back_to_root();</code></pre></div>
 <h2 id="implementation-details"><a href="#implementation-details">Implementation details</a></h2>
 <ul>
 <li><strong>Algorithm</strong>: The solver uses <a href="https://arxiv.org/abs/1809.04040">Discounted CFR</a> algorithm.
@@ -156,4 +156,4 @@ Enabled by default.</li>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.solve.html" title="postflop_solver::solve fn">solve</a></div><div class="item-right docblock-short"><p>Performs Discounted CFR algorithm until the given number of iterations or exploitability is
 satisfied.</p>
 </div></div><div class="item-row"><div class="item-left module-item"><a class="fn" href="fn.solve_step.html" title="postflop_solver::solve_step fn">solve_step</a></div><div class="item-right docblock-short"><p>Proceeds Discounted CFR algorithm for one iteration.</p>
-</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (f6f9d5e73 2022-08-04)" ></div></body></html>
+</div></div></div></section></div></main><div id="rustdoc-vars" data-root-path="../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>

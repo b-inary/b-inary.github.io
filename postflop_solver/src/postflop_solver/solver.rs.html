@@ -490,539 +490,497 @@
 <span id="490">490</span>
 <span id="491">491</span>
 <span id="492">492</span>
-<span id="493">493</span>
-<span id="494">494</span>
-<span id="495">495</span>
-<span id="496">496</span>
-<span id="497">497</span>
-<span id="498">498</span>
-<span id="499">499</span>
-<span id="500">500</span>
-<span id="501">501</span>
-<span id="502">502</span>
-<span id="503">503</span>
-<span id="504">504</span>
-<span id="505">505</span>
-<span id="506">506</span>
-<span id="507">507</span>
-<span id="508">508</span>
-<span id="509">509</span>
-<span id="510">510</span>
-<span id="511">511</span>
-<span id="512">512</span>
-<span id="513">513</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::interface</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::mutex_like</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::sliceop</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::utility</span>::<span class="kw-2">*</span>;
-<span class="kw">use</span> <span class="ident">std::io</span>::{<span class="self">self</span>, <span class="ident">Write</span>};
-<span class="kw">use</span> <span class="ident">std::ptr</span>;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::utility::<span class="kw-2">*</span>;
+<span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
+<span class="kw">use </span>std::ptr;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::alloc</span>::<span class="kw-2">*</span>;
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">std::vec</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+<span class="kw">use </span><span class="kw">crate</span>::alloc::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+<span class="kw">use </span>std::vec;
 
-<span class="kw">struct</span> <span class="ident">DiscountParams</span> {
-    <span class="ident">alpha_t</span>: <span class="ident">f32</span>,
-    <span class="ident">beta_t</span>: <span class="ident">f32</span>,
-    <span class="ident">gamma_t</span>: <span class="ident">f32</span>,
+<span class="kw">struct </span>DiscountParams {
+    alpha_t: f32,
+    beta_t: f32,
+    gamma_t: f32,
 }
 
-<span class="kw">impl</span> <span class="ident">DiscountParams</span> {
-    <span class="kw">const</span> <span class="ident">ALPHA</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">1.5</span>;
-    <span class="kw">const</span> <span class="ident">GAMMA</span>: <span class="ident">f64</span> <span class="op">=</span> <span class="number">5.0</span>;
+<span class="kw">impl </span>DiscountParams {
+    <span class="kw">const </span>ALPHA: f64 = <span class="number">1.5</span>;
+    <span class="kw">const </span>GAMMA: f64 = <span class="number">5.0</span>;
 
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">current_iteration</span>: <span class="ident">u32</span>) -&gt; <span class="self">Self</span> {
-        <span class="kw">let</span> <span class="ident">float</span> <span class="op">=</span> (<span class="ident">current_iteration</span> <span class="kw">as</span> <span class="ident">i32</span> <span class="op">-</span> <span class="number">1</span>).<span class="ident">max</span>(<span class="number">0</span>) <span class="kw">as</span> <span class="ident">f64</span>;
+    <span class="kw">pub fn </span>new(current_iteration: u32) -&gt; <span class="self">Self </span>{
+        <span class="kw">let </span>float = (current_iteration <span class="kw">as </span>i32 - <span class="number">1</span>).max(<span class="number">0</span>) <span class="kw">as </span>f64;
 
-        <span class="kw">let</span> <span class="ident">pow_alpha</span> <span class="op">=</span> <span class="ident">float</span>.<span class="ident">powf</span>(<span class="ident"><span class="self">Self</span>::ALPHA</span>);
-        <span class="kw">let</span> <span class="ident">pow_gamma</span> <span class="op">=</span> (<span class="ident">float</span> <span class="op">/</span> (<span class="ident">float</span> <span class="op">+</span> <span class="number">1.0</span>)).<span class="ident">powf</span>(<span class="ident"><span class="self">Self</span>::GAMMA</span>);
+        <span class="kw">let </span>pow_alpha = float.powf(<span class="self">Self</span>::ALPHA);
+        <span class="kw">let </span>pow_gamma = (float / (float + <span class="number">1.0</span>)).powf(<span class="self">Self</span>::GAMMA);
 
-        <span class="self">Self</span> {
-            <span class="ident">alpha_t</span>: (<span class="ident">pow_alpha</span> <span class="op">/</span> (<span class="ident">pow_alpha</span> <span class="op">+</span> <span class="number">1.0</span>)) <span class="kw">as</span> <span class="ident">f32</span>,
-            <span class="ident">beta_t</span>: <span class="number">0.5</span>,
-            <span class="ident">gamma_t</span>: <span class="ident">pow_gamma</span> <span class="kw">as</span> <span class="ident">f32</span>,
+        <span class="self">Self </span>{
+            alpha_t: (pow_alpha / (pow_alpha + <span class="number">1.0</span>)) <span class="kw">as </span>f32,
+            beta_t: <span class="number">0.5</span>,
+            gamma_t: pow_gamma <span class="kw">as </span>f32,
         }
     }
 }
 
-<span class="doccomment">/// Performs Discounted CFR algorithm until the given number of iterations or exploitability is</span>
-<span class="doccomment">/// satisfied.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// This method returns the exploitability of the obtained strategy.</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">solve</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Game</span><span class="op">&gt;</span>(
-    <span class="ident">game</span>: <span class="kw-2">&amp;mut</span> <span class="ident">T</span>,
-    <span class="ident">max_num_iterations</span>: <span class="ident">u32</span>,
-    <span class="ident">target_exploitability</span>: <span class="ident">f32</span>,
-    <span class="ident">print_progress</span>: <span class="ident">bool</span>,
-) -&gt; <span class="ident">f32</span> {
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">game</span>.<span class="ident">is_ready</span>() {
+<span class="doccomment">/// Performs Discounted CFR algorithm until the given number of iterations or exploitability is
+/// satisfied.
+///
+/// This method returns the exploitability of the obtained strategy.
+</span><span class="kw">pub fn </span>solve&lt;T: Game&gt;(
+    game: <span class="kw-2">&amp;mut </span>T,
+    max_num_iterations: u32,
+    target_exploitability: f32,
+    print_progress: bool,
+) -&gt; f32 {
+    <span class="kw">if </span>!game.is_ready() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
 
-    <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_solved</span>() {
+    <span class="kw">if </span>game.is_solved() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is already solved&quot;</span>);
     }
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">root</span>();
-    <span class="kw">let</span> <span class="ident">reach</span> <span class="op">=</span> [<span class="ident">game</span>.<span class="ident">initial_weight</span>(<span class="number">0</span>), <span class="ident">game</span>.<span class="ident">initial_weight</span>(<span class="number">1</span>)];
+    <span class="kw">let </span><span class="kw-2">mut </span>root = game.root();
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">compute_exploitability</span>(<span class="ident">game</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>exploitability = compute_exploitability(game);
 
-    <span class="kw">if</span> <span class="ident">print_progress</span> {
-        <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {} &quot;</span>, <span class="ident">max_num_iterations</span>);
-        <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, <span class="ident">exploitability</span>);
-        <span class="ident">io::stdout</span>().<span class="ident">flush</span>().<span class="ident">unwrap</span>();
+    <span class="kw">if </span>print_progress {
+        <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {} &quot;</span>, max_num_iterations);
+        <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, exploitability);
+        io::stdout().flush().unwrap();
     }
 
-    <span class="kw">for</span> <span class="ident">t</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">max_num_iterations</span> {
-        <span class="kw">if</span> <span class="ident">exploitability</span> <span class="op">&lt;</span><span class="op">=</span> <span class="ident">target_exploitability</span> {
+    <span class="kw">for </span>t <span class="kw">in </span><span class="number">0</span>..max_num_iterations {
+        <span class="kw">if </span>exploitability &lt;= target_exploitability {
             <span class="kw">break</span>;
         }
 
-        <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">DiscountParams::new</span>(<span class="ident">t</span>);
+        <span class="kw">let </span>params = DiscountParams::new(t);
 
-        <span class="comment">// alternating updates</span>
-        <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">game</span>.<span class="ident">num_private_hands</span>(<span class="ident">player</span>)];
-            <span class="ident">solve_recursive</span>(
-                <span class="kw-2">&amp;mut</span> <span class="ident">result</span>,
-                <span class="ident">game</span>,
-                <span class="kw-2">&amp;mut</span> <span class="ident">root</span>,
-                <span class="ident">player</span>,
-                <span class="ident">reach</span>[<span class="ident">player</span>],
-                <span class="ident">reach</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>],
-                <span class="kw-2">&amp;</span><span class="ident">params</span>,
+        <span class="comment">// alternating updates
+        </span><span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(player)];
+            solve_recursive(
+                <span class="kw-2">&amp;mut </span>result,
+                game,
+                <span class="kw-2">&amp;mut </span>root,
+                player,
+                game.initial_weight(player ^ <span class="number">1</span>),
+                <span class="kw-2">&amp;</span>params,
             );
         }
 
-        <span class="kw">if</span> (<span class="ident">t</span> <span class="op">+</span> <span class="number">1</span>) <span class="op">%</span> <span class="number">10</span> <span class="op">==</span> <span class="number">0</span> <span class="op">|</span><span class="op">|</span> <span class="ident">t</span> <span class="op">+</span> <span class="number">1</span> <span class="op">==</span> <span class="ident">max_num_iterations</span> {
-            <span class="ident">exploitability</span> <span class="op">=</span> <span class="ident">compute_exploitability</span>(<span class="ident">game</span>);
+        <span class="kw">if </span>(t + <span class="number">1</span>) % <span class="number">10 </span>== <span class="number">0 </span>|| t + <span class="number">1 </span>== max_num_iterations {
+            exploitability = compute_exploitability(game);
         }
 
-        <span class="kw">if</span> <span class="ident">print_progress</span> {
-            <span class="macro">print!</span>(<span class="string">&quot;\riteration: {} / {} &quot;</span>, <span class="ident">t</span> <span class="op">+</span> <span class="number">1</span>, <span class="ident">max_num_iterations</span>);
-            <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, <span class="ident">exploitability</span>);
-            <span class="ident">io::stdout</span>().<span class="ident">flush</span>().<span class="ident">unwrap</span>();
+        <span class="kw">if </span>print_progress {
+            <span class="macro">print!</span>(<span class="string">&quot;\riteration: {} / {} &quot;</span>, t + <span class="number">1</span>, max_num_iterations);
+            <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {:.4e}[bb])&quot;</span>, exploitability);
+            io::stdout().flush().unwrap();
         }
     }
 
-    <span class="kw">if</span> <span class="ident">print_progress</span> {
+    <span class="kw">if </span>print_progress {
         <span class="macro">println!</span>();
-        <span class="ident">io::stdout</span>().<span class="ident">flush</span>().<span class="ident">unwrap</span>();
+        io::stdout().flush().unwrap();
     }
 
-    <span class="ident">finalize</span>(<span class="ident">game</span>);
+    finalize(game);
 
-    <span class="ident">exploitability</span>
+    exploitability
 }
 
-<span class="doccomment">/// Proceeds Discounted CFR algorithm for one iteration.</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">solve_step</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Game</span><span class="op">&gt;</span>(<span class="ident">game</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>, <span class="ident">current_iteration</span>: <span class="ident">u32</span>) {
-    <span class="kw">if</span> <span class="op">!</span><span class="ident">game</span>.<span class="ident">is_ready</span>() {
+<span class="doccomment">/// Proceeds Discounted CFR algorithm for one iteration.
+</span><span class="attribute">#[inline]</span>
+<span class="kw">pub fn </span>solve_step&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T, current_iteration: u32) {
+    <span class="kw">if </span>!game.is_ready() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
 
-    <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_solved</span>() {
+    <span class="kw">if </span>game.is_solved() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is already solved&quot;</span>);
     }
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">root</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">root</span>();
-    <span class="kw">let</span> <span class="ident">reach</span> <span class="op">=</span> [<span class="ident">game</span>.<span class="ident">initial_weight</span>(<span class="number">0</span>), <span class="ident">game</span>.<span class="ident">initial_weight</span>(<span class="number">1</span>)];
-    <span class="kw">let</span> <span class="ident">params</span> <span class="op">=</span> <span class="ident">DiscountParams::new</span>(<span class="ident">current_iteration</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>root = game.root();
+    <span class="kw">let </span>params = DiscountParams::new(current_iteration);
 
-    <span class="comment">// alternating updates</span>
-    <span class="kw">for</span> <span class="ident">player</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">2</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">game</span>.<span class="ident">num_private_hands</span>(<span class="ident">player</span>)];
-        <span class="ident">solve_recursive</span>(
-            <span class="kw-2">&amp;mut</span> <span class="ident">result</span>,
-            <span class="ident">game</span>,
-            <span class="kw-2">&amp;mut</span> <span class="ident">root</span>,
-            <span class="ident">player</span>,
-            <span class="ident">reach</span>[<span class="ident">player</span>],
-            <span class="ident">reach</span>[<span class="ident">player</span> <span class="op">^</span> <span class="number">1</span>],
-            <span class="kw-2">&amp;</span><span class="ident">params</span>,
+    <span class="comment">// alternating updates
+    </span><span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+        <span class="kw">let </span><span class="kw-2">mut </span>result = <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(player)];
+        solve_recursive(
+            <span class="kw-2">&amp;mut </span>result,
+            game,
+            <span class="kw-2">&amp;mut </span>root,
+            player,
+            game.initial_weight(player ^ <span class="number">1</span>),
+            <span class="kw-2">&amp;</span>params,
         );
     }
 }
 
-<span class="doccomment">/// Recursively solves the counterfactual values.</span>
-<span class="kw">fn</span> <span class="ident">solve_recursive</span><span class="op">&lt;</span><span class="ident">T</span>: <span class="ident">Game</span><span class="op">&gt;</span>(
-    <span class="ident">result</span>: <span class="kw-2">&amp;mut</span> [<span class="ident">f32</span>],
-    <span class="ident">game</span>: <span class="kw-2">&amp;</span><span class="ident">T</span>,
-    <span class="ident">node</span>: <span class="kw-2">&amp;mut</span> <span class="ident">T::Node</span>,
-    <span class="ident">player</span>: <span class="ident">usize</span>,
-    <span class="ident">reach</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>],
-    <span class="ident">cfreach</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>],
-    <span class="ident">params</span>: <span class="kw-2">&amp;</span><span class="ident">DiscountParams</span>,
+<span class="doccomment">/// Recursively solves the counterfactual values.
+</span><span class="kw">fn </span>solve_recursive&lt;T: Game&gt;(
+    result: <span class="kw-2">&amp;mut </span>[f32],
+    game: <span class="kw-2">&amp;</span>T,
+    node: <span class="kw-2">&amp;mut </span>T::Node,
+    player: usize,
+    cfreach: <span class="kw-2">&amp;</span>[f32],
+    params: <span class="kw-2">&amp;</span>DiscountParams,
 ) {
-    <span class="comment">// return the counterfactual values when the `node` is terminal</span>
-    <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">is_terminal</span>() {
-        <span class="ident">game</span>.<span class="ident">evaluate</span>(<span class="ident">result</span>, <span class="ident">node</span>, <span class="ident">player</span>, <span class="ident">cfreach</span>);
+    <span class="comment">// return the counterfactual values when the `node` is terminal
+    </span><span class="kw">if </span>node.is_terminal() {
+        game.evaluate(result, node, player, cfreach);
         <span class="kw">return</span>;
     }
 
-    <span class="kw">let</span> <span class="ident">num_actions</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">num_actions</span>();
-    <span class="kw">let</span> <span class="ident">num_hands</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">num_private_hands</span>(<span class="ident">player</span>);
+    <span class="kw">let </span>num_actions = node.num_actions();
+    <span class="kw">let </span>num_hands = game.num_private_hands(player);
 
-    <span class="comment">// simply recurse when the number of actions is one</span>
-    <span class="kw">if</span> <span class="ident">num_actions</span> <span class="op">==</span> <span class="number">1</span> <span class="op">&amp;&amp;</span> <span class="op">!</span><span class="ident">node</span>.<span class="ident">is_chance</span>() {
-        <span class="kw">let</span> <span class="ident">child</span> <span class="op">=</span> <span class="kw-2">&amp;mut</span> <span class="ident">node</span>.<span class="ident">play</span>(<span class="number">0</span>);
-        <span class="ident">solve_recursive</span>(<span class="ident">result</span>, <span class="ident">game</span>, <span class="ident">child</span>, <span class="ident">player</span>, <span class="ident">reach</span>, <span class="ident">cfreach</span>, <span class="ident">params</span>);
+    <span class="comment">// simply recurse when the number of actions is one
+    </span><span class="kw">if </span>num_actions == <span class="number">1 </span>&amp;&amp; !node.is_chance() {
+        <span class="kw">let </span>child = <span class="kw-2">&amp;mut </span>node.play(<span class="number">0</span>);
+        solve_recursive(result, game, child, player, cfreach, params);
         <span class="kw">return</span>;
     }
 
-    <span class="comment">// allocate memory for storing the counterfactual values</span>
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-    <span class="kw">let</span> <span class="ident">cfv_actions</span> <span class="op">=</span> <span class="ident">MutexLike::new</span>(<span class="ident">vec::from_elem_in</span>(<span class="number">0.0</span>, <span class="ident">num_actions</span> <span class="op">*</span> <span class="ident">num_hands</span>, <span class="ident">StackAlloc</span>));
-    <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-    <span class="kw">let</span> <span class="ident">cfv_actions</span> <span class="op">=</span> <span class="ident">MutexLike::new</span>(<span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">num_actions</span> <span class="op">*</span> <span class="ident">num_hands</span>]);
+    <span class="comment">// allocate memory for storing the counterfactual values
+    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+    <span class="kw">let </span>cfv_actions = MutexLike::new(vec::from_elem_in(<span class="number">0.0</span>, num_actions * num_hands, StackAlloc));
+    <span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
+    <span class="kw">let </span>cfv_actions = MutexLike::new(<span class="macro">vec!</span>[<span class="number">0.0</span>; num_actions * num_hands]);
 
-    <span class="comment">// if the `node` is chance</span>
-    <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">is_chance</span>() {
-        <span class="comment">// use 64-bit floating point values</span>
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result_f64</span> <span class="op">=</span> <span class="ident">vec::from_elem_in</span>(<span class="number">0.0</span>, <span class="ident">num_hands</span>, <span class="ident">StackAlloc</span>);
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result_f64</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">num_hands</span>];
+    <span class="comment">// if the `node` is chance
+    </span><span class="kw">if </span>node.is_chance() {
+        <span class="comment">// use 64-bit floating point values
+        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+        <span class="kw">let </span><span class="kw-2">mut </span>result_f64 = vec::from_elem_in(<span class="number">0.0</span>, num_hands, StackAlloc);
+        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
+        <span class="kw">let </span><span class="kw-2">mut </span>result_f64 = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
 
-        <span class="comment">// update the reach probabilities</span>
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cfreach</span> <span class="op">=</span> <span class="ident">cfreach</span>.<span class="ident">to_vec_in</span>(<span class="ident">StackAlloc</span>);
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cfreach</span> <span class="op">=</span> <span class="ident">cfreach</span>.<span class="ident">to_vec</span>();
-        <span class="ident">mul_slice_scalar</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfreach</span>, <span class="ident">node</span>.<span class="ident">chance_factor</span>());
+        <span class="comment">// update the reach probabilities
+        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+        <span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec_in(StackAlloc);
+        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
+        <span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec();
+        mul_slice_scalar(<span class="kw-2">&amp;mut </span>cfreach, node.chance_factor());
 
-        <span class="comment">// compute the counterfactual values of each action</span>
-        <span class="ident">for_each_child</span>(<span class="ident">node</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
-            <span class="ident">solve_recursive</span>(
-                <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>.<span class="ident">lock</span>(), <span class="ident">action</span>, <span class="ident">num_hands</span>),
-                <span class="ident">game</span>,
-                <span class="kw-2">&amp;mut</span> <span class="ident">node</span>.<span class="ident">play</span>(<span class="ident">action</span>),
-                <span class="ident">player</span>,
-                <span class="ident">reach</span>,
-                <span class="kw-2">&amp;</span><span class="ident">cfreach</span>,
-                <span class="ident">params</span>,
+        <span class="comment">// compute the counterfactual values of each action
+        </span>for_each_child(node, |action| {
+            solve_recursive(
+                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                game,
+                <span class="kw-2">&amp;mut </span>node.play(action),
+                player,
+                <span class="kw-2">&amp;</span>cfreach,
+                params,
             );
         });
 
-        <span class="comment">// sum up the counterfactual values</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cfv_actions</span> <span class="op">=</span> <span class="ident">cfv_actions</span>.<span class="ident">lock</span>();
-        <span class="ident">cfv_actions</span>.<span class="ident">chunks_exact</span>(<span class="ident">num_hands</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-            <span class="ident">result_f64</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="ident">row</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">r</span>, <span class="kw-2">&amp;</span><span class="ident">v</span>)<span class="op">|</span> {
-                <span class="kw-2">*</span><span class="ident">r</span> <span class="op">+</span><span class="op">=</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">f64</span>;
+        <span class="comment">// sum up the counterfactual values
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
+        cfv_actions.chunks_exact(num_hands).for_each(|row| {
+            result_f64.iter_mut().zip(row).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
+                <span class="kw-2">*</span>r += v <span class="kw">as </span>f64;
             });
         });
 
-        <span class="comment">// get information about isomorphic chances</span>
-        <span class="kw">let</span> <span class="ident">isomorphic_chances</span> <span class="op">=</span> <span class="ident">game</span>.<span class="ident">isomorphic_chances</span>(<span class="ident">node</span>);
+        <span class="comment">// get information about isomorphic chances
+        </span><span class="kw">let </span>isomorphic_chances = game.isomorphic_chances(node);
 
-        <span class="comment">// process isomorphic chances</span>
-        <span class="kw">for</span> (<span class="ident">i</span>, <span class="kw-2">&amp;</span><span class="ident">isomorphic_index</span>) <span class="kw">in</span> <span class="ident">isomorphic_chances</span>.<span class="ident">iter</span>().<span class="ident">enumerate</span>() {
-            <span class="kw">let</span> <span class="ident">swap_list</span> <span class="op">=</span> <span class="kw-2">&amp;</span><span class="ident">game</span>.<span class="ident">isomorphic_swap</span>(<span class="ident">node</span>, <span class="ident">i</span>)[<span class="ident">player</span>];
-            <span class="kw">let</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>, <span class="ident">isomorphic_index</span> <span class="kw">as</span> <span class="ident">usize</span>, <span class="ident">num_hands</span>);
+        <span class="comment">// process isomorphic chances
+        </span><span class="kw">for </span>(i, <span class="kw-2">&amp;</span>isomorphic_index) <span class="kw">in </span>isomorphic_chances.iter().enumerate() {
+            <span class="kw">let </span>swap_list = <span class="kw-2">&amp;</span>game.isomorphic_swap(node, i)[player];
+            <span class="kw">let </span>tmp = row_mut(<span class="kw-2">&amp;mut </span>cfv_actions, isomorphic_index <span class="kw">as </span>usize, num_hands);
 
-            <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">i</span>, <span class="ident">j</span>) <span class="kw">in</span> <span class="ident">swap_list</span> {
-                <span class="kw">unsafe</span> {
-                    <span class="ident">ptr::swap</span>(
-                        <span class="ident">tmp</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>),
-                        <span class="ident">tmp</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">j</span> <span class="kw">as</span> <span class="ident">usize</span>),
+            <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
+                <span class="kw">unsafe </span>{
+                    ptr::swap(
+                        tmp.get_unchecked_mut(i <span class="kw">as </span>usize),
+                        tmp.get_unchecked_mut(j <span class="kw">as </span>usize),
                     );
                 }
             }
 
-            <span class="ident">result_f64</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">tmp</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">r</span>, <span class="kw-2">&amp;</span><span class="ident">v</span>)<span class="op">|</span> {
-                <span class="kw-2">*</span><span class="ident">r</span> <span class="op">+</span><span class="op">=</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">f64</span>;
+            result_f64.iter_mut().zip(<span class="kw-2">&amp;*</span>tmp).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
+                <span class="kw-2">*</span>r += v <span class="kw">as </span>f64;
             });
 
-            <span class="kw">for</span> <span class="kw-2">&amp;</span>(<span class="ident">i</span>, <span class="ident">j</span>) <span class="kw">in</span> <span class="ident">swap_list</span> {
-                <span class="kw">unsafe</span> {
-                    <span class="ident">ptr::swap</span>(
-                        <span class="ident">tmp</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">i</span> <span class="kw">as</span> <span class="ident">usize</span>),
-                        <span class="ident">tmp</span>.<span class="ident">get_unchecked_mut</span>(<span class="ident">j</span> <span class="kw">as</span> <span class="ident">usize</span>),
+            <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
+                <span class="kw">unsafe </span>{
+                    ptr::swap(
+                        tmp.get_unchecked_mut(i <span class="kw">as </span>usize),
+                        tmp.get_unchecked_mut(j <span class="kw">as </span>usize),
                     );
                 }
             }
         }
 
-        <span class="ident">result</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="ident">result_f64</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">r</span>, <span class="kw-2">&amp;</span><span class="ident">v</span>)<span class="op">|</span> {
-            <span class="kw-2">*</span><span class="ident">r</span> <span class="op">=</span> <span class="ident">v</span> <span class="kw">as</span> <span class="ident">f32</span>;
+        result.iter_mut().zip(<span class="kw-2">&amp;</span>result_f64).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
+            <span class="kw-2">*</span>r = v <span class="kw">as </span>f32;
         });
     }
-    <span class="comment">// if the current player is `player`</span>
-    <span class="kw">else</span> <span class="kw">if</span> <span class="ident">node</span>.<span class="ident">player</span>() <span class="op">==</span> <span class="ident">player</span> {
-        <span class="comment">// compute the strategy by regret-maching algorithm</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strategy</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_compression_enabled</span>() {
-            <span class="ident">regret_matching_compressed</span>(
-                <span class="ident">node</span>.<span class="ident">cum_regret_compressed</span>(),
-                <span class="ident">node</span>.<span class="ident">cum_regret_scale</span>(),
-                <span class="ident">num_actions</span>,
+    <span class="comment">// if the current player is `player`
+    </span><span class="kw">else if </span>node.player() == player {
+        <span class="comment">// compute the strategy by regret-maching algorithm
+        </span><span class="kw">let </span><span class="kw-2">mut </span>strategy = <span class="kw">if </span>game.is_compression_enabled() {
+            regret_matching_compressed(
+                node.cum_regret_compressed(),
+                node.cum_regret_scale(),
+                num_actions,
             )
-        } <span class="kw">else</span> {
-            <span class="ident">regret_matching</span>(<span class="ident">node</span>.<span class="ident">cum_regret</span>(), <span class="ident">num_actions</span>)
+        } <span class="kw">else </span>{
+            regret_matching(node.cum_regret(), num_actions)
         };
 
-        <span class="comment">// update the reach probabilities</span>
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reach_actions</span> <span class="op">=</span> {
-            <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">tmp</span> <span class="op">=</span> <span class="ident">Vec::with_capacity_in</span>(<span class="ident">strategy</span>.<span class="ident">len</span>(), <span class="ident">StackAlloc</span>);
-            <span class="ident">tmp</span>.<span class="ident">extend_from_slice</span>(<span class="kw-2">&amp;</span><span class="ident">strategy</span>);
-            <span class="ident">tmp</span>
-        };
-        <span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">reach_actions</span> <span class="op">=</span> <span class="ident">strategy</span>.<span class="ident">clone</span>();
-        <span class="ident">reach_actions</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">num_hands</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-            <span class="ident">mul_slice</span>(<span class="ident">row</span>, <span class="ident">reach</span>);
-        });
-
-        <span class="comment">// compute the counterfactual values of each action</span>
-        <span class="ident">for_each_child</span>(<span class="ident">node</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
-            <span class="ident">solve_recursive</span>(
-                <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>.<span class="ident">lock</span>(), <span class="ident">action</span>, <span class="ident">num_hands</span>),
-                <span class="ident">game</span>,
-                <span class="kw-2">&amp;mut</span> <span class="ident">node</span>.<span class="ident">play</span>(<span class="ident">action</span>),
-                <span class="ident">player</span>,
-                <span class="ident">row</span>(<span class="kw-2">&amp;</span><span class="ident">reach_actions</span>, <span class="ident">action</span>, <span class="ident">num_hands</span>),
-                <span class="ident">cfreach</span>,
-                <span class="ident">params</span>,
+        <span class="comment">// compute the counterfactual values of each action
+        </span>for_each_child(node, |action| {
+            solve_recursive(
+                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                game,
+                <span class="kw-2">&amp;mut </span>node.play(action),
+                player,
+                cfreach,
+                params,
             );
         });
 
-        <span class="comment">// sum up the counterfactual values</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cfv_actions</span> <span class="op">=</span> <span class="ident">cfv_actions</span>.<span class="ident">lock</span>();
-        <span class="ident">strategy</span>
-            .<span class="ident">chunks_exact</span>(<span class="ident">num_hands</span>)
-            .<span class="ident">zip</span>(<span class="ident">cfv_actions</span>.<span class="ident">chunks_exact</span>(<span class="ident">num_hands</span>))
-            .<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">strategy_row</span>, <span class="ident">cfv_row</span>)<span class="op">|</span> {
-                <span class="ident">result</span>
-                    .<span class="ident">iter_mut</span>()
-                    .<span class="ident">zip</span>(<span class="ident">strategy_row</span>)
-                    .<span class="ident">zip</span>(<span class="ident">cfv_row</span>)
-                    .<span class="ident">for_each</span>(<span class="op">|</span>((<span class="ident">r</span>, <span class="kw-2">&amp;</span><span class="ident">s</span>), <span class="kw-2">&amp;</span><span class="ident">v</span>)<span class="op">|</span> <span class="kw-2">*</span><span class="ident">r</span> <span class="op">+</span><span class="op">=</span> <span class="ident">s</span> <span class="op">*</span> <span class="ident">v</span>);
+        <span class="comment">// sum up the counterfactual values
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
+        strategy
+            .chunks_exact(num_hands)
+            .zip(cfv_actions.chunks_exact(num_hands))
+            .for_each(|(strategy_row, cfv_row)| {
+                result
+                    .iter_mut()
+                    .zip(strategy_row)
+                    .zip(cfv_row)
+                    .for_each(|((r, <span class="kw-2">&amp;</span>s), <span class="kw-2">&amp;</span>v)| <span class="kw-2">*</span>r += s * v);
             });
 
-        <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_compression_enabled</span>() {
-            <span class="comment">// update the cumulative strategy</span>
-            <span class="kw">let</span> <span class="ident">scale</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">strategy_scale</span>();
-            <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">gamma_t</span> <span class="op">*</span> <span class="ident">scale</span> <span class="op">/</span> <span class="ident">u16::MAX</span> <span class="kw">as</span> <span class="ident">f32</span>;
-            <span class="kw">let</span> <span class="ident">cum_strategy</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">strategy_compressed_mut</span>();
+        <span class="kw">if </span>game.is_compression_enabled() {
+            <span class="comment">// update the cumulative strategy
+            </span><span class="kw">let </span>scale = node.strategy_scale();
+            <span class="kw">let </span>decoder = params.gamma_t * scale / u16::MAX <span class="kw">as </span>f32;
+            <span class="kw">let </span>cum_strategy = node.strategy_compressed_mut();
 
-            <span class="ident">strategy</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">cum_strategy</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">x</span>, <span class="ident">y</span>)<span class="op">|</span> {
-                <span class="kw-2">*</span><span class="ident">x</span> <span class="op">+</span><span class="op">=</span> (<span class="kw-2">*</span><span class="ident">y</span> <span class="kw">as</span> <span class="ident">f32</span>) <span class="op">*</span> <span class="ident">decoder</span>;
+            strategy.iter_mut().zip(<span class="kw-2">&amp;*</span>cum_strategy).for_each(|(x, y)| {
+                <span class="kw-2">*</span>x += (<span class="kw-2">*</span>y <span class="kw">as </span>f32) * decoder;
             });
 
-            <span class="kw">let</span> <span class="ident">new_scale</span> <span class="op">=</span> <span class="ident">encode_unsigned_slice</span>(<span class="ident">cum_strategy</span>, <span class="kw-2">&amp;</span><span class="ident">strategy</span>);
-            <span class="ident">node</span>.<span class="ident">set_strategy_scale</span>(<span class="ident">new_scale</span>);
+            <span class="kw">let </span>new_scale = encode_unsigned_slice(cum_strategy, <span class="kw-2">&amp;</span>strategy);
+            node.set_strategy_scale(new_scale);
 
-            <span class="comment">// update the cumulative regret</span>
-            <span class="kw">let</span> <span class="ident">scale</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">cum_regret_scale</span>();
-            <span class="kw">let</span> <span class="ident">alpha_decoder</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">alpha_t</span> <span class="op">*</span> <span class="ident">scale</span> <span class="op">/</span> <span class="ident">i16::MAX</span> <span class="kw">as</span> <span class="ident">f32</span>;
-            <span class="kw">let</span> <span class="ident">beta_decoder</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">beta_t</span> <span class="op">*</span> <span class="ident">scale</span> <span class="op">/</span> <span class="ident">i16::MAX</span> <span class="kw">as</span> <span class="ident">f32</span>;
-            <span class="kw">let</span> <span class="ident">cum_regret</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">cum_regret_compressed_mut</span>();
+            <span class="comment">// update the cumulative regret
+            </span><span class="kw">let </span>scale = node.cum_regret_scale();
+            <span class="kw">let </span>alpha_decoder = params.alpha_t * scale / i16::MAX <span class="kw">as </span>f32;
+            <span class="kw">let </span>beta_decoder = params.beta_t * scale / i16::MAX <span class="kw">as </span>f32;
+            <span class="kw">let </span>cum_regret = node.cum_regret_compressed_mut();
 
-            <span class="ident">cfv_actions</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">cum_regret</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">x</span>, <span class="ident">y</span>)<span class="op">|</span> {
-                <span class="kw-2">*</span><span class="ident">x</span> <span class="op">+</span><span class="op">=</span> <span class="kw-2">*</span><span class="ident">y</span> <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="kw">if</span> <span class="kw-2">*</span><span class="ident">y</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> { <span class="ident">alpha_decoder</span> } <span class="kw">else</span> { <span class="ident">beta_decoder</span> };
+            cfv_actions.iter_mut().zip(<span class="kw-2">&amp;*</span>cum_regret).for_each(|(x, y)| {
+                <span class="kw-2">*</span>x += <span class="kw-2">*</span>y <span class="kw">as </span>f32 * <span class="kw">if </span><span class="kw-2">*</span>y &gt;= <span class="number">0 </span>{ alpha_decoder } <span class="kw">else </span>{ beta_decoder };
             });
 
-            <span class="ident">cfv_actions</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">num_hands</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-                <span class="ident">sub_slice</span>(<span class="ident">row</span>, <span class="ident">result</span>);
+            cfv_actions.chunks_exact_mut(num_hands).for_each(|row| {
+                sub_slice(row, result);
             });
 
-            <span class="kw">let</span> <span class="ident">new_scale</span> <span class="op">=</span> <span class="ident">encode_signed_slice</span>(<span class="ident">cum_regret</span>, <span class="kw-2">&amp;</span><span class="ident">cfv_actions</span>);
-            <span class="ident">node</span>.<span class="ident">set_cum_regret_scale</span>(<span class="ident">new_scale</span>);
-        } <span class="kw">else</span> {
-            <span class="comment">// update the cumulative strategy</span>
-            <span class="kw">let</span> <span class="ident">gamma_t</span> <span class="op">=</span> <span class="ident">params</span>.<span class="ident">gamma_t</span>;
-            <span class="kw">let</span> <span class="ident">cum_strategy</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">strategy_mut</span>();
-            <span class="ident">cum_strategy</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="ident">strategy</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">x</span>, <span class="ident">y</span>)<span class="op">|</span> {
-                <span class="kw-2">*</span><span class="ident">x</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">x</span> <span class="op">*</span> <span class="ident">gamma_t</span> <span class="op">+</span> <span class="kw-2">*</span><span class="ident">y</span>;
+            <span class="kw">let </span>new_scale = encode_signed_slice(cum_regret, <span class="kw-2">&amp;</span>cfv_actions);
+            node.set_cum_regret_scale(new_scale);
+        } <span class="kw">else </span>{
+            <span class="comment">// update the cumulative strategy
+            </span><span class="kw">let </span>gamma_t = params.gamma_t;
+            <span class="kw">let </span>cum_strategy = node.strategy_mut();
+            cum_strategy.iter_mut().zip(<span class="kw-2">&amp;</span>strategy).for_each(|(x, y)| {
+                <span class="kw-2">*</span>x = <span class="kw-2">*</span>x * gamma_t + <span class="kw-2">*</span>y;
             });
 
-            <span class="comment">// update the cumulative regret</span>
-            <span class="kw">let</span> (<span class="ident">alpha_t</span>, <span class="ident">beta_t</span>) <span class="op">=</span> (<span class="ident">params</span>.<span class="ident">alpha_t</span>, <span class="ident">params</span>.<span class="ident">beta_t</span>);
-            <span class="kw">let</span> <span class="ident">cum_regret</span> <span class="op">=</span> <span class="ident">node</span>.<span class="ident">cum_regret_mut</span>();
-            <span class="ident">cum_regret</span>.<span class="ident">iter_mut</span>().<span class="ident">zip</span>(<span class="kw-2">&amp;</span><span class="kw-2">*</span><span class="ident">cfv_actions</span>).<span class="ident">for_each</span>(<span class="op">|</span>(<span class="ident">x</span>, <span class="ident">y</span>)<span class="op">|</span> {
-                <span class="kw">let</span> <span class="ident">coef</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">x</span>.<span class="ident">is_sign_positive</span>() {
-                    <span class="ident">alpha_t</span>
-                } <span class="kw">else</span> {
-                    <span class="ident">beta_t</span>
+            <span class="comment">// update the cumulative regret
+            </span><span class="kw">let </span>(alpha_t, beta_t) = (params.alpha_t, params.beta_t);
+            <span class="kw">let </span>cum_regret = node.cum_regret_mut();
+            cum_regret.iter_mut().zip(<span class="kw-2">&amp;*</span>cfv_actions).for_each(|(x, y)| {
+                <span class="kw">let </span>coef = <span class="kw">if </span>x.is_sign_positive() {
+                    alpha_t
+                } <span class="kw">else </span>{
+                    beta_t
                 };
-                <span class="kw-2">*</span><span class="ident">x</span> <span class="op">=</span> <span class="kw-2">*</span><span class="ident">x</span> <span class="op">*</span> <span class="ident">coef</span> <span class="op">+</span> <span class="kw-2">*</span><span class="ident">y</span>;
+                <span class="kw-2">*</span>x = <span class="kw-2">*</span>x * coef + <span class="kw-2">*</span>y;
             });
-            <span class="ident">cum_regret</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">num_hands</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-                <span class="ident">sub_slice</span>(<span class="ident">row</span>, <span class="ident">result</span>);
+            cum_regret.chunks_exact_mut(num_hands).for_each(|row| {
+                sub_slice(row, result);
             });
         }
     }
-    <span class="comment">// if the current player is not `player`</span>
-    <span class="kw">else</span> {
-        <span class="comment">// compute the strategy by regret-matching algorithm</span>
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">cfreach_actions</span> <span class="op">=</span> <span class="kw">if</span> <span class="ident">game</span>.<span class="ident">is_compression_enabled</span>() {
-            <span class="ident">regret_matching_compressed</span>(
-                <span class="ident">node</span>.<span class="ident">cum_regret_compressed</span>(),
-                <span class="ident">node</span>.<span class="ident">cum_regret_scale</span>(),
-                <span class="ident">num_actions</span>,
+    <span class="comment">// if the current player is not `player`
+    </span><span class="kw">else </span>{
+        <span class="comment">// compute the strategy by regret-matching algorithm
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_actions = <span class="kw">if </span>game.is_compression_enabled() {
+            regret_matching_compressed(
+                node.cum_regret_compressed(),
+                node.cum_regret_scale(),
+                num_actions,
             )
-        } <span class="kw">else</span> {
-            <span class="ident">regret_matching</span>(<span class="ident">node</span>.<span class="ident">cum_regret</span>(), <span class="ident">num_actions</span>)
+        } <span class="kw">else </span>{
+            regret_matching(node.cum_regret(), num_actions)
         };
 
-        <span class="comment">// update the reach probabilities</span>
-        <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">cfreach_actions</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
-        <span class="ident">cfreach_actions</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-            <span class="ident">mul_slice</span>(<span class="ident">row</span>, <span class="ident">cfreach</span>);
+        <span class="comment">// update the reach probabilities
+        </span><span class="kw">let </span>row_size = cfreach_actions.len() / num_actions;
+        cfreach_actions.chunks_exact_mut(row_size).for_each(|row| {
+            mul_slice(row, cfreach);
         });
 
-        <span class="comment">// compute the counterfactual values of each action</span>
-        <span class="ident">for_each_child</span>(<span class="ident">node</span>, <span class="op">|</span><span class="ident">action</span><span class="op">|</span> {
-            <span class="ident">solve_recursive</span>(
-                <span class="ident">row_mut</span>(<span class="kw-2">&amp;mut</span> <span class="ident">cfv_actions</span>.<span class="ident">lock</span>(), <span class="ident">action</span>, <span class="ident">num_hands</span>),
-                <span class="ident">game</span>,
-                <span class="kw-2">&amp;mut</span> <span class="ident">node</span>.<span class="ident">play</span>(<span class="ident">action</span>),
-                <span class="ident">player</span>,
-                <span class="ident">reach</span>,
-                <span class="ident">row</span>(<span class="kw-2">&amp;</span><span class="ident">cfreach_actions</span>, <span class="ident">action</span>, <span class="ident">row_size</span>),
-                <span class="ident">params</span>,
+        <span class="comment">// compute the counterfactual values of each action
+        </span>for_each_child(node, |action| {
+            solve_recursive(
+                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                game,
+                <span class="kw-2">&amp;mut </span>node.play(action),
+                player,
+                row(<span class="kw-2">&amp;</span>cfreach_actions, action, row_size),
+                params,
             );
         });
 
-        <span class="comment">// sum up the counterfactual values</span>
-        <span class="kw">let</span> <span class="ident">cfv_actions</span> <span class="op">=</span> <span class="ident">cfv_actions</span>.<span class="ident">lock</span>();
-        <span class="ident">cfv_actions</span>.<span class="ident">chunks_exact</span>(<span class="ident">num_hands</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-            <span class="ident">add_slice</span>(<span class="ident">result</span>, <span class="ident">row</span>);
+        <span class="comment">// sum up the counterfactual values
+        </span><span class="kw">let </span>cfv_actions = cfv_actions.lock();
+        cfv_actions.chunks_exact(num_hands).for_each(|row| {
+            add_slice(result, row);
         });
     }
 }
 
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">max</span>(<span class="ident">x</span>: <span class="ident">f32</span>, <span class="ident">y</span>: <span class="ident">f32</span>) -&gt; <span class="ident">f32</span> {
-    <span class="kw">if</span> <span class="ident">x</span> <span class="op">&gt;</span> <span class="ident">y</span> {
-        <span class="ident">x</span>
-    } <span class="kw">else</span> {
-        <span class="ident">y</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>max(x: f32, y: f32) -&gt; f32 {
+    <span class="kw">if </span>x &gt; y {
+        x
+    } <span class="kw">else </span>{
+        y
     }
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">regret_matching</span>(<span class="ident">regret</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>], <span class="ident">num_actions</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span>, <span class="ident">StackAlloc</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strategy</span> <span class="op">=</span> <span class="ident">regret</span>.<span class="ident">to_vec_in</span>(<span class="ident">StackAlloc</span>);
-    <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">strategy</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
+<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32, StackAlloc&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>strategy = regret.to_vec_in(StackAlloc);
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
-    <span class="ident">strategy</span>.<span class="ident">iter_mut</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">el</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">el</span> <span class="op">=</span> <span class="ident">max</span>(<span class="kw-2">*</span><span class="ident">el</span>, <span class="number">0.0</span>));
+    strategy.iter_mut().for_each(|el| <span class="kw-2">*</span>el = max(<span class="kw-2">*</span>el, <span class="number">0.0</span>));
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">denom</span> <span class="op">=</span> <span class="ident">vec::from_elem_in</span>(<span class="number">0.0</span>, <span class="ident">row_size</span>, <span class="ident">StackAlloc</span>);
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">add_slice</span>(<span class="kw-2">&amp;mut</span> <span class="ident">denom</span>, <span class="ident">row</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = vec::from_elem_in(<span class="number">0.0</span>, row_size, StackAlloc);
+    strategy.chunks_exact(row_size).for_each(|row| {
+        add_slice(<span class="kw-2">&amp;mut </span>denom, row);
     });
 
-    <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> <span class="ident">num_actions</span> <span class="kw">as</span> <span class="ident">f32</span>;
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">div_slice</span>(<span class="ident">row</span>, <span class="kw-2">&amp;</span><span class="ident">denom</span>, <span class="ident">default</span>);
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    strategy.chunks_exact_mut(row_size).for_each(|row| {
+        div_slice(row, <span class="kw-2">&amp;</span>denom, default);
     });
 
-    <span class="ident">strategy</span>
+    strategy
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">regret_matching</span>(<span class="ident">regret</span>: <span class="kw-2">&amp;</span>[<span class="ident">f32</span>], <span class="ident">num_actions</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strategy</span> <span class="op">=</span> <span class="ident">regret</span>.<span class="ident">to_vec</span>();
-    <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">strategy</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
+<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>strategy = regret.to_vec();
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
-    <span class="ident">strategy</span>.<span class="ident">iter_mut</span>().<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">el</span><span class="op">|</span> <span class="kw-2">*</span><span class="ident">el</span> <span class="op">=</span> <span class="ident">max</span>(<span class="kw-2">*</span><span class="ident">el</span>, <span class="number">0.0</span>));
+    strategy.iter_mut().for_each(|el| <span class="kw-2">*</span>el = max(<span class="kw-2">*</span>el, <span class="number">0.0</span>));
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">denom</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">row_size</span>];
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">add_slice</span>(<span class="kw-2">&amp;mut</span> <span class="ident">denom</span>, <span class="ident">row</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = <span class="macro">vec!</span>[<span class="number">0.0</span>; row_size];
+    strategy.chunks_exact(row_size).for_each(|row| {
+        add_slice(<span class="kw-2">&amp;mut </span>denom, row);
     });
 
-    <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> <span class="ident">num_actions</span> <span class="kw">as</span> <span class="ident">f32</span>;
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">div_slice</span>(<span class="ident">row</span>, <span class="kw-2">&amp;</span><span class="ident">denom</span>, <span class="ident">default</span>);
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    strategy.chunks_exact_mut(row_size).for_each(|row| {
+        div_slice(row, <span class="kw-2">&amp;</span>denom, default);
     });
 
-    <span class="ident">strategy</span>
+    strategy
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">regret_matching_compressed</span>(
-    <span class="ident">regret</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>],
-    <span class="ident">scale</span>: <span class="ident">f32</span>,
-    <span class="ident">num_actions</span>: <span class="ident">usize</span>,
-) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span>, <span class="ident">StackAlloc</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strategy</span> <span class="op">=</span> <span class="ident">decode_signed_slice_nonnegative</span>(<span class="ident">regret</span>, <span class="ident">scale</span>);
-    <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">strategy</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
+<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>regret_matching_compressed(
+    regret: <span class="kw-2">&amp;</span>[i16],
+    scale: f32,
+    num_actions: usize,
+) -&gt; Vec&lt;f32, StackAlloc&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>strategy = decode_signed_slice_nonnegative(regret, scale);
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">denom</span> <span class="op">=</span> <span class="ident">vec::from_elem_in</span>(<span class="number">0.0</span>, <span class="ident">row_size</span>, <span class="ident">StackAlloc</span>);
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">add_slice</span>(<span class="kw-2">&amp;mut</span> <span class="ident">denom</span>, <span class="ident">row</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = vec::from_elem_in(<span class="number">0.0</span>, row_size, StackAlloc);
+    strategy.chunks_exact(row_size).for_each(|row| {
+        add_slice(<span class="kw-2">&amp;mut </span>denom, row);
     });
 
-    <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> <span class="ident">num_actions</span> <span class="kw">as</span> <span class="ident">f32</span>;
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">div_slice</span>(<span class="ident">row</span>, <span class="kw-2">&amp;</span><span class="ident">denom</span>, <span class="ident">default</span>);
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    strategy.chunks_exact_mut(row_size).for_each(|row| {
+        div_slice(row, <span class="kw-2">&amp;</span>denom, default);
     });
 
-    <span class="ident">strategy</span>
+    strategy
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">regret_matching_compressed</span>(<span class="ident">regret</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">scale</span>: <span class="ident">f32</span>, <span class="ident">num_actions</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">strategy</span> <span class="op">=</span> <span class="ident">decode_signed_slice_nonnegative</span>(<span class="ident">regret</span>, <span class="ident">scale</span>);
-    <span class="kw">let</span> <span class="ident">row_size</span> <span class="op">=</span> <span class="ident">strategy</span>.<span class="ident">len</span>() <span class="op">/</span> <span class="ident">num_actions</span>;
+<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>regret_matching_compressed(regret: <span class="kw-2">&amp;</span>[i16], scale: f32, num_actions: usize) -&gt; Vec&lt;f32&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>strategy = decode_signed_slice_nonnegative(regret, scale);
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">denom</span> <span class="op">=</span> <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="ident">row_size</span>];
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">add_slice</span>(<span class="kw-2">&amp;mut</span> <span class="ident">denom</span>, <span class="ident">row</span>);
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = <span class="macro">vec!</span>[<span class="number">0.0</span>; row_size];
+    strategy.chunks_exact(row_size).for_each(|row| {
+        add_slice(<span class="kw-2">&amp;mut </span>denom, row);
     });
 
-    <span class="kw">let</span> <span class="ident">default</span> <span class="op">=</span> <span class="number">1.0</span> <span class="op">/</span> <span class="ident">num_actions</span> <span class="kw">as</span> <span class="ident">f32</span>;
-    <span class="ident">strategy</span>.<span class="ident">chunks_exact_mut</span>(<span class="ident">row_size</span>).<span class="ident">for_each</span>(<span class="op">|</span><span class="ident">row</span><span class="op">|</span> {
-        <span class="ident">div_slice</span>(<span class="ident">row</span>, <span class="kw-2">&amp;</span><span class="ident">denom</span>, <span class="ident">default</span>);
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    strategy.chunks_exact_mut(row_size).for_each(|row| {
+        div_slice(row, <span class="kw-2">&amp;</span>denom, default);
     });
 
-    <span class="ident">strategy</span>
+    strategy
 }
 
-<span class="doccomment">/// Decodes the encoded `i16` slice to the non-negative `f32` slice.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">decode_signed_slice_nonnegative</span>(<span class="ident">slice</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">scale</span>: <span class="ident">f32</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span>, <span class="ident">StackAlloc</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">scale</span> <span class="op">/</span> <span class="ident">i16::MAX</span> <span class="kw">as</span> <span class="ident">f32</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">f32</span>, <span class="ident">StackAlloc</span><span class="op">&gt;</span><span class="ident">::with_capacity_in</span>(<span class="ident">slice</span>.<span class="ident">len</span>(), <span class="ident">StackAlloc</span>);
-    <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">as_mut_ptr</span>();
-    <span class="kw">unsafe</span> {
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">slice</span>.<span class="ident">len</span>() {
-            <span class="kw-2">*</span><span class="ident">ptr</span>.<span class="ident">add</span>(<span class="ident">i</span>) <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">slice</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>)).<span class="ident">max</span>(<span class="number">0</span>) <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">decoder</span>;
+<span class="doccomment">/// Decodes the encoded `i16` slice to the non-negative `f32` slice.
+</span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>decode_signed_slice_nonnegative(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32, StackAlloc&gt; {
+    <span class="kw">let </span>decoder = scale / i16::MAX <span class="kw">as </span>f32;
+    <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::&lt;f32, StackAlloc&gt;::with_capacity_in(slice.len(), StackAlloc);
+    <span class="kw">let </span>ptr = result.as_mut_ptr();
+    <span class="kw">unsafe </span>{
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..slice.len() {
+            <span class="kw-2">*</span>ptr.add(i) = (<span class="kw-2">*</span>slice.get_unchecked(i)).max(<span class="number">0</span>) <span class="kw">as </span>f32 * decoder;
         }
-        <span class="ident">result</span>.<span class="ident">set_len</span>(<span class="ident">slice</span>.<span class="ident">len</span>());
+        result.set_len(slice.len());
     }
-    <span class="ident">result</span>
+    result
 }
 
-<span class="doccomment">/// Decodes the encoded `i16` slice to the non-negative `f32` slice.</span>
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">not</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[<span class="ident">inline</span>]</span>
-<span class="kw">fn</span> <span class="ident">decode_signed_slice_nonnegative</span>(<span class="ident">slice</span>: <span class="kw-2">&amp;</span>[<span class="ident">i16</span>], <span class="ident">scale</span>: <span class="ident">f32</span>) -&gt; <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">decoder</span> <span class="op">=</span> <span class="ident">scale</span> <span class="op">/</span> <span class="ident">i16::MAX</span> <span class="kw">as</span> <span class="ident">f32</span>;
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">result</span> <span class="op">=</span> <span class="ident">Vec</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span><span class="ident">::with_capacity</span>(<span class="ident">slice</span>.<span class="ident">len</span>());
-    <span class="kw">let</span> <span class="ident">ptr</span> <span class="op">=</span> <span class="ident">result</span>.<span class="ident">as_mut_ptr</span>();
-    <span class="kw">unsafe</span> {
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">slice</span>.<span class="ident">len</span>() {
-            <span class="kw-2">*</span><span class="ident">ptr</span>.<span class="ident">add</span>(<span class="ident">i</span>) <span class="op">=</span> (<span class="kw-2">*</span><span class="ident">slice</span>.<span class="ident">get_unchecked</span>(<span class="ident">i</span>)).<span class="ident">max</span>(<span class="number">0</span>) <span class="kw">as</span> <span class="ident">f32</span> <span class="op">*</span> <span class="ident">decoder</span>;
+<span class="doccomment">/// Decodes the encoded `i16` slice to the non-negative `f32` slice.
+</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
+<span class="attribute">#[inline]</span>
+<span class="kw">fn </span>decode_signed_slice_nonnegative(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32&gt; {
+    <span class="kw">let </span>decoder = scale / i16::MAX <span class="kw">as </span>f32;
+    <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::&lt;f32&gt;::with_capacity(slice.len());
+    <span class="kw">let </span>ptr = result.as_mut_ptr();
+    <span class="kw">unsafe </span>{
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..slice.len() {
+            <span class="kw-2">*</span>ptr.add(i) = (<span class="kw-2">*</span>slice.get_unchecked(i)).max(<span class="number">0</span>) <span class="kw">as </span>f32 * decoder;
         }
-        <span class="ident">result</span>.<span class="ident">set_len</span>(<span class="ident">slice</span>.<span class="ident">len</span>());
+        result.set_len(slice.len());
     }
-    <span class="ident">result</span>
+    result
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (f6f9d5e73 2022-08-04)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>

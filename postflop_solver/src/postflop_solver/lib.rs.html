@@ -164,171 +164,171 @@
 <span id="164">164</span>
 <span id="165">165</span>
 <span id="166">166</span>
-</pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Examples</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//! use postflop_solver::*;</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // configure game specification</span>
-<span class="doccomment">//! let oop_range = &quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;;</span>
-<span class="doccomment">//! let ip_range = &quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;;</span>
-<span class="doccomment">//! let bet_sizes = BetSizeCandidates::try_from((&quot;50%&quot;, &quot;50%&quot;)).unwrap();</span>
-<span class="doccomment">//! let config = GameConfig {</span>
-<span class="doccomment">//!     flop: flop_from_str(&quot;Td9d6h&quot;).unwrap(),</span>
-<span class="doccomment">//!     turn: card_from_str(&quot;Qh&quot;).unwrap(),</span>
-<span class="doccomment">//!     river: NOT_DEALT,</span>
-<span class="doccomment">//!     starting_pot: 200,</span>
-<span class="doccomment">//!     effective_stack: 900,</span>
-<span class="doccomment">//!     range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],</span>
-<span class="doccomment">//!     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],</span>
-<span class="doccomment">//!     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],</span>
-<span class="doccomment">//!     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],</span>
-<span class="doccomment">//!     add_all_in_threshold: 1.2,</span>
-<span class="doccomment">//!     force_all_in_threshold: 0.1,</span>
-<span class="doccomment">//!     adjust_last_two_bet_sizes: true,</span>
-<span class="doccomment">//! };</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // build game tree</span>
-<span class="doccomment">//! let mut game = PostFlopGame::with_config(&amp;config).unwrap();</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // obtain private hands</span>
-<span class="doccomment">//! let oop_hands = game.private_hand_cards(0);</span>
-<span class="doccomment">//! println!(</span>
-<span class="doccomment">//!     &quot;oop_hands[0]: {}{}&quot;,</span>
-<span class="doccomment">//!     card_to_string(oop_hands[0].1).unwrap(), // 5c</span>
-<span class="doccomment">//!     card_to_string(oop_hands[0].0).unwrap()  // 4c</span>
-<span class="doccomment">//! );</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // check memory usage</span>
-<span class="doccomment">//! let (mem_usage, mem_usage_compressed) = game.memory_usage();</span>
-<span class="doccomment">//! println!(</span>
-<span class="doccomment">//!     &quot;Memory usage without compression: {:.2}GB&quot;,</span>
-<span class="doccomment">//!     mem_usage as f64 / (1024.0 * 1024.0 * 1024.0)</span>
-<span class="doccomment">//! );</span>
-<span class="doccomment">//! println!(</span>
-<span class="doccomment">//!     &quot;Memory usage with compression: {:.2}GB&quot;,</span>
-<span class="doccomment">//!     mem_usage_compressed as f64 / (1024.0 * 1024.0 * 1024.0)</span>
-<span class="doccomment">//! );</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // allocate memory without compression</span>
-<span class="doccomment">//! game.allocate_memory(false);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // allocate memory with compression</span>
-<span class="doccomment">//! // game.allocate_memory(true);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // solve the game</span>
-<span class="doccomment">//! let max_num_iterations = 1000;</span>
-<span class="doccomment">//! let target_exploitability = config.starting_pot as f32 * 0.005;</span>
-<span class="doccomment">//! let exploitability = solve(&amp;mut game, max_num_iterations, target_exploitability, true);</span>
-<span class="doccomment">//! println!(&quot;Exploitability: {:.2}&quot;, exploitability);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // solve the game manually</span>
-<span class="doccomment">//! // for i in 0..max_num_iterations {</span>
-<span class="doccomment">//! //     solve_step(&amp;game, i);</span>
-<span class="doccomment">//! //     if (i + 1) % 10 == 0 {</span>
-<span class="doccomment">//! //         let exploitability = compute_exploitability(&amp;game);</span>
-<span class="doccomment">//! //         if exploitability &lt;= target_exploitability {</span>
-<span class="doccomment">//! //             println!(&quot;Exploitability: {:.2}&quot;, exploitability);</span>
-<span class="doccomment">//! //             break;</span>
-<span class="doccomment">//! //         }</span>
-<span class="doccomment">//! //     }</span>
-<span class="doccomment">//! // }</span>
-<span class="doccomment">//! // finalize(&amp;mut game);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // get equity and EV of a specific hand</span>
-<span class="doccomment">//! game.cache_normalized_weights();</span>
-<span class="doccomment">//! let equity = game.equity(game.current_player());</span>
-<span class="doccomment">//! let ev = game.expected_values();</span>
-<span class="doccomment">//! println!(&quot;Equity of oop_hands[0]: {:.2}%&quot;, 100.0 * equity[0]);</span>
-<span class="doccomment">//! println!(&quot;EV of oop_hands[0]: {:.2}&quot;, ev[0]);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // get equity and EV of whole hand</span>
-<span class="doccomment">//! let weights = game.normalized_weights(game.current_player());</span>
-<span class="doccomment">//! let average_equity = compute_average(&amp;equity, weights);</span>
-<span class="doccomment">//! let average_ev = compute_average(&amp;ev, weights);</span>
-<span class="doccomment">//! println!(&quot;Average equity: {:.2}%&quot;, 100.0 * average_equity);</span>
-<span class="doccomment">//! println!(&quot;Average EV: {:.2}&quot;, average_ev);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // get available actions</span>
-<span class="doccomment">//! let actions = game.available_actions();</span>
-<span class="doccomment">//! println!(&quot;Available actions: {:?}&quot;, actions); // [Check, Bet(100)]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // play `Bet(100)`</span>
-<span class="doccomment">//! game.play(1);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // get available actions</span>
-<span class="doccomment">//! let actions = game.available_actions();</span>
-<span class="doccomment">//! println!(&quot;Available actions: {:?}&quot;, actions); // [Fold, Call, Raise(300)]</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // play `Call`</span>
-<span class="doccomment">//! game.play(1);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // confirm that the current node is a chance node</span>
-<span class="doccomment">//! assert!(game.is_chance_node());</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // confirm that &quot;7s&quot; may be dealt</span>
-<span class="doccomment">//! let card = card_from_str(&quot;7s&quot;).unwrap();</span>
-<span class="doccomment">//! assert!(game.possible_cards() &amp; (1 &lt;&lt; card) != 0);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // deal &quot;7s&quot;</span>
-<span class="doccomment">//! game.play(card as usize);</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! // back to the root node</span>
-<span class="doccomment">//! game.back_to_root();</span>
-<span class="doccomment">//! ```</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Implementation details</span>
-<span class="doccomment">//! - **Algorithm**: The solver uses [Discounted CFR] algorithm.</span>
-<span class="doccomment">//!   Currently, the value of γ is set to 5.0, rather than the 2.0 recommended by the original paper.</span>
-<span class="doccomment">//! - **Precision**: 32-bit floating-point numbers are used in most places.</span>
-<span class="doccomment">//!   When calculating summations, temporal values use 64-bit floating-point numbers.</span>
-<span class="doccomment">//!   If the compression feature is enabled, each game node stores the values by 16-bit integers</span>
-<span class="doccomment">//!   with a single 32-bit floating-point scaling factor.</span>
-<span class="doccomment">//! - **Handling isomorphism**: The solver does not perform any abstraction.</span>
-<span class="doccomment">//!   However, isomorphic chances (turn and river deals) are combined into one.</span>
-<span class="doccomment">//!   For example, if the flop is monotone, the three non-dealt suits are isomorphic,</span>
-<span class="doccomment">//!   allowing us to skip the calculation for two of the three suits.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [Discounted CFR]: https://arxiv.org/abs/1809.04040</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! # Crate features</span>
-<span class="doccomment">//! - `bincode`: Uses [bincode] crate (2.0.0-rc.1) to serialize and deserialize the `PostFlopGame` struct.</span>
-<span class="doccomment">//!   Disabled by default.</span>
-<span class="doccomment">//! - `custom-alloc`: Uses custom memory allocator in solving process (only available in nightly Rust).</span>
-<span class="doccomment">//!   It significantly reduces the number of calls of the default allocator,</span>
-<span class="doccomment">//!   so it is recommended to use this feature when the default allocator is not so efficient.</span>
-<span class="doccomment">//!   Note that this feature assumes that, at most, only one instance of `PostFlopGame` is available</span>
-<span class="doccomment">//!   when solving in a program.</span>
-<span class="doccomment">//!   Disabled by default.</span>
-<span class="doccomment">//! - `rayon`: Uses [rayon] crate for parallelization.</span>
-<span class="doccomment">//!   Enabled by default.</span>
-<span class="doccomment">//!</span>
-<span class="doccomment">//! [bincode]: https://github.com/bincode-org/bincode</span>
-<span class="doccomment">//! [rayon]: https://github.com/rayon-rs/rayon</span>
+</pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.
+//!
+//! # Examples
+//! ```
+//! use postflop_solver::*;
+//!
+//! // configure game specification
+//! let oop_range = &quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;;
+//! let ip_range = &quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;;
+//! let bet_sizes = BetSizeCandidates::try_from((&quot;50%&quot;, &quot;50%&quot;)).unwrap();
+//! let config = GameConfig {
+//!     flop: flop_from_str(&quot;Td9d6h&quot;).unwrap(),
+//!     turn: card_from_str(&quot;Qh&quot;).unwrap(),
+//!     river: NOT_DEALT,
+//!     starting_pot: 200,
+//!     effective_stack: 900,
+//!     range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
+//!     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+//!     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+//!     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+//!     add_all_in_threshold: 1.2,
+//!     force_all_in_threshold: 0.1,
+//!     adjust_last_two_bet_sizes: true,
+//! };
+//!
+//! // build game tree
+//! let mut game = PostFlopGame::with_config(&amp;config).unwrap();
+//!
+//! // obtain private hands
+//! let oop_hands = game.private_hand_cards(0);
+//! println!(
+//!     &quot;oop_hands[0]: {}{}&quot;,
+//!     card_to_string(oop_hands[0].1).unwrap(), // 5c
+//!     card_to_string(oop_hands[0].0).unwrap()  // 4c
+//! );
+//!
+//! // check memory usage
+//! let (mem_usage, mem_usage_compressed) = game.memory_usage();
+//! println!(
+//!     &quot;Memory usage without compression: {:.2}GB&quot;,
+//!     mem_usage as f64 / (1024.0 * 1024.0 * 1024.0)
+//! );
+//! println!(
+//!     &quot;Memory usage with compression: {:.2}GB&quot;,
+//!     mem_usage_compressed as f64 / (1024.0 * 1024.0 * 1024.0)
+//! );
+//!
+//! // allocate memory without compression
+//! game.allocate_memory(false);
+//!
+//! // allocate memory with compression
+//! // game.allocate_memory(true);
+//!
+//! // solve the game
+//! let max_num_iterations = 1000;
+//! let target_exploitability = config.starting_pot as f32 * 0.005;
+//! let exploitability = solve(&amp;mut game, max_num_iterations, target_exploitability, true);
+//! println!(&quot;Exploitability: {:.2}&quot;, exploitability);
+//!
+//! // solve the game manually
+//! // for i in 0..max_num_iterations {
+//! //     solve_step(&amp;game, i);
+//! //     if (i + 1) % 10 == 0 {
+//! //         let exploitability = compute_exploitability(&amp;game);
+//! //         if exploitability &lt;= target_exploitability {
+//! //             println!(&quot;Exploitability: {:.2}&quot;, exploitability);
+//! //             break;
+//! //         }
+//! //     }
+//! // }
+//! // finalize(&amp;mut game);
+//!
+//! // get equity and EV of a specific hand
+//! game.cache_normalized_weights();
+//! let equity = game.equity(game.current_player());
+//! let ev = game.expected_values();
+//! println!(&quot;Equity of oop_hands[0]: {:.2}%&quot;, 100.0 * equity[0]);
+//! println!(&quot;EV of oop_hands[0]: {:.2}&quot;, ev[0]);
+//!
+//! // get equity and EV of whole hand
+//! let weights = game.normalized_weights(game.current_player());
+//! let average_equity = compute_average(&amp;equity, weights);
+//! let average_ev = compute_average(&amp;ev, weights);
+//! println!(&quot;Average equity: {:.2}%&quot;, 100.0 * average_equity);
+//! println!(&quot;Average EV: {:.2}&quot;, average_ev);
+//!
+//! // get available actions
+//! let actions = game.available_actions();
+//! println!(&quot;Available actions: {:?}&quot;, actions); // [Check, Bet(100)]
+//!
+//! // play `Bet(100)`
+//! game.play(1);
+//!
+//! // get available actions
+//! let actions = game.available_actions();
+//! println!(&quot;Available actions: {:?}&quot;, actions); // [Fold, Call, Raise(300)]
+//!
+//! // play `Call`
+//! game.play(1);
+//!
+//! // confirm that the current node is a chance node
+//! assert!(game.is_chance_node());
+//!
+//! // confirm that &quot;7s&quot; may be dealt
+//! let card = card_from_str(&quot;7s&quot;).unwrap();
+//! assert!(game.possible_cards() &amp; (1 &lt;&lt; card) != 0);
+//!
+//! // deal &quot;7s&quot;
+//! game.play(card as usize);
+//!
+//! // back to the root node
+//! game.back_to_root();
+//! ```
+//!
+//! # Implementation details
+//! - **Algorithm**: The solver uses [Discounted CFR] algorithm.
+//!   Currently, the value of γ is set to 5.0, rather than the 2.0 recommended by the original paper.
+//! - **Precision**: 32-bit floating-point numbers are used in most places.
+//!   When calculating summations, temporal values use 64-bit floating-point numbers.
+//!   If the compression feature is enabled, each game node stores the values by 16-bit integers
+//!   with a single 32-bit floating-point scaling factor.
+//! - **Handling isomorphism**: The solver does not perform any abstraction.
+//!   However, isomorphic chances (turn and river deals) are combined into one.
+//!   For example, if the flop is monotone, the three non-dealt suits are isomorphic,
+//!   allowing us to skip the calculation for two of the three suits.
+//!
+//! [Discounted CFR]: https://arxiv.org/abs/1809.04040
+//!
+//! # Crate features
+//! - `bincode`: Uses [bincode] crate (2.0.0-rc.1) to serialize and deserialize the `PostFlopGame` struct.
+//!   Disabled by default.
+//! - `custom-alloc`: Uses custom memory allocator in solving process (only available in nightly Rust).
+//!   It significantly reduces the number of calls of the default allocator,
+//!   so it is recommended to use this feature when the default allocator is not so efficient.
+//!   Note that this feature assumes that, at most, only one instance of `PostFlopGame` is available
+//!   when solving in a program.
+//!   Disabled by default.
+//! - `rayon`: Uses [rayon] crate for parallelization.
+//!   Enabled by default.
+//!
+//! [bincode]: https://github.com/bincode-org/bincode
+//! [rayon]: https://github.com/rayon-rs/rayon
 
-<span class="attribute">#![<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>, <span class="ident">feature</span>(<span class="ident">allocator_api</span>))]</span>
+</span><span class="attribute">#![cfg_attr(feature = <span class="string">&quot;custom-alloc&quot;</span>, feature(allocator_api))]</span>
 
-<span class="kw">mod</span> <span class="ident">bet_size</span>;
-<span class="kw">mod</span> <span class="ident">game</span>;
-<span class="kw">mod</span> <span class="ident">hand</span>;
-<span class="kw">mod</span> <span class="ident">hand_table</span>;
-<span class="kw">mod</span> <span class="ident">interface</span>;
-<span class="kw">mod</span> <span class="ident">mutex_like</span>;
-<span class="kw">mod</span> <span class="ident">range</span>;
-<span class="kw">mod</span> <span class="ident">sliceop</span>;
-<span class="kw">mod</span> <span class="ident">solver</span>;
-<span class="kw">mod</span> <span class="ident">utility</span>;
+<span class="kw">mod </span>bet_size;
+<span class="kw">mod </span>game;
+<span class="kw">mod </span>hand;
+<span class="kw">mod </span>hand_table;
+<span class="kw">mod </span>interface;
+<span class="kw">mod </span>mutex_like;
+<span class="kw">mod </span>range;
+<span class="kw">mod </span>sliceop;
+<span class="kw">mod </span>solver;
+<span class="kw">mod </span>utility;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">mod</span> <span class="ident">alloc</span>;
+<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
+<span class="kw">mod </span>alloc;
 
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">bet_size</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">game</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">interface</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">mutex_like</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">range</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">solver</span>::<span class="kw-2">*</span>;
-<span class="kw">pub</span> <span class="kw">use</span> <span class="ident">utility</span>::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>bet_size::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>game::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>interface::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>mutex_like::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>range::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>solver::<span class="kw-2">*</span>;
+<span class="kw">pub use </span>utility::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (f6f9d5e73 2022-08-04)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>

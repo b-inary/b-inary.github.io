@@ -185,192 +185,192 @@
 <span id="185">185</span>
 <span id="186">186</span>
 <span id="187">187</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident">once_cell::sync::Lazy</span>;
-<span class="kw">use</span> <span class="ident">regex::Regex</span>;
+</pre><pre class="rust"><code><span class="kw">use </span>once_cell::sync::Lazy;
+<span class="kw">use </span>regex::Regex;
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">use</span> <span class="ident">bincode</span>::{<span class="ident">Decode</span>, <span class="ident">Encode</span>};
+<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
+<span class="kw">use </span>bincode::{Decode, Encode};
 
-<span class="kw">const</span> <span class="ident">FLOAT_PAT</span>: <span class="kw-2">&amp;</span><span class="ident">str</span> <span class="op">=</span> <span class="string">r&quot;(?P&lt;float&gt;(?:[1-9]\d*(?:\.\d*)?)|(?:0?\.\d+))&quot;</span>;
+<span class="kw">const </span>FLOAT_PAT: <span class="kw-2">&amp;</span>str = <span class="string">r&quot;(?P&lt;float&gt;(?:[1-9]\d*(?:\.\d*)?)|(?:0?\.\d+))&quot;</span>;
 
-<span class="kw">static</span> <span class="ident">SIZE_REGEX</span>: <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span> <span class="op">=</span>
-    <span class="ident">Lazy::new</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">Regex::new</span>(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">r&quot;^({FLOAT_PAT}[%x]?)$&quot;</span>)).<span class="ident">unwrap</span>());
-<span class="kw">static</span> <span class="ident">TRIM_REGEX</span>: <span class="ident">Lazy</span><span class="op">&lt;</span><span class="ident">Regex</span><span class="op">&gt;</span> <span class="op">=</span> <span class="ident">Lazy::new</span>(<span class="op">|</span><span class="op">|</span> <span class="ident">Regex::new</span>(<span class="string">r&quot;\s*(,)\s*&quot;</span>).<span class="ident">unwrap</span>());
+<span class="kw">static </span>SIZE_REGEX: Lazy&lt;Regex&gt; =
+    Lazy::new(|| Regex::new(<span class="kw-2">&amp;</span><span class="macro">format!</span>(<span class="string">r&quot;^({FLOAT_PAT}[%x]?)$&quot;</span>)).unwrap());
+<span class="kw">static </span>TRIM_REGEX: Lazy&lt;Regex&gt; = Lazy::new(|| Regex::new(<span class="string">r&quot;\s*(,)\s*&quot;</span>).unwrap());
 
-<span class="doccomment">/// Bet size candidates for the first bet and raise.</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// # Examples</span>
-<span class="doccomment">/// ```</span>
-<span class="doccomment">/// use postflop_solver::BetSizeCandidates;</span>
-<span class="doccomment">/// use postflop_solver::BetSize::{PotRelative, LastBetRelative};</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// let bet_size = BetSizeCandidates::try_from((&quot;0.5&quot;, &quot;75%, 2.5x&quot;)).unwrap();</span>
-<span class="doccomment">///</span>
-<span class="doccomment">/// assert_eq!(bet_size.bet, vec![PotRelative(0.5)]);</span>
-<span class="doccomment">/// assert_eq!(bet_size.raise, vec![PotRelative(0.75), LastBetRelative(2.5)]);</span>
-<span class="doccomment">/// ```</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Default</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>, <span class="ident">derive</span>(<span class="ident">Decode</span>, <span class="ident">Encode</span>))]</span>
-<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">BetSizeCandidates</span> {
-    <span class="doccomment">/// Bet size candidates for first bet.</span>
-    <span class="kw">pub</span> <span class="ident">bet</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">BetSize</span><span class="op">&gt;</span>,
+<span class="doccomment">/// Bet size candidates for the first bet and raise.
+///
+/// # Examples
+/// ```
+/// use postflop_solver::BetSizeCandidates;
+/// use postflop_solver::BetSize::{PotRelative, LastBetRelative};
+///
+/// let bet_size = BetSizeCandidates::try_from((&quot;0.5&quot;, &quot;75%, 2.5x&quot;)).unwrap();
+///
+/// assert_eq!(bet_size.bet, vec![PotRelative(0.5)]);
+/// assert_eq!(bet_size.raise, vec![PotRelative(0.75), LastBetRelative(2.5)]);
+/// ```
+</span><span class="attribute">#[derive(Debug, Clone, Default, PartialEq)]</span>
+<span class="attribute">#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]</span>
+<span class="kw">pub struct </span>BetSizeCandidates {
+    <span class="doccomment">/// Bet size candidates for first bet.
+    </span><span class="kw">pub </span>bet: Vec&lt;BetSize&gt;,
 
-    <span class="doccomment">/// Bet size candidates for raise.</span>
-    <span class="kw">pub</span> <span class="ident">raise</span>: <span class="ident">Vec</span><span class="op">&lt;</span><span class="ident">BetSize</span><span class="op">&gt;</span>,
+    <span class="doccomment">/// Bet size candidates for raise.
+    </span><span class="kw">pub </span>raise: Vec&lt;BetSize&gt;,
 }
 
-<span class="doccomment">/// Bet size specification.</span>
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">PartialEq</span>, <span class="ident">PartialOrd</span>)]</span>
-<span class="attribute">#[<span class="ident">cfg_attr</span>(<span class="ident">feature</span> <span class="op">=</span> <span class="string">&quot;bincode&quot;</span>, <span class="ident">derive</span>(<span class="ident">Decode</span>, <span class="ident">Encode</span>))]</span>
-<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">BetSize</span> {
-    <span class="doccomment">/// Bet size relative to the current pot size.</span>
-    <span class="ident">PotRelative</span>(<span class="ident">f32</span>),
+<span class="doccomment">/// Bet size specification.
+</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, PartialOrd)]</span>
+<span class="attribute">#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]</span>
+<span class="kw">pub enum </span>BetSize {
+    <span class="doccomment">/// Bet size relative to the current pot size.
+    </span>PotRelative(f32),
 
-    <span class="doccomment">/// Bet size relative to the last bet size. This is only valid for raise actions.</span>
-    <span class="ident">LastBetRelative</span>(<span class="ident">f32</span>),
+    <span class="doccomment">/// Bet size relative to the last bet size. This is only valid for raise actions.
+    </span>LastBetRelative(f32),
 }
 
-<span class="kw">impl</span> <span class="ident">TryFrom</span><span class="op">&lt;</span>(<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="ident">str</span>)<span class="op">&gt;</span> <span class="kw">for</span> <span class="ident">BetSizeCandidates</span> {
-    <span class="kw">type</span> <span class="ident">Error</span> <span class="op">=</span> <span class="ident">String</span>;
+<span class="kw">impl </span>TryFrom&lt;(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str)&gt; <span class="kw">for </span>BetSizeCandidates {
+    <span class="kw">type </span>Error = String;
 
-    <span class="doccomment">/// Attempts to convert comma-separated strings into bet sizes.</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// # Examples</span>
-    <span class="doccomment">/// ```</span>
-    <span class="doccomment">/// use postflop_solver::BetSizeCandidates;</span>
-    <span class="doccomment">/// use postflop_solver::BetSize::{PotRelative, LastBetRelative};</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// let bet_size = BetSizeCandidates::try_from((&quot;0.5&quot;, &quot;75%, 2.5x&quot;)).unwrap();</span>
-    <span class="doccomment">///</span>
-    <span class="doccomment">/// assert_eq!(bet_size.bet, vec![PotRelative(0.5)]);</span>
-    <span class="doccomment">/// assert_eq!(bet_size.raise, vec![PotRelative(0.75), LastBetRelative(2.5)]);</span>
-    <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">try_from</span>((<span class="ident">bet_str</span>, <span class="ident">raise_str</span>): (<span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="kw-2">&amp;</span><span class="ident">str</span>)) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="self">Self</span>, <span class="ident"><span class="self">Self</span>::Error</span><span class="op">&gt;</span> {
-        <span class="kw">let</span> <span class="ident">bet_string</span> <span class="op">=</span> <span class="ident">TRIM_REGEX</span>.<span class="ident">replace_all</span>(<span class="ident">bet_str</span>, <span class="string">&quot;$1&quot;</span>).<span class="ident">trim</span>().<span class="ident">to_string</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bet_sizes</span> <span class="op">=</span> <span class="ident">bet_string</span>.<span class="ident">split</span>(<span class="string">&#39;,&#39;</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+    <span class="doccomment">/// Attempts to convert comma-separated strings into bet sizes.
+    ///
+    /// # Examples
+    /// ```
+    /// use postflop_solver::BetSizeCandidates;
+    /// use postflop_solver::BetSize::{PotRelative, LastBetRelative};
+    ///
+    /// let bet_size = BetSizeCandidates::try_from((&quot;0.5&quot;, &quot;75%, 2.5x&quot;)).unwrap();
+    ///
+    /// assert_eq!(bet_size.bet, vec![PotRelative(0.5)]);
+    /// assert_eq!(bet_size.raise, vec![PotRelative(0.75), LastBetRelative(2.5)]);
+    /// ```
+    </span><span class="kw">fn </span>try_from((bet_str, raise_str): (<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str)) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
+        <span class="kw">let </span>bet_string = TRIM_REGEX.replace_all(bet_str, <span class="string">&quot;$1&quot;</span>).trim().to_string();
+        <span class="kw">let </span><span class="kw-2">mut </span>bet_sizes = bet_string.split(<span class="string">&#39;,&#39;</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-        <span class="kw">let</span> <span class="ident">raise_string</span> <span class="op">=</span> <span class="ident">TRIM_REGEX</span>.<span class="ident">replace_all</span>(<span class="ident">raise_str</span>, <span class="string">&quot;$1&quot;</span>).<span class="ident">trim</span>().<span class="ident">to_string</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">raise_sizes</span> <span class="op">=</span> <span class="ident">raise_string</span>.<span class="ident">split</span>(<span class="string">&#39;,&#39;</span>).<span class="ident">collect</span>::<span class="op">&lt;</span><span class="ident">Vec</span><span class="op">&lt;</span><span class="kw">_</span><span class="op">&gt;</span><span class="op">&gt;</span>();
+        <span class="kw">let </span>raise_string = TRIM_REGEX.replace_all(raise_str, <span class="string">&quot;$1&quot;</span>).trim().to_string();
+        <span class="kw">let </span><span class="kw-2">mut </span>raise_sizes = raise_string.split(<span class="string">&#39;,&#39;</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
-        <span class="kw">if</span> <span class="ident">bet_sizes</span>.<span class="ident">last</span>().<span class="ident">unwrap</span>().<span class="ident">is_empty</span>() {
-            <span class="ident">bet_sizes</span>.<span class="ident">pop</span>();
+        <span class="kw">if </span>bet_sizes.last().unwrap().is_empty() {
+            bet_sizes.pop();
         }
 
-        <span class="kw">if</span> <span class="ident">raise_sizes</span>.<span class="ident">last</span>().<span class="ident">unwrap</span>().<span class="ident">is_empty</span>() {
-            <span class="ident">raise_sizes</span>.<span class="ident">pop</span>();
+        <span class="kw">if </span>raise_sizes.last().unwrap().is_empty() {
+            raise_sizes.pop();
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">bet</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">raise</span> <span class="op">=</span> <span class="ident">Vec::new</span>();
+        <span class="kw">let </span><span class="kw-2">mut </span>bet = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>raise = Vec::new();
 
-        <span class="kw">for</span> <span class="ident">bet_size</span> <span class="kw">in</span> <span class="ident">bet_sizes</span> {
-            <span class="ident">bet</span>.<span class="ident">push</span>(<span class="ident">bet_size_from_str</span>(<span class="ident">bet_size</span>, <span class="bool-val">false</span>)<span class="question-mark">?</span>);
+        <span class="kw">for </span>bet_size <span class="kw">in </span>bet_sizes {
+            bet.push(bet_size_from_str(bet_size, <span class="bool-val">false</span>)<span class="question-mark">?</span>);
         }
 
-        <span class="kw">for</span> <span class="ident">raise_size</span> <span class="kw">in</span> <span class="ident">raise_sizes</span> {
-            <span class="ident">raise</span>.<span class="ident">push</span>(<span class="ident">bet_size_from_str</span>(<span class="ident">raise_size</span>, <span class="bool-val">true</span>)<span class="question-mark">?</span>);
+        <span class="kw">for </span>raise_size <span class="kw">in </span>raise_sizes {
+            raise.push(bet_size_from_str(raise_size, <span class="bool-val">true</span>)<span class="question-mark">?</span>);
         }
 
-        <span class="ident">bet</span>.<span class="ident">sort_unstable_by</span>(<span class="op">|</span><span class="ident">l</span>, <span class="ident">r</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">partial_cmp</span>(<span class="ident">r</span>).<span class="ident">unwrap</span>());
-        <span class="ident">raise</span>.<span class="ident">sort_unstable_by</span>(<span class="op">|</span><span class="ident">l</span>, <span class="ident">r</span><span class="op">|</span> <span class="ident">l</span>.<span class="ident">partial_cmp</span>(<span class="ident">r</span>).<span class="ident">unwrap</span>());
+        bet.sort_unstable_by(|l, r| l.partial_cmp(r).unwrap());
+        raise.sort_unstable_by(|l, r| l.partial_cmp(r).unwrap());
 
-        <span class="prelude-val">Ok</span>(<span class="ident">BetSizeCandidates</span> { <span class="ident">bet</span>, <span class="ident">raise</span> })
+        <span class="prelude-val">Ok</span>(BetSizeCandidates { bet, raise })
     }
 }
 
-<span class="kw">fn</span> <span class="ident">bet_size_from_str</span>(<span class="ident">s</span>: <span class="kw-2">&amp;</span><span class="ident">str</span>, <span class="ident">allow_last_bet_rel</span>: <span class="ident">bool</span>) -&gt; <span class="prelude-ty">Result</span><span class="op">&lt;</span><span class="ident">BetSize</span>, <span class="ident">String</span><span class="op">&gt;</span> {
-    <span class="kw">let</span> <span class="ident">caps</span> <span class="op">=</span> <span class="ident">SIZE_REGEX</span>
-        .<span class="ident">captures</span>(<span class="ident">s</span>)
-        .<span class="ident">ok_or_else</span>(<span class="op">|</span><span class="op">|</span> <span class="macro">format!</span>(<span class="string">&quot;failed to parse bet size: {s}&quot;</span>))<span class="question-mark">?</span>;
-    <span class="kw">let</span> <span class="ident">float</span> <span class="op">=</span> <span class="ident">caps</span>.<span class="ident">name</span>(<span class="string">&quot;float&quot;</span>).<span class="ident">unwrap</span>().<span class="ident">as_str</span>().<span class="ident">parse</span>::<span class="op">&lt;</span><span class="ident">f32</span><span class="op">&gt;</span>().<span class="ident">unwrap</span>();
-    <span class="kw">match</span> <span class="ident">caps</span>.<span class="ident">get</span>(<span class="number">1</span>).<span class="ident">unwrap</span>().<span class="ident">as_str</span>().<span class="ident">chars</span>().<span class="ident">last</span>().<span class="ident">unwrap</span>() {
-        <span class="string">&#39;%&#39;</span> =&gt; {
-            <span class="kw">if</span> <span class="ident">float</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">1000.0</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">BetSize::PotRelative</span>(<span class="ident">float</span> <span class="op">/</span> <span class="number">100.0</span>))
-            } <span class="kw">else</span> {
+<span class="kw">fn </span>bet_size_from_str(s: <span class="kw-2">&amp;</span>str, allow_last_bet_rel: bool) -&gt; <span class="prelude-ty">Result</span>&lt;BetSize, String&gt; {
+    <span class="kw">let </span>caps = SIZE_REGEX
+        .captures(s)
+        .ok_or_else(|| <span class="macro">format!</span>(<span class="string">&quot;failed to parse bet size: {s}&quot;</span>))<span class="question-mark">?</span>;
+    <span class="kw">let </span>float = caps.name(<span class="string">&quot;float&quot;</span>).unwrap().as_str().parse::&lt;f32&gt;().unwrap();
+    <span class="kw">match </span>caps.get(<span class="number">1</span>).unwrap().as_str().chars().last().unwrap() {
+        <span class="string">&#39;%&#39; </span>=&gt; {
+            <span class="kw">if </span>float &lt;= <span class="number">1000.0 </span>{
+                <span class="prelude-val">Ok</span>(BetSize::PotRelative(float / <span class="number">100.0</span>))
+            } <span class="kw">else </span>{
                 <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;bet size too large: {s}&quot;</span>))
             }
         }
-        <span class="string">&#39;x&#39;</span> =&gt; {
-            <span class="kw">if</span> <span class="op">!</span><span class="ident">allow_last_bet_rel</span> {
+        <span class="string">&#39;x&#39; </span>=&gt; {
+            <span class="kw">if </span>!allow_last_bet_rel {
                 <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;last bet relative not allowed: {s}&quot;</span>))
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">float</span> <span class="op">&lt;</span> <span class="number">2.0</span> {
+            } <span class="kw">else if </span>float &lt; <span class="number">2.0 </span>{
                 <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;bet size too small: {s}&quot;</span>))
-            } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">float</span> <span class="op">&gt;</span> <span class="number">10.0</span> {
+            } <span class="kw">else if </span>float &gt; <span class="number">10.0 </span>{
                 <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;bet size too large: {s}&quot;</span>))
-            } <span class="kw">else</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">BetSize::LastBetRelative</span>(<span class="ident">float</span>))
+            } <span class="kw">else </span>{
+                <span class="prelude-val">Ok</span>(BetSize::LastBetRelative(float))
             }
         }
-        <span class="kw">_</span> =&gt; {
-            <span class="kw">if</span> <span class="ident">float</span> <span class="op">&lt;</span><span class="op">=</span> <span class="number">10.0</span> {
-                <span class="prelude-val">Ok</span>(<span class="ident">BetSize::PotRelative</span>(<span class="ident">float</span>))
-            } <span class="kw">else</span> {
+        <span class="kw">_ </span>=&gt; {
+            <span class="kw">if </span>float &lt;= <span class="number">10.0 </span>{
+                <span class="prelude-val">Ok</span>(BetSize::PotRelative(float))
+            } <span class="kw">else </span>{
                 <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;bet size too large: {s}&quot;</span>))
             }
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_bet_size_from_str</span>() {
-        <span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> [
-            (<span class="string">&quot;.75&quot;</span>, <span class="ident">BetSize::PotRelative</span>(<span class="number">0.75</span>)),
-            (<span class="string">&quot;100%&quot;</span>, <span class="ident">BetSize::PotRelative</span>(<span class="number">1.0</span>)),
-            (<span class="string">&quot;112.5%&quot;</span>, <span class="ident">BetSize::PotRelative</span>(<span class="number">1.125</span>)),
-            (<span class="string">&quot;3.5x&quot;</span>, <span class="ident">BetSize::LastBetRelative</span>(<span class="number">3.5</span>)),
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_bet_size_from_str() {
+        <span class="kw">let </span>tests = [
+            (<span class="string">&quot;.75&quot;</span>, BetSize::PotRelative(<span class="number">0.75</span>)),
+            (<span class="string">&quot;100%&quot;</span>, BetSize::PotRelative(<span class="number">1.0</span>)),
+            (<span class="string">&quot;112.5%&quot;</span>, BetSize::PotRelative(<span class="number">1.125</span>)),
+            (<span class="string">&quot;3.5x&quot;</span>, BetSize::LastBetRelative(<span class="number">3.5</span>)),
         ];
 
-        <span class="kw">for</span> (<span class="ident">s</span>, <span class="ident">expected</span>) <span class="kw">in</span> <span class="ident">tests</span> {
-            <span class="macro">assert_eq!</span>(<span class="ident">bet_size_from_str</span>(<span class="ident">s</span>, <span class="bool-val">true</span>), <span class="prelude-val">Ok</span>(<span class="ident">expected</span>));
+        <span class="kw">for </span>(s, expected) <span class="kw">in </span>tests {
+            <span class="macro">assert_eq!</span>(bet_size_from_str(s, <span class="bool-val">true</span>), <span class="prelude-val">Ok</span>(expected));
         }
 
-        <span class="kw">let</span> <span class="ident">error_tests</span> <span class="op">=</span> [<span class="string">&quot;&quot;</span>, <span class="string">&quot;0&quot;</span>, <span class="string">&quot;10.1&quot;</span>, <span class="string">&quot;1001%&quot;</span>, <span class="string">&quot;10.1x&quot;</span>, <span class="string">&quot;-30%&quot;</span>];
+        <span class="kw">let </span>error_tests = [<span class="string">&quot;&quot;</span>, <span class="string">&quot;0&quot;</span>, <span class="string">&quot;10.1&quot;</span>, <span class="string">&quot;1001%&quot;</span>, <span class="string">&quot;10.1x&quot;</span>, <span class="string">&quot;-30%&quot;</span>];
 
-        <span class="kw">for</span> <span class="ident">s</span> <span class="kw">in</span> <span class="ident">error_tests</span> {
-            <span class="macro">assert!</span>(<span class="ident">bet_size_from_str</span>(<span class="ident">s</span>, <span class="bool-val">true</span>).<span class="ident">is_err</span>());
+        <span class="kw">for </span>s <span class="kw">in </span>error_tests {
+            <span class="macro">assert!</span>(bet_size_from_str(s, <span class="bool-val">true</span>).is_err());
         }
     }
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_bet_sizes_from_str</span>() {
-        <span class="kw">let</span> <span class="ident">tests</span> <span class="op">=</span> [
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_bet_sizes_from_str() {
+        <span class="kw">let </span>tests = [
             (
                 <span class="string">&quot;40%, 70%&quot;</span>,
                 <span class="string">&quot;&quot;</span>,
-                <span class="ident">BetSizeCandidates</span> {
-                    <span class="ident">bet</span>: <span class="macro">vec!</span>[<span class="ident">BetSize::PotRelative</span>(<span class="number">0.4</span>), <span class="ident">BetSize::PotRelative</span>(<span class="number">0.7</span>)],
-                    <span class="ident">raise</span>: <span class="ident">Vec::new</span>(),
+                BetSizeCandidates {
+                    bet: <span class="macro">vec!</span>[BetSize::PotRelative(<span class="number">0.4</span>), BetSize::PotRelative(<span class="number">0.7</span>)],
+                    raise: Vec::new(),
                 },
             ),
             (
                 <span class="string">&quot;0.4,&quot;</span>,
                 <span class="string">&quot;2.5x, 70%, 40%&quot;</span>,
-                <span class="ident">BetSizeCandidates</span> {
-                    <span class="ident">bet</span>: <span class="macro">vec!</span>[<span class="ident">BetSize::PotRelative</span>(<span class="number">0.4</span>)],
-                    <span class="ident">raise</span>: <span class="macro">vec!</span>[
-                        <span class="ident">BetSize::PotRelative</span>(<span class="number">0.4</span>),
-                        <span class="ident">BetSize::PotRelative</span>(<span class="number">0.7</span>),
-                        <span class="ident">BetSize::LastBetRelative</span>(<span class="number">2.5</span>),
+                BetSizeCandidates {
+                    bet: <span class="macro">vec!</span>[BetSize::PotRelative(<span class="number">0.4</span>)],
+                    raise: <span class="macro">vec!</span>[
+                        BetSize::PotRelative(<span class="number">0.4</span>),
+                        BetSize::PotRelative(<span class="number">0.7</span>),
+                        BetSize::LastBetRelative(<span class="number">2.5</span>),
                     ],
                 },
             ),
         ];
 
-        <span class="kw">for</span> (<span class="ident">bet</span>, <span class="ident">raise</span>, <span class="ident">expected</span>) <span class="kw">in</span> <span class="ident">tests</span> {
-            <span class="macro">assert_eq!</span>((<span class="ident">bet</span>, <span class="ident">raise</span>).<span class="ident">try_into</span>(), <span class="prelude-val">Ok</span>(<span class="ident">expected</span>));
+        <span class="kw">for </span>(bet, raise, expected) <span class="kw">in </span>tests {
+            <span class="macro">assert_eq!</span>((bet, raise).try_into(), <span class="prelude-val">Ok</span>(expected));
         }
 
-        <span class="kw">let</span> <span class="ident">error_tests</span> <span class="op">=</span> [(<span class="string">&quot;2.5x&quot;</span>, <span class="string">&quot;&quot;</span>), (<span class="string">&quot;,&quot;</span>, <span class="string">&quot;&quot;</span>)];
+        <span class="kw">let </span>error_tests = [(<span class="string">&quot;2.5x&quot;</span>, <span class="string">&quot;&quot;</span>), (<span class="string">&quot;,&quot;</span>, <span class="string">&quot;&quot;</span>)];
 
-        <span class="kw">for</span> (<span class="ident">bet</span>, <span class="ident">raise</span>) <span class="kw">in</span> <span class="ident">error_tests</span> {
-            <span class="macro">assert!</span>(<span class="ident">BetSizeCandidates::try_from</span>((<span class="ident">bet</span>, <span class="ident">raise</span>)).<span class="ident">is_err</span>());
+        <span class="kw">for </span>(bet, raise) <span class="kw">in </span>error_tests {
+            <span class="macro">assert!</span>(BetSizeCandidates::try_from((bet, raise)).is_err());
         }
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (f6f9d5e73 2022-08-04)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>

@@ -172,160 +172,160 @@
 <span id="172">172</span>
 <span id="173">173</span>
 <span id="174">174</span>
-</pre><pre class="rust"><code><span class="kw">use</span> <span class="ident"><span class="kw">crate</span>::hand_table</span>::<span class="kw-2">*</span>;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::hand_table::<span class="kw-2">*</span>;
 
-<span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Clone</span>, <span class="ident">Copy</span>, <span class="ident">Default</span>)]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct</span> <span class="ident">Hand</span> {
-    <span class="ident">cards</span>: [<span class="ident">usize</span>; <span class="number">7</span>],
-    <span class="ident">num_cards</span>: <span class="ident">usize</span>,
+<span class="attribute">#[derive(Clone, Copy, Default)]</span>
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">struct </span>Hand {
+    cards: [usize; <span class="number">7</span>],
+    num_cards: usize,
 }
 
-<span class="kw">fn</span> <span class="ident">keep_n_msb</span>(<span class="kw-2">mut</span> <span class="ident">x</span>: <span class="ident">i32</span>, <span class="ident">n</span>: <span class="ident">i32</span>) -&gt; <span class="ident">i32</span> {
-    <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">ret</span> <span class="op">=</span> <span class="number">0</span>;
-    <span class="kw">for</span> <span class="kw">_</span> <span class="kw">in</span> <span class="number">0</span>..<span class="ident">n</span> {
-        <span class="kw">let</span> <span class="ident">bit</span> <span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> (<span class="ident">x</span>.<span class="ident">leading_zeros</span>() <span class="op">^</span> <span class="number">31</span>);
-        <span class="ident">x</span> <span class="op">^</span><span class="op">=</span> <span class="ident">bit</span>;
-        <span class="ident">ret</span> <span class="op">|</span><span class="op">=</span> <span class="ident">bit</span>;
+<span class="kw">fn </span>keep_n_msb(<span class="kw-2">mut </span>x: i32, n: i32) -&gt; i32 {
+    <span class="kw">let </span><span class="kw-2">mut </span>ret = <span class="number">0</span>;
+    <span class="kw">for _ in </span><span class="number">0</span>..n {
+        <span class="kw">let </span>bit = <span class="number">1 </span>&lt;&lt; (x.leading_zeros() ^ <span class="number">31</span>);
+        x ^= bit;
+        ret |= bit;
     }
-    <span class="ident">ret</span>
+    ret
 }
 
-<span class="kw">fn</span> <span class="ident">find_straight</span>(<span class="ident">rankset</span>: <span class="ident">i32</span>) -&gt; <span class="ident">i32</span> {
-    <span class="kw">const</span> <span class="ident">WHEEL</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="number">0b1_0000_0000_1111</span>;
-    <span class="kw">let</span> <span class="ident">is_straight</span> <span class="op">=</span> <span class="ident">rankset</span> <span class="op">&amp;</span> (<span class="ident">rankset</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">1</span>) <span class="op">&amp;</span> (<span class="ident">rankset</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">2</span>) <span class="op">&amp;</span> (<span class="ident">rankset</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">3</span>) <span class="op">&amp;</span> (<span class="ident">rankset</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">4</span>);
-    <span class="kw">if</span> <span class="ident">is_straight</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-        <span class="ident">keep_n_msb</span>(<span class="ident">is_straight</span>, <span class="number">1</span>)
-    } <span class="kw">else</span> <span class="kw">if</span> (<span class="ident">rankset</span> <span class="op">&amp;</span> <span class="ident">WHEEL</span>) <span class="op">==</span> <span class="ident">WHEEL</span> {
-        <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">3</span>
-    } <span class="kw">else</span> {
-        <span class="number">0</span>
-    }
+<span class="kw">fn </span>find_straight(rankset: i32) -&gt; i32 {
+    <span class="kw">const </span>WHEEL: i32 = <span class="number">0b1_0000_0000_1111</span>;
+    <span class="kw">let </span>is_straight = rankset &amp; (rankset &lt;&lt; <span class="number">1</span>) &amp; (rankset &lt;&lt; <span class="number">2</span>) &amp; (rankset &lt;&lt; <span class="number">3</span>) &amp; (rankset &lt;&lt; <span class="number">4</span>);
+    <span class="kw">if </span>is_straight != <span class="number">0 </span>{
+        keep_n_msb(is_straight, <span class="number">1</span>)
+    } <span class="kw">else if </span>(rankset &amp; WHEEL) == WHEEL {
+        <span class="number">1 </span>&lt;&lt; <span class="number">3
+    </span>} <span class="kw">else </span>{
+        <span class="number">0
+    </span>}
 }
 
-<span class="kw">impl</span> <span class="ident">Hand</span> {
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>() -&gt; <span class="ident">Hand</span> {
-        <span class="ident">Hand::default</span>()
+<span class="kw">impl </span>Hand {
+    <span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>new() -&gt; Hand {
+        Hand::default()
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">add_card</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">card</span>: <span class="ident">usize</span>) -&gt; <span class="ident">Hand</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">hand</span> <span class="op">=</span> <span class="kw-2">*</span><span class="self">self</span>;
-        <span class="ident">hand</span>.<span class="ident">cards</span>[<span class="ident">hand</span>.<span class="ident">num_cards</span>] <span class="op">=</span> <span class="ident">card</span>;
-        <span class="ident">hand</span>.<span class="ident">num_cards</span> <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-        <span class="ident">hand</span>
+    <span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>add_card(<span class="kw-2">&amp;</span><span class="self">self</span>, card: usize) -&gt; Hand {
+        <span class="kw">let </span><span class="kw-2">mut </span>hand = <span class="kw-2">*</span><span class="self">self</span>;
+        hand.cards[hand.num_cards] = card;
+        hand.num_cards += <span class="number">1</span>;
+        hand
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">card</span>: <span class="ident">usize</span>) -&gt; <span class="ident">bool</span> {
-        <span class="self">self</span>.<span class="ident">cards</span>[<span class="number">0</span>..<span class="self">self</span>.<span class="ident">num_cards</span>].<span class="ident">contains</span>(<span class="kw-2">&amp;</span><span class="ident">card</span>)
+    <span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>contains(<span class="kw-2">&amp;</span><span class="self">self</span>, card: usize) -&gt; bool {
+        <span class="self">self</span>.cards[<span class="number">0</span>..<span class="self">self</span>.num_cards].contains(<span class="kw-2">&amp;</span>card)
     }
 
-    <span class="attribute">#[<span class="ident">inline</span>]</span>
-    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">evaluate</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">u16</span> {
-        <span class="ident">HAND_TABLE</span>.<span class="ident">binary_search</span>(<span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">evaluate_internal</span>()).<span class="ident">unwrap</span>() <span class="kw">as</span> <span class="ident">u16</span>
+    <span class="attribute">#[inline]</span>
+    <span class="kw">pub fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u16 {
+        HAND_TABLE.binary_search(<span class="kw-2">&amp;</span><span class="self">self</span>.evaluate_internal()).unwrap() <span class="kw">as </span>u16
     }
 
-    <span class="kw">fn</span> <span class="ident">evaluate_internal</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="ident">i32</span> {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rankset</span> <span class="op">=</span> <span class="number">0i32</span>;
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rankset_suit</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">4</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rankset_of_count</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">5</span>];
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">rank_count</span> <span class="op">=</span> [<span class="number">0i32</span>; <span class="number">13</span>];
+    <span class="kw">fn </span>evaluate_internal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; i32 {
+        <span class="kw">let </span><span class="kw-2">mut </span>rankset = <span class="number">0i32</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>rankset_suit = [<span class="number">0i32</span>; <span class="number">4</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>rankset_of_count = [<span class="number">0i32</span>; <span class="number">5</span>];
+        <span class="kw">let </span><span class="kw-2">mut </span>rank_count = [<span class="number">0i32</span>; <span class="number">13</span>];
 
-        <span class="kw">for</span> <span class="kw-2">&amp;</span><span class="ident">card</span> <span class="kw">in</span> <span class="kw-2">&amp;</span><span class="self">self</span>.<span class="ident">cards</span> {
-            <span class="kw">let</span> <span class="ident">rank</span> <span class="op">=</span> <span class="ident">card</span> <span class="op">/</span> <span class="number">4</span>;
-            <span class="kw">let</span> <span class="ident">suit</span> <span class="op">=</span> <span class="ident">card</span> <span class="op">%</span> <span class="number">4</span>;
-            <span class="ident">rankset</span> <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">rank</span>;
-            <span class="ident">rankset_suit</span>[<span class="ident">suit</span>] <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">rank</span>;
-            <span class="ident">rank_count</span>[<span class="ident">rank</span>] <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
+        <span class="kw">for </span><span class="kw-2">&amp;</span>card <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.cards {
+            <span class="kw">let </span>rank = card / <span class="number">4</span>;
+            <span class="kw">let </span>suit = card % <span class="number">4</span>;
+            rankset |= <span class="number">1 </span>&lt;&lt; rank;
+            rankset_suit[suit] |= <span class="number">1 </span>&lt;&lt; rank;
+            rank_count[rank] += <span class="number">1</span>;
         }
 
-        <span class="kw">for</span> <span class="ident">rank</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">13</span> {
-            <span class="ident">rankset_of_count</span>[<span class="ident">rank_count</span>[<span class="ident">rank</span>] <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">|</span><span class="op">=</span> <span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="ident">rank</span>;
+        <span class="kw">for </span>rank <span class="kw">in </span><span class="number">0</span>..<span class="number">13 </span>{
+            rankset_of_count[rank_count[rank] <span class="kw">as </span>usize] |= <span class="number">1 </span>&lt;&lt; rank;
         }
 
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">is_flush</span>: <span class="ident">i32</span> <span class="op">=</span> <span class="op">-</span><span class="number">1</span>;
-        <span class="kw">for</span> <span class="ident">suit</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">4</span> {
-            <span class="kw">if</span> <span class="ident">rankset_suit</span>[<span class="ident">suit</span> <span class="kw">as</span> <span class="ident">usize</span>].<span class="ident">count_ones</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">5</span> {
-                <span class="ident">is_flush</span> <span class="op">=</span> <span class="ident">suit</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>is_flush: i32 = -<span class="number">1</span>;
+        <span class="kw">for </span>suit <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
+            <span class="kw">if </span>rankset_suit[suit <span class="kw">as </span>usize].count_ones() &gt;= <span class="number">5 </span>{
+                is_flush = suit;
             }
         }
 
-        <span class="kw">let</span> <span class="ident">is_straight</span> <span class="op">=</span> <span class="ident">find_straight</span>(<span class="ident">rankset</span>);
+        <span class="kw">let </span>is_straight = find_straight(rankset);
 
-        <span class="kw">if</span> <span class="ident">is_flush</span> <span class="op">&gt;</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="kw">let</span> <span class="ident">is_straight_flush</span> <span class="op">=</span> <span class="ident">find_straight</span>(<span class="ident">rankset_suit</span>[<span class="ident">is_flush</span> <span class="kw">as</span> <span class="ident">usize</span>]);
-            <span class="kw">if</span> <span class="ident">is_straight_flush</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-                <span class="comment">// straight flush</span>
-                (<span class="number">8</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> <span class="ident">is_straight_flush</span>
-            } <span class="kw">else</span> {
-                <span class="comment">// flush</span>
-                (<span class="number">5</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset_suit</span>[<span class="ident">is_flush</span> <span class="kw">as</span> <span class="ident">usize</span>], <span class="number">5</span>)
+        <span class="kw">if </span>is_flush &gt;= <span class="number">0 </span>{
+            <span class="kw">let </span>is_straight_flush = find_straight(rankset_suit[is_flush <span class="kw">as </span>usize]);
+            <span class="kw">if </span>is_straight_flush != <span class="number">0 </span>{
+                <span class="comment">// straight flush
+                </span>(<span class="number">8 </span>&lt;&lt; <span class="number">26</span>) | is_straight_flush
+            } <span class="kw">else </span>{
+                <span class="comment">// flush
+                </span>(<span class="number">5 </span>&lt;&lt; <span class="number">26</span>) | keep_n_msb(rankset_suit[is_flush <span class="kw">as </span>usize], <span class="number">5</span>)
             }
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">rankset_of_count</span>[<span class="number">4</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="comment">// four of a kind</span>
-            <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset</span> <span class="op">^</span> <span class="ident">rankset_of_count</span>[<span class="number">4</span>], <span class="number">1</span>);
-            (<span class="number">7</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> (<span class="ident">rankset_of_count</span>[<span class="number">4</span>] <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>) <span class="op">|</span> <span class="ident">remaining</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">rankset_of_count</span>[<span class="number">3</span>].<span class="ident">count_ones</span>() <span class="op">==</span> <span class="number">2</span> {
-            <span class="comment">// full house</span>
-            <span class="kw">let</span> <span class="ident">trips</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset_of_count</span>[<span class="number">3</span>], <span class="number">1</span>);
-            <span class="kw">let</span> <span class="ident">pair</span> <span class="op">=</span> <span class="ident">rankset_of_count</span>[<span class="number">3</span>] <span class="op">^</span> <span class="ident">trips</span>;
-            (<span class="number">6</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> (<span class="ident">trips</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>) <span class="op">|</span> <span class="ident">pair</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">rankset_of_count</span>[<span class="number">3</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> <span class="op">&amp;&amp;</span> <span class="ident">rankset_of_count</span>[<span class="number">2</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="comment">// full house</span>
-            <span class="kw">let</span> <span class="ident">pair</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset_of_count</span>[<span class="number">2</span>], <span class="number">1</span>);
-            (<span class="number">6</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> (<span class="ident">rankset_of_count</span>[<span class="number">3</span>] <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>) <span class="op">|</span> <span class="ident">pair</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">is_straight</span> <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="comment">// straight</span>
-            (<span class="number">4</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> <span class="ident">is_straight</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">rankset_of_count</span>[<span class="number">3</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="comment">// three of a kind</span>
-            <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset_of_count</span>[<span class="number">1</span>], <span class="number">2</span>);
-            (<span class="number">3</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> (<span class="ident">rankset_of_count</span>[<span class="number">3</span>] <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>) <span class="op">|</span> <span class="ident">remaining</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">rankset_of_count</span>[<span class="number">2</span>].<span class="ident">count_ones</span>() <span class="op">&gt;</span><span class="op">=</span> <span class="number">2</span> {
-            <span class="comment">// two pair</span>
-            <span class="kw">let</span> <span class="ident">pairs</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset_of_count</span>[<span class="number">2</span>], <span class="number">2</span>);
-            <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset</span> <span class="op">^</span> <span class="ident">pairs</span>, <span class="number">1</span>);
-            (<span class="number">2</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> (<span class="ident">pairs</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>) <span class="op">|</span> <span class="ident">remaining</span>
-        } <span class="kw">else</span> <span class="kw">if</span> <span class="ident">rankset_of_count</span>[<span class="number">2</span>] <span class="op">!</span><span class="op">=</span> <span class="number">0</span> {
-            <span class="comment">// one pair</span>
-            <span class="kw">let</span> <span class="ident">remaining</span> <span class="op">=</span> <span class="ident">keep_n_msb</span>(<span class="ident">rankset_of_count</span>[<span class="number">1</span>], <span class="number">3</span>);
-            (<span class="number">1</span> <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">26</span>) <span class="op">|</span> (<span class="ident">rankset_of_count</span>[<span class="number">2</span>] <span class="op">&lt;</span><span class="op">&lt;</span> <span class="number">13</span>) <span class="op">|</span> <span class="ident">remaining</span>
-        } <span class="kw">else</span> {
-            <span class="comment">// high card</span>
-            <span class="ident">keep_n_msb</span>(<span class="ident">rankset</span>, <span class="number">5</span>)
+        } <span class="kw">else if </span>rankset_of_count[<span class="number">4</span>] != <span class="number">0 </span>{
+            <span class="comment">// four of a kind
+            </span><span class="kw">let </span>remaining = keep_n_msb(rankset ^ rankset_of_count[<span class="number">4</span>], <span class="number">1</span>);
+            (<span class="number">7 </span>&lt;&lt; <span class="number">26</span>) | (rankset_of_count[<span class="number">4</span>] &lt;&lt; <span class="number">13</span>) | remaining
+        } <span class="kw">else if </span>rankset_of_count[<span class="number">3</span>].count_ones() == <span class="number">2 </span>{
+            <span class="comment">// full house
+            </span><span class="kw">let </span>trips = keep_n_msb(rankset_of_count[<span class="number">3</span>], <span class="number">1</span>);
+            <span class="kw">let </span>pair = rankset_of_count[<span class="number">3</span>] ^ trips;
+            (<span class="number">6 </span>&lt;&lt; <span class="number">26</span>) | (trips &lt;&lt; <span class="number">13</span>) | pair
+        } <span class="kw">else if </span>rankset_of_count[<span class="number">3</span>] != <span class="number">0 </span>&amp;&amp; rankset_of_count[<span class="number">2</span>] != <span class="number">0 </span>{
+            <span class="comment">// full house
+            </span><span class="kw">let </span>pair = keep_n_msb(rankset_of_count[<span class="number">2</span>], <span class="number">1</span>);
+            (<span class="number">6 </span>&lt;&lt; <span class="number">26</span>) | (rankset_of_count[<span class="number">3</span>] &lt;&lt; <span class="number">13</span>) | pair
+        } <span class="kw">else if </span>is_straight != <span class="number">0 </span>{
+            <span class="comment">// straight
+            </span>(<span class="number">4 </span>&lt;&lt; <span class="number">26</span>) | is_straight
+        } <span class="kw">else if </span>rankset_of_count[<span class="number">3</span>] != <span class="number">0 </span>{
+            <span class="comment">// three of a kind
+            </span><span class="kw">let </span>remaining = keep_n_msb(rankset_of_count[<span class="number">1</span>], <span class="number">2</span>);
+            (<span class="number">3 </span>&lt;&lt; <span class="number">26</span>) | (rankset_of_count[<span class="number">3</span>] &lt;&lt; <span class="number">13</span>) | remaining
+        } <span class="kw">else if </span>rankset_of_count[<span class="number">2</span>].count_ones() &gt;= <span class="number">2 </span>{
+            <span class="comment">// two pair
+            </span><span class="kw">let </span>pairs = keep_n_msb(rankset_of_count[<span class="number">2</span>], <span class="number">2</span>);
+            <span class="kw">let </span>remaining = keep_n_msb(rankset ^ pairs, <span class="number">1</span>);
+            (<span class="number">2 </span>&lt;&lt; <span class="number">26</span>) | (pairs &lt;&lt; <span class="number">13</span>) | remaining
+        } <span class="kw">else if </span>rankset_of_count[<span class="number">2</span>] != <span class="number">0 </span>{
+            <span class="comment">// one pair
+            </span><span class="kw">let </span>remaining = keep_n_msb(rankset_of_count[<span class="number">1</span>], <span class="number">3</span>);
+            (<span class="number">1 </span>&lt;&lt; <span class="number">26</span>) | (rankset_of_count[<span class="number">2</span>] &lt;&lt; <span class="number">13</span>) | remaining
+        } <span class="kw">else </span>{
+            <span class="comment">// high card
+            </span>keep_n_msb(rankset, <span class="number">5</span>)
         }
     }
 }
 
-<span class="attribute">#[<span class="ident">cfg</span>(<span class="ident">test</span>)]</span>
-<span class="kw">mod</span> <span class="ident">tests</span> {
-    <span class="kw">use</span> <span class="kw">super</span>::<span class="kw-2">*</span>;
-    <span class="kw">use</span> <span class="ident">std::collections::HashSet</span>;
+<span class="attribute">#[cfg(test)]</span>
+<span class="kw">mod </span>tests {
+    <span class="kw">use super</span>::<span class="kw-2">*</span>;
+    <span class="kw">use </span>std::collections::HashSet;
 
-    <span class="attribute">#[<span class="ident">test</span>]</span>
-    <span class="kw">fn</span> <span class="ident">test_all_hands</span>() {
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">value_set</span> <span class="op">=</span> <span class="ident">HashSet::new</span>();
-        <span class="kw">let</span> <span class="kw-2">mut</span> <span class="ident">counter</span> <span class="op">=</span> [<span class="number">0</span>; <span class="number">9</span>];
+    <span class="attribute">#[test]</span>
+    <span class="kw">fn </span>test_all_hands() {
+        <span class="kw">let </span><span class="kw-2">mut </span>value_set = HashSet::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>counter = [<span class="number">0</span>; <span class="number">9</span>];
 
-        <span class="kw">for</span> <span class="ident">i</span> <span class="kw">in</span> <span class="number">0</span>..<span class="number">52</span> {
-            <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">Hand::new</span>().<span class="ident">add_card</span>(<span class="ident">i</span>);
-            <span class="kw">for</span> <span class="ident">j</span> <span class="kw">in</span> (<span class="ident">i</span> <span class="op">+</span> <span class="number">1</span>)..<span class="number">52</span> {
-                <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">add_card</span>(<span class="ident">j</span>);
-                <span class="kw">for</span> <span class="ident">k</span> <span class="kw">in</span> (<span class="ident">j</span> <span class="op">+</span> <span class="number">1</span>)..<span class="number">52</span> {
-                    <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">add_card</span>(<span class="ident">k</span>);
-                    <span class="kw">for</span> <span class="ident">m</span> <span class="kw">in</span> (<span class="ident">k</span> <span class="op">+</span> <span class="number">1</span>)..<span class="number">52</span> {
-                        <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">add_card</span>(<span class="ident">m</span>);
-                        <span class="kw">for</span> <span class="ident">n</span> <span class="kw">in</span> (<span class="ident">m</span> <span class="op">+</span> <span class="number">1</span>)..<span class="number">52</span> {
-                            <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">add_card</span>(<span class="ident">n</span>);
-                            <span class="kw">for</span> <span class="ident">p</span> <span class="kw">in</span> (<span class="ident">n</span> <span class="op">+</span> <span class="number">1</span>)..<span class="number">52</span> {
-                                <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">add_card</span>(<span class="ident">p</span>);
-                                <span class="kw">for</span> <span class="ident">q</span> <span class="kw">in</span> (<span class="ident">p</span> <span class="op">+</span> <span class="number">1</span>)..<span class="number">52</span> {
-                                    <span class="kw">let</span> <span class="ident">hand</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">add_card</span>(<span class="ident">q</span>);
-                                    <span class="kw">let</span> <span class="ident">value</span> <span class="op">=</span> <span class="ident">hand</span>.<span class="ident">evaluate_internal</span>();
-                                    <span class="ident">value_set</span>.<span class="ident">insert</span>(<span class="ident">value</span>);
-                                    <span class="ident">counter</span>[(<span class="ident">value</span> <span class="op">&gt;</span><span class="op">&gt;</span> <span class="number">26</span>) <span class="kw">as</span> <span class="ident">usize</span>] <span class="op">+</span><span class="op">=</span> <span class="number">1</span>;
-                                    <span class="macro">assert!</span>(<span class="ident">HAND_TABLE</span>.<span class="ident">binary_search</span>(<span class="kw-2">&amp;</span><span class="ident">value</span>).<span class="ident">is_ok</span>());
+        <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
+            <span class="kw">let </span>hand = Hand::new().add_card(i);
+            <span class="kw">for </span>j <span class="kw">in </span>(i + <span class="number">1</span>)..<span class="number">52 </span>{
+                <span class="kw">let </span>hand = hand.add_card(j);
+                <span class="kw">for </span>k <span class="kw">in </span>(j + <span class="number">1</span>)..<span class="number">52 </span>{
+                    <span class="kw">let </span>hand = hand.add_card(k);
+                    <span class="kw">for </span>m <span class="kw">in </span>(k + <span class="number">1</span>)..<span class="number">52 </span>{
+                        <span class="kw">let </span>hand = hand.add_card(m);
+                        <span class="kw">for </span>n <span class="kw">in </span>(m + <span class="number">1</span>)..<span class="number">52 </span>{
+                            <span class="kw">let </span>hand = hand.add_card(n);
+                            <span class="kw">for </span>p <span class="kw">in </span>(n + <span class="number">1</span>)..<span class="number">52 </span>{
+                                <span class="kw">let </span>hand = hand.add_card(p);
+                                <span class="kw">for </span>q <span class="kw">in </span>(p + <span class="number">1</span>)..<span class="number">52 </span>{
+                                    <span class="kw">let </span>hand = hand.add_card(q);
+                                    <span class="kw">let </span>value = hand.evaluate_internal();
+                                    value_set.insert(value);
+                                    counter[(value &gt;&gt; <span class="number">26</span>) <span class="kw">as </span>usize] += <span class="number">1</span>;
+                                    <span class="macro">assert!</span>(HAND_TABLE.binary_search(<span class="kw-2">&amp;</span>value).is_ok());
                                 }
                             }
                         }
@@ -334,17 +334,17 @@
             }
         }
 
-        <span class="macro">assert_eq!</span>(<span class="ident">value_set</span>.<span class="ident">len</span>(), <span class="number">4824</span>);
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">8</span>], <span class="number">41584</span>); <span class="comment">// straight flush</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">7</span>], <span class="number">224848</span>); <span class="comment">// four of a kind</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">6</span>], <span class="number">3473184</span>); <span class="comment">// full house</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">5</span>], <span class="number">4047644</span>); <span class="comment">// flush</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">4</span>], <span class="number">6180020</span>); <span class="comment">// straight</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">3</span>], <span class="number">6461620</span>); <span class="comment">// three of a kind</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">2</span>], <span class="number">31433400</span>); <span class="comment">// two pair</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">1</span>], <span class="number">58627800</span>); <span class="comment">// one pair</span>
-        <span class="macro">assert_eq!</span>(<span class="ident">counter</span>[<span class="number">0</span>], <span class="number">23294460</span>); <span class="comment">// high card</span>
-    }
+        <span class="macro">assert_eq!</span>(value_set.len(), <span class="number">4824</span>);
+        <span class="macro">assert_eq!</span>(counter[<span class="number">8</span>], <span class="number">41584</span>); <span class="comment">// straight flush
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">7</span>], <span class="number">224848</span>); <span class="comment">// four of a kind
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">6</span>], <span class="number">3473184</span>); <span class="comment">// full house
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">5</span>], <span class="number">4047644</span>); <span class="comment">// flush
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">4</span>], <span class="number">6180020</span>); <span class="comment">// straight
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">3</span>], <span class="number">6461620</span>); <span class="comment">// three of a kind
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">2</span>], <span class="number">31433400</span>); <span class="comment">// two pair
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">1</span>], <span class="number">58627800</span>); <span class="comment">// one pair
+        </span><span class="macro">assert_eq!</span>(counter[<span class="number">0</span>], <span class="number">23294460</span>); <span class="comment">// high card
+    </span>}
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.64.0-nightly (f6f9d5e73 2022-08-04)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>
