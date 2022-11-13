@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/solver.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>solver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/solver.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>solver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-83be770da8fbb54b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-860cb8b69b437763.css"><link rel="stylesheet" disabled href="../../static.files/dark-ca7398001115f6db.css"><link rel="stylesheet" disabled href="../../static.files/ayu-2916eb07452214a6.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-74087aa2e88f4475.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c2d2a5dbaed13e6b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -497,10 +497,10 @@
 <span class="kw">use </span>std::io::{<span class="self">self</span>, Write};
 <span class="kw">use </span>std::ptr;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">use </span><span class="kw">crate</span>::alloc::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">use </span>std::vec;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::alloc::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+</span><span class="kw">use </span>std::vec;
 
 <span class="kw">struct </span>DiscountParams {
     alpha_t: f32,
@@ -596,8 +596,8 @@
 }
 
 <span class="doccomment">/// Proceeds Discounted CFR algorithm for one iteration.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>solve_step&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T, current_iteration: u32) {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>solve_step&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T, current_iteration: u32) {
     <span class="kw">if </span>!game.is_ready() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
@@ -649,24 +649,24 @@
     }
 
     <span class="comment">// allocate memory for storing the counterfactual values
-    </span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-    <span class="kw">let </span>cfv_actions = MutexLike::new(vec::from_elem_in(<span class="number">0.0</span>, num_actions * num_hands, StackAlloc));
-    <span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-    <span class="kw">let </span>cfv_actions = MutexLike::new(<span class="macro">vec!</span>[<span class="number">0.0</span>; num_actions * num_hands]);
+    </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+    </span><span class="kw">let </span>cfv_actions = MutexLike::new(vec::from_elem_in(<span class="number">0.0</span>, num_actions * num_hands, StackAlloc));
+    <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+    </span><span class="kw">let </span>cfv_actions = MutexLike::new(<span class="macro">vec!</span>[<span class="number">0.0</span>; num_actions * num_hands]);
 
     <span class="comment">// if the `node` is chance
     </span><span class="kw">if </span>node.is_chance() {
         <span class="comment">// use 64-bit floating point values
-        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        <span class="kw">let </span><span class="kw-2">mut </span>result_f64 = vec::from_elem_in(<span class="number">0.0</span>, num_hands, StackAlloc);
-        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-        <span class="kw">let </span><span class="kw-2">mut </span>result_f64 = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = vec::from_elem_in(<span class="number">0.0</span>, num_hands, StackAlloc);
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
 
         <span class="comment">// update the reach probabilities
-        </span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        <span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec_in(StackAlloc);
-        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-        <span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec();
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec_in(StackAlloc);
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec();
         mul_slice_scalar(<span class="kw-2">&amp;mut </span>cfreach, node.chance_factor());
 
         <span class="comment">// compute the counterfactual values of each action
@@ -854,8 +854,8 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>max(x: f32, y: f32) -&gt; f32 {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>max(x: f32, y: f32) -&gt; f32 {
     <span class="kw">if </span>x &gt; y {
         x
     } <span class="kw">else </span>{
@@ -864,9 +864,9 @@
 }
 
 <span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32, StackAlloc&gt; {
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+#[inline]
+</span><span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32, StackAlloc&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>strategy = regret.to_vec_in(StackAlloc);
     <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
@@ -886,9 +886,9 @@
 }
 
 <span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32&gt; {
+</span><span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+#[inline]
+</span><span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>strategy = regret.to_vec();
     <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
@@ -908,9 +908,9 @@
 }
 
 <span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>regret_matching_compressed(
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+#[inline]
+</span><span class="kw">fn </span>regret_matching_compressed(
     regret: <span class="kw-2">&amp;</span>[i16],
     scale: f32,
     num_actions: usize,
@@ -932,9 +932,9 @@
 }
 
 <span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>regret_matching_compressed(regret: <span class="kw-2">&amp;</span>[i16], scale: f32, num_actions: usize) -&gt; Vec&lt;f32&gt; {
+</span><span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+#[inline]
+</span><span class="kw">fn </span>regret_matching_compressed(regret: <span class="kw-2">&amp;</span>[i16], scale: f32, num_actions: usize) -&gt; Vec&lt;f32&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>strategy = decode_signed_slice_nonnegative(regret, scale);
     <span class="kw">let </span>row_size = strategy.len() / num_actions;
 
@@ -952,9 +952,9 @@
 }
 
 <span class="doccomment">/// Decodes the encoded `i16` slice to the non-negative `f32` slice.
-</span><span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>decode_signed_slice_nonnegative(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32, StackAlloc&gt; {
+</span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+#[inline]
+</span><span class="kw">fn </span>decode_signed_slice_nonnegative(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32, StackAlloc&gt; {
     <span class="kw">let </span>decoder = scale / i16::MAX <span class="kw">as </span>f32;
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::&lt;f32, StackAlloc&gt;::with_capacity_in(slice.len(), StackAlloc);
     <span class="kw">let </span>ptr = result.as_mut_ptr();
@@ -968,9 +968,9 @@
 }
 
 <span class="doccomment">/// Decodes the encoded `i16` slice to the non-negative `f32` slice.
-</span><span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>decode_signed_slice_nonnegative(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32&gt; {
+</span><span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+#[inline]
+</span><span class="kw">fn </span>decode_signed_slice_nonnegative(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32&gt; {
     <span class="kw">let </span>decoder = scale / i16::MAX <span class="kw">as </span>f32;
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::&lt;f32&gt;::with_capacity(slice.len());
     <span class="kw">let </span>ptr = result.as_mut_ptr();
@@ -983,4 +983,4 @@
     result
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (6284998a2 2022-11-12)" data-search-js="search-39ee4160c7dc16c9.js" data-settings-js="settings-7873449fa8c00e11.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>

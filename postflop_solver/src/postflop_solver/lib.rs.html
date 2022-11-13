@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-83be770da8fbb54b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-860cb8b69b437763.css"><link rel="stylesheet" disabled href="../../static.files/dark-ca7398001115f6db.css"><link rel="stylesheet" disabled href="../../static.files/ayu-2916eb07452214a6.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-74087aa2e88f4475.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c2d2a5dbaed13e6b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -164,16 +164,32 @@
 <span id="164">164</span>
 <span id="165">165</span>
 <span id="166">166</span>
+<span id="167">167</span>
+<span id="168">168</span>
+<span id="169">169</span>
+<span id="170">170</span>
+<span id="171">171</span>
+<span id="172">172</span>
+<span id="173">173</span>
+<span id="174">174</span>
+<span id="175">175</span>
 </pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.
 //!
 //! # Examples
 //! ```
 //! use postflop_solver::*;
 //!
-//! // configure game specification
+//! // ranges of OOP and IP in string format
 //! let oop_range = &quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;;
 //! let ip_range = &quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;;
-//! let bet_sizes = BetSizeCandidates::try_from((&quot;50%&quot;, &quot;50%&quot;)).unwrap();
+//!
+//! // bet size -&gt; 70% of pot / raise size -&gt; 45% of pot
+//! // (multiple sizes can be specified by using a comma-separated string)
+//! let bet_sizes = BetSizeCandidates::try_from((&quot;70%&quot;, &quot;45%&quot;)).unwrap();
+//!
+//! // donk size -&gt; 50% of pot
+//! let donk_sizes = DonkSizeCandidates::try_from(&quot;50%&quot;).unwrap();
+//!
 //! let config = GameConfig {
 //!     flop: flop_from_str(&quot;Td9d6h&quot;).unwrap(),
 //!     turn: card_from_str(&quot;Qh&quot;).unwrap(),
@@ -184,9 +200,11 @@
 //!     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 //!     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 //!     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+//!     turn_donk_sizes: None, // do not distinguish between donk bets and other bets
+//!     river_donk_sizes: Some(donk_sizes.clone()), // use 50% size for donk bets
 //!     add_all_in_threshold: 1.2,
 //!     force_all_in_threshold: 0.1,
-//!     adjust_last_two_bet_sizes: true,
+//!     adjust_last_two_bet_sizes: false,
 //! };
 //!
 //! // build game tree
@@ -252,14 +270,14 @@
 //!
 //! // get available actions
 //! let actions = game.available_actions();
-//! println!(&quot;Available actions: {:?}&quot;, actions); // [Check, Bet(100)]
+//! println!(&quot;Available actions: {:?}&quot;, actions); // [Check, Bet(140)]
 //!
 //! // play `Bet(100)`
 //! game.play(1);
 //!
 //! // get available actions
 //! let actions = game.available_actions();
-//! println!(&quot;Available actions: {:?}&quot;, actions); // [Fold, Call, Raise(300)]
+//! println!(&quot;Available actions: {:?}&quot;, actions); // [Fold, Call, Raise(356)]
 //!
 //! // play `Call`
 //! game.play(1);
@@ -293,7 +311,7 @@
 //! [Discounted CFR]: https://arxiv.org/abs/1809.04040
 //!
 //! # Crate features
-//! - `bincode`: Uses [bincode] crate (2.0.0-rc.1) to serialize and deserialize the `PostFlopGame` struct.
+//! - `bincode`: Uses [bincode] crate (2.0.0-rc.2) to serialize and deserialize the `PostFlopGame` struct.
 //!   Disabled by default.
 //! - `custom-alloc`: Uses custom memory allocator in solving process (only available in nightly Rust).
 //!   It significantly reduces the number of calls of the default allocator,
@@ -307,9 +325,9 @@
 //! [bincode]: https://github.com/bincode-org/bincode
 //! [rayon]: https://github.com/rayon-rs/rayon
 
-</span><span class="attribute">#![cfg_attr(feature = <span class="string">&quot;custom-alloc&quot;</span>, feature(allocator_api))]</span>
+</span><span class="attr">#![cfg_attr(feature = <span class="string">&quot;custom-alloc&quot;</span>, feature(allocator_api))]
 
-<span class="kw">mod </span>bet_size;
+</span><span class="kw">mod </span>bet_size;
 <span class="kw">mod </span>game;
 <span class="kw">mod </span>hand;
 <span class="kw">mod </span>hand_table;
@@ -320,8 +338,8 @@
 <span class="kw">mod </span>solver;
 <span class="kw">mod </span>utility;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">mod </span>alloc;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+</span><span class="kw">mod </span>alloc;
 
 <span class="kw">pub use </span>bet_size::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>game::<span class="kw-2">*</span>;
@@ -331,4 +349,4 @@
 <span class="kw">pub use </span>solver::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>utility::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (6284998a2 2022-11-12)" data-search-js="search-39ee4160c7dc16c9.js" data-settings-js="settings-7873449fa8c00e11.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>

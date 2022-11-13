@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-83be770da8fbb54b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-860cb8b69b437763.css"><link rel="stylesheet" disabled href="../../static.files/dark-ca7398001115f6db.css"><link rel="stylesheet" disabled href="../../static.files/ayu-2916eb07452214a6.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-74087aa2e88f4475.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c2d2a5dbaed13e6b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -2708,6 +2708,60 @@
 <span id="2708">2708</span>
 <span id="2709">2709</span>
 <span id="2710">2710</span>
+<span id="2711">2711</span>
+<span id="2712">2712</span>
+<span id="2713">2713</span>
+<span id="2714">2714</span>
+<span id="2715">2715</span>
+<span id="2716">2716</span>
+<span id="2717">2717</span>
+<span id="2718">2718</span>
+<span id="2719">2719</span>
+<span id="2720">2720</span>
+<span id="2721">2721</span>
+<span id="2722">2722</span>
+<span id="2723">2723</span>
+<span id="2724">2724</span>
+<span id="2725">2725</span>
+<span id="2726">2726</span>
+<span id="2727">2727</span>
+<span id="2728">2728</span>
+<span id="2729">2729</span>
+<span id="2730">2730</span>
+<span id="2731">2731</span>
+<span id="2732">2732</span>
+<span id="2733">2733</span>
+<span id="2734">2734</span>
+<span id="2735">2735</span>
+<span id="2736">2736</span>
+<span id="2737">2737</span>
+<span id="2738">2738</span>
+<span id="2739">2739</span>
+<span id="2740">2740</span>
+<span id="2741">2741</span>
+<span id="2742">2742</span>
+<span id="2743">2743</span>
+<span id="2744">2744</span>
+<span id="2745">2745</span>
+<span id="2746">2746</span>
+<span id="2747">2747</span>
+<span id="2748">2748</span>
+<span id="2749">2749</span>
+<span id="2750">2750</span>
+<span id="2751">2751</span>
+<span id="2752">2752</span>
+<span id="2753">2753</span>
+<span id="2754">2754</span>
+<span id="2755">2755</span>
+<span id="2756">2756</span>
+<span id="2757">2757</span>
+<span id="2758">2758</span>
+<span id="2759">2759</span>
+<span id="2760">2760</span>
+<span id="2761">2761</span>
+<span id="2762">2762</span>
+<span id="2763">2763</span>
+<span id="2764">2764</span>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bet_size::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::hand::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -2721,21 +2775,21 @@
 <span class="kw">use </span>std::slice;
 <span class="kw">use </span>std::sync::atomic::{AtomicU64, AtomicUsize, Ordering};
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">use </span>bincode::{
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">use </span>bincode::{
     error::{DecodeError, EncodeError},
     Decode, Encode,
 };
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">use </span>std::cell::Cell;
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">use </span>std::cell::Cell;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">use </span><span class="kw">crate</span>::alloc::<span class="kw-2">*</span>;
-<span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-<span class="kw">use </span>std::vec;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+</span><span class="kw">use </span><span class="kw">crate</span>::alloc::<span class="kw-2">*</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+</span><span class="kw">use </span>std::vec;
 
-<span class="attribute">#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]</span>
-<span class="kw">struct </span>StrengthItem {
+<span class="attr">#[derive(Copy, Clone, PartialEq, Eq, PartialOrd, Ord)]
+</span><span class="kw">struct </span>StrengthItem {
     strength: u16,
     index: u16,
 }
@@ -2819,9 +2873,15 @@
 /// ```
 /// use postflop_solver::*;
 ///
+/// // ranges of OOP and IP in string format
 /// let oop_range = &quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;;
 /// let ip_range = &quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;;
-/// let bet_sizes = BetSizeCandidates::try_from((&quot;50%&quot;, &quot;50%&quot;)).unwrap();
+///
+/// // bet sizes -&gt; 33% and 75% of pot / raise size -&gt; 45% of pot
+/// let bet_sizes = BetSizeCandidates::try_from((&quot;33%,75%&quot;, &quot;45%&quot;)).unwrap();
+///
+/// // donk size -&gt; 50% of pot
+/// let donk_sizes = DonkSizeCandidates::try_from(&quot;50%&quot;).unwrap();
 ///
 /// let config = GameConfig {
 ///     flop: flop_from_str(&quot;Td9d6h&quot;).unwrap(),
@@ -2833,14 +2893,16 @@
 ///     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 ///     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 ///     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
+///     turn_donk_sizes: None, // do not distinguish between donk bets and other bets
+///     river_donk_sizes: Some(donk_sizes.clone()), // use 50% size for donk bets
 ///     add_all_in_threshold: 1.2,
 ///     force_all_in_threshold: 0.1,
 ///     adjust_last_two_bet_sizes: true,
 /// };
 /// ```
-</span><span class="attribute">#[derive(Debug, Clone)]</span>
-<span class="attribute">#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]</span>
-<span class="kw">pub struct </span>GameConfig {
+</span><span class="attr">#[derive(Debug, Clone)]
+#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
+</span><span class="kw">pub struct </span>GameConfig {
     <span class="doccomment">/// Flop cards: each card must be unique and in range [`0`, `52`).
     </span><span class="kw">pub </span>flop: [u8; <span class="number">3</span>],
 
@@ -2859,14 +2921,20 @@
     <span class="doccomment">/// Initial range of each player.
     </span><span class="kw">pub </span>range: [Range; <span class="number">2</span>],
 
-    <span class="doccomment">/// Bet size candidates of each player in flop.
+    <span class="doccomment">/// Bet size candidates of each player for the flop.
     </span><span class="kw">pub </span>flop_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
 
-    <span class="doccomment">/// Bet size candidates of each player in turn.
+    <span class="doccomment">/// Bet size candidates of each player for the turn.
     </span><span class="kw">pub </span>turn_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
 
-    <span class="doccomment">/// Bet size candidates of each player in river.
+    <span class="doccomment">/// Bet size candidates of each player for the river.
     </span><span class="kw">pub </span>river_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
+
+    <span class="doccomment">/// Donk size candidates for the turn (set `None` to disable).
+    </span><span class="kw">pub </span>turn_donk_sizes: <span class="prelude-ty">Option</span>&lt;DonkSizeCandidates&gt;,
+
+    <span class="doccomment">/// Donk size candidates for the river (set `None` to disable).
+    </span><span class="kw">pub </span>river_donk_sizes: <span class="prelude-ty">Option</span>&lt;DonkSizeCandidates&gt;,
 
     <span class="doccomment">/// Add all-in action when SPR is below this value (set `0.0` to disable).
     </span><span class="kw">pub </span>add_all_in_threshold: f32,
@@ -2880,9 +2948,9 @@
 }
 
 <span class="doccomment">/// Available actions in a postflop game.
-</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]</span>
-<span class="attribute">#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]</span>
-<span class="kw">pub enum </span>Action {
+</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
+#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
+</span><span class="kw">pub enum </span>Action {
     <span class="doccomment">/// Only used for the previous action of the root node.
     </span><span class="prelude-val">None</span>,
 
@@ -2916,6 +2984,7 @@
     num_storage_elements: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AtomicU64,
     stack_size: [usize; <span class="number">2</span>],
     max_stack_size: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[AtomicUsize; <span class="number">2</span>],
+    last_aggressor: i32,
 }
 
 <span class="kw">const </span>PLAYER_OOP: u16 = <span class="number">0</span>;
@@ -2927,14 +2996,14 @@
 <span class="doccomment">/// Constant representing that the card is not yet dealt.
 </span><span class="kw">pub const </span>NOT_DEALT: u8 = <span class="number">0xff</span>;
 
-<span class="attribute">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]</span>
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>align_up(size: usize) -&gt; usize {
+<span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+#[inline]
+</span><span class="kw">fn </span>align_up(size: usize) -&gt; usize {
     size
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>atomic_set_max(atomic: <span class="kw-2">&amp;</span>AtomicUsize, value: usize) {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>atomic_set_max(atomic: <span class="kw-2">&amp;</span>AtomicUsize, value: usize) {
     <span class="kw">let </span><span class="kw-2">mut </span>v = atomic.load(Ordering::Relaxed);
     <span class="kw">while </span>v &lt; value {
         <span class="kw">match </span>atomic.compare_exchange_weak(v, value, Ordering::AcqRel, Ordering::Relaxed) {
@@ -2945,8 +3014,8 @@
 }
 
 <span class="doccomment">/// Decodes the encoded `i16` slice to the `f32` slice.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">fn </span>decode_signed_slice(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>decode_signed_slice(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32&gt; {
     <span class="kw">let </span>decoder = scale / i16::MAX <span class="kw">as </span>f32;
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::&lt;f32&gt;::with_capacity(slice.len());
     <span class="kw">let </span>ptr = result.as_mut_ptr();
@@ -2960,8 +3029,8 @@
 }
 
 <span class="doccomment">/// Computes the average with given weights.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>compute_average(slice: <span class="kw-2">&amp;</span>[f32], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>compute_average(slice: <span class="kw-2">&amp;</span>[f32], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
     <span class="kw">let </span><span class="kw-2">mut </span>weight_sum = <span class="number">0.0</span>;
     <span class="kw">let </span><span class="kw-2">mut </span>product_sum = <span class="number">0.0</span>;
     <span class="kw">for </span>(<span class="kw-2">&amp;</span>v, <span class="kw-2">&amp;</span>w) <span class="kw">in </span>slice.iter().zip(weights.iter()) {
@@ -2974,18 +3043,18 @@
 <span class="kw">impl </span>Game <span class="kw">for </span>PostFlopGame {
     <span class="kw">type </span>Node = PostFlopNode;
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MutexGuardLike&lt;<span class="self">Self</span>::Node&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MutexGuardLike&lt;<span class="self">Self</span>::Node&gt; {
         <span class="self">self</span>.root.lock()
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>num_private_hands(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; usize {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>num_private_hands(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; usize {
         <span class="self">self</span>.private_hand_cards[player].len()
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>initial_weight(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>initial_weight(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.initial_weight[player]
     }
 
@@ -3099,8 +3168,8 @@
         }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>isomorphic_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node) -&gt; <span class="kw-2">&amp;</span>[u8] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>isomorphic_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">if </span>node.turn == NOT_DEALT {
             <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism
         } <span class="kw">else </span>{
@@ -3108,8 +3177,8 @@
         }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>isomorphic_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node, index: usize) -&gt; <span class="kw-2">&amp;</span>[Vec&lt;(u16, u16)&gt;; <span class="number">2</span>] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>isomorphic_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node, index: usize) -&gt; <span class="kw-2">&amp;</span>[Vec&lt;(u16, u16)&gt;; <span class="number">2</span>] {
         <span class="kw">if </span>node.turn == NOT_DEALT {
             <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_swap[<span class="self">self</span>.turn_isomorphism_cards[index] <span class="kw">as </span>usize &amp; <span class="number">3</span>]
         } <span class="kw">else </span>{
@@ -3118,45 +3187,45 @@
         }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>is_ready(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is_ready(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.is_memory_allocated
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>is_solved(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is_solved(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.is_solved
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>set_solved(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>set_solved(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.is_solved = <span class="bool-val">true</span>;
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>is_compression_enabled(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is_compression_enabled(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.is_compression_enabled
     }
 }
 
 <span class="kw">impl </span>PostFlopGame {
     <span class="doccomment">/// Constructs a new empty [`PostFlopGame`] (needs `update_config()` before solving).
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::default()
     }
 
     <span class="doccomment">/// Constructs a new [`PostFlopGame`] instance with the given configuration.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>with_config(config: <span class="kw-2">&amp;</span>GameConfig) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>with_config(config: <span class="kw-2">&amp;</span>GameConfig) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>game = <span class="self">Self</span>::default();
         game.update_config(config)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(game)
     }
 
     <span class="doccomment">/// Updates the game configuration. The solved result will be lost.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>update_config(<span class="kw-2">&amp;mut </span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>GameConfig) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>update_config(<span class="kw-2">&amp;mut </span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>GameConfig) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="self">self</span>.config = config.clone();
         <span class="self">self</span>.check_config()<span class="question-mark">?</span>;
         <span class="self">self</span>.init();
@@ -3164,20 +3233,20 @@
     }
 
     <span class="doccomment">/// Obtains the game configuration.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>GameConfig {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>GameConfig {
         <span class="kw-2">&amp;</span><span class="self">self</span>.config
     }
 
     <span class="doccomment">/// Returns the card list of private hands of the given player.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>private_hand_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[(u8, u8)] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>private_hand_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[(u8, u8)] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.private_hand_cards[player]
     }
 
     <span class="doccomment">/// Returns the estimated memory usage in bytes (uncompressed, compressed).
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u64, u64) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; (u64, u64) {
         <span class="kw">let </span>uncompressed = <span class="self">self</span>.misc_memory_usage + <span class="number">8 </span>* <span class="self">self</span>.num_storage_elements;
         <span class="kw">let </span>compressed = <span class="self">self</span>.misc_memory_usage + <span class="number">4 </span>* <span class="self">self</span>.num_storage_elements;
         (uncompressed, compressed)
@@ -3214,8 +3283,8 @@
     }
 
     <span class="doccomment">/// Returns a card list of isomorphic chances.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>isomorphic_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode) -&gt; <span class="kw-2">&amp;</span>[u8] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>isomorphic_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">if </span>node.turn == NOT_DEALT {
             <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_cards
         } <span class="kw">else </span>{
@@ -3344,8 +3413,8 @@
     }
 
     <span class="doccomment">/// Initializes the game.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>init(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>init(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.init_range();
         <span class="self">self</span>.init_hand_strength();
         <span class="self">self</span>.init_isomorphism();
@@ -3735,6 +3804,7 @@
             num_storage_elements: <span class="kw-2">&amp;</span>num_storage_elements,
             stack_size: [<span class="number">0</span>, <span class="number">0</span>],
             max_stack_size: <span class="kw-2">&amp;</span>max_stack_size,
+            last_aggressor: -<span class="number">1</span>,
         };
 
         <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root();
@@ -3752,13 +3822,13 @@
             max_stack_size[<span class="number">1</span>].load(Ordering::Relaxed),
         );
 
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        STACK_UNIT_SIZE.store(<span class="number">4 </span>* stack_size, Ordering::Relaxed);
+        <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span>STACK_UNIT_SIZE.store(<span class="number">4 </span>* stack_size, Ordering::Relaxed);
 
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;rayon&quot;</span>)]</span>
-        <span class="kw">let </span>stack_usage = (<span class="number">4 </span>* stack_size * rayon::current_num_threads()) <span class="kw">as </span>u64;
-        <span class="attribute">#[cfg(not(feature = <span class="string">&quot;rayon&quot;</span>))]</span>
-        <span class="kw">let </span>stack_usage = <span class="number">4 </span>* stack_size <span class="kw">as </span>u64;
+        <span class="attr">#[cfg(feature = <span class="string">&quot;rayon&quot;</span>)]
+        </span><span class="kw">let </span>stack_usage = (<span class="number">4 </span>* stack_size * rayon::current_num_threads()) <span class="kw">as </span>u64;
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;rayon&quot;</span>))]
+        </span><span class="kw">let </span>stack_usage = <span class="number">4 </span>* stack_size <span class="kw">as </span>u64;
 
         <span class="kw">let </span><span class="kw-2">mut </span>memory_usage = current_memory_usage + stack_usage;
 
@@ -3804,8 +3874,8 @@
     }
 
     <span class="doccomment">/// Clears the storage.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>clear_storage(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>clear_storage(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.storage1.lock().clear();
         <span class="self">self</span>.storage2.lock().clear();
         <span class="self">self</span>.storage1_compressed.lock().clear();
@@ -3866,13 +3936,18 @@
             <span class="kw">for </span>(action, child) <span class="kw">in </span>node.actions.iter().zip(node.children.iter()) {
                 <span class="kw">let </span><span class="kw-2">mut </span>last_bet = info.last_bet;
                 <span class="kw">let </span><span class="kw-2">mut </span>allin_flag = info.allin_flag;
+                <span class="kw">let </span><span class="kw-2">mut </span>last_aggressor: i32 = info.last_aggressor;
 
                 <span class="kw">match </span><span class="kw-2">*</span>action {
+                    Action::Check =&gt; {
+                        last_aggressor = -<span class="number">1</span>;
+                    }
                     Action::Call =&gt; {
                         last_bet[node.player <span class="kw">as </span>usize] = last_bet[node.player <span class="kw">as </span>usize ^ <span class="number">1</span>];
                     }
                     Action::Bet(size) | Action::Raise(size) =&gt; {
                         last_bet[node.player <span class="kw">as </span>usize] = size;
+                        last_aggressor = node.player <span class="kw">as </span>i32;
                     }
                     Action::AllIn(size) =&gt; {
                         last_bet[node.player <span class="kw">as </span>usize] = size;
@@ -3888,6 +3963,7 @@
                         last_bet,
                         allin_flag,
                         stack_size,
+                        last_aggressor,
                         ..<span class="kw-2">*</span>info
                     },
                 )
@@ -3974,12 +4050,20 @@
         <span class="kw">let </span>max_bet = <span class="self">self</span>.config.effective_stack - node.amount + player_bet;
         <span class="kw">let </span>min_bet = (opponent_bet + bet_diff).clamp(<span class="number">1</span>, max_bet);
 
-        <span class="kw">let </span>(candidates, is_river) = <span class="kw">if </span>node.turn == NOT_DEALT {
-            (<span class="kw-2">&amp;</span><span class="self">self</span>.config.flop_bet_sizes, <span class="bool-val">false</span>)
+        <span class="kw">let </span>(candidates, donk_candidates, is_river) = <span class="kw">if </span>node.turn == NOT_DEALT {
+            (<span class="kw-2">&amp;</span><span class="self">self</span>.config.flop_bet_sizes, <span class="kw-2">&amp;</span><span class="prelude-val">None</span>, <span class="bool-val">false</span>)
         } <span class="kw">else if </span>node.river == NOT_DEALT {
-            (<span class="kw-2">&amp;</span><span class="self">self</span>.config.turn_bet_sizes, <span class="bool-val">false</span>)
+            (
+                <span class="kw-2">&amp;</span><span class="self">self</span>.config.turn_bet_sizes,
+                <span class="kw-2">&amp;</span><span class="self">self</span>.config.turn_donk_sizes,
+                <span class="bool-val">false</span>,
+            )
         } <span class="kw">else </span>{
-            (<span class="kw-2">&amp;</span><span class="self">self</span>.config.river_bet_sizes, <span class="bool-val">true</span>)
+            (
+                <span class="kw-2">&amp;</span><span class="self">self</span>.config.river_bet_sizes,
+                <span class="kw-2">&amp;</span><span class="self">self</span>.config.river_donk_sizes,
+                <span class="bool-val">true</span>,
+            )
         };
 
         <span class="kw">let </span>player_after_call = <span class="kw">if </span>is_river {
@@ -3996,14 +4080,36 @@
 
         <span class="kw">let </span><span class="kw-2">mut </span>actions = Vec::new();
 
-        <span class="kw">if </span><span class="macro">matches!</span>(
+        <span class="kw">if </span>donk_candidates.is_some()
+            &amp;&amp; <span class="macro">matches!</span>(info.last_action, Action::Chance(<span class="kw">_</span>))
+            &amp;&amp; info.last_aggressor == player_opponent <span class="kw">as </span>i32
+        {
+            <span class="comment">// check
+            </span>actions.push((Action::Check, player_after_check));
+
+            <span class="comment">// donk bet
+            </span><span class="kw">for </span><span class="kw-2">&amp;</span>donk_size <span class="kw">in </span><span class="kw-2">&amp;</span>donk_candidates.as_ref().unwrap().donk {
+                <span class="kw">match </span>donk_size {
+                    BetSize::PotRelative(ratio) =&gt; {
+                        <span class="kw">let </span>size = (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                        actions.push((Action::Bet(size), player_opponent));
+                    }
+                    BetSize::LastBetRelative(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;unexpected bet size&quot;</span>),
+                }
+            }
+
+            <span class="comment">// all-in
+            </span><span class="kw">if </span>max_bet &lt;= (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_all_in_threshold) <span class="kw">as </span>i32 {
+                actions.push((Action::AllIn(max_bet), player_opponent));
+            }
+        } <span class="kw">else if </span><span class="macro">matches!</span>(
             info.last_action,
             Action::None | Action::Check | Action::Chance(<span class="kw">_</span>)
         ) {
-            <span class="comment">// add check
+            <span class="comment">// check
             </span>actions.push((Action::Check, player_after_check));
 
-            <span class="comment">// add first bet
+            <span class="comment">// first bet
             </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].bet {
                 <span class="kw">match </span>bet_size {
                     BetSize::PotRelative(ratio) =&gt; {
@@ -4014,19 +4120,19 @@
                 }
             }
 
-            <span class="comment">// add all-in
+            <span class="comment">// all-in
             </span><span class="kw">if </span>max_bet &lt;= (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_all_in_threshold) <span class="kw">as </span>i32 {
                 actions.push((Action::AllIn(max_bet), player_opponent));
             }
         } <span class="kw">else </span>{
-            <span class="comment">// add fold
+            <span class="comment">// fold
             </span>actions.push((Action::Fold, PLAYER_FOLD_FLAG | player));
 
-            <span class="comment">// add call
+            <span class="comment">// call
             </span>actions.push((Action::Call, player_after_call));
 
             <span class="kw">if </span>!info.allin_flag {
-                <span class="comment">// add raise
+                <span class="comment">// raise
                 </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].raise {
                     <span class="kw">match </span>bet_size {
                         BetSize::PotRelative(ratio) =&gt; {
@@ -4040,7 +4146,7 @@
                     }
                 }
 
-                <span class="comment">// add all-in
+                <span class="comment">// all-in
                 </span><span class="kw">let </span>all_in_threshold = (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_all_in_threshold) <span class="kw">as </span>i32;
                 <span class="kw">if </span>max_bet &lt;= opponent_bet + all_in_threshold {
                     actions.push((Action::AllIn(max_bet), player_opponent));
@@ -4186,8 +4292,8 @@
     }
 
     <span class="doccomment">/// Moves the current node back to the root node.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>back_to_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>back_to_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.history.clear();
         <span class="self">self</span>.node_ptr = <span class="kw-2">&amp;*</span><span class="self">self</span>.root();
         <span class="self">self</span>.turn = <span class="self">self</span>.config.turn;
@@ -4203,14 +4309,14 @@
     <span class="doccomment">/// Returns the history of the current node.
     ///
     /// The history is a list of action indices, i.e., the arguments of `play()`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>history(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[usize] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>history(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[usize] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.history
     }
 
     <span class="doccomment">/// Applies the given history from the root node.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>apply_history(<span class="kw-2">&amp;mut </span><span class="self">self</span>, history: <span class="kw-2">&amp;</span>[usize]) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>apply_history(<span class="kw-2">&amp;mut </span><span class="self">self</span>, history: <span class="kw-2">&amp;</span>[usize]) {
         <span class="self">self</span>.back_to_root();
         <span class="kw">for </span><span class="kw-2">&amp;</span>action <span class="kw">in </span>history {
             <span class="self">self</span>.play(action);
@@ -4221,16 +4327,16 @@
     ///
     /// Note: If the current node is a chance node, isomorphic chances are grouped together into
     /// one representative action.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>available_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Action] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>available_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Action] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.node().actions
     }
 
     <span class="doccomment">/// Returns whether the available actions are terminal.
     ///
     /// Note that the call action after the all-in action is considered as terminal.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_terminal_action(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;bool&gt; {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>is_terminal_action(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;bool&gt; {
         <span class="self">self</span>.node()
             .actions()
             .map(|action| {
@@ -4241,8 +4347,8 @@
     }
 
     <span class="doccomment">/// Returns whether the current node is a chance node.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_chance_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>is_chance_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.node().is_chance()
     }
 
@@ -4289,8 +4395,8 @@
     <span class="doccomment">/// Returns the current player (0 = OOP, 1 = IP).
     ///
     /// If the current node is a chance node, returns an undefined value.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>current_player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>current_player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.node().player()
     }
 
@@ -4464,8 +4570,8 @@
     }
 
     <span class="doccomment">/// Returns the weights of each private hand of the given player.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player]
     }
 
@@ -4476,8 +4582,8 @@
     ///
     /// After mutating the current node, you must call the `cache_normalized_weights()` method
     /// before calling this method.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>normalized_weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>normalized_weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">if </span>!<span class="self">self</span>.normalized_weights_cached {
             <span class="macro">panic!</span>(<span class="string">&quot;normalized weights are not cached&quot;</span>);
         }
@@ -4652,14 +4758,14 @@
     }
 
     <span class="doccomment">/// Returns the reference to the current node.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>PostFlopNode {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>PostFlopNode {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span><span class="self">self</span>.node_ptr }
     }
 
     <span class="doccomment">/// Applies the swap.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>apply_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, slice: <span class="kw-2">&amp;mut </span>[f32], player: usize) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>apply_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, slice: <span class="kw-2">&amp;mut </span>[f32], player: usize) {
         <span class="kw">let </span>turn_swap = <span class="self">self
             </span>.turn_swap
             .map(|suit| <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_swap[suit <span class="kw">as </span>usize][player]);
@@ -4744,135 +4850,135 @@
 }
 
 <span class="kw">impl </span>GameNode <span class="kw">for </span>PostFlopNode {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>is_terminal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is_terminal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.player &amp; PLAYER_TERMINAL_FLAG != <span class="number">0
     </span>}
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>is_chance(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is_chance(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.player == PLAYER_CHANCE
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.player <span class="kw">as </span>usize
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>num_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>num_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.actions.len()
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>chance_factor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>chance_factor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
         [<span class="number">1.0 </span>/ <span class="number">45.0</span>, <span class="number">1.0 </span>/ <span class="number">44.0</span>][(<span class="self">self</span>.turn != NOT_DEALT) <span class="kw">as </span>usize]
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>play(<span class="kw-2">&amp;</span><span class="self">self</span>, action: usize) -&gt; MutexGuardLike&lt;<span class="self">Self</span>&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>play(<span class="kw-2">&amp;</span><span class="self">self</span>, action: usize) -&gt; MutexGuardLike&lt;<span class="self">Self</span>&gt; {
         <span class="self">self</span>.children[action].lock()
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*const </span>f32, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>strategy_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>strategy_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*mut </span>f32, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>cum_regret(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cum_regret(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>f32, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>cum_regret_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cum_regret_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>f32, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>expected_values(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>expected_values(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>f32, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>expected_values_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>expected_values_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>f32, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>strategy_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u16] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>strategy_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u16] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*const </span>u16, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>strategy_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[u16] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>strategy_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[u16] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*mut </span>u16, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>cum_regret_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[i16] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cum_regret_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[i16] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>i16, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>cum_regret_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cum_regret_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>i16, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>expected_values_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[i16] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>expected_values_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[i16] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>i16, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>expected_values_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>expected_values_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
         <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>i16, <span class="self">self</span>.num_elements) }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>strategy_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>strategy_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
         <span class="self">self</span>.scale1
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>set_strategy_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>set_strategy_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
         <span class="self">self</span>.scale1 = scale;
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>cum_regret_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>cum_regret_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
         <span class="self">self</span>.scale2
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>set_cum_regret_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>set_cum_regret_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
         <span class="self">self</span>.scale2 = scale;
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>expected_value_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>expected_value_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
         <span class="self">self</span>.scale2
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>set_expected_value_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>set_expected_value_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
         <span class="self">self</span>.scale2 = scale;
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>enable_parallelization(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>enable_parallelization(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.river == NOT_DEALT
     }
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>PostFlopGame {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             config: GameConfig::default(),
             root: Box::default(),
@@ -4916,8 +5022,8 @@
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>PostFlopNode {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             player: PLAYER_OOP,
             turn: NOT_DEALT,
@@ -4935,8 +5041,8 @@
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>GameConfig {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             flop: [NOT_DEALT; <span class="number">3</span>],
             turn: NOT_DEALT,
@@ -4947,6 +5053,8 @@
             flop_bet_sizes: Default::default(),
             turn_bet_sizes: Default::default(),
             river_bet_sizes: Default::default(),
+            turn_donk_sizes: <span class="prelude-val">None</span>,
+            river_donk_sizes: <span class="prelude-val">None</span>,
             add_all_in_threshold: <span class="number">0.0</span>,
             force_all_in_threshold: <span class="number">0.0</span>,
             adjust_last_two_bet_sizes: <span class="bool-val">false</span>,
@@ -4954,16 +5062,16 @@
     }
 }
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-07-13&quot;</span>;
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-11-14&quot;</span>;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="macro">thread_local!</span> {
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="macro">thread_local! </span>{
     <span class="kw">static </span>BASE_PTR: Cell&lt;(<span class="kw-2">*mut </span>u8, <span class="kw-2">*mut </span>u8)&gt; = Cell::new((ptr::null_mut(), ptr::null_mut()));
 }
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopGame {
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopGame {
     <span class="kw">fn </span>encode&lt;E: bincode::enc::Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
         <span class="comment">// store base pointer
         </span>BASE_PTR.with(|ps| {
@@ -5005,8 +5113,8 @@
     }
 }
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopNode {
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopNode {
     <span class="kw">fn </span>encode&lt;E: bincode::enc::Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
         <span class="comment">// compute pointer offset
         </span><span class="kw">let </span>offset = <span class="kw">if </span><span class="self">self</span>.storage1.is_null() {
@@ -5033,8 +5141,8 @@
     }
 }
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopGame {
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopGame {
     <span class="kw">fn </span>decode&lt;D: bincode::de::Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
         <span class="comment">// version check
         </span><span class="kw">let </span>version = String::decode(decoder)<span class="question-mark">?</span>;
@@ -5101,15 +5209,15 @@
             game.cache_normalized_weights();
         }
 
-        <span class="attribute">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]</span>
-        STACK_UNIT_SIZE.store(<span class="number">4 </span>* game.stack_size, Ordering::Relaxed);
+        <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span>STACK_UNIT_SIZE.store(<span class="number">4 </span>* game.stack_size, Ordering::Relaxed);
 
         <span class="prelude-val">Ok</span>(game)
     }
 }
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopNode {
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopNode {
     <span class="kw">fn </span>decode&lt;D: bincode::de::Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
         <span class="comment">// node instance
         </span><span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">Self </span>{
@@ -5139,31 +5247,31 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>vec_memory_usage&lt;T&gt;(vec: <span class="kw-2">&amp;</span>Vec&lt;T&gt;) -&gt; u64 {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>vec_memory_usage&lt;T&gt;(vec: <span class="kw-2">&amp;</span>Vec&lt;T&gt;) -&gt; u64 {
     vec.capacity() <span class="kw">as </span>u64 * mem::size_of::&lt;T&gt;() <span class="kw">as </span>u64
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
     <span class="kw">use </span><span class="kw">crate</span>::solver::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-    <span class="kw">use </span>std::fs::File;
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-    <span class="kw">use </span>std::io::{BufReader, BufWriter, Write};
+    <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+    </span><span class="kw">use </span>std::fs::File;
+    <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+    </span><span class="kw">use </span>std::io::{BufReader, BufWriter, Write};
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>test_flop_from_str() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>test_flop_from_str() {
         <span class="kw">let </span>tests = [(<span class="string">&quot;Qs Jh 2h&quot;</span>, [<span class="number">2</span>, <span class="number">38</span>, <span class="number">43</span>]), (<span class="string">&quot;Td9d6h&quot;</span>, [<span class="number">18</span>, <span class="number">29</span>, <span class="number">33</span>])];
         <span class="kw">for </span>test <span class="kw">in </span>tests {
             <span class="macro">assert_eq!</span>(flop_from_str(test.<span class="number">0</span>).unwrap(), test.<span class="number">1</span>);
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>all_check_all_range() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>all_check_all_range() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             starting_pot: <span class="number">60</span>,
@@ -5186,8 +5294,8 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">30.0</span>).abs() &lt; <span class="number">1e-4</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>one_raise_all_range() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>one_raise_all_range() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             starting_pot: <span class="number">60</span>,
@@ -5211,8 +5319,8 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">37.5</span>).abs() &lt; <span class="number">1e-4</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>one_raise_all_range_compressed() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>one_raise_all_range_compressed() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             starting_pot: <span class="number">60</span>,
@@ -5236,8 +5344,8 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">37.5</span>).abs() &lt; <span class="number">1e-2</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>one_raise_all_range_with_turn() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>one_raise_all_range_with_turn() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             turn: card_from_str(<span class="string">&quot;Qc&quot;</span>).unwrap(),
@@ -5262,8 +5370,8 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">37.5</span>).abs() &lt; <span class="number">1e-4</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>one_raise_all_range_with_river() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>one_raise_all_range_with_river() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             turn: card_from_str(<span class="string">&quot;Qc&quot;</span>).unwrap(),
@@ -5289,8 +5397,8 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">37.5</span>).abs() &lt; <span class="number">1e-4</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>always_win() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>always_win() {
         <span class="comment">// be careful for straight flushes
         </span><span class="kw">let </span>lose_range_str = <span class="string">&quot;KK-22,K9-K2,Q8-Q2,J8-J2,T8-T2,92+,82+,72+,62+&quot;</span>;
         <span class="kw">let </span>config = GameConfig {
@@ -5315,8 +5423,8 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">60.0</span>).abs() &lt; <span class="number">1e-4</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>no_assignment() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>no_assignment() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             starting_pot: <span class="number">60</span>,
@@ -5328,9 +5436,9 @@
         <span class="macro">assert!</span>(game.is_err());
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-    <span class="kw">fn </span>serialize_and_deserialize() {
+    <span class="attr">#[test]
+    #[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+    </span><span class="kw">fn </span>serialize_and_deserialize() {
         <span class="kw">let </span>config = GameConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             starting_pot: <span class="number">60</span>,
@@ -5370,9 +5478,9 @@
         <span class="macro">assert!</span>((root_ev - <span class="number">37.5</span>).abs() &lt; <span class="number">1e-4</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="attribute">#[ignore]</span>
-    <span class="kw">fn </span>solve_pio_preset() {
+    <span class="attr">#[test]
+    #[ignore]
+    </span><span class="kw">fn </span>solve_pio_preset() {
         <span class="kw">let </span>oop_range = <span class="string">&quot;88+,A8s+,A5s-A2s:0.5,AJo+,ATo:0.75,K9s+,KQo,KJo:0.75,KTo:0.25,Q9s+,QJo:0.5,J8s+,JTo:0.25,T8s+,T7s:0.45,97s+,96s:0.45,87s,86s:0.75,85s:0.45,75s+:0.75,74s:0.45,65s:0.75,64s:0.5,63s:0.45,54s:0.75,53s:0.5,52s:0.45,43s:0.5,42s:0.45,32s:0.45&quot;</span>;
         <span class="kw">let </span>ip_range = <span class="string">&quot;AA:0.25,99-22,AJs-A2s,AQo-A8o,K2s+,K9o+,Q2s+,Q9o+,J6s+,J9o+,T6s+,T9o,96s+,95s:0.5,98o,86s+,85s:0.5,75s+,74s:0.5,64s+,63s:0.5,54s,53s:0.5,43s&quot;</span>;
 
@@ -5419,4 +5527,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (6284998a2 2022-11-12)" data-search-js="search-39ee4160c7dc16c9.js" data-settings-js="settings-7873449fa8c00e11.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>

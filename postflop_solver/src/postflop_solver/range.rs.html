@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/range.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>range.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Regular.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../FiraSans-Medium.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Regular.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceSerif4-Bold.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../SourceCodePro-Semibold.ttf.woff2"><link rel="stylesheet" type="text/css" href="../../normalize.css"><link rel="stylesheet" type="text/css" href="../../rustdoc.css" id="mainThemeStyle"><link rel="stylesheet" type="text/css" href="../../ayu.css" disabled><link rel="stylesheet" type="text/css" href="../../dark.css" disabled><link rel="stylesheet" type="text/css" href="../../light.css" id="themeStyle"><script id="default-settings" ></script><script src="../../storage.js"></script><script defer src="../../source-script.js"></script><script defer src="../../source-files.js"></script><script defer src="../../main.js"></script><noscript><link rel="stylesheet" href="../../noscript.css"></noscript><link rel="alternate icon" type="image/png" href="../../favicon-16x16.png"><link rel="alternate icon" type="image/png" href="../../favicon-32x32.png"><link rel="icon" type="image/svg+xml" href="../../favicon.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="mobile-topbar"><button class="sidebar-menu-toggle">&#9776;</button><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a><h2 class="location"></h2></nav><nav class="sidebar"><a class="sidebar-logo" href="../../postflop_solver/index.html"><div class="logo-container"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></div></a></nav><main><div class="width-limiter"><div class="sub-container"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../rust-logo.svg" alt="logo"></a><nav class="sub"><form class="search-form"><div class="search-container"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><button type="button">?</button></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../wheel.svg"></a></div></div></form></nav></div><section id="main-content" class="content"><div class="example-wrap"><pre class="line-numbers"><span id="1">1</span>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/range.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>range.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-83be770da8fbb54b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-860cb8b69b437763.css"><link rel="stylesheet" disabled href="../../static.files/dark-ca7398001115f6db.css"><link rel="stylesheet" disabled href="../../static.files/ayu-2916eb07452214a6.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-74087aa2e88f4475.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-c2d2a5dbaed13e6b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><span id="1">1</span>
 <span id="2">2</span>
 <span id="3">3</span>
 <span id="4">4</span>
@@ -1099,8 +1099,8 @@
 <span class="kw">use </span>std::mem;
 <span class="kw">use </span>std::str::FromStr;
 
-<span class="attribute">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]</span>
-<span class="kw">use </span>bincode::{Decode, Encode};
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">use </span>bincode::{Decode, Encode};
 
 <span class="doccomment">/// A struct representing a player&#39;s range.
 ///
@@ -1122,14 +1122,14 @@
 /// // check that the hand &quot;AKo&quot; is not in the range
 /// assert_eq!(range.get_weight_offsuit(ace_rank, king_rank), 0.0);
 /// ```
-</span><span class="attribute">#[derive(Debug, Clone, Copy, PartialEq)]</span>
-<span class="attribute">#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]</span>
-<span class="kw">pub struct </span>Range {
+</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq)]
+#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
+</span><span class="kw">pub struct </span>Range {
     data: [f32; <span class="number">52 </span>* <span class="number">51 </span>/ <span class="number">2</span>],
 }
 
-<span class="attribute">#[derive(Clone, Copy, PartialEq, Eq)]</span>
-<span class="kw">enum </span>Suitedness {
+<span class="attr">#[derive(Clone, Copy, PartialEq, Eq)]
+</span><span class="kw">enum </span>Suitedness {
     Suited,
     Offsuit,
     All,
@@ -1151,16 +1151,16 @@
 <span class="doccomment">/// Returns an index of the given card pair.
 ///
 /// `&quot;2d2c&quot;` =&gt; `0`, `&quot;2h2c&quot;` =&gt; `1`, ..., `&quot;AsAh&quot;` =&gt; `1325`.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>card_pair_index(<span class="kw-2">mut </span>card1: u8, <span class="kw-2">mut </span>card2: u8) -&gt; usize {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>card_pair_index(<span class="kw-2">mut </span>card1: u8, <span class="kw-2">mut </span>card2: u8) -&gt; usize {
     <span class="kw">if </span>card1 &gt; card2 {
         mem::swap(<span class="kw-2">&amp;mut </span>card1, <span class="kw-2">&amp;mut </span>card2);
     }
     card1 <span class="kw">as </span>usize * (<span class="number">101 </span>- card1 <span class="kw">as </span>usize) / <span class="number">2 </span>+ card2 <span class="kw">as </span>usize - <span class="number">1
 </span>}
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>pair_indices(rank: u8) -&gt; Vec&lt;usize&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>pair_indices(rank: u8) -&gt; Vec&lt;usize&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::with_capacity(<span class="number">6</span>);
     <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
         <span class="kw">for </span>j <span class="kw">in </span>i + <span class="number">1</span>..<span class="number">4 </span>{
@@ -1170,8 +1170,8 @@
     result
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>nonpair_indices(rank1: u8, rank2: u8) -&gt; Vec&lt;usize&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>nonpair_indices(rank1: u8, rank2: u8) -&gt; Vec&lt;usize&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::with_capacity(<span class="number">16</span>);
     <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
         <span class="kw">for </span>j <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
@@ -1181,8 +1181,8 @@
     result
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>suited_indices(rank1: u8, rank2: u8) -&gt; Vec&lt;usize&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>suited_indices(rank1: u8, rank2: u8) -&gt; Vec&lt;usize&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::with_capacity(<span class="number">4</span>);
     <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
         result.push(card_pair_index(<span class="number">4 </span>* rank1 + i, <span class="number">4 </span>* rank2 + i));
@@ -1190,8 +1190,8 @@
     result
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>offsuit_indices(rank1: u8, rank2: u8) -&gt; Vec&lt;usize&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>offsuit_indices(rank1: u8, rank2: u8) -&gt; Vec&lt;usize&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::with_capacity(<span class="number">12</span>);
     <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
         <span class="kw">for </span>j <span class="kw">in </span><span class="number">0</span>..<span class="number">4 </span>{
@@ -1203,8 +1203,8 @@
     result
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>indices_with_suitedness(rank1: u8, rank2: u8, suitedness: Suitedness) -&gt; Vec&lt;usize&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>indices_with_suitedness(rank1: u8, rank2: u8, suitedness: Suitedness) -&gt; Vec&lt;usize&gt; {
     <span class="kw">if </span>rank1 == rank2 {
         <span class="kw">match </span>suitedness {
             Suitedness::All =&gt; pair_indices(rank1),
@@ -1228,8 +1228,8 @@
 <span class="doccomment">/// Attempts to convert a rank character to a rank index.
 ///
 /// `&#39;A&#39;` =&gt; `12`, `&#39;K&#39;` =&gt; `11`, ..., `&#39;2&#39;` =&gt; `0`.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">fn </span>char_to_rank(c: char) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>char_to_rank(c: char) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
     <span class="kw">match </span>c {
         <span class="string">&#39;A&#39; </span>| <span class="string">&#39;a&#39; </span>=&gt; <span class="prelude-val">Ok</span>(<span class="number">12</span>),
         <span class="string">&#39;K&#39; </span>| <span class="string">&#39;k&#39; </span>=&gt; <span class="prelude-val">Ok</span>(<span class="number">11</span>),
@@ -1244,8 +1244,8 @@
 <span class="doccomment">/// Attempts to conver a suit character to a suit index.
 ///
 /// `&#39;c&#39;` =&gt; `0`, `&#39;d&#39;` =&gt; `1`, `&#39;h&#39;` =&gt; `2`, `&#39;s&#39;` =&gt; `3`.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">fn </span>char_to_suit(c: char) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>char_to_suit(c: char) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
     <span class="kw">match </span>c {
         <span class="string">&#39;c&#39; </span>=&gt; <span class="prelude-val">Ok</span>(<span class="number">0</span>),
         <span class="string">&#39;d&#39; </span>=&gt; <span class="prelude-val">Ok</span>(<span class="number">1</span>),
@@ -1258,8 +1258,8 @@
 <span class="doccomment">/// Attempts to convert a rank index to a rank character.
 ///
 /// `12` =&gt; `&#39;A&#39;`, `11` =&gt; `&#39;K&#39;`, ..., `0` =&gt; `&#39;2&#39;`.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">fn </span>rank_to_char(rank: u8) -&gt; <span class="prelude-ty">Result</span>&lt;char, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>rank_to_char(rank: u8) -&gt; <span class="prelude-ty">Result</span>&lt;char, String&gt; {
     <span class="kw">match </span>rank {
         <span class="number">12 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="string">&#39;A&#39;</span>),
         <span class="number">11 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="string">&#39;K&#39;</span>),
@@ -1274,8 +1274,8 @@
 <span class="doccomment">/// Attempts to convert a suit index to a suit character.
 ///
 /// `0` =&gt; `&#39;c&#39;`, `1` =&gt; `&#39;d&#39;`, `2` =&gt; `&#39;h&#39;`, `3` =&gt; `&#39;s&#39;`.
-</span><span class="attribute">#[inline]</span>
-<span class="kw">fn </span>suit_to_char(suit: u8) -&gt; <span class="prelude-ty">Result</span>&lt;char, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">fn </span>suit_to_char(suit: u8) -&gt; <span class="prelude-ty">Result</span>&lt;char, String&gt; {
     <span class="kw">match </span>suit {
         <span class="number">0 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="string">&#39;c&#39;</span>),
         <span class="number">1 </span>=&gt; <span class="prelude-val">Ok</span>(<span class="string">&#39;d&#39;</span>),
@@ -1298,8 +1298,8 @@
 /// assert_eq!(card_to_string(10), Ok(&quot;4h&quot;.to_string()));
 /// assert_eq!(card_to_string(51), Ok(&quot;As&quot;.to_string()));
 /// ```
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>card_to_string(card: u8) -&gt; <span class="prelude-ty">Result</span>&lt;String, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>card_to_string(card: u8) -&gt; <span class="prelude-ty">Result</span>&lt;String, String&gt; {
     check_card(card)<span class="question-mark">?</span>;
     <span class="kw">let </span>rank = card &gt;&gt; <span class="number">2</span>;
     <span class="kw">let </span>suit = card &amp; <span class="number">3</span>;
@@ -1320,8 +1320,8 @@
 /// assert_eq!(card_from_chars(&amp;mut chars), Ok(10));
 /// assert_eq!(card_from_chars(&amp;mut chars), Ok(51));
 /// ```
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>card_from_chars&lt;T: Iterator&lt;Item = char&gt;&gt;(chars: <span class="kw-2">&amp;mut </span>T) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>card_from_chars&lt;T: Iterator&lt;Item = char&gt;&gt;(chars: <span class="kw-2">&amp;mut </span>T) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
     <span class="kw">let </span>rank_char = chars.next().ok_or_else(|| <span class="string">&quot;Unexpected end&quot;</span>.to_string())<span class="question-mark">?</span>;
     <span class="kw">let </span>suit_char = chars.next().ok_or_else(|| <span class="string">&quot;Unexpected end&quot;</span>.to_string())<span class="question-mark">?</span>;
 
@@ -1344,8 +1344,8 @@
 /// assert_eq!(card_from_str(&quot;4h&quot;), Ok(10));
 /// assert_eq!(card_from_str(&quot;As&quot;), Ok(51));
 /// ```
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>card_from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>card_from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;u8, String&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>chars = s.chars();
     <span class="kw">let </span>result = card_from_chars(<span class="kw-2">&amp;mut </span>chars)<span class="question-mark">?</span>;
 
@@ -1367,8 +1367,8 @@
 /// assert_eq!(flop_from_str(&quot;2c3d4h&quot;), Ok([0, 5, 10]));
 /// assert_eq!(flop_from_str(&quot;As Ah Ks&quot;), Ok([47, 50, 51]));
 /// ```
-</span><span class="attribute">#[inline]</span>
-<span class="kw">pub fn </span>flop_from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;[u8; <span class="number">3</span>], String&gt; {
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>flop_from_str(s: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;[u8; <span class="number">3</span>], String&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>result = [<span class="number">0</span>; <span class="number">3</span>];
     <span class="kw">let </span><span class="kw-2">mut </span>chars = s.chars();
 
@@ -1389,8 +1389,8 @@
     <span class="prelude-val">Ok</span>(result)
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>parse_singleton(combo: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(u8, u8, Suitedness), String&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>parse_singleton(combo: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(u8, u8, Suitedness), String&gt; {
     <span class="kw">if </span>combo.len() == <span class="number">4 </span>{
         parse_simple_singleton(combo)
     } <span class="kw">else </span>{
@@ -1398,8 +1398,8 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>parse_simple_singleton(combo: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(u8, u8, Suitedness), String&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>parse_simple_singleton(combo: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(u8, u8, Suitedness), String&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>chars = combo.chars();
     <span class="kw">let </span>rank1 = char_to_rank(chars.next().ok_or_else(|| <span class="string">&quot;Unexpected end&quot;</span>.to_string())<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="kw">let </span>suit1 = char_to_suit(chars.next().ok_or_else(|| <span class="string">&quot;Unexpected end&quot;</span>.to_string())<span class="question-mark">?</span>)<span class="question-mark">?</span>;
@@ -1416,8 +1416,8 @@
     <span class="prelude-val">Ok</span>((rank1, rank2, Suitedness::Specific(suit1, suit2)))
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>parse_compound_singleton(combo: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(u8, u8, Suitedness), String&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>parse_compound_singleton(combo: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;(u8, u8, Suitedness), String&gt; {
     <span class="kw">let </span><span class="kw-2">mut </span>chars = combo.chars();
     <span class="kw">let </span>rank1 = char_to_rank(chars.next().ok_or_else(|| <span class="string">&quot;Unexpected end&quot;</span>.to_string())<span class="question-mark">?</span>)<span class="question-mark">?</span>;
     <span class="kw">let </span>rank2 = char_to_rank(chars.next().ok_or_else(|| <span class="string">&quot;Unexpected end&quot;</span>.to_string())<span class="question-mark">?</span>)<span class="question-mark">?</span>;
@@ -1437,8 +1437,8 @@
     <span class="prelude-val">Ok</span>((rank1, rank2, suitedness))
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>check_card(card: u8) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>check_card(card: u8) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
     <span class="kw">if </span>card &lt; <span class="number">52 </span>{
         <span class="prelude-val">Ok</span>(())
     } <span class="kw">else </span>{
@@ -1446,8 +1446,8 @@
     }
 }
 
-<span class="attribute">#[inline]</span>
-<span class="kw">fn </span>check_weight(weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>check_weight(weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
     <span class="kw">if </span>(<span class="number">0.0</span>..=<span class="number">1.0</span>).contains(<span class="kw-2">&amp;</span>weight) {
         <span class="prelude-val">Ok</span>(())
     } <span class="kw">else </span>{
@@ -1456,8 +1456,8 @@
 }
 
 <span class="kw">impl </span>Default <span class="kw">for </span>Range {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             data: [<span class="number">0.0</span>; <span class="number">52 </span>* <span class="number">51 </span>/ <span class="number">2</span>],
         }
@@ -1466,22 +1466,22 @@
 
 <span class="kw">impl </span>Range {
     <span class="doccomment">/// Creates an empty range.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::default()
     }
 
     <span class="doccomment">/// Creates a full range.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>ones() -&gt; <span class="self">Self </span>{
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>ones() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
             data: [<span class="number">1.0</span>; <span class="number">52 </span>* <span class="number">51 </span>/ <span class="number">2</span>],
         }
     }
 
     <span class="doccomment">/// Attempts to create a range from raw data.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>from_raw_data(data: <span class="kw-2">&amp;</span>[f32]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>from_raw_data(data: <span class="kw-2">&amp;</span>[f32]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
         <span class="kw">if </span>data.len() != <span class="number">52 </span>* <span class="number">51 </span>/ <span class="number">2 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Expected exactly {} elements&quot;</span>, <span class="number">52 </span>* <span class="number">51 </span>/ <span class="number">2</span>));
         }
@@ -1496,14 +1496,14 @@
     }
 
     <span class="doccomment">/// Obtains the raw data of the range.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>raw_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>raw_data(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw-2">&amp;</span><span class="self">self</span>.data
     }
 
     <span class="doccomment">/// Attempts to create a range from a list of hands with their weights.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>from_hands_weights(hands: <span class="kw-2">&amp;</span>[(u8, u8)], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>from_hands_weights(hands: <span class="kw-2">&amp;</span>[(u8, u8)], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>range = <span class="self">Self</span>::default();
         <span class="kw">for </span>(<span class="kw-2">&amp;</span>(card1, card2), <span class="kw-2">&amp;</span>weight) <span class="kw">in </span>hands.iter().zip(weights.iter()) {
             check_card(card1)<span class="question-mark">?</span>;
@@ -1582,14 +1582,14 @@
     }
 
     <span class="doccomment">/// Clears the range.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>clear(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.data.fill(<span class="number">0.0</span>);
     }
 
     <span class="doccomment">/// Returns whether the range is empty.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>is_empty(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.data.iter().all(|el| <span class="kw-2">*</span>el == <span class="number">0.0</span>)
     }
 
@@ -1600,16 +1600,16 @@
     ///   - `card1` is equal to `card2`
     ///
     /// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_weight_by_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, card1: u8, card2: u8) -&gt; f32 {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>get_weight_by_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, card1: u8, card2: u8) -&gt; f32 {
         <span class="self">self</span>.data[card_pair_index(card1, card2)]
     }
 
     <span class="doccomment">/// Obtains the average weight of specified pair hands.
     ///
     /// Undefined behavior if `rank` is not less than `13`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_weight_pair(<span class="kw-2">&amp;</span><span class="self">self</span>, rank: u8) -&gt; f32 {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>get_weight_pair(<span class="kw-2">&amp;</span><span class="self">self</span>, rank: u8) -&gt; f32 {
         <span class="self">self</span>.get_average_weight(<span class="kw-2">&amp;</span>pair_indices(rank))
     }
 
@@ -1618,8 +1618,8 @@
     /// Undefined behavior if:
     ///   - `rank1` or `rank2` is not less than `13`
     ///   - `rank1` is equal to `rank2`
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_weight_suited(<span class="kw-2">&amp;</span><span class="self">self</span>, rank1: u8, rank2: u8) -&gt; f32 {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>get_weight_suited(<span class="kw-2">&amp;</span><span class="self">self</span>, rank1: u8, rank2: u8) -&gt; f32 {
         <span class="self">self</span>.get_average_weight(<span class="kw-2">&amp;</span>suited_indices(rank1, rank2))
     }
 
@@ -1628,8 +1628,8 @@
     /// Undefined behavior if:
     ///   - `rank1` or `rank2` is not less than `13`
     ///   - `rank1` is equal to `rank2`
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>get_weight_offsuit(<span class="kw-2">&amp;</span><span class="self">self</span>, rank1: u8, rank2: u8) -&gt; f32 {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>get_weight_offsuit(<span class="kw-2">&amp;</span><span class="self">self</span>, rank1: u8, rank2: u8) -&gt; f32 {
         <span class="self">self</span>.get_average_weight(<span class="kw-2">&amp;</span>offsuit_indices(rank1, rank2))
     }
 
@@ -1641,8 +1641,8 @@
     ///   - `weight` is not in the range `[0.0, 1.0]`
     ///
     /// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_weight_by_cards(<span class="kw-2">&amp;mut </span><span class="self">self</span>, card1: u8, card2: u8, weight: f32) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>set_weight_by_cards(<span class="kw-2">&amp;mut </span><span class="self">self</span>, card1: u8, card2: u8, weight: f32) {
         <span class="self">self</span>.data[card_pair_index(card1, card2)] = weight;
     }
 
@@ -1651,8 +1651,8 @@
     /// Undefined behavior if:
     ///   - `rank` is not less than `13`
     ///   - `weight` is not in the range `[0.0, 1.0]`
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_weight_pair(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rank: u8, weight: f32) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>set_weight_pair(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rank: u8, weight: f32) {
         <span class="self">self</span>.set_weight(<span class="kw-2">&amp;</span>pair_indices(rank), weight);
     }
 
@@ -1662,8 +1662,8 @@
     ///   - `rank1` or `rank2` is not less than `13`
     ///   - `rank1` is equal to `rank2`
     ///   - `weight` is not in the range `[0.0, 1.0]`
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_weight_suited(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rank1: u8, rank2: u8, weight: f32) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>set_weight_suited(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rank1: u8, rank2: u8, weight: f32) {
         <span class="self">self</span>.set_weight(<span class="kw-2">&amp;</span>suited_indices(rank1, rank2), weight);
     }
 
@@ -1673,8 +1673,8 @@
     ///   - `rank1` or `rank2` is not less than `13`
     ///   - `rank1` is equal to `rank2`
     ///   - `weight` is not in the range `[0.0, 1.0]`
-    </span><span class="attribute">#[inline]</span>
-    <span class="kw">pub fn </span>set_weight_offsuit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rank1: u8, rank2: u8, weight: f32) {
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>set_weight_offsuit(<span class="kw-2">&amp;mut </span><span class="self">self</span>, rank1: u8, rank2: u8, weight: f32) {
         <span class="self">self</span>.set_weight(<span class="kw-2">&amp;</span>offsuit_indices(rank1, rank2), weight);
     }
 
@@ -1705,16 +1705,16 @@
         <span class="bool-val">true
     </span>}
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>is_same_weight(<span class="kw-2">&amp;</span><span class="self">self</span>, indices: <span class="kw-2">&amp;</span>[usize]) -&gt; bool {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>is_same_weight(<span class="kw-2">&amp;</span><span class="self">self</span>, indices: <span class="kw-2">&amp;</span>[usize]) -&gt; bool {
         <span class="kw">let </span>weight = <span class="self">self</span>.data[indices[<span class="number">0</span>]];
         indices
             .iter()
             .all(|<span class="kw-2">&amp;</span>i| (<span class="self">self</span>.data[i] - weight).abs() &lt; <span class="number">1e-4</span>)
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>get_average_weight(<span class="kw-2">&amp;</span><span class="self">self</span>, indices: <span class="kw-2">&amp;</span>[usize]) -&gt; f32 {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>get_average_weight(<span class="kw-2">&amp;</span><span class="self">self</span>, indices: <span class="kw-2">&amp;</span>[usize]) -&gt; f32 {
         <span class="kw">let </span><span class="kw-2">mut </span>sum = <span class="number">0.0</span>;
         <span class="kw">for </span><span class="kw-2">&amp;</span>i <span class="kw">in </span>indices {
             sum += <span class="self">self</span>.data[i] <span class="kw">as </span>f64;
@@ -1722,22 +1722,22 @@
         (sum / indices.len() <span class="kw">as </span>f64) <span class="kw">as </span>f32
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>set_weight(<span class="kw-2">&amp;mut </span><span class="self">self</span>, indices: <span class="kw-2">&amp;</span>[usize], weight: f32) {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>set_weight(<span class="kw-2">&amp;mut </span><span class="self">self</span>, indices: <span class="kw-2">&amp;</span>[usize], weight: f32) {
         <span class="kw">for </span><span class="kw-2">&amp;</span>i <span class="kw">in </span>indices {
             <span class="self">self</span>.data[i] = weight;
         }
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>update_with_singleton(<span class="kw-2">&amp;mut </span><span class="self">self</span>, combo: <span class="kw-2">&amp;</span>str, weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>update_with_singleton(<span class="kw-2">&amp;mut </span><span class="self">self</span>, combo: <span class="kw-2">&amp;</span>str, weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="kw">let </span>(rank1, rank2, suitedness) = parse_singleton(combo)<span class="question-mark">?</span>;
         <span class="self">self</span>.set_weight(<span class="kw-2">&amp;</span>indices_with_suitedness(rank1, rank2, suitedness), weight);
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>update_with_plus_range(<span class="kw-2">&amp;mut </span><span class="self">self</span>, range: <span class="kw-2">&amp;</span>str, weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>update_with_plus_range(<span class="kw-2">&amp;mut </span><span class="self">self</span>, range: <span class="kw-2">&amp;</span>str, weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="kw">let </span>lowest_combo = <span class="kw-2">&amp;</span>range[..range.len() - <span class="number">1</span>];
         <span class="kw">let </span>(rank1, rank2, suitedness) = parse_singleton(lowest_combo)<span class="question-mark">?</span>;
         <span class="kw">let </span>gap = rank1 - rank2;
@@ -1755,8 +1755,8 @@
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>update_with_dash_range(<span class="kw-2">&amp;mut </span><span class="self">self</span>, range: <span class="kw-2">&amp;</span>str, weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>update_with_dash_range(<span class="kw-2">&amp;mut </span><span class="self">self</span>, range: <span class="kw-2">&amp;</span>str, weight: f32) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="kw">let </span>combo_pair = range.split(<span class="string">&#39;-&#39;</span>).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">let </span>(rank11, rank12, suitedness) = parse_singleton(combo_pair[<span class="number">0</span>])<span class="question-mark">?</span>;
         <span class="kw">let </span>(rank21, rank22, suitedness2) = parse_singleton(combo_pair[<span class="number">1</span>])<span class="question-mark">?</span>;
@@ -2015,8 +2015,8 @@
 }
 
 <span class="kw">impl </span>ToString <span class="kw">for </span>Range {
-    <span class="attribute">#[inline]</span>
-    <span class="kw">fn </span>to_string(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
+    <span class="attr">#[inline]
+    </span><span class="kw">fn </span>to_string(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; String {
         <span class="kw">let </span><span class="kw-2">mut </span>result = Vec::new();
         <span class="self">self</span>.pairs_strings(<span class="kw-2">&amp;mut </span>result);
         <span class="self">self</span>.nonpairs_strings(<span class="kw-2">&amp;mut </span>result);
@@ -2025,12 +2025,12 @@
     }
 }
 
-<span class="attribute">#[cfg(test)]</span>
-<span class="kw">mod </span>tests {
+<span class="attr">#[cfg(test)]
+</span><span class="kw">mod </span>tests {
     <span class="kw">use super</span>::<span class="kw-2">*</span>;
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>range_regex() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>range_regex() {
         <span class="kw">let </span>tests = [
             (<span class="string">&quot;AK&quot;</span>, <span class="prelude-val">Some</span>((<span class="string">&quot;AK&quot;</span>, <span class="prelude-val">None</span>))),
             (<span class="string">&quot;ak&quot;</span>, <span class="prelude-val">Some</span>((<span class="string">&quot;ak&quot;</span>, <span class="prelude-val">None</span>))),
@@ -2062,8 +2062,8 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>trim_regex() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>trim_regex() {
         <span class="kw">let </span>tests = [
             (<span class="string">&quot;  AK  &quot;</span>, <span class="string">&quot;AK&quot;</span>),
             (<span class="string">&quot;K9s: .67&quot;</span>, <span class="string">&quot;K9s:.67&quot;</span>),
@@ -2076,8 +2076,8 @@
         }
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>range_from_str() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>range_from_str() {
         <span class="kw">let </span>pair_plus = <span class="string">&quot;88+&quot;</span>.parse::&lt;Range&gt;();
         <span class="kw">let </span>pair_plus_equiv = <span class="string">&quot;AA,KK,QQ,JJ,TT,99,88&quot;</span>.parse::&lt;Range&gt;();
         <span class="macro">assert!</span>(pair_plus.is_ok());
@@ -2166,8 +2166,8 @@
         <span class="macro">assert_eq!</span>(data.get_weight_offsuit(<span class="number">6</span>, <span class="number">3</span>), <span class="number">0.0</span>);
     }
 
-    <span class="attribute">#[test]</span>
-    <span class="kw">fn </span>range_to_string() {
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>range_to_string() {
         <span class="kw">let </span>tests = [
             (<span class="string">&quot;AA,KK&quot;</span>, <span class="string">&quot;KK+&quot;</span>),
             (<span class="string">&quot;KK,QQ&quot;</span>, <span class="string">&quot;KK-QQ&quot;</span>),
@@ -2189,4 +2189,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-current-crate="postflop_solver" data-themes="ayu,dark,light" data-resource-suffix="" data-rustdoc-version="1.65.0-nightly (801821d15 2022-08-14)" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (6284998a2 2022-11-12)" data-search-js="search-39ee4160c7dc16c9.js" data-settings-js="settings-7873449fa8c00e11.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
