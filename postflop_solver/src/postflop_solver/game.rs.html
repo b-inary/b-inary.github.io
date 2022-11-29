@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-bf4c5e264196f176.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-a21928845c7a186a.css"><link rel="stylesheet" disabled href="../../static.files/dark-90fc67ff25a42f29.css"><link rel="stylesheet" disabled href="../../static.files/ayu-d75a8bbde915b8ed.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-458bffc4c06ccf37.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-75894291877b32c0.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-d2f7777684990013.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -2507,297 +2507,7 @@
 <a href="#2507" id="2507">2507</a>
 <a href="#2508" id="2508">2508</a>
 <a href="#2509" id="2509">2509</a>
-<a href="#2510" id="2510">2510</a>
-<a href="#2511" id="2511">2511</a>
-<a href="#2512" id="2512">2512</a>
-<a href="#2513" id="2513">2513</a>
-<a href="#2514" id="2514">2514</a>
-<a href="#2515" id="2515">2515</a>
-<a href="#2516" id="2516">2516</a>
-<a href="#2517" id="2517">2517</a>
-<a href="#2518" id="2518">2518</a>
-<a href="#2519" id="2519">2519</a>
-<a href="#2520" id="2520">2520</a>
-<a href="#2521" id="2521">2521</a>
-<a href="#2522" id="2522">2522</a>
-<a href="#2523" id="2523">2523</a>
-<a href="#2524" id="2524">2524</a>
-<a href="#2525" id="2525">2525</a>
-<a href="#2526" id="2526">2526</a>
-<a href="#2527" id="2527">2527</a>
-<a href="#2528" id="2528">2528</a>
-<a href="#2529" id="2529">2529</a>
-<a href="#2530" id="2530">2530</a>
-<a href="#2531" id="2531">2531</a>
-<a href="#2532" id="2532">2532</a>
-<a href="#2533" id="2533">2533</a>
-<a href="#2534" id="2534">2534</a>
-<a href="#2535" id="2535">2535</a>
-<a href="#2536" id="2536">2536</a>
-<a href="#2537" id="2537">2537</a>
-<a href="#2538" id="2538">2538</a>
-<a href="#2539" id="2539">2539</a>
-<a href="#2540" id="2540">2540</a>
-<a href="#2541" id="2541">2541</a>
-<a href="#2542" id="2542">2542</a>
-<a href="#2543" id="2543">2543</a>
-<a href="#2544" id="2544">2544</a>
-<a href="#2545" id="2545">2545</a>
-<a href="#2546" id="2546">2546</a>
-<a href="#2547" id="2547">2547</a>
-<a href="#2548" id="2548">2548</a>
-<a href="#2549" id="2549">2549</a>
-<a href="#2550" id="2550">2550</a>
-<a href="#2551" id="2551">2551</a>
-<a href="#2552" id="2552">2552</a>
-<a href="#2553" id="2553">2553</a>
-<a href="#2554" id="2554">2554</a>
-<a href="#2555" id="2555">2555</a>
-<a href="#2556" id="2556">2556</a>
-<a href="#2557" id="2557">2557</a>
-<a href="#2558" id="2558">2558</a>
-<a href="#2559" id="2559">2559</a>
-<a href="#2560" id="2560">2560</a>
-<a href="#2561" id="2561">2561</a>
-<a href="#2562" id="2562">2562</a>
-<a href="#2563" id="2563">2563</a>
-<a href="#2564" id="2564">2564</a>
-<a href="#2565" id="2565">2565</a>
-<a href="#2566" id="2566">2566</a>
-<a href="#2567" id="2567">2567</a>
-<a href="#2568" id="2568">2568</a>
-<a href="#2569" id="2569">2569</a>
-<a href="#2570" id="2570">2570</a>
-<a href="#2571" id="2571">2571</a>
-<a href="#2572" id="2572">2572</a>
-<a href="#2573" id="2573">2573</a>
-<a href="#2574" id="2574">2574</a>
-<a href="#2575" id="2575">2575</a>
-<a href="#2576" id="2576">2576</a>
-<a href="#2577" id="2577">2577</a>
-<a href="#2578" id="2578">2578</a>
-<a href="#2579" id="2579">2579</a>
-<a href="#2580" id="2580">2580</a>
-<a href="#2581" id="2581">2581</a>
-<a href="#2582" id="2582">2582</a>
-<a href="#2583" id="2583">2583</a>
-<a href="#2584" id="2584">2584</a>
-<a href="#2585" id="2585">2585</a>
-<a href="#2586" id="2586">2586</a>
-<a href="#2587" id="2587">2587</a>
-<a href="#2588" id="2588">2588</a>
-<a href="#2589" id="2589">2589</a>
-<a href="#2590" id="2590">2590</a>
-<a href="#2591" id="2591">2591</a>
-<a href="#2592" id="2592">2592</a>
-<a href="#2593" id="2593">2593</a>
-<a href="#2594" id="2594">2594</a>
-<a href="#2595" id="2595">2595</a>
-<a href="#2596" id="2596">2596</a>
-<a href="#2597" id="2597">2597</a>
-<a href="#2598" id="2598">2598</a>
-<a href="#2599" id="2599">2599</a>
-<a href="#2600" id="2600">2600</a>
-<a href="#2601" id="2601">2601</a>
-<a href="#2602" id="2602">2602</a>
-<a href="#2603" id="2603">2603</a>
-<a href="#2604" id="2604">2604</a>
-<a href="#2605" id="2605">2605</a>
-<a href="#2606" id="2606">2606</a>
-<a href="#2607" id="2607">2607</a>
-<a href="#2608" id="2608">2608</a>
-<a href="#2609" id="2609">2609</a>
-<a href="#2610" id="2610">2610</a>
-<a href="#2611" id="2611">2611</a>
-<a href="#2612" id="2612">2612</a>
-<a href="#2613" id="2613">2613</a>
-<a href="#2614" id="2614">2614</a>
-<a href="#2615" id="2615">2615</a>
-<a href="#2616" id="2616">2616</a>
-<a href="#2617" id="2617">2617</a>
-<a href="#2618" id="2618">2618</a>
-<a href="#2619" id="2619">2619</a>
-<a href="#2620" id="2620">2620</a>
-<a href="#2621" id="2621">2621</a>
-<a href="#2622" id="2622">2622</a>
-<a href="#2623" id="2623">2623</a>
-<a href="#2624" id="2624">2624</a>
-<a href="#2625" id="2625">2625</a>
-<a href="#2626" id="2626">2626</a>
-<a href="#2627" id="2627">2627</a>
-<a href="#2628" id="2628">2628</a>
-<a href="#2629" id="2629">2629</a>
-<a href="#2630" id="2630">2630</a>
-<a href="#2631" id="2631">2631</a>
-<a href="#2632" id="2632">2632</a>
-<a href="#2633" id="2633">2633</a>
-<a href="#2634" id="2634">2634</a>
-<a href="#2635" id="2635">2635</a>
-<a href="#2636" id="2636">2636</a>
-<a href="#2637" id="2637">2637</a>
-<a href="#2638" id="2638">2638</a>
-<a href="#2639" id="2639">2639</a>
-<a href="#2640" id="2640">2640</a>
-<a href="#2641" id="2641">2641</a>
-<a href="#2642" id="2642">2642</a>
-<a href="#2643" id="2643">2643</a>
-<a href="#2644" id="2644">2644</a>
-<a href="#2645" id="2645">2645</a>
-<a href="#2646" id="2646">2646</a>
-<a href="#2647" id="2647">2647</a>
-<a href="#2648" id="2648">2648</a>
-<a href="#2649" id="2649">2649</a>
-<a href="#2650" id="2650">2650</a>
-<a href="#2651" id="2651">2651</a>
-<a href="#2652" id="2652">2652</a>
-<a href="#2653" id="2653">2653</a>
-<a href="#2654" id="2654">2654</a>
-<a href="#2655" id="2655">2655</a>
-<a href="#2656" id="2656">2656</a>
-<a href="#2657" id="2657">2657</a>
-<a href="#2658" id="2658">2658</a>
-<a href="#2659" id="2659">2659</a>
-<a href="#2660" id="2660">2660</a>
-<a href="#2661" id="2661">2661</a>
-<a href="#2662" id="2662">2662</a>
-<a href="#2663" id="2663">2663</a>
-<a href="#2664" id="2664">2664</a>
-<a href="#2665" id="2665">2665</a>
-<a href="#2666" id="2666">2666</a>
-<a href="#2667" id="2667">2667</a>
-<a href="#2668" id="2668">2668</a>
-<a href="#2669" id="2669">2669</a>
-<a href="#2670" id="2670">2670</a>
-<a href="#2671" id="2671">2671</a>
-<a href="#2672" id="2672">2672</a>
-<a href="#2673" id="2673">2673</a>
-<a href="#2674" id="2674">2674</a>
-<a href="#2675" id="2675">2675</a>
-<a href="#2676" id="2676">2676</a>
-<a href="#2677" id="2677">2677</a>
-<a href="#2678" id="2678">2678</a>
-<a href="#2679" id="2679">2679</a>
-<a href="#2680" id="2680">2680</a>
-<a href="#2681" id="2681">2681</a>
-<a href="#2682" id="2682">2682</a>
-<a href="#2683" id="2683">2683</a>
-<a href="#2684" id="2684">2684</a>
-<a href="#2685" id="2685">2685</a>
-<a href="#2686" id="2686">2686</a>
-<a href="#2687" id="2687">2687</a>
-<a href="#2688" id="2688">2688</a>
-<a href="#2689" id="2689">2689</a>
-<a href="#2690" id="2690">2690</a>
-<a href="#2691" id="2691">2691</a>
-<a href="#2692" id="2692">2692</a>
-<a href="#2693" id="2693">2693</a>
-<a href="#2694" id="2694">2694</a>
-<a href="#2695" id="2695">2695</a>
-<a href="#2696" id="2696">2696</a>
-<a href="#2697" id="2697">2697</a>
-<a href="#2698" id="2698">2698</a>
-<a href="#2699" id="2699">2699</a>
-<a href="#2700" id="2700">2700</a>
-<a href="#2701" id="2701">2701</a>
-<a href="#2702" id="2702">2702</a>
-<a href="#2703" id="2703">2703</a>
-<a href="#2704" id="2704">2704</a>
-<a href="#2705" id="2705">2705</a>
-<a href="#2706" id="2706">2706</a>
-<a href="#2707" id="2707">2707</a>
-<a href="#2708" id="2708">2708</a>
-<a href="#2709" id="2709">2709</a>
-<a href="#2710" id="2710">2710</a>
-<a href="#2711" id="2711">2711</a>
-<a href="#2712" id="2712">2712</a>
-<a href="#2713" id="2713">2713</a>
-<a href="#2714" id="2714">2714</a>
-<a href="#2715" id="2715">2715</a>
-<a href="#2716" id="2716">2716</a>
-<a href="#2717" id="2717">2717</a>
-<a href="#2718" id="2718">2718</a>
-<a href="#2719" id="2719">2719</a>
-<a href="#2720" id="2720">2720</a>
-<a href="#2721" id="2721">2721</a>
-<a href="#2722" id="2722">2722</a>
-<a href="#2723" id="2723">2723</a>
-<a href="#2724" id="2724">2724</a>
-<a href="#2725" id="2725">2725</a>
-<a href="#2726" id="2726">2726</a>
-<a href="#2727" id="2727">2727</a>
-<a href="#2728" id="2728">2728</a>
-<a href="#2729" id="2729">2729</a>
-<a href="#2730" id="2730">2730</a>
-<a href="#2731" id="2731">2731</a>
-<a href="#2732" id="2732">2732</a>
-<a href="#2733" id="2733">2733</a>
-<a href="#2734" id="2734">2734</a>
-<a href="#2735" id="2735">2735</a>
-<a href="#2736" id="2736">2736</a>
-<a href="#2737" id="2737">2737</a>
-<a href="#2738" id="2738">2738</a>
-<a href="#2739" id="2739">2739</a>
-<a href="#2740" id="2740">2740</a>
-<a href="#2741" id="2741">2741</a>
-<a href="#2742" id="2742">2742</a>
-<a href="#2743" id="2743">2743</a>
-<a href="#2744" id="2744">2744</a>
-<a href="#2745" id="2745">2745</a>
-<a href="#2746" id="2746">2746</a>
-<a href="#2747" id="2747">2747</a>
-<a href="#2748" id="2748">2748</a>
-<a href="#2749" id="2749">2749</a>
-<a href="#2750" id="2750">2750</a>
-<a href="#2751" id="2751">2751</a>
-<a href="#2752" id="2752">2752</a>
-<a href="#2753" id="2753">2753</a>
-<a href="#2754" id="2754">2754</a>
-<a href="#2755" id="2755">2755</a>
-<a href="#2756" id="2756">2756</a>
-<a href="#2757" id="2757">2757</a>
-<a href="#2758" id="2758">2758</a>
-<a href="#2759" id="2759">2759</a>
-<a href="#2760" id="2760">2760</a>
-<a href="#2761" id="2761">2761</a>
-<a href="#2762" id="2762">2762</a>
-<a href="#2763" id="2763">2763</a>
-<a href="#2764" id="2764">2764</a>
-<a href="#2765" id="2765">2765</a>
-<a href="#2766" id="2766">2766</a>
-<a href="#2767" id="2767">2767</a>
-<a href="#2768" id="2768">2768</a>
-<a href="#2769" id="2769">2769</a>
-<a href="#2770" id="2770">2770</a>
-<a href="#2771" id="2771">2771</a>
-<a href="#2772" id="2772">2772</a>
-<a href="#2773" id="2773">2773</a>
-<a href="#2774" id="2774">2774</a>
-<a href="#2775" id="2775">2775</a>
-<a href="#2776" id="2776">2776</a>
-<a href="#2777" id="2777">2777</a>
-<a href="#2778" id="2778">2778</a>
-<a href="#2779" id="2779">2779</a>
-<a href="#2780" id="2780">2780</a>
-<a href="#2781" id="2781">2781</a>
-<a href="#2782" id="2782">2782</a>
-<a href="#2783" id="2783">2783</a>
-<a href="#2784" id="2784">2784</a>
-<a href="#2785" id="2785">2785</a>
-<a href="#2786" id="2786">2786</a>
-<a href="#2787" id="2787">2787</a>
-<a href="#2788" id="2788">2788</a>
-<a href="#2789" id="2789">2789</a>
-<a href="#2790" id="2790">2790</a>
-<a href="#2791" id="2791">2791</a>
-<a href="#2792" id="2792">2792</a>
-<a href="#2793" id="2793">2793</a>
-<a href="#2794" id="2794">2794</a>
-<a href="#2795" id="2795">2795</a>
-<a href="#2796" id="2796">2796</a>
-<a href="#2797" id="2797">2797</a>
-<a href="#2798" id="2798">2798</a>
-<a href="#2799" id="2799">2799</a>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bet_size::<span class="kw-2">*</span>;
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::hand::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
@@ -2833,10 +2543,14 @@
 
 <span class="doccomment">/// A struct representing a postflop game.
 </span><span class="kw">pub struct </span>PostFlopGame {
-    <span class="comment">// Postflop game configuration.
-    </span>config: GameConfig,
+    <span class="comment">// Postflop game configurations
+    </span>card_config: CardConfig,
+    tree_config: TreeConfig,
+    added_lines: Vec&lt;Vec&lt;Action&gt;&gt;,
+    removed_lines: Vec&lt;Vec&lt;Action&gt;&gt;,
+    action_root: Box&lt;MutexLike&lt;ActionTreeNode&gt;&gt;,
 
-    <span class="comment">// computed from `config`
+    <span class="comment">// computed from configurations
     </span>root: Box&lt;MutexLike&lt;PostFlopNode&gt;&gt;,
     num_combinations_inv: f64,
     initial_weight: [Vec&lt;f32&gt;; <span class="number">2</span>],
@@ -2884,9 +2598,9 @@
 <span class="kw">unsafe impl </span>Send <span class="kw">for </span>PostFlopGame {}
 <span class="kw">unsafe impl </span>Sync <span class="kw">for </span>PostFlopGame {}
 
-<span class="doccomment">/// A struct representing a node in postflop game tree.
+<span class="doccomment">/// A struct representing a node in a postflop game tree.
 </span><span class="kw">pub struct </span>PostFlopNode {
-    player: u16,
+    player: u8,
     turn: u8,
     river: u8,
     amount: i32,
@@ -2902,7 +2616,7 @@
 <span class="kw">unsafe impl </span>Send <span class="kw">for </span>PostFlopNode {}
 <span class="kw">unsafe impl </span>Sync <span class="kw">for </span>PostFlopNode {}
 
-<span class="doccomment">/// A struct for postflop game configuration.
+<span class="doccomment">/// A struct containing the card configuration.
 ///
 /// # Examples
 /// ```
@@ -2910,28 +2624,20 @@
 ///
 /// let oop_range = &quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;;
 /// let ip_range = &quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;;
-/// let bet_sizes = BetSizeCandidates::try_from((&quot;60%, e, a&quot;, &quot;2.5x&quot;)).unwrap();
 ///
-/// let config = GameConfig {
+/// let card_config = CardConfig {
+///     range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
 ///     flop: flop_from_str(&quot;Td9d6h&quot;).unwrap(),
 ///     turn: card_from_str(&quot;Qc&quot;).unwrap(),
 ///     river: NOT_DEALT,
-///     starting_pot: 200,
-///     effective_stack: 900,
-///     range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
-///     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
-///     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
-///     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
-///     turn_donk_sizes: None,
-///     river_donk_sizes: Some(DonkSizeCandidates::try_from(&quot;50%&quot;).unwrap()),
-///     add_all_in_threshold: 1.2,
-///     force_all_in_threshold: 0.1,
-///     adjust_bet_size_before_all_in: false,
 /// };
 /// ```
 </span><span class="attr">#[derive(Debug, Clone)]
 #[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
-</span><span class="kw">pub struct </span>GameConfig {
+</span><span class="kw">pub struct </span>CardConfig {
+    <span class="doccomment">/// Initial range of each player.
+    </span><span class="kw">pub </span>range: [Range; <span class="number">2</span>],
+
     <span class="doccomment">/// Flop cards: each card must be unique and in range [`0`, `52`).
     </span><span class="kw">pub </span>flop: [u8; <span class="number">3</span>],
 
@@ -2940,90 +2646,14 @@
 
     <span class="doccomment">/// River card: must be in range [`0`, `52`) or `NOT_DEALT`.
     </span><span class="kw">pub </span>river: u8,
-
-    <span class="doccomment">/// Initial pot size: must be greater than `0`.
-    </span><span class="kw">pub </span>starting_pot: i32,
-
-    <span class="doccomment">/// Initial effective stack size: must be greater than `0`.
-    </span><span class="kw">pub </span>effective_stack: i32,
-
-    <span class="doccomment">/// Initial range of each player.
-    </span><span class="kw">pub </span>range: [Range; <span class="number">2</span>],
-
-    <span class="doccomment">/// Bet size candidates of each player for the flop.
-    </span><span class="kw">pub </span>flop_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
-
-    <span class="doccomment">/// Bet size candidates of each player for the turn.
-    </span><span class="kw">pub </span>turn_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
-
-    <span class="doccomment">/// Bet size candidates of each player for the river.
-    </span><span class="kw">pub </span>river_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
-
-    <span class="doccomment">/// Donk size candidates for the turn (set `None` to use default sizes).
-    </span><span class="kw">pub </span>turn_donk_sizes: <span class="prelude-ty">Option</span>&lt;DonkSizeCandidates&gt;,
-
-    <span class="doccomment">/// Donk size candidates for the river (set `None` to use default sizes).
-    </span><span class="kw">pub </span>river_donk_sizes: <span class="prelude-ty">Option</span>&lt;DonkSizeCandidates&gt;,
-
-    <span class="doccomment">/// Add all-in action if the current SPR is below this value (set `0.0` to disable).
-    </span><span class="kw">pub </span>add_all_in_threshold: f32,
-
-    <span class="doccomment">/// Force all-in action if the SPR after the opponent&#39;s call is below this value
-    /// (set `0.0` to disable).
-    </span><span class="kw">pub </span>force_all_in_threshold: f32,
-
-    <span class="doccomment">/// Enable bet size adjustment for the bet just before the opponent&#39;s all-in.
-    </span><span class="kw">pub </span>adjust_bet_size_before_all_in: bool,
-}
-
-<span class="doccomment">/// Available actions in a postflop game.
-</span><span class="attr">#[derive(Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord)]
-#[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
-</span><span class="kw">pub enum </span>Action {
-    <span class="doccomment">/// Only used for the previous action of the root node.
-    </span><span class="prelude-val">None</span>,
-
-    <span class="doccomment">/// Fold action.
-    </span>Fold,
-
-    <span class="doccomment">/// Check action.
-    </span>Check,
-
-    <span class="doccomment">/// Call action.
-    </span>Call,
-
-    <span class="doccomment">/// Bet action with a specified amount.
-    </span>Bet(i32),
-
-    <span class="doccomment">/// Raise action with a specified amount.
-    </span>Raise(i32),
-
-    <span class="doccomment">/// All-in action with a specified amount.
-    </span>AllIn(i32),
-
-    <span class="doccomment">/// Chance action with a card ID (in range [`0`, `52`)).
-    </span>Chance(u8),
 }
 
 <span class="kw">struct </span>BuildTreeInfo&lt;<span class="lifetime">&#39;a</span>&gt; {
-    last_action: Action,
-    last_bet: [i32; <span class="number">2</span>],
-    allin_flag: bool,
     current_memory_usage: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AtomicU64,
     num_storage_elements: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AtomicU64,
     stack_size: [usize; <span class="number">2</span>],
     max_stack_size: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[AtomicUsize; <span class="number">2</span>],
-    last_aggressor: i32,
 }
-
-<span class="kw">const </span>PLAYER_OOP: u16 = <span class="number">0</span>;
-<span class="kw">const </span>PLAYER_CHANCE: u16 = <span class="number">0xff</span>;
-<span class="kw">const </span>PLAYER_MASK: u16 = <span class="number">0xff</span>;
-<span class="kw">const </span>PLAYER_TERMINAL_FLAG: u16 = <span class="number">0x100</span>;
-<span class="kw">const </span>PLAYER_FOLD_FLAG: u16 = <span class="number">0x300</span>;
-
-<span class="doccomment">/// Constant representing that the card is not yet dealt.
-</span><span class="kw">pub const </span>NOT_DEALT: u8 = <span class="number">0xff</span>;
 
 <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
 #[inline]
@@ -3088,7 +2718,7 @@
     }
 
     <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, result: <span class="kw-2">&amp;mut </span>[f32], node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node, player: usize, cfreach: <span class="kw-2">&amp;</span>[f32]) {
-        <span class="kw">let </span>amount_raw = <span class="self">self</span>.config.starting_pot <span class="kw">as </span>f64 * <span class="number">0.5 </span>+ node.amount <span class="kw">as </span>f64;
+        <span class="kw">let </span>amount_raw = <span class="self">self</span>.tree_config.starting_pot <span class="kw">as </span>f64 * <span class="number">0.5 </span>+ node.amount <span class="kw">as </span>f64;
         <span class="kw">let </span>amount = amount_raw * <span class="self">self</span>.num_combinations_inv;
 
         <span class="kw">let </span>player_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.private_hand_cards[player];
@@ -3238,33 +2868,61 @@
 }
 
 <span class="kw">impl </span>PostFlopGame {
-    <span class="doccomment">/// Constructs a new empty [`PostFlopGame`] (needs `update_config()` before solving).
+    <span class="doccomment">/// Creates a new empty [`PostFlopGame`] (needs `update_config()` before solving).
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>new() -&gt; <span class="self">Self </span>{
         <span class="self">Self</span>::default()
     }
 
-    <span class="doccomment">/// Constructs a new [`PostFlopGame`] instance with the given configuration.
+    <span class="doccomment">/// Creates a new [`PostFlopGame`] with the specified configuration.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>with_config(config: <span class="kw-2">&amp;</span>GameConfig) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>game = <span class="self">Self</span>::default();
-        game.update_config(config)<span class="question-mark">?</span>;
+    </span><span class="kw">pub fn </span>with_config(card_config: CardConfig, action_tree: ActionTree) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, String&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>game = <span class="self">Self</span>::new();
+        game.update_config(card_config, action_tree)<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(game)
     }
 
     <span class="doccomment">/// Updates the game configuration. The solved result will be lost.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>update_config(<span class="kw-2">&amp;mut </span><span class="self">self</span>, config: <span class="kw-2">&amp;</span>GameConfig) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
-        <span class="self">self</span>.config = config.clone();
-        <span class="self">self</span>.check_config()<span class="question-mark">?</span>;
+    </span><span class="kw">pub fn </span>update_config(
+        <span class="kw-2">&amp;mut </span><span class="self">self</span>,
+        card_config: CardConfig,
+        action_tree: ActionTree,
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+        <span class="self">self</span>.card_config = card_config;
+        (
+            <span class="self">self</span>.tree_config,
+            <span class="self">self</span>.added_lines,
+            <span class="self">self</span>.removed_lines,
+            <span class="self">self</span>.action_root,
+        ) = action_tree.export();
+        <span class="self">self</span>.check_card_config()<span class="question-mark">?</span>;
         <span class="self">self</span>.init();
         <span class="prelude-val">Ok</span>(())
     }
 
-    <span class="doccomment">/// Obtains the game configuration.
+    <span class="doccomment">/// Obtains the card configuration.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>GameConfig {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.config
+    </span><span class="kw">pub fn </span>card_config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>CardConfig {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.card_config
+    }
+
+    <span class="doccomment">/// Obtains the action tree.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>tree_config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>TreeConfig {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.tree_config
+    }
+
+    <span class="doccomment">/// Obtains the added lines.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>added_lines(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Vec&lt;Action&gt;] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.added_lines
+    }
+
+    <span class="doccomment">/// Obtains the removed lines.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>removed_lines(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Vec&lt;Action&gt;] {
+        <span class="kw-2">&amp;</span><span class="self">self</span>.removed_lines
     }
 
     <span class="doccomment">/// Returns the card list of private hands of the given player.
@@ -3321,9 +2979,11 @@
         }
     }
 
-    <span class="doccomment">/// Checks the configuration for errors.
-    </span><span class="kw">fn </span>check_config(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
-        <span class="kw">let </span>flop = <span class="kw-2">&amp;</span><span class="self">self</span>.config.flop;
+    <span class="doccomment">/// Checks the card configuration.
+    </span><span class="kw">fn </span>check_card_config(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+        <span class="kw">let </span>config = <span class="kw-2">&amp;</span><span class="self">self</span>.card_config;
+        <span class="kw">let </span>(flop, turn, river) = (config.flop, config.turn, config.river);
+        <span class="kw">let </span>range = <span class="kw-2">&amp;</span>config.range;
 
         <span class="kw">if </span>flop.contains(<span class="kw-2">&amp;</span>NOT_DEALT) {
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Flop cards not initialized&quot;</span>.to_string());
@@ -3337,92 +2997,81 @@
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Flop cards must be unique: flop = {:?}&quot;</span>, flop));
         }
 
-        <span class="kw">if </span><span class="self">self</span>.config.turn != NOT_DEALT {
-            <span class="kw">if </span><span class="number">52 </span>&lt;= <span class="self">self</span>.config.turn {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;Turn card must be in [0, 52): turn = {}&quot;</span>,
-                    <span class="self">self</span>.config.turn
-                ));
+        <span class="kw">if </span>turn != NOT_DEALT {
+            <span class="kw">if </span><span class="number">52 </span>&lt;= turn {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Turn card must be in [0, 52): turn = {turn}&quot;</span>));
             }
 
-            <span class="kw">if </span>flop.contains(<span class="kw-2">&amp;</span><span class="self">self</span>.config.turn) {
+            <span class="kw">if </span>flop.contains(<span class="kw-2">&amp;</span>turn) {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;Turn card must be different from flop cards: turn = {}&quot;</span>,
-                    <span class="self">self</span>.config.turn
-                ));
+                    <span class="string">&quot;Turn card must be different from flop cards: turn = {turn}&quot;
+                </span>));
             }
         }
 
-        <span class="kw">if </span><span class="self">self</span>.config.river != NOT_DEALT {
-            <span class="kw">if </span><span class="number">52 </span>&lt;= <span class="self">self</span>.config.river {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;River card must be in [0, 52): river = {}&quot;</span>,
-                    <span class="self">self</span>.config.river
-                ));
+        <span class="kw">if </span>river != NOT_DEALT {
+            <span class="kw">if </span><span class="number">52 </span>&lt;= river {
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;River card must be in [0, 52): river = {river}&quot;</span>));
             }
 
-            <span class="kw">if </span>flop.contains(<span class="kw-2">&amp;</span><span class="self">self</span>.config.river) {
+            <span class="kw">if </span>flop.contains(<span class="kw-2">&amp;</span>river) {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;River card must be different from flop cards: river = {}&quot;</span>,
-                    <span class="self">self</span>.config.river
-                ));
+                    <span class="string">&quot;River card must be different from flop cards: river = {river}&quot;
+                </span>));
             }
 
-            <span class="kw">if </span><span class="self">self</span>.config.turn == <span class="self">self</span>.config.river {
+            <span class="kw">if </span>turn == river {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;River card must be different from turn card: river = {}&quot;</span>,
-                    <span class="self">self</span>.config.river
-                ));
+                    <span class="string">&quot;River card must be different from turn card: river = {river}&quot;
+                </span>));
             }
 
-            <span class="kw">if </span><span class="self">self</span>.config.turn == NOT_DEALT {
+            <span class="kw">if </span>turn == NOT_DEALT {
                 <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                    <span class="string">&quot;River card specified without turn card: river = {}&quot;</span>,
-                    <span class="self">self</span>.config.river
-                ));
+                    <span class="string">&quot;River card specified without turn card: river = {river}&quot;
+                </span>));
             }
         }
 
-        <span class="kw">if </span><span class="self">self</span>.config.starting_pot &lt;= <span class="number">0 </span>{
+        <span class="kw">let </span>expected_state = <span class="kw">match </span>(turn != NOT_DEALT, river != NOT_DEALT) {
+            (<span class="bool-val">false</span>, <span class="kw">_</span>) =&gt; BoardState::Flop,
+            (<span class="bool-val">true</span>, <span class="bool-val">false</span>) =&gt; BoardState::Turn,
+            (<span class="bool-val">true</span>, <span class="bool-val">true</span>) =&gt; BoardState::River,
+        };
+
+        <span class="kw">if </span><span class="self">self</span>.tree_config.initial_state != expected_state {
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;Initial pot must be positive: starting_pot = {}&quot;</span>,
-                <span class="self">self</span>.config.starting_pot
+                <span class="string">&quot;Invalid initial state of `tree_config`: expected = {:?}, actual = {:?}&quot;</span>,
+                expected_state, <span class="self">self</span>.tree_config.initial_state
             ));
         }
 
-        <span class="kw">if </span><span class="self">self</span>.config.effective_stack &lt;= <span class="number">0 </span>{
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;Initial stack must be positive: effective_stack = {}&quot;</span>,
-                <span class="self">self</span>.config.effective_stack
-            ));
-        }
-
-        <span class="kw">if </span><span class="self">self</span>.config.range[<span class="number">0</span>].is_empty() {
+        <span class="kw">if </span>range[<span class="number">0</span>].is_empty() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;OOP range is empty&quot;</span>.to_string());
         }
 
-        <span class="kw">if </span><span class="self">self</span>.config.range[<span class="number">1</span>].is_empty() {
+        <span class="kw">if </span>range[<span class="number">1</span>].is_empty() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;IP range is empty&quot;</span>.to_string());
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>board_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
-        <span class="kw">if </span><span class="self">self</span>.config.turn != NOT_DEALT {
-            board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.config.turn;
+        <span class="kw">if </span>turn != NOT_DEALT {
+            board_mask |= <span class="number">1 </span>&lt;&lt; turn;
         }
-        <span class="kw">if </span><span class="self">self</span>.config.river != NOT_DEALT {
-            board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.config.river;
+        <span class="kw">if </span>river != NOT_DEALT {
+            board_mask |= <span class="number">1 </span>&lt;&lt; river;
         }
 
         <span class="kw">let </span><span class="kw-2">mut </span>num_combinations = <span class="number">0.0</span>;
         <span class="kw">for </span>c1 <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
             <span class="kw">for </span>c2 <span class="kw">in </span>c1 + <span class="number">1</span>..<span class="number">52 </span>{
                 <span class="kw">let </span>oop_mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
-                <span class="kw">let </span>oop_weight = <span class="self">self</span>.config.range[<span class="number">0</span>].get_weight_by_cards(c1, c2);
+                <span class="kw">let </span>oop_weight = range[<span class="number">0</span>].get_weight_by_cards(c1, c2);
                 <span class="kw">if </span>oop_mask &amp; board_mask == <span class="number">0 </span>&amp;&amp; oop_weight &gt; <span class="number">0.0 </span>{
                     <span class="kw">for </span>c3 <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
                         <span class="kw">for </span>c4 <span class="kw">in </span>c3 + <span class="number">1</span>..<span class="number">52 </span>{
                             <span class="kw">let </span>ip_mask: u64 = (<span class="number">1 </span>&lt;&lt; c3) | (<span class="number">1 </span>&lt;&lt; c4);
-                            <span class="kw">let </span>ip_weight = <span class="self">self</span>.config.range[<span class="number">1</span>].get_weight_by_cards(c3, c4);
+                            <span class="kw">let </span>ip_weight = range[<span class="number">1</span>].get_weight_by_cards(c3, c4);
                             <span class="kw">if </span>ip_mask &amp; (board_mask | oop_mask) == <span class="number">0 </span>{
                                 num_combinations += oop_weight <span class="kw">as </span>f64 * ip_weight <span class="kw">as </span>f64;
                             }
@@ -3461,16 +3110,18 @@
     <span class="doccomment">/// Initializes fields `initial_weight`, `private_hand_cards`, `same_hand_index`, and related to
     /// valid indices.
     </span><span class="kw">fn </span>init_range(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="kw">let </span>flop = <span class="kw-2">&amp;</span><span class="self">self</span>.config.flop;
+        <span class="kw">let </span>config = <span class="kw-2">&amp;</span><span class="self">self</span>.card_config;
+        <span class="kw">let </span>flop = config.flop;
+
         <span class="kw">let </span><span class="kw-2">mut </span>board_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
-        <span class="kw">if </span><span class="self">self</span>.config.turn != NOT_DEALT {
-            board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.config.turn;
+        <span class="kw">if </span>config.turn != NOT_DEALT {
+            board_mask |= <span class="number">1 </span>&lt;&lt; config.turn;
         }
-        <span class="kw">if </span><span class="self">self</span>.config.river != NOT_DEALT {
-            board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.config.river;
+        <span class="kw">if </span>config.river != NOT_DEALT {
+            board_mask |= <span class="number">1 </span>&lt;&lt; config.river;
         }
 
-        <span class="kw">let </span>ranges = <span class="kw-2">&amp;</span><span class="self">self</span>.config.range;
+        <span class="kw">let </span>ranges = <span class="kw-2">&amp;</span>config.range;
         <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
             <span class="kw">let </span>range = ranges[player];
             <span class="kw">let </span>(hands, weights) = range.get_hands_weights(board_mask);
@@ -3489,7 +3140,7 @@
             }
         }
 
-        <span class="kw">if </span><span class="self">self</span>.config.turn == NOT_DEALT {
+        <span class="kw">if </span>config.turn == NOT_DEALT {
             <span class="self">self</span>.valid_indices_flop = <span class="self">self</span>.valid_indices(NOT_DEALT, NOT_DEALT);
         } <span class="kw">else </span>{
             <span class="self">self</span>.valid_indices_flop = Default::default();
@@ -3498,8 +3149,8 @@
         <span class="self">self</span>.valid_indices_turn = <span class="macro">vec!</span>[Default::default(); <span class="number">52</span>];
         <span class="kw">for </span>turn <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
             <span class="kw">if </span>!flop.contains(<span class="kw-2">&amp;</span>turn)
-                &amp;&amp; (<span class="self">self</span>.config.turn == NOT_DEALT || turn == <span class="self">self</span>.config.turn)
-                &amp;&amp; <span class="self">self</span>.config.river == NOT_DEALT
+                &amp;&amp; (config.turn == NOT_DEALT || config.turn == turn)
+                &amp;&amp; config.river == NOT_DEALT
             {
                 <span class="self">self</span>.valid_indices_turn[turn <span class="kw">as </span>usize] = <span class="self">self</span>.valid_indices(turn, NOT_DEALT);
             }
@@ -3510,12 +3161,10 @@
             <span class="kw">for </span>board2 <span class="kw">in </span>board1 + <span class="number">1</span>..<span class="number">52 </span>{
                 <span class="kw">if </span>!flop.contains(<span class="kw-2">&amp;</span>board1)
                     &amp;&amp; !flop.contains(<span class="kw-2">&amp;</span>board2)
-                    &amp;&amp; (<span class="self">self</span>.config.turn == NOT_DEALT
-                        || board1 == <span class="self">self</span>.config.turn
-                        || board2 == <span class="self">self</span>.config.turn)
-                    &amp;&amp; (<span class="self">self</span>.config.river == NOT_DEALT
-                        || board1 == <span class="self">self</span>.config.river
-                        || board2 == <span class="self">self</span>.config.river)
+                    &amp;&amp; (config.turn == NOT_DEALT || board1 == config.turn || board2 == config.turn)
+                    &amp;&amp; (config.river == NOT_DEALT
+                        || board1 == config.river
+                        || board2 == config.river)
                 {
                     <span class="kw">let </span>index = card_pair_index(board1, board2);
                     <span class="self">self</span>.valid_indices_river[index] = <span class="self">self</span>.valid_indices(board1, board2);
@@ -3561,8 +3210,11 @@
 
     <span class="doccomment">/// Initializes a field `hand_strength`.
     </span><span class="kw">fn </span>init_hand_strength(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">let </span>config = <span class="kw-2">&amp;</span><span class="self">self</span>.card_config;
+        <span class="kw">let </span>(turn, river) = (config.turn, config.river);
+
         <span class="kw">let </span><span class="kw-2">mut </span>flop = Hand::new();
-        <span class="kw">for </span><span class="kw-2">&amp;</span>card <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.config.flop {
+        <span class="kw">for </span><span class="kw-2">&amp;</span>card <span class="kw">in </span><span class="kw-2">&amp;</span>config.flop {
             flop = flop.add_card(card <span class="kw">as </span>usize);
         }
 
@@ -3573,12 +3225,8 @@
             <span class="kw">for </span>board2 <span class="kw">in </span>board1 + <span class="number">1</span>..<span class="number">52 </span>{
                 <span class="kw">if </span>!flop.contains(board1 <span class="kw">as </span>usize)
                     &amp;&amp; !flop.contains(board2 <span class="kw">as </span>usize)
-                    &amp;&amp; (<span class="self">self</span>.config.turn == NOT_DEALT
-                        || board1 == <span class="self">self</span>.config.turn
-                        || board2 == <span class="self">self</span>.config.turn)
-                    &amp;&amp; (<span class="self">self</span>.config.river == NOT_DEALT
-                        || board1 == <span class="self">self</span>.config.river
-                        || board2 == <span class="self">self</span>.config.river)
+                    &amp;&amp; (turn == NOT_DEALT || board1 == turn || board2 == turn)
+                    &amp;&amp; (river == NOT_DEALT || board1 == river || board2 == river)
                 {
                     <span class="kw">let </span>board = flop.add_card(board1 <span class="kw">as </span>usize).add_card(board2 <span class="kw">as </span>usize);
                     <span class="kw">let </span><span class="kw-2">mut </span>strength = [
@@ -3626,7 +3274,8 @@
 
     <span class="doccomment">/// Initializes fields related to isomorphism.
     </span><span class="kw">fn </span>init_isomorphism(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="kw">let </span>range = <span class="kw-2">&amp;</span><span class="self">self</span>.config.range;
+        <span class="kw">let </span>config = <span class="kw-2">&amp;</span><span class="self">self</span>.card_config;
+        <span class="kw">let </span>range = <span class="kw-2">&amp;</span>config.range;
         <span class="kw">let </span><span class="kw-2">mut </span>suit_isomorphism = [<span class="number">0</span>; <span class="number">4</span>];
         <span class="kw">let </span><span class="kw-2">mut </span>next_index = <span class="number">1</span>;
         <span class="lifetime">&#39;outer</span>: <span class="kw">for </span>suit2 <span class="kw">in </span><span class="number">1</span>..<span class="number">4 </span>{
@@ -3642,11 +3291,11 @@
             next_index += <span class="number">1</span>;
         }
 
-        <span class="kw">let </span>flop = <span class="kw-2">&amp;</span><span class="self">self</span>.config.flop;
+        <span class="kw">let </span>flop = config.flop;
         <span class="kw">let </span>flop_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
 
         <span class="kw">let </span><span class="kw-2">mut </span>flop_rankset = [<span class="number">0</span>; <span class="number">4</span>];
-        <span class="kw">for </span><span class="kw-2">&amp;</span>card <span class="kw">in </span>flop {
+        <span class="kw">for </span><span class="kw-2">&amp;</span>card <span class="kw">in </span><span class="kw-2">&amp;</span>flop {
             <span class="kw">let </span>rank = card &gt;&gt; <span class="number">2</span>;
             <span class="kw">let </span>suit = card &amp; <span class="number">3</span>;
             flop_rankset[suit <span class="kw">as </span>usize] |= <span class="number">1 </span>&lt;&lt; rank;
@@ -3663,7 +3312,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>reverse_table = [usize::MAX; <span class="number">52 </span>* <span class="number">51 </span>/ <span class="number">2</span>];
 
         <span class="comment">// turn isomorphism
-        </span><span class="kw">if </span><span class="self">self</span>.config.turn == NOT_DEALT {
+        </span><span class="kw">if </span>config.turn == NOT_DEALT {
             <span class="kw">for </span>suit1 <span class="kw">in </span><span class="number">1</span>..<span class="number">4 </span>{
                 <span class="kw">for </span>suit2 <span class="kw">in </span><span class="number">0</span>..suit1 {
                     <span class="kw">if </span>flop_rankset[suit1 <span class="kw">as </span>usize] == flop_rankset[suit2 <span class="kw">as </span>usize]
@@ -3731,14 +3380,13 @@
         <span class="self">self</span>.river_isomorphism_swap.clear();
 
         <span class="comment">// river isomorphism
-        </span><span class="kw">if </span><span class="self">self</span>.config.river == NOT_DEALT {
+        </span><span class="kw">if </span>config.river == NOT_DEALT {
             <span class="kw">for </span>turn <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
                 <span class="self">self</span>.river_isomorphism.push(Vec::new());
                 <span class="self">self</span>.river_isomorphism_cards.push(Vec::new());
                 <span class="self">self</span>.river_isomorphism_swap.push(Default::default());
 
-                <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; turn) &amp; flop_mask != <span class="number">0
-                    </span>|| (<span class="self">self</span>.config.turn != NOT_DEALT &amp;&amp; turn != <span class="self">self</span>.config.turn)
+                <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; turn) &amp; flop_mask != <span class="number">0 </span>|| (config.turn != NOT_DEALT &amp;&amp; config.turn != turn)
                 {
                     <span class="kw">continue</span>;
                 }
@@ -3756,7 +3404,7 @@
                 <span class="kw">for </span>suit1 <span class="kw">in </span><span class="number">1</span>..<span class="number">4 </span>{
                     <span class="kw">for </span>suit2 <span class="kw">in </span><span class="number">0</span>..suit1 {
                         <span class="kw">if </span>(flop_rankset[suit1 <span class="kw">as </span>usize] == flop_rankset[suit2 <span class="kw">as </span>usize]
-                            || <span class="self">self</span>.config.turn != NOT_DEALT)
+                            || config.turn != NOT_DEALT)
                             &amp;&amp; turn_rankset[suit1 <span class="kw">as </span>usize] == turn_rankset[suit2 <span class="kw">as </span>usize]
                             &amp;&amp; suit_isomorphism[suit1 <span class="kw">as </span>usize] == suit_isomorphism[suit2 <span class="kw">as </span>usize]
                         {
@@ -3826,22 +3474,18 @@
         <span class="kw">let </span>max_stack_size = [AtomicUsize::new(<span class="number">0</span>), AtomicUsize::new(<span class="number">0</span>)];
 
         <span class="kw">let </span>info = BuildTreeInfo {
-            last_action: Action::None,
-            last_bet: [<span class="number">0</span>, <span class="number">0</span>],
-            allin_flag: <span class="bool-val">false</span>,
             current_memory_usage: <span class="kw-2">&amp;</span>current_memory_usage,
             num_storage_elements: <span class="kw-2">&amp;</span>num_storage_elements,
             stack_size: [<span class="number">0</span>, <span class="number">0</span>],
             max_stack_size: <span class="kw-2">&amp;</span>max_stack_size,
-            last_aggressor: -<span class="number">1</span>,
         };
 
         <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root();
         <span class="kw-2">*</span>root = PostFlopNode::default();
-        root.turn = <span class="self">self</span>.config.turn;
-        root.river = <span class="self">self</span>.config.river;
+        root.turn = <span class="self">self</span>.card_config.turn;
+        root.river = <span class="self">self</span>.card_config.river;
 
-        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, <span class="kw-2">&amp;</span>info);
+        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, <span class="kw-2">&amp;</span><span class="self">self</span>.action_root.lock(), info);
 
         <span class="kw">let </span>current_memory_usage = current_memory_usage.load(Ordering::Relaxed);
         <span class="kw">let </span>num_storage_elements = num_storage_elements.load(Ordering::Relaxed);
@@ -3916,7 +3560,15 @@
     }
 
     <span class="doccomment">/// Builds the game tree recursively.
-    </span><span class="kw">fn </span>build_tree_recursive(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;mut </span>PostFlopNode, info: <span class="kw-2">&amp;</span>BuildTreeInfo) {
+    </span><span class="kw">fn </span>build_tree_recursive(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        node: <span class="kw-2">&amp;mut </span>PostFlopNode,
+        action_node: <span class="kw-2">&amp;</span>ActionTreeNode,
+        info: BuildTreeInfo,
+    ) {
+        node.player = action_node.player;
+        node.amount = action_node.amount;
+
         <span class="kw">if </span>node.is_terminal() {
             <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
                 atomic_set_max(<span class="kw-2">&amp;</span>info.max_stack_size[i], info.stack_size[i]);
@@ -3924,11 +3576,12 @@
             <span class="kw">return</span>;
         }
 
+        <span class="kw">let </span><span class="kw-2">mut </span>stack_size = info.stack_size;
+
         <span class="comment">// chance node
         </span><span class="kw">if </span>node.is_chance() {
-            <span class="self">self</span>.push_chances(node, info);
+            <span class="self">self</span>.push_chances(node, <span class="kw-2">&amp;</span>info);
 
-            <span class="kw">let </span><span class="kw-2">mut </span>stack_size = info.stack_size;
             <span class="kw">let </span>f32_size = mem::size_of::&lt;f32&gt;();
             <span class="kw">let </span>f64_size = mem::size_of::&lt;f64&gt;();
             <span class="kw">let </span>col_size = f32_size * node.num_actions();
@@ -3938,23 +3591,18 @@
                 <span class="kw-2">*</span>s += align_up(f32_size * <span class="self">self</span>.num_private_hands(i ^ <span class="number">1</span>));
             }
 
-            <span class="kw">for </span>(action, child) <span class="kw">in </span>node.actions.iter().zip(node.children.iter()) {
+            <span class="kw">for </span>child <span class="kw">in </span><span class="kw-2">&amp;</span>node.children {
                 <span class="self">self</span>.build_tree_recursive(
                     <span class="kw-2">&amp;mut </span>child.lock(),
-                    <span class="kw-2">&amp;</span>BuildTreeInfo {
-                        last_action: <span class="kw-2">*</span>action,
-                        last_bet: [<span class="number">0</span>, <span class="number">0</span>],
-                        stack_size,
-                        ..<span class="kw-2">*</span>info
-                    },
+                    <span class="kw-2">&amp;</span>action_node.children[<span class="number">0</span>].lock(),
+                    BuildTreeInfo { stack_size, ..info },
                 );
             }
         }
         <span class="comment">// player node
         </span><span class="kw">else </span>{
-            <span class="self">self</span>.push_actions(node, info);
+            <span class="self">self</span>.push_actions(node, action_node, <span class="kw-2">&amp;</span>info);
 
-            <span class="kw">let </span><span class="kw-2">mut </span>stack_size = info.stack_size;
             <span class="kw">let </span>col_size = mem::size_of::&lt;f32&gt;() * node.num_actions();
             <span class="kw">for </span>(i, s) <span class="kw">in </span>stack_size.iter_mut().enumerate() {
                 <span class="kw">let </span>n = <span class="kw">if </span>i == node.player() { <span class="number">2 </span>} <span class="kw">else </span>{ <span class="number">1 </span>};
@@ -3962,57 +3610,23 @@
                 <span class="kw-2">*</span>s += n * align_up(col_size * <span class="self">self</span>.num_private_hands(node.player()));
             }
 
-            <span class="kw">for </span>(action, child) <span class="kw">in </span>node.actions.iter().zip(node.children.iter()) {
-                <span class="kw">let </span><span class="kw-2">mut </span>last_bet = info.last_bet;
-                <span class="kw">let </span><span class="kw-2">mut </span>allin_flag = info.allin_flag;
-                <span class="kw">let </span><span class="kw-2">mut </span>last_aggressor: i32 = info.last_aggressor;
-
-                <span class="kw">match </span><span class="kw-2">*</span>action {
-                    Action::Check =&gt; {
-                        last_aggressor = -<span class="number">1</span>;
-                    }
-                    Action::Call =&gt; {
-                        last_bet[node.player <span class="kw">as </span>usize] = last_bet[node.player <span class="kw">as </span>usize ^ <span class="number">1</span>];
-                    }
-                    Action::Bet(size) | Action::Raise(size) =&gt; {
-                        last_bet[node.player <span class="kw">as </span>usize] = size;
-                        last_aggressor = node.player <span class="kw">as </span>i32;
-                    }
-                    Action::AllIn(size) =&gt; {
-                        last_bet[node.player <span class="kw">as </span>usize] = size;
-                        allin_flag = <span class="bool-val">true</span>;
-                    }
-                    <span class="kw">_ </span>=&gt; {}
-                }
-
+            <span class="kw">for </span>(child, action_child) <span class="kw">in </span>node.children.iter().zip(action_node.children.iter()) {
                 <span class="self">self</span>.build_tree_recursive(
                     <span class="kw-2">&amp;mut </span>child.lock(),
-                    <span class="kw-2">&amp;</span>BuildTreeInfo {
-                        last_action: <span class="kw-2">*</span>action,
-                        last_bet,
-                        allin_flag,
-                        stack_size,
-                        last_aggressor,
-                        ..<span class="kw-2">*</span>info
-                    },
-                )
+                    <span class="kw-2">&amp;</span>action_child.lock(),
+                    BuildTreeInfo { stack_size, ..info },
+                );
             }
         }
     }
 
     <span class="doccomment">/// Pushes the chance actions to the `node`.
     </span><span class="kw">fn </span>push_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;mut </span>PostFlopNode, info: <span class="kw-2">&amp;</span>BuildTreeInfo) {
-        <span class="kw">let </span>flop = <span class="self">self</span>.config.flop;
+        <span class="kw">let </span>flop = <span class="self">self</span>.card_config.flop;
         <span class="kw">let </span>flop_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
 
         <span class="comment">// deal turn
         </span><span class="kw">if </span>node.turn == NOT_DEALT {
-            <span class="kw">let </span>next_player = <span class="kw">if </span>!info.allin_flag {
-                PLAYER_OOP
-            } <span class="kw">else </span>{
-                PLAYER_CHANCE
-            };
-
             node.actions.reserve(<span class="number">49</span>);
             node.children.reserve(<span class="number">49</span>);
 
@@ -4020,9 +3634,7 @@
                 <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; card) &amp; flop_mask == <span class="number">0 </span>&amp;&amp; !<span class="self">self</span>.turn_isomorphism_cards.contains(<span class="kw-2">&amp;</span>card) {
                     node.actions.push(Action::Chance(card));
                     node.children.push(MutexLike::new(PostFlopNode {
-                        player: next_player,
                         turn: card,
-                        amount: node.amount,
                         ..Default::default()
                     }));
                 }
@@ -4031,12 +3643,6 @@
         <span class="comment">// deal river
         </span><span class="kw">else </span>{
             <span class="kw">let </span>turn_mask = flop_mask | (<span class="number">1 </span>&lt;&lt; node.turn);
-
-            <span class="kw">let </span>next_player = <span class="kw">if </span>!info.allin_flag {
-                PLAYER_OOP
-            } <span class="kw">else </span>{
-                PLAYER_TERMINAL_FLAG
-            };
 
             node.actions.reserve(<span class="number">48</span>);
             node.children.reserve(<span class="number">48</span>);
@@ -4047,10 +3653,8 @@
                 {
                     node.actions.push(Action::Chance(card));
                     node.children.push(MutexLike::new(PostFlopNode {
-                        player: next_player,
                         turn: node.turn,
                         river: card,
-                        amount: node.amount,
                         ..Default::default()
                     }));
                 }
@@ -4066,256 +3670,17 @@
     }
 
     <span class="doccomment">/// Pushes the actions to the `node`.
-    </span><span class="kw">fn </span>push_actions(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;mut </span>PostFlopNode, info: <span class="kw-2">&amp;</span>BuildTreeInfo) {
-        <span class="kw">let </span>player = node.player;
-        <span class="kw">let </span>player_opponent = node.player ^ <span class="number">1</span>;
-
-        <span class="kw">let </span>player_bet = info.last_bet[player <span class="kw">as </span>usize];
-        <span class="kw">let </span>opponent_bet = info.last_bet[player_opponent <span class="kw">as </span>usize];
-
-        <span class="kw">let </span>bet_diff = opponent_bet - player_bet;
-        <span class="kw">let </span>pot = <span class="self">self</span>.config.starting_pot + <span class="number">2 </span>* (node.amount + bet_diff);
-
-        <span class="kw">let </span>max_bet = <span class="self">self</span>.config.effective_stack - node.amount + player_bet;
-        <span class="kw">let </span>min_bet = (opponent_bet + bet_diff).clamp(<span class="number">1</span>, max_bet);
-
-        <span class="kw">let </span>stack_after_call = <span class="self">self</span>.config.effective_stack - node.amount - bet_diff;
-        <span class="kw">let </span>spr_after_call = stack_after_call <span class="kw">as </span>f64 / pot <span class="kw">as </span>f64;
-        <span class="kw">let </span>compute_geometric = |num_streets: i32, max_ratio: f32| {
-            <span class="kw">let </span>ratio = ((<span class="number">2.0 </span>* spr_after_call + <span class="number">1.0</span>).powf(<span class="number">1.0 </span>/ num_streets <span class="kw">as </span>f64) - <span class="number">1.0</span>) / <span class="number">2.0</span>;
-            (pot <span class="kw">as </span>f64 * f64::min(ratio, max_ratio <span class="kw">as </span>f64)).round() <span class="kw">as </span>i32
-        };
-
-        <span class="kw">let </span>(candidates, donk_candidates, num_remaining_streets) = <span class="kw">if </span>node.turn == NOT_DEALT {
-            (<span class="kw-2">&amp;</span><span class="self">self</span>.config.flop_bet_sizes, <span class="kw-2">&amp;</span><span class="prelude-val">None</span>, <span class="number">3</span>)
-        } <span class="kw">else if </span>node.river == NOT_DEALT {
-            (<span class="kw-2">&amp;</span><span class="self">self</span>.config.turn_bet_sizes, <span class="kw-2">&amp;</span><span class="self">self</span>.config.turn_donk_sizes, <span class="number">2</span>)
-        } <span class="kw">else </span>{
-            (
-                <span class="kw-2">&amp;</span><span class="self">self</span>.config.river_bet_sizes,
-                <span class="kw-2">&amp;</span><span class="self">self</span>.config.river_donk_sizes,
-                <span class="number">1</span>,
-            )
-        };
-
-        <span class="kw">let </span>player_after_call = <span class="kw">if </span>num_remaining_streets == <span class="number">1 </span>{
-            PLAYER_TERMINAL_FLAG
-        } <span class="kw">else </span>{
-            PLAYER_CHANCE
-        };
-
-        <span class="kw">let </span>player_after_check = <span class="kw">if </span>player == PLAYER_OOP {
-            player_opponent
-        } <span class="kw">else </span>{
-            player_after_call
-        };
-
-        <span class="kw">let </span><span class="kw-2">mut </span>actions = Vec::new();
-
-        <span class="kw">if </span>donk_candidates.is_some()
-            &amp;&amp; <span class="macro">matches!</span>(info.last_action, Action::Chance(<span class="kw">_</span>))
-            &amp;&amp; info.last_aggressor == player_opponent <span class="kw">as </span>i32
-        {
-            <span class="comment">// check
-            </span>actions.push((Action::Check, player_after_check));
-
-            <span class="comment">// donk bet
-            </span><span class="kw">for </span><span class="kw-2">&amp;</span>donk_size <span class="kw">in </span><span class="kw-2">&amp;</span>donk_candidates.as_ref().unwrap().donk {
-                <span class="kw">match </span>donk_size {
-                    BetSize::PotRelative(ratio) =&gt; {
-                        <span class="kw">let </span>size = (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
-                        actions.push((Action::Bet(size), player_opponent));
-                    }
-                    BetSize::PrevBetRelative(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected `PrevBetRelative`&quot;</span>),
-                    BetSize::Additive(adder) =&gt; actions.push((Action::Bet(adder), player_opponent)),
-                    BetSize::Geometric(num_streets, max_ratio) =&gt; {
-                        <span class="kw">let </span>num_streets = <span class="kw">if </span>num_streets == <span class="number">0 </span>{
-                            num_remaining_streets
-                        } <span class="kw">else </span>{
-                            num_streets
-                        };
-                        <span class="kw">let </span>size = compute_geometric(num_streets, max_ratio);
-                        actions.push((Action::Bet(size), player_opponent));
-                    }
-                    BetSize::AllIn =&gt; actions.push((Action::AllIn(max_bet), player_opponent)),
-                }
-            }
-
-            <span class="comment">// all-in
-            </span><span class="kw">if </span>max_bet &lt;= (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_all_in_threshold) <span class="kw">as </span>i32 {
-                actions.push((Action::AllIn(max_bet), player_opponent));
-            }
-        } <span class="kw">else if </span><span class="macro">matches!</span>(
-            info.last_action,
-            Action::None | Action::Check | Action::Chance(<span class="kw">_</span>)
-        ) {
-            <span class="comment">// check
-            </span>actions.push((Action::Check, player_after_check));
-
-            <span class="comment">// first bet
-            </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].bet {
-                <span class="kw">match </span>bet_size {
-                    BetSize::PotRelative(ratio) =&gt; {
-                        <span class="kw">let </span>size = (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
-                        actions.push((Action::Bet(size), player_opponent));
-                    }
-                    BetSize::PrevBetRelative(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected `PrevBetRelative`&quot;</span>),
-                    BetSize::Additive(adder) =&gt; actions.push((Action::Bet(adder), player_opponent)),
-                    BetSize::Geometric(num_streets, max_ratio) =&gt; {
-                        <span class="kw">let </span>num_streets = <span class="kw">if </span>num_streets == <span class="number">0 </span>{
-                            num_remaining_streets
-                        } <span class="kw">else </span>{
-                            num_streets
-                        };
-                        <span class="kw">let </span>size = compute_geometric(num_streets, max_ratio);
-                        actions.push((Action::Bet(size), player_opponent));
-                    }
-                    BetSize::AllIn =&gt; actions.push((Action::AllIn(max_bet), player_opponent)),
-                }
-            }
-
-            <span class="comment">// all-in
-            </span><span class="kw">if </span>max_bet &lt;= (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_all_in_threshold) <span class="kw">as </span>i32 {
-                actions.push((Action::AllIn(max_bet), player_opponent));
-            }
-        } <span class="kw">else </span>{
-            <span class="comment">// fold
-            </span>actions.push((Action::Fold, PLAYER_FOLD_FLAG | player));
-
-            <span class="comment">// call
-            </span>actions.push((Action::Call, player_after_call));
-
-            <span class="kw">if </span>!info.allin_flag {
-                <span class="comment">// raise
-                </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].raise {
-                    <span class="kw">match </span>bet_size {
-                        BetSize::PotRelative(ratio) =&gt; {
-                            <span class="kw">let </span>size = opponent_bet + (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
-                            actions.push((Action::Raise(size), player_opponent));
-                        }
-                        BetSize::PrevBetRelative(ratio) =&gt; {
-                            <span class="kw">let </span>size = (opponent_bet <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
-                            actions.push((Action::Raise(size), player_opponent));
-                        }
-                        BetSize::Additive(adder) =&gt; {
-                            actions.push((Action::Raise(opponent_bet + adder), player_opponent))
-                        }
-                        BetSize::Geometric(num_streets, max_ratio) =&gt; {
-                            <span class="kw">let </span>num_streets = <span class="kw">if </span>num_streets == <span class="number">0 </span>{
-                                num_remaining_streets
-                            } <span class="kw">else </span>{
-                                num_streets
-                            };
-                            <span class="kw">let </span>size = compute_geometric(num_streets, max_ratio);
-                            actions.push((Action::Raise(opponent_bet + size), player_opponent));
-                        }
-                        BetSize::AllIn =&gt; actions.push((Action::AllIn(max_bet), player_opponent)),
-                    }
-                }
-
-                <span class="comment">// all-in
-                </span><span class="kw">let </span>all_in_threshold = (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_all_in_threshold) <span class="kw">as </span>i32;
-                <span class="kw">if </span>max_bet &lt;= opponent_bet + all_in_threshold {
-                    actions.push((Action::AllIn(max_bet), player_opponent));
-                }
-            }
-        }
-
-        <span class="kw">let </span>adjust_size = |size: i32| {
-            <span class="kw">let </span>new_bet_diff = size - opponent_bet;
-            <span class="kw">let </span>new_pot = pot + <span class="number">2 </span>* new_bet_diff;
-
-            <span class="kw">let </span>threshold = (new_pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.force_all_in_threshold).round() <span class="kw">as </span>i32;
-            <span class="kw">if </span>max_bet &lt;= size + threshold {
-                <span class="kw">return </span>max_bet;
-            }
-
-            <span class="kw">if </span>!<span class="self">self</span>.config.adjust_bet_size_before_all_in {
-                <span class="kw">return </span>size;
-            }
-
-            <span class="kw">let </span>raise_candidates = <span class="kw-2">&amp;</span>candidates[player_opponent <span class="kw">as </span>usize].raise;
-            <span class="kw">if </span>raise_candidates.is_empty() {
-                <span class="kw">return </span>size;
-            }
-
-            <span class="kw">let </span><span class="kw-2">mut </span>min_opponent_ratio = f32::MAX;
-            <span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span>raise_candidates {
-                <span class="kw">let </span>ratio = <span class="kw">match </span>bet_size {
-                    BetSize::PotRelative(ratio) =&gt; ratio,
-                    BetSize::PrevBetRelative(ratio) =&gt; size <span class="kw">as </span>f32 * (ratio - <span class="number">1.0</span>) / new_pot <span class="kw">as </span>f32,
-                    BetSize::Additive(adder) =&gt; adder <span class="kw">as </span>f32 / new_pot <span class="kw">as </span>f32,
-                    <span class="comment">// how to deal with geometric bet size?
-                    </span>BetSize::Geometric(<span class="kw">_</span>, <span class="kw">_</span>) | BetSize::AllIn =&gt; f32::MAX,
-                };
-                min_opponent_ratio = min_opponent_ratio.min(ratio);
-            }
-
-            <span class="kw">let </span>min_opponent_bet = size + (new_pot <span class="kw">as </span>f32 * min_opponent_ratio).round() <span class="kw">as </span>i32;
-            <span class="kw">let </span>next_bet_diff = min_opponent_bet - size;
-            <span class="kw">let </span>next_pot = new_pot + <span class="number">2 </span>* next_bet_diff;
-
-            <span class="kw">let </span>threshold = (next_pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.force_all_in_threshold).round() <span class="kw">as </span>i32;
-            <span class="kw">if </span>max_bet &lt;= min_opponent_bet + threshold {
-                <span class="comment">// next opponent bet will be always all-in
-                </span><span class="kw">let </span>ratio = new_bet_diff <span class="kw">as </span>f32 / pot <span class="kw">as </span>f32;
-                <span class="kw">let </span>a = <span class="number">2.0 </span>* pot <span class="kw">as </span>f32 * ratio * min_opponent_ratio;
-                <span class="kw">let </span>b = pot <span class="kw">as </span>f32 * (ratio + min_opponent_ratio);
-                <span class="kw">let </span>c = (max_bet - opponent_bet) <span class="kw">as </span>f32;
-                <span class="comment">// solve quadratic equation
-                </span><span class="kw">let </span>coef = ((<span class="number">4.0 </span>* a * c + b * b).sqrt() - b) / (<span class="number">2.0 </span>* a);
-
-                <span class="comment">// FIXME: When `PrevBetRelative` is the minimum oppponent bet size, this size may
-                // not force the opponent to all-in?
-                </span><span class="kw">return </span>opponent_bet + (new_bet_diff <span class="kw">as </span>f32 * coef).round() <span class="kw">as </span>i32;
-            }
-
-            size
-        };
-
-        <span class="comment">// adjust bet sizes
-        </span><span class="kw">for </span>(action, <span class="kw">_</span>) <span class="kw">in </span>actions.iter_mut() {
-            <span class="kw">match </span><span class="kw-2">*</span>action {
-                Action::Bet(size) =&gt; {
-                    <span class="kw">let </span>adjusted_size = adjust_size(size).clamp(min_bet, max_bet);
-                    <span class="kw">if </span>adjusted_size == max_bet {
-                        <span class="kw-2">*</span>action = Action::AllIn(max_bet);
-                    } <span class="kw">else if </span>size != adjusted_size {
-                        <span class="kw-2">*</span>action = Action::Bet(adjusted_size);
-                    }
-                }
-                Action::Raise(size) =&gt; {
-                    <span class="kw">let </span>adjusted_size = adjust_size(size).clamp(min_bet, max_bet);
-                    <span class="kw">if </span>adjusted_size == max_bet {
-                        <span class="kw-2">*</span>action = Action::AllIn(max_bet);
-                    } <span class="kw">else if </span>size != adjusted_size {
-                        <span class="kw-2">*</span>action = Action::Raise(adjusted_size);
-                    }
-                }
-                <span class="kw">_ </span>=&gt; {}
-            }
-        }
-
-        <span class="comment">// remove duplicates
-        </span>actions.sort_unstable();
-        actions.dedup();
-
-        <span class="comment">// push actions
-        </span><span class="kw">for </span>(action, next_player) <span class="kw">in </span>actions {
-            <span class="kw">let </span><span class="kw-2">mut </span>amount = node.amount;
-            <span class="kw">if </span><span class="macro">matches!</span>(
-                action,
-                Action::Call | Action::Bet(<span class="kw">_</span>) | Action::Raise(<span class="kw">_</span>) | Action::AllIn(<span class="kw">_</span>)
-            ) {
-                amount += bet_diff;
-            }
-
-            node.actions.push(action);
+    </span><span class="kw">fn </span>push_actions(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        node: <span class="kw-2">&amp;mut </span>PostFlopNode,
+        action_node: <span class="kw-2">&amp;</span>ActionTreeNode,
+        info: <span class="kw-2">&amp;</span>BuildTreeInfo,
+    ) {
+        <span class="kw">for </span>action <span class="kw">in </span><span class="kw-2">&amp;</span>action_node.actions {
+            node.actions.push(<span class="kw-2">*</span>action);
             node.children.push(MutexLike::new(PostFlopNode {
-                player: next_player,
                 turn: node.turn,
                 river: node.river,
-                amount,
                 ..Default::default()
             }));
         }
@@ -4327,7 +3692,7 @@
             Ordering::Relaxed,
         );
 
-        <span class="kw">let </span>num_elems = node.num_actions() * <span class="self">self</span>.num_private_hands(player <span class="kw">as </span>usize);
+        <span class="kw">let </span>num_elems = node.num_actions() * <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize);
         node.num_elements = num_elems;
         info.num_storage_elements
             .fetch_add(num_elems <span class="kw">as </span>u64, Ordering::Relaxed);
@@ -4366,8 +3731,8 @@
     </span><span class="kw">pub fn </span>back_to_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.history.clear();
         <span class="self">self</span>.node_ptr = <span class="kw-2">&amp;*</span><span class="self">self</span>.root();
-        <span class="self">self</span>.turn = <span class="self">self</span>.config.turn;
-        <span class="self">self</span>.river = <span class="self">self</span>.config.river;
+        <span class="self">self</span>.turn = <span class="self">self</span>.card_config.turn;
+        <span class="self">self</span>.river = <span class="self">self</span>.card_config.river;
         <span class="self">self</span>.weights = <span class="self">self</span>.initial_weight.clone();
         <span class="self">self</span>.normalized_weights_cached = <span class="bool-val">false</span>;
         <span class="self">self</span>.normalize_factor = <span class="number">1.0 </span>/ <span class="self">self</span>.num_combinations_inv <span class="kw">as </span>f32;
@@ -4411,7 +3776,7 @@
             .actions()
             .map(|action| {
                 <span class="kw">let </span>child = <span class="self">self</span>.node().play(action);
-                child.is_terminal() || child.amount == <span class="self">self</span>.config.effective_stack
+                child.is_terminal() || child.amount == <span class="self">self</span>.tree_config.effective_stack
             })
             .collect()
     }
@@ -4434,7 +3799,7 @@
             <span class="kw">return </span><span class="number">0</span>;
         }
 
-        <span class="kw">let </span>flop = <span class="self">self</span>.config.flop;
+        <span class="kw">let </span>flop = <span class="self">self</span>.card_config.flop;
         <span class="kw">let </span><span class="kw-2">mut </span>board_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
         <span class="kw">if </span><span class="self">self</span>.turn != NOT_DEALT {
             board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.turn;
@@ -4567,7 +3932,7 @@
             </span><span class="self">self</span>.node_ptr = <span class="kw-2">&amp;*</span><span class="self">self</span>.node().play(action);
         }
 
-        <span class="kw">if </span><span class="self">self</span>.node().is_terminal() || <span class="self">self</span>.node().amount == <span class="self">self</span>.config.effective_stack {
+        <span class="kw">if </span><span class="self">self</span>.node().is_terminal() || <span class="self">self</span>.node().amount == <span class="self">self</span>.tree_config.effective_stack {
             <span class="macro">panic!</span>(<span class="string">&quot;playing a terminal action is not allowed&quot;</span>);
         }
 
@@ -4774,6 +4139,7 @@
         };
 
         <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
+        <span class="kw">let </span>starting_pot = <span class="self">self</span>.tree_config.starting_pot;
         ret.chunks_exact_mut(num_hands).for_each(|row| {
             <span class="self">self</span>.apply_swap(row, player);
             row.iter_mut()
@@ -4781,7 +4147,7 @@
                 .for_each(|(v, <span class="kw-2">&amp;</span>w)| {
                     <span class="kw">if </span>w &gt; <span class="number">0.0 </span>{
                         <span class="kw-2">*</span>v <span class="kw-2">*</span>= <span class="self">self</span>.normalize_factor / w;
-                        <span class="kw-2">*</span>v += <span class="self">self</span>.config.starting_pot <span class="kw">as </span>f32 * <span class="number">0.5 </span>+ <span class="self">self</span>.node().amount <span class="kw">as </span>f32;
+                        <span class="kw-2">*</span>v += starting_pot <span class="kw">as </span>f32 * <span class="number">0.5 </span>+ <span class="self">self</span>.node().amount <span class="kw">as </span>f32;
                     } <span class="kw">else </span>{
                         <span class="kw-2">*</span>v = <span class="number">0.0</span>;
                     }
@@ -5050,7 +4416,11 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            config: GameConfig::default(),
+            card_config: CardConfig::default(),
+            tree_config: TreeConfig::default(),
+            added_lines: Vec::default(),
+            removed_lines: Vec::default(),
+            action_root: Box::default(),
             root: Box::default(),
             num_combinations_inv: <span class="number">0.0</span>,
             initial_weight: Default::default(),
@@ -5110,30 +4480,20 @@
     }
 }
 
-<span class="kw">impl </span>Default <span class="kw">for </span>GameConfig {
+<span class="kw">impl </span>Default <span class="kw">for </span>CardConfig {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
+            range: Default::default(),
             flop: [NOT_DEALT; <span class="number">3</span>],
             turn: NOT_DEALT,
             river: NOT_DEALT,
-            starting_pot: <span class="number">0</span>,
-            effective_stack: <span class="number">0</span>,
-            range: Default::default(),
-            flop_bet_sizes: Default::default(),
-            turn_bet_sizes: Default::default(),
-            river_bet_sizes: Default::default(),
-            turn_donk_sizes: <span class="prelude-val">None</span>,
-            river_donk_sizes: <span class="prelude-val">None</span>,
-            add_all_in_threshold: <span class="number">0.0</span>,
-            force_all_in_threshold: <span class="number">0.0</span>,
-            adjust_bet_size_before_all_in: <span class="bool-val">false</span>,
         }
     }
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-11-26&quot;</span>;
+</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-11-29&quot;</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
 </span><span class="macro">thread_local! </span>{
@@ -5161,7 +4521,11 @@
         </span>VERSION_STR.to_string().encode(encoder)<span class="question-mark">?</span>;
 
         <span class="comment">// contents
-        </span><span class="self">self</span>.config.encode(encoder)<span class="question-mark">?</span>;
+        </span><span class="self">self</span>.card_config.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.tree_config.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.added_lines.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.removed_lines.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.action_root.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.num_combinations_inv.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.is_memory_allocated.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.is_compression_enabled.encode(encoder)<span class="question-mark">?</span>;
@@ -5225,7 +4589,11 @@
 
         <span class="comment">// game instance
         </span><span class="kw">let </span><span class="kw-2">mut </span>game = <span class="self">Self </span>{
-            config: Decode::decode(decoder)<span class="question-mark">?</span>,
+            card_config: Decode::decode(decoder)<span class="question-mark">?</span>,
+            tree_config: Decode::decode(decoder)<span class="question-mark">?</span>,
+            added_lines: Decode::decode(decoder)<span class="question-mark">?</span>,
+            removed_lines: Decode::decode(decoder)<span class="question-mark">?</span>,
+            action_root: Decode::decode(decoder)<span class="question-mark">?</span>,
             num_combinations_inv: Decode::decode(decoder)<span class="question-mark">?</span>,
             is_memory_allocated: Decode::decode(decoder)<span class="question-mark">?</span>,
             is_compression_enabled: Decode::decode(decoder)<span class="question-mark">?</span>,
@@ -5342,15 +4710,21 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>all_check_all_range() {
-        <span class="kw">let </span>config = GameConfig {
-            flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
-            starting_pot: <span class="number">60</span>,
-            effective_stack: <span class="number">970</span>,
+        <span class="kw">let </span>card_config = CardConfig {
             range: [Range::ones(); <span class="number">2</span>],
+            flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>tree_config = TreeConfig {
+            starting_pot: <span class="number">60</span>,
+            effective_stack: <span class="number">970</span>,
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">false</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5366,16 +4740,22 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>one_raise_all_range() {
-        <span class="kw">let </span>config = GameConfig {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [Range::ones(); <span class="number">2</span>],
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            range: [Range::ones(); <span class="number">2</span>],
             river_bet_sizes: [(<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), Default::default()],
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">false</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5391,16 +4771,22 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>one_raise_all_range_compressed() {
-        <span class="kw">let </span>config = GameConfig {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [Range::ones(); <span class="number">2</span>],
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            range: [Range::ones(); <span class="number">2</span>],
             river_bet_sizes: [(<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), Default::default()],
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">true</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5416,17 +4802,24 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>one_raise_all_range_with_turn() {
-        <span class="kw">let </span>config = GameConfig {
+        <span class="kw">let </span>card_config = CardConfig {
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
+            range: [Range::ones(); <span class="number">2</span>],
             turn: card_from_str(<span class="string">&quot;Qc&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            initial_state: BoardState::Turn,
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            range: [Range::ones(); <span class="number">2</span>],
             river_bet_sizes: [(<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), Default::default()],
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">false</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5442,18 +4835,24 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>one_raise_all_range_with_river() {
-        <span class="kw">let </span>config = GameConfig {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [Range::ones(); <span class="number">2</span>],
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             turn: card_from_str(<span class="string">&quot;Qc&quot;</span>).unwrap(),
             river: card_from_str(<span class="string">&quot;7s&quot;</span>).unwrap(),
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            initial_state: BoardState::River,
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            range: [Range::ones(); <span class="number">2</span>],
             river_bet_sizes: [(<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), Default::default()],
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">false</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5471,15 +4870,21 @@
     </span><span class="kw">fn </span>always_win() {
         <span class="comment">// be careful for straight flushes
         </span><span class="kw">let </span>lose_range_str = <span class="string">&quot;KK-22,K9-K2,Q8-Q2,J8-J2,T8-T2,92+,82+,72+,62+&quot;</span>;
-        <span class="kw">let </span>config = GameConfig {
-            flop: flop_from_str(<span class="string">&quot;AcAdKh&quot;</span>).unwrap(),
-            starting_pot: <span class="number">60</span>,
-            effective_stack: <span class="number">970</span>,
+        <span class="kw">let </span>card_config = CardConfig {
             range: [<span class="string">&quot;AA&quot;</span>.parse().unwrap(), lose_range_str.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;AcAdKh&quot;</span>).unwrap(),
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>tree_config = TreeConfig {
+            starting_pot: <span class="number">60</span>,
+            effective_stack: <span class="number">970</span>,
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">false</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5495,30 +4900,42 @@
 
     <span class="attr">#[test]
     </span><span class="kw">fn </span>no_assignment() {
-        <span class="kw">let </span>config = GameConfig {
-            flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
-            starting_pot: <span class="number">60</span>,
-            effective_stack: <span class="number">970</span>,
+        <span class="kw">let </span>card_config = CardConfig {
             range: [<span class="string">&quot;TT&quot;</span>.parse().unwrap(), <span class="string">&quot;TT&quot;</span>.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
             ..Default::default()
         };
-        <span class="kw">let </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config);
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            starting_pot: <span class="number">60</span>,
+            effective_stack: <span class="number">970</span>,
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>game = PostFlopGame::with_config(card_config, action_tree);
         <span class="macro">assert!</span>(game.is_err());
     }
 
     <span class="attr">#[test]
     #[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
     </span><span class="kw">fn </span>serialize_and_deserialize() {
-        <span class="kw">let </span>config = GameConfig {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [Range::ones(); <span class="number">2</span>],
             flop: flop_from_str(<span class="string">&quot;Td9d6h&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            range: [Range::ones(); <span class="number">2</span>],
             river_bet_sizes: [(<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), Default::default()],
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
         game.allocate_memory(<span class="bool-val">false</span>);
         finalize(<span class="kw-2">&amp;mut </span>game);
 
@@ -5554,13 +4971,15 @@
         <span class="kw">let </span>oop_range = <span class="string">&quot;88+,A8s+,A5s-A2s:0.5,AJo+,ATo:0.75,K9s+,KQo,KJo:0.75,KTo:0.25,Q9s+,QJo:0.5,J8s+,JTo:0.25,T8s+,T7s:0.45,97s+,96s:0.45,87s,86s:0.75,85s:0.45,75s+:0.75,74s:0.45,65s:0.75,64s:0.5,63s:0.45,54s:0.75,53s:0.5,52s:0.45,43s:0.5,42s:0.45,32s:0.45&quot;</span>;
         <span class="kw">let </span>ip_range = <span class="string">&quot;AA:0.25,99-22,AJs-A2s,AQo-A8o,K2s+,K9o+,Q2s+,Q9o+,J6s+,J9o+,T6s+,T9o,96s+,95s:0.5,98o,86s+,85s:0.5,75s+,74s:0.5,64s+,63s:0.5,54s,53s:0.5,43s&quot;</span>;
 
-        <span class="kw">let </span>config = GameConfig {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
             flop: flop_from_str(<span class="string">&quot;QsJh2h&quot;</span>).unwrap(),
-            turn: NOT_DEALT,
-            river: NOT_DEALT,
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">180</span>,
             effective_stack: <span class="number">910</span>,
-            range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
             flop_bet_sizes: [
                 (<span class="string">&quot;52%&quot;</span>, <span class="string">&quot;45%&quot;</span>).try_into().unwrap(),
                 (<span class="string">&quot;52%&quot;</span>, <span class="string">&quot;45%&quot;</span>).try_into().unwrap(),
@@ -5576,7 +4995,8 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(<span class="kw-2">&amp;</span>config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
         <span class="macro">println!</span>(
             <span class="string">&quot;memory usage: {:.2}GB&quot;</span>,
             game.memory_usage().<span class="number">0 </span><span class="kw">as </span>f64 / (<span class="number">1024.0 </span>* <span class="number">1024.0 </span>* <span class="number">1024.0</span>)
@@ -5597,4 +5017,4 @@
     }
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (b3bc6bf31 2022-11-24)" data-search-js="search-df80cc3cb87b6482.js" data-settings-js="settings-7e1cf5cc683233f7.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (2585bcea0 2022-11-28)" data-search-js="search-df80cc3cb87b6482.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
