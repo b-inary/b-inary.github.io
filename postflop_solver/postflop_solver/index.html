@@ -33,7 +33,7 @@
 };
 
 <span class="comment">// build the game tree
-</span><span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+</span><span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
 <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
 <span class="comment">// obtain the private hands

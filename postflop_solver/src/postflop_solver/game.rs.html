@@ -3998,7 +3998,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">false</span>);
@@ -4029,7 +4029,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">false</span>);
@@ -4060,7 +4060,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">true</span>);
@@ -4093,7 +4093,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">false</span>);
@@ -4126,7 +4126,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">false</span>);
@@ -4158,7 +4158,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">false</span>);
@@ -4188,7 +4188,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span>game = PostFlopGame::with_config(card_config, action_tree);
         <span class="macro">assert!</span>(game.is_err());
     }
@@ -4209,7 +4209,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
 
         game.allocate_memory(<span class="bool-val">false</span>);
@@ -4271,7 +4271,7 @@
             ..Default::default()
         };
 
-        <span class="kw">let </span>action_tree = ActionTree::with_config(tree_config).unwrap();
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
         <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
         <span class="macro">println!</span>(
             <span class="string">&quot;memory usage: {:.2}GB&quot;</span>,
