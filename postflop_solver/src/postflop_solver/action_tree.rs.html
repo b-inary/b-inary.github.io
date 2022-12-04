@@ -1003,6 +1003,7 @@
 <a href="#1003" id="1003">1003</a>
 <a href="#1004" id="1004">1004</a>
 <a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bet_size::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 
@@ -1233,13 +1234,12 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>remove_line(<span class="kw-2">&amp;mut </span><span class="self">self</span>, line: <span class="kw-2">&amp;</span>[Action]) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="self">Self</span>::remove_line_recursive(<span class="kw-2">&amp;mut </span><span class="self">self</span>.root.lock(), line)<span class="question-mark">?</span>;
-        <span class="kw">let </span>added_index = <span class="self">self</span>.added_lines.iter().position(|x| x == line);
-        <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = added_index {
-            <span class="self">self</span>.added_lines.remove(index);
-        } <span class="kw">else </span>{
+        <span class="kw">let </span>was_added = <span class="self">self</span>.added_lines.iter().any(|l| l == line);
+        <span class="self">self</span>.added_lines.retain(|l| !l.starts_with(line));
+        <span class="self">self</span>.removed_lines.retain(|l| !l.starts_with(line));
+        <span class="kw">if </span>!was_added {
             <span class="self">self</span>.removed_lines.push(line.to_vec());
         }
-        <span class="self">self</span>.added_lines.retain(|l| !l.starts_with(line));
         <span class="kw">if </span><span class="self">self</span>.history.starts_with(line) {
             <span class="self">self</span>.history.truncate(line.len() - <span class="number">1</span>);
         }
@@ -1709,6 +1709,8 @@
             <span class="comment">// Do nothing
         </span>} <span class="kw">else if </span>node.children.is_empty() {
             result.push(line.clone());
+        } <span class="kw">else if </span>node.is_chance() {
+            <span class="self">Self</span>::invalid_terminals_recursive(<span class="kw-2">&amp;</span>node.children[<span class="number">0</span>].lock(), result, line)
         } <span class="kw">else </span>{
             <span class="kw">for </span>(<span class="kw-2">&amp;</span>action, child) <span class="kw">in </span>node.actions.iter().zip(node.children.iter()) {
                 line.push(action);
