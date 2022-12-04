@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/action_tree.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>action_tree.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-59deea3733ac6c09.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-3bcdcab5f4113412.css"><link rel="stylesheet" disabled href="../../static.files/dark-091ecdca18d5df85.css"><link rel="stylesheet" disabled href="../../static.files/ayu-45445754dcd01ab2.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/action_tree.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>action_tree.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e963ab4a0d0c903e.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-046227e470cd3629.css"><link rel="stylesheet" disabled href="../../static.files/dark-800f2ee593c8e6f7.css"><link rel="stylesheet" disabled href="../../static.files/ayu-9edae3c387f5a5b3.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-5cf2e01a42cc9858.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-287cecec4dbb45b0.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><div class="width-limiter"><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -959,6 +959,50 @@
 <a href="#959" id="959">959</a>
 <a href="#960" id="960">960</a>
 <a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bet_size::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 
@@ -1091,8 +1135,7 @@
     added_lines: Vec&lt;Vec&lt;Action&gt;&gt;,
     removed_lines: Vec&lt;Vec&lt;Action&gt;&gt;,
     root: Box&lt;MutexLike&lt;ActionTreeNode&gt;&gt;,
-    action_history: Vec&lt;Action&gt;,
-    node_history: Vec&lt;<span class="kw-2">*const </span>ActionTreeNode&gt;,
+    history: Vec&lt;Action&gt;,
 }
 
 <span class="comment">// automatic derive of `Decode` does not work (2.0.0-rc.2)
@@ -1106,12 +1149,12 @@
     <span class="kw">pub</span>(<span class="kw">crate</span>) children: Vec&lt;MutexLike&lt;ActionTreeNode&gt;&gt;,
 }
 
-<span class="attr">#[derive(Default)]
-</span><span class="kw">struct </span>BuildTreeInfo {
+<span class="kw">struct </span>BuildTreeInfo {
     last_action: Action,
     allin_flag: bool,
     oop_call_flag: bool,
-    bet_amount: [i32; <span class="number">2</span>],
+    stack: [i32; <span class="number">2</span>],
+    prev_amount: i32,
 }
 
 <span class="kw">type </span>EjectedActionTree = (
@@ -1131,7 +1174,6 @@
             ..Default::default()
         };
         ret.build_tree();
-        ret.node_history.push(<span class="kw-2">&amp;*</span>ret.root.lock());
         <span class="prelude-val">Ok</span>(ret)
     }
 
@@ -1153,6 +1195,15 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.removed_lines
     }
 
+    <span class="doccomment">/// Returns a list of all terminal nodes that should not be.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>invalid_terminals(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Vec&lt;Action&gt;&gt; {
+        <span class="kw">let </span><span class="kw-2">mut </span>ret = Vec::new();
+        <span class="kw">let </span><span class="kw-2">mut </span>line = Vec::new();
+        <span class="self">Self</span>::invalid_terminals_recursive(<span class="kw-2">&amp;</span><span class="self">self</span>.root.lock(), <span class="kw-2">&amp;mut </span>ret, <span class="kw-2">&amp;mut </span>line);
+        ret
+    }
+
     <span class="doccomment">/// Adds a given line to the action tree.
     ///
     /// - `line` except the last action must exist in the current tree.
@@ -1163,7 +1214,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>add_line(<span class="kw-2">&amp;mut </span><span class="self">self</span>, line: <span class="kw-2">&amp;</span>[Action]) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="kw">let </span>removed_index = <span class="self">self</span>.removed_lines.iter().position(|x| x == line);
-        <span class="kw">let </span>info = BuildTreeInfo::default();
+        <span class="kw">let </span>info = BuildTreeInfo::new(<span class="self">self</span>.config.effective_stack);
         <span class="self">self</span>.add_line_recursive(<span class="kw-2">&amp;mut </span><span class="self">self</span>.root.lock(), line, removed_index.is_some(), info)<span class="question-mark">?</span>;
         <span class="kw">if let </span><span class="prelude-val">Some</span>(index) = removed_index {
             <span class="self">self</span>.removed_lines.remove(index);
@@ -1188,9 +1239,9 @@
         } <span class="kw">else </span>{
             <span class="self">self</span>.removed_lines.push(line.to_vec());
         }
-        <span class="kw">if </span><span class="self">self</span>.action_history.starts_with(line) {
-            <span class="self">self</span>.action_history.truncate(line.len() - <span class="number">1</span>);
-            <span class="self">self</span>.node_history.truncate(line.len());
+        <span class="self">self</span>.added_lines.retain(|l| !l.starts_with(line));
+        <span class="kw">if </span><span class="self">self</span>.history.starts_with(line) {
+            <span class="self">self</span>.history.truncate(line.len() - <span class="number">1</span>);
         }
         <span class="prelude-val">Ok</span>(())
     }
@@ -1216,6 +1267,12 @@
             .collect()
     }
 
+    <span class="doccomment">/// Returns whether the current node is a chance node.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>is_chance_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="self">self</span>.current_node().is_chance()
+    }
+
     <span class="doccomment">/// Plays the given action. Returns `Ok(())` if the action is valid.
     ///
     /// The `action` must be one of the possible actions at the current node.
@@ -1224,58 +1281,45 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>play(<span class="kw-2">&amp;mut </span><span class="self">self</span>, action: Action) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="kw">let </span>node = <span class="self">self</span>.current_node_skip_chance();
-        <span class="kw">let </span>search_result = node.actions.binary_search(<span class="kw-2">&amp;</span>action);
-        <span class="kw">if </span>search_result.is_err() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action `{:?}` is not available&quot;</span>, action));
+        <span class="kw">if </span>!node.actions.contains(<span class="kw-2">&amp;</span>action) {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action `{action:?}` is not available&quot;</span>));
         }
 
-        <span class="kw">let </span>index = search_result.unwrap();
-        <span class="self">self</span>.node_history.push(<span class="kw-2">&amp;*</span>node.children[index].lock());
-        <span class="self">self</span>.action_history.push(action);
-
+        <span class="self">self</span>.history.push(action);
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Undoes the last action. Returns `Ok(())` if the action is successfully undone.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>undo(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
-        <span class="kw">if </span><span class="self">self</span>.action_history.is_empty() {
+        <span class="kw">if </span><span class="self">self</span>.history.is_empty() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;No action to undo&quot;</span>.to_string());
         }
 
-        <span class="self">self</span>.action_history.pop();
-        <span class="self">self</span>.node_history.pop();
-
+        <span class="self">self</span>.history.pop();
         <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Moves back to the root node.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>back_to_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
-        <span class="self">self</span>.action_history.clear();
-        <span class="self">self</span>.node_history = <span class="macro">vec!</span>[<span class="kw-2">&amp;*</span><span class="self">self</span>.root.lock()];
+        <span class="self">self</span>.history.clear();
     }
 
     <span class="doccomment">/// Obtains the current action history.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>history(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Action] {
-        <span class="kw-2">&amp;</span><span class="self">self</span>.action_history
+        <span class="kw-2">&amp;</span><span class="self">self</span>.history
     }
 
     <span class="doccomment">/// Applies the given action history from the root node.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>apply_history(<span class="kw-2">&amp;mut </span><span class="self">self</span>, history: <span class="kw-2">&amp;</span>[Action]) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="self">self</span>.back_to_root();
-        <span class="kw">for </span>action <span class="kw">in </span>history {
-            <span class="self">self</span>.play(<span class="kw-2">*</span>action)<span class="question-mark">?</span>;
+        <span class="kw">for </span><span class="kw-2">&amp;</span>action <span class="kw">in </span>history {
+            <span class="self">self</span>.play(action)<span class="question-mark">?</span>;
         }
         <span class="prelude-val">Ok</span>(())
-    }
-
-    <span class="doccomment">/// Returns whether the current node is a chance node.
-    </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>is_chance_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.current_node().is_chance()
     }
 
     <span class="doccomment">/// Adds a given action to the current node.
@@ -1286,7 +1330,7 @@
     /// [`add_line`]: #method.add_line
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>add_action(<span class="kw-2">&amp;mut </span><span class="self">self</span>, action: Action) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>action_line = <span class="self">self</span>.action_history.clone();
+        <span class="kw">let </span><span class="kw-2">mut </span>action_line = <span class="self">self</span>.history.clone();
         action_line.push(action);
         <span class="self">self</span>.add_line(<span class="kw-2">&amp;</span>action_line)
     }
@@ -1299,7 +1343,7 @@
     /// [`remove_line`]: #method.remove_line
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>remove_action(<span class="kw-2">&amp;mut </span><span class="self">self</span>, action: Action) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
-        <span class="kw">let </span><span class="kw-2">mut </span>action_line = <span class="self">self</span>.action_history.clone();
+        <span class="kw">let </span><span class="kw-2">mut </span>action_line = <span class="self">self</span>.history.clone();
         action_line.push(action);
         <span class="self">self</span>.remove_line(<span class="kw-2">&amp;</span>action_line)
     }
@@ -1312,8 +1356,8 @@
     /// [`remove_line`]: #method.remove_line
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>remove_current_node(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
-        <span class="kw">let </span>action_history = <span class="self">self</span>.action_history.clone();
-        <span class="self">self</span>.remove_line(<span class="kw-2">&amp;</span>action_history)
+        <span class="kw">let </span>history = <span class="self">self</span>.history.clone();
+        <span class="self">self</span>.remove_line(<span class="kw-2">&amp;</span>history)
     }
 
     <span class="doccomment">/// Ejects the fields.
@@ -1325,14 +1369,24 @@
     <span class="doccomment">/// Returns the reference to the current node.
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>current_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ActionTreeNode {
-        <span class="kw">unsafe </span>{ <span class="kw-2">&amp;**</span><span class="self">self</span>.node_history.last().unwrap() }
+        <span class="kw">unsafe </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>node = <span class="kw-2">&amp;*</span><span class="self">self</span>.root.lock() <span class="kw">as </span><span class="kw-2">*const </span>ActionTreeNode;
+            <span class="kw">for </span>action <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.history {
+                <span class="kw">while </span>(<span class="kw-2">*</span>node).is_chance() {
+                    node = <span class="kw-2">&amp;*</span>(<span class="kw-2">*</span>node).children[<span class="number">0</span>].lock();
+                }
+                <span class="kw">let </span>index = (<span class="kw-2">*</span>node).actions.iter().position(|x| x == action).unwrap();
+                node = <span class="kw-2">&amp;*</span>(<span class="kw-2">*</span>node).children[index].lock();
+            }
+            <span class="kw-2">&amp;*</span>node
+        }
     }
 
     <span class="doccomment">/// Returns the reference to the current node skipping chance nodes.
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>current_node_skip_chance(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>ActionTreeNode {
         <span class="kw">unsafe </span>{
-            <span class="kw">let </span><span class="kw-2">mut </span>node = <span class="kw-2">*</span><span class="self">self</span>.node_history.last().unwrap();
+            <span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">self</span>.current_node() <span class="kw">as </span><span class="kw-2">*const </span>ActionTreeNode;
             <span class="kw">while </span>(<span class="kw-2">*</span>node).is_chance() {
                 node = <span class="kw-2">&amp;*</span>(<span class="kw-2">*</span>node).children[<span class="number">0</span>].lock();
             }
@@ -1387,7 +1441,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root.lock();
         <span class="kw-2">*</span>root = ActionTreeNode::default();
         root.board_state = <span class="self">self</span>.config.initial_state;
-        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, BuildTreeInfo::default());
+        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, BuildTreeInfo::new(<span class="self">self</span>.config.effective_stack));
     }
 
     <span class="doccomment">/// Recursively builds the action tree.
@@ -1435,17 +1489,16 @@
         <span class="kw">let </span>player = node.player;
         <span class="kw">let </span>opponent = node.player ^ <span class="number">1</span>;
 
-        <span class="kw">let </span>player_amount = info.bet_amount[player <span class="kw">as </span>usize];
-        <span class="kw">let </span>opponent_amount = info.bet_amount[opponent <span class="kw">as </span>usize];
+        <span class="kw">let </span>player_stack = info.stack[player <span class="kw">as </span>usize];
+        <span class="kw">let </span>opponent_stack = info.stack[opponent <span class="kw">as </span>usize];
+        <span class="kw">let </span>prev_amount = info.prev_amount;
+        <span class="kw">let </span>to_call = player_stack - opponent_stack;
 
-        <span class="kw">let </span>amount_diff = opponent_amount - player_amount;
-        <span class="kw">let </span>pot = <span class="self">self</span>.config.starting_pot + <span class="number">2 </span>* (node.amount + amount_diff);
+        <span class="kw">let </span>pot = <span class="self">self</span>.config.starting_pot + <span class="number">2 </span>* (node.amount + to_call);
+        <span class="kw">let </span>max_amount = opponent_stack + prev_amount;
+        <span class="kw">let </span>min_amount = (prev_amount + to_call).clamp(<span class="number">1</span>, max_amount);
 
-        <span class="kw">let </span>max_amount = <span class="self">self</span>.config.effective_stack - node.amount + player_amount;
-        <span class="kw">let </span>min_amount = (opponent_amount + amount_diff).clamp(<span class="number">1</span>, max_amount);
-
-        <span class="kw">let </span>stack_after_call = <span class="self">self</span>.config.effective_stack - node.amount - amount_diff;
-        <span class="kw">let </span>spr_after_call = stack_after_call <span class="kw">as </span>f64 / pot <span class="kw">as </span>f64;
+        <span class="kw">let </span>spr_after_call = opponent_stack <span class="kw">as </span>f64 / pot <span class="kw">as </span>f64;
         <span class="kw">let </span>compute_geometric = |num_streets: i32, max_ratio: f32| {
             <span class="kw">let </span>ratio = ((<span class="number">2.0 </span>* spr_after_call + <span class="number">1.0</span>).powf(<span class="number">1.0 </span>/ num_streets <span class="kw">as </span>f64) - <span class="number">1.0</span>) / <span class="number">2.0</span>;
             (pot <span class="kw">as </span>f64 * ratio.min(max_ratio <span class="kw">as </span>f64)).round() <span class="kw">as </span>i32
@@ -1539,15 +1592,15 @@
                 </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].raise {
                     <span class="kw">match </span>bet_size {
                         BetSize::PotRelative(ratio) =&gt; {
-                            <span class="kw">let </span>amount = opponent_amount + (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                            <span class="kw">let </span>amount = prev_amount + (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
                             actions.push(Action::Raise(amount));
                         }
                         BetSize::PrevBetRelative(ratio) =&gt; {
-                            <span class="kw">let </span>amount = (opponent_amount <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                            <span class="kw">let </span>amount = (prev_amount <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
                             actions.push(Action::Raise(amount));
                         }
                         BetSize::Additive(adder) =&gt; {
-                            actions.push(Action::Raise(opponent_amount + adder));
+                            actions.push(Action::Raise(prev_amount + adder));
                         }
                         BetSize::Geometric(num_streets, max_ratio) =&gt; {
                             <span class="kw">let </span>num_streets = <span class="kw">match </span>num_streets {
@@ -1555,7 +1608,7 @@
                                 <span class="kw">_ </span>=&gt; num_streets,
                             };
                             <span class="kw">let </span>amount = compute_geometric(num_streets, max_ratio);
-                            actions.push(Action::Raise(opponent_amount + amount));
+                            actions.push(Action::Raise(prev_amount + amount));
                         }
                         BetSize::AllIn =&gt; actions.push(Action::AllIn(max_amount)),
                     }
@@ -1563,14 +1616,14 @@
 
                 <span class="comment">// all-in
                 </span><span class="kw">let </span>all_in_threshold = pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_allin_threshold;
-                <span class="kw">if </span>max_amount &lt;= opponent_amount + all_in_threshold.round() <span class="kw">as </span>i32 {
+                <span class="kw">if </span>max_amount &lt;= prev_amount + all_in_threshold.round() <span class="kw">as </span>i32 {
                     actions.push(Action::AllIn(max_amount));
                 }
             }
         }
 
         <span class="kw">let </span>is_above_threshold = |amount: i32| {
-            <span class="kw">let </span>new_amount_diff = amount - opponent_amount;
+            <span class="kw">let </span>new_amount_diff = amount - prev_amount;
             <span class="kw">let </span>new_pot = pot + <span class="number">2 </span>* new_amount_diff;
             <span class="kw">let </span>threshold = (new_pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.force_allin_threshold).round() <span class="kw">as </span>i32;
             max_amount &lt;= amount + threshold
@@ -1604,7 +1657,7 @@
         actions.dedup();
 
         <span class="comment">// merge bet actions with close amounts
-        </span>actions = merge_bet_actions(actions, pot, opponent_amount, <span class="self">self</span>.config.merging_threshold);
+        </span>actions = merge_bet_actions(actions, pot, prev_amount, <span class="self">self</span>.config.merging_threshold);
 
         <span class="kw">let </span>player_after_call = <span class="kw">match </span>num_remaining_streets {
             <span class="number">1 </span>=&gt; PLAYER_TERMINAL_FLAG,
@@ -1623,14 +1676,14 @@
                 Action::Fold =&gt; PLAYER_FOLD_FLAG | player,
                 Action::Check =&gt; player_after_check,
                 Action::Call =&gt; {
-                    amount += amount_diff;
+                    amount += to_call;
                     player_after_call
                 }
                 Action::Bet(<span class="kw">_</span>) | Action::Raise(<span class="kw">_</span>) | Action::AllIn(<span class="kw">_</span>) =&gt; {
-                    amount += amount_diff;
+                    amount += to_call;
                     opponent
                 }
-                <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected action: {:?}&quot;</span>, action),
+                <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected action: {action:?}&quot;</span>),
             };
 
             node.actions.push(action);
@@ -1644,6 +1697,25 @@
 
         node.actions.shrink_to_fit();
         node.children.shrink_to_fit();
+    }
+
+    <span class="doccomment">/// Recursive function to enumerate all invalid terminal nodes.
+    </span><span class="kw">fn </span>invalid_terminals_recursive(
+        node: <span class="kw-2">&amp;</span>ActionTreeNode,
+        result: <span class="kw-2">&amp;mut </span>Vec&lt;Vec&lt;Action&gt;&gt;,
+        line: <span class="kw-2">&amp;mut </span>Vec&lt;Action&gt;,
+    ) {
+        <span class="kw">if </span>node.is_terminal() {
+            <span class="comment">// Do nothing
+        </span>} <span class="kw">else if </span>node.children.is_empty() {
+            result.push(line.clone());
+        } <span class="kw">else </span>{
+            <span class="kw">for </span>(<span class="kw-2">&amp;</span>action, child) <span class="kw">in </span>node.actions.iter().zip(node.children.iter()) {
+                line.push(action);
+                <span class="self">Self</span>::invalid_terminals_recursive(<span class="kw-2">&amp;</span>child.lock(), result, line);
+                line.pop();
+            }
+        }
     }
 
     <span class="doccomment">/// Recursive function to add a given line to the tree.
@@ -1679,7 +1751,7 @@
 
         <span class="kw">if </span>line.len() &gt; <span class="number">1 </span>{
             <span class="kw">if </span>search_result.is_err() {
-                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action does not exist: {:?}&quot;</span>, action));
+                <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action does not exist: {action:?}&quot;</span>));
             }
 
             <span class="kw">return </span><span class="self">self</span>.add_line_recursive(
@@ -1691,15 +1763,21 @@
         }
 
         <span class="kw">if </span>search_result.is_ok() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action already exists: {:?}&quot;</span>, action));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action already exists: {action:?}&quot;</span>));
         }
 
-        <span class="kw">let </span>player_bet = info.bet_amount[player <span class="kw">as </span>usize];
-        <span class="kw">let </span>opponent_bet = info.bet_amount[opponent <span class="kw">as </span>usize ^ <span class="number">1</span>];
-        <span class="kw">let </span>bet_diff = opponent_bet - player_bet;
+        <span class="kw">let </span>is_bet_action = <span class="macro">matches!</span>(action, Action::Bet(<span class="kw">_</span>) | Action::Raise(<span class="kw">_</span>) | Action::AllIn(<span class="kw">_</span>));
+        <span class="kw">if </span>info.allin_flag &amp;&amp; is_bet_action {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Bet action after all-in: {action:?}&quot;</span>));
+        }
 
-        <span class="kw">let </span>max_amount = <span class="self">self</span>.config.effective_stack - node.amount + player_bet;
-        <span class="kw">let </span>min_amount = (opponent_bet + bet_diff).clamp(<span class="number">1</span>, max_amount);
+        <span class="kw">let </span>player_stack = info.stack[player <span class="kw">as </span>usize];
+        <span class="kw">let </span>opponent_stack = info.stack[opponent <span class="kw">as </span>usize];
+        <span class="kw">let </span>prev_amount = info.prev_amount;
+        <span class="kw">let </span>to_call = player_stack - opponent_stack;
+
+        <span class="kw">let </span>max_amount = opponent_stack + prev_amount;
+        <span class="kw">let </span>min_amount = (prev_amount + to_call).clamp(<span class="number">1</span>, max_amount);
 
         <span class="kw">let </span>action = <span class="kw">match </span>action {
             Action::Bet(amount) | Action::Raise(amount) <span class="kw">if </span>amount == max_amount =&gt; {
@@ -1726,18 +1804,16 @@
             <span class="kw">match </span>action {
                 Action::Bet(amount) | Action::Raise(amount) =&gt; {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                        <span class="string">&quot;Invalid bet amount: {} (min: {}, max: {})&quot;</span>,
-                        amount, min_amount, max_amount
-                    ));
+                        <span class="string">&quot;Invalid bet amount: {amount} (min: {min_amount}, max: {max_amount})&quot;
+                    </span>));
                 }
                 Action::AllIn(amount) =&gt; {
                     <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                        <span class="string">&quot;Invalid all-in amount: {} (expected: {})&quot;</span>,
-                        amount, max_amount
-                    ));
+                        <span class="string">&quot;Invalid all-in amount: {amount} (expected: {max_amount})&quot;
+                    </span>));
                 }
                 <span class="kw">_ </span>=&gt; {
-                    <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Invalid action: {:?}&quot;</span>, action));
+                    <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Invalid action: {action:?}&quot;</span>));
                 }
             };
         }
@@ -1757,14 +1833,14 @@
             Action::Fold =&gt; PLAYER_FOLD_FLAG | player,
             Action::Check =&gt; player_after_check,
             Action::Call =&gt; {
-                amount += bet_diff;
+                amount += to_call;
                 player_after_call
             }
             Action::Bet(<span class="kw">_</span>) | Action::Raise(<span class="kw">_</span>) | Action::AllIn(<span class="kw">_</span>) =&gt; {
-                amount += bet_diff;
+                amount += to_call;
                 opponent
             }
-            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected action: {:?}&quot;</span>, action),
+            <span class="kw">_ </span>=&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected action: {action:?}&quot;</span>),
         };
 
         <span class="kw">let </span>index = search_result.unwrap_err();
@@ -1807,7 +1883,7 @@
         <span class="kw">let </span>action = line[<span class="number">0</span>];
         <span class="kw">let </span>search_result = node.actions.binary_search(<span class="kw-2">&amp;</span>action);
         <span class="kw">if </span>search_result.is_err() {
-            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action does not exist: {:?}&quot;</span>, action));
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action does not exist: {action:?}&quot;</span>));
         }
 
         <span class="kw">if </span>line.len() &gt; <span class="number">1 </span>{
@@ -1842,10 +1918,22 @@
 
 <span class="kw">impl </span>BuildTreeInfo {
     <span class="attr">#[inline]
+    </span><span class="kw">fn </span>new(stack: i32) -&gt; <span class="self">Self </span>{
+        <span class="self">Self </span>{
+            last_action: Action::None,
+            allin_flag: <span class="bool-val">false</span>,
+            oop_call_flag: <span class="bool-val">false</span>,
+            stack: [stack, stack],
+            prev_amount: <span class="number">0</span>,
+        }
+    }
+
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>create_next(<span class="kw-2">&amp;</span><span class="self">self</span>, player: u8, action: Action) -&gt; <span class="self">Self </span>{
         <span class="kw">let </span><span class="kw-2">mut </span>allin_flag = <span class="self">self</span>.allin_flag;
         <span class="kw">let </span><span class="kw-2">mut </span>oop_call_flag = <span class="self">self</span>.oop_call_flag;
-        <span class="kw">let </span><span class="kw-2">mut </span>bet_amount = <span class="self">self</span>.bet_amount;
+        <span class="kw">let </span><span class="kw-2">mut </span>stack = <span class="self">self</span>.stack;
+        <span class="kw">let </span><span class="kw-2">mut </span>prev_amount = <span class="self">self</span>.prev_amount;
 
         <span class="kw">match </span>action {
             Action::Check =&gt; {
@@ -1853,17 +1941,16 @@
             }
             Action::Call =&gt; {
                 oop_call_flag = player == PLAYER_OOP;
-                bet_amount[player <span class="kw">as </span>usize] = bet_amount[player <span class="kw">as </span>usize ^ <span class="number">1</span>];
+                stack[player <span class="kw">as </span>usize] = stack[player <span class="kw">as </span>usize ^ <span class="number">1</span>];
             }
-            Action::Bet(amount) | Action::Raise(amount) =&gt; {
-                bet_amount[player <span class="kw">as </span>usize] = amount;
-            }
-            Action::AllIn(amount) =&gt; {
-                allin_flag = <span class="bool-val">true</span>;
-                bet_amount[player <span class="kw">as </span>usize] = amount;
+            Action::Bet(amount) | Action::Raise(amount) | Action::AllIn(amount) =&gt; {
+                <span class="kw">let </span>to_call = stack[player <span class="kw">as </span>usize] - stack[player <span class="kw">as </span>usize ^ <span class="number">1</span>];
+                allin_flag = <span class="macro">matches!</span>(action, Action::AllIn(<span class="kw">_</span>));
+                stack[player <span class="kw">as </span>usize] -= amount - prev_amount + to_call;
+                prev_amount = amount;
             }
             Action::Chance(<span class="kw">_</span>) =&gt; {
-                bet_amount = [<span class="number">0</span>, <span class="number">0</span>];
+                prev_amount = <span class="number">0</span>;
             }
             <span class="kw">_ </span>=&gt; {}
         }
@@ -1872,7 +1959,8 @@
             last_action: action,
             allin_flag,
             oop_call_flag,
-            bet_amount,
+            stack,
+            prev_amount,
         }
     }
 }
@@ -1921,4 +2009,4 @@
     ret
 }
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (c97b539e4 2022-11-30)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.67.0-nightly (234151769 2022-12-03)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
