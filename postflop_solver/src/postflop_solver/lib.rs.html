@@ -177,6 +177,9 @@
 <a href="#177" id="177">177</a>
 <a href="#178" id="178">178</a>
 <a href="#179" id="179">179</a>
+<a href="#180" id="180">180</a>
+<a href="#181" id="181">181</a>
+<a href="#182" id="182">182</a>
 </pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.
 //!
 //! # Examples
@@ -346,6 +349,9 @@
 <span class="kw">mod </span>sliceop;
 <span class="kw">mod </span>solver;
 <span class="kw">mod </span>utility;
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+</span><span class="kw">pub use </span>alloc::<span class="kw-2">*</span>;
 
 <span class="kw">pub use </span>action_tree::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>bet_size::<span class="kw-2">*</span>;

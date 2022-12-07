@@ -654,6 +654,12 @@
 <a href="#654" id="654">654</a>
 <a href="#655" id="655">655</a>
 <a href="#656" id="656">656</a>
+<a href="#657" id="657">657</a>
+<a href="#658" id="658">658</a>
+<a href="#659" id="659">659</a>
+<a href="#660" id="660">660</a>
+<a href="#661" id="661">661</a>
+<a href="#662" id="662">662</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -872,8 +878,14 @@
         );
     }
 
-    <span class="comment">// set the game is solved
+    <span class="comment">// set the game solved
     </span>game.set_solved(<span class="kw-2">&amp;</span>cfvalues[<span class="number">1</span>]);
+
+    <span class="comment">// free buffer
+    </span><span class="attr">#[cfg(all(feature = <span class="string">&quot;custom-alloc&quot;</span>, feature = <span class="string">&quot;rayon&quot;</span>))]
+    </span>rayon::broadcast(|<span class="kw">_</span>| free_custom_alloc_buffer());
+    <span class="attr">#[cfg(all(feature = <span class="string">&quot;custom-alloc&quot;</span>, not(feature = <span class="string">&quot;rayon&quot;</span>)))]
+    </span>free_custom_alloc_buffer();
 }
 
 <span class="doccomment">/// Computes the exploitability of the current strategy.

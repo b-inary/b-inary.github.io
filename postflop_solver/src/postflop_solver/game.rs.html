@@ -2205,91 +2205,12 @@
 <a href="#2205" id="2205">2205</a>
 <a href="#2206" id="2206">2206</a>
 <a href="#2207" id="2207">2207</a>
-<a href="#2208" id="2208">2208</a>
-<a href="#2209" id="2209">2209</a>
-<a href="#2210" id="2210">2210</a>
-<a href="#2211" id="2211">2211</a>
-<a href="#2212" id="2212">2212</a>
-<a href="#2213" id="2213">2213</a>
-<a href="#2214" id="2214">2214</a>
-<a href="#2215" id="2215">2215</a>
-<a href="#2216" id="2216">2216</a>
-<a href="#2217" id="2217">2217</a>
-<a href="#2218" id="2218">2218</a>
-<a href="#2219" id="2219">2219</a>
-<a href="#2220" id="2220">2220</a>
-<a href="#2221" id="2221">2221</a>
-<a href="#2222" id="2222">2222</a>
-<a href="#2223" id="2223">2223</a>
-<a href="#2224" id="2224">2224</a>
-<a href="#2225" id="2225">2225</a>
-<a href="#2226" id="2226">2226</a>
-<a href="#2227" id="2227">2227</a>
-<a href="#2228" id="2228">2228</a>
-<a href="#2229" id="2229">2229</a>
-<a href="#2230" id="2230">2230</a>
-<a href="#2231" id="2231">2231</a>
-<a href="#2232" id="2232">2232</a>
-<a href="#2233" id="2233">2233</a>
-<a href="#2234" id="2234">2234</a>
-<a href="#2235" id="2235">2235</a>
-<a href="#2236" id="2236">2236</a>
-<a href="#2237" id="2237">2237</a>
-<a href="#2238" id="2238">2238</a>
-<a href="#2239" id="2239">2239</a>
-<a href="#2240" id="2240">2240</a>
-<a href="#2241" id="2241">2241</a>
-<a href="#2242" id="2242">2242</a>
-<a href="#2243" id="2243">2243</a>
-<a href="#2244" id="2244">2244</a>
-<a href="#2245" id="2245">2245</a>
-<a href="#2246" id="2246">2246</a>
-<a href="#2247" id="2247">2247</a>
-<a href="#2248" id="2248">2248</a>
-<a href="#2249" id="2249">2249</a>
-<a href="#2250" id="2250">2250</a>
-<a href="#2251" id="2251">2251</a>
-<a href="#2252" id="2252">2252</a>
-<a href="#2253" id="2253">2253</a>
-<a href="#2254" id="2254">2254</a>
-<a href="#2255" id="2255">2255</a>
-<a href="#2256" id="2256">2256</a>
-<a href="#2257" id="2257">2257</a>
-<a href="#2258" id="2258">2258</a>
-<a href="#2259" id="2259">2259</a>
-<a href="#2260" id="2260">2260</a>
-<a href="#2261" id="2261">2261</a>
-<a href="#2262" id="2262">2262</a>
-<a href="#2263" id="2263">2263</a>
-<a href="#2264" id="2264">2264</a>
-<a href="#2265" id="2265">2265</a>
-<a href="#2266" id="2266">2266</a>
-<a href="#2267" id="2267">2267</a>
-<a href="#2268" id="2268">2268</a>
-<a href="#2269" id="2269">2269</a>
-<a href="#2270" id="2270">2270</a>
-<a href="#2271" id="2271">2271</a>
-<a href="#2272" id="2272">2272</a>
-<a href="#2273" id="2273">2273</a>
-<a href="#2274" id="2274">2274</a>
-<a href="#2275" id="2275">2275</a>
-<a href="#2276" id="2276">2276</a>
-<a href="#2277" id="2277">2277</a>
-<a href="#2278" id="2278">2278</a>
-<a href="#2279" id="2279">2279</a>
-<a href="#2280" id="2280">2280</a>
-<a href="#2281" id="2281">2281</a>
-<a href="#2282" id="2282">2282</a>
-<a href="#2283" id="2283">2283</a>
-<a href="#2284" id="2284">2284</a>
-<a href="#2285" id="2285">2285</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utility::<span class="kw-2">*</span>;
-<span class="kw">use </span>std::cmp;
 <span class="kw">use </span>std::mem;
 <span class="kw">use </span>std::ptr;
 <span class="kw">use </span>std::slice;
@@ -2305,7 +2226,7 @@
 };
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-</span><span class="kw">use </span>{<span class="kw">crate</span>::alloc::<span class="kw-2">*</span>, std::vec};
+</span><span class="kw">use </span>std::vec;
 
 <span class="doccomment">/// A struct representing a postflop game.
 </span><span class="kw">pub struct </span>PostFlopGame {
@@ -2336,7 +2257,6 @@
     <span class="comment">// store options
     </span>is_memory_allocated: bool,
     is_compression_enabled: bool,
-    stack_size: usize,
     misc_memory_usage: u64,
     num_storage_elements: u64,
 
@@ -2387,25 +2307,6 @@
 <span class="kw">struct </span>BuildTreeInfo&lt;<span class="lifetime">&#39;a</span>&gt; {
     current_memory_usage: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AtomicU64,
     num_storage_elements: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>AtomicU64,
-    stack_size: [usize; <span class="number">2</span>],
-    max_stack_size: <span class="kw-2">&amp;</span><span class="lifetime">&#39;a </span>[AtomicUsize; <span class="number">2</span>],
-}
-
-<span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-#[inline]
-</span><span class="kw">fn </span>align_up(size: usize) -&gt; usize {
-    size
-}
-
-<span class="attr">#[inline]
-</span><span class="kw">fn </span>atomic_set_max(atomic: <span class="kw-2">&amp;</span>AtomicUsize, value: usize) {
-    <span class="kw">let </span><span class="kw-2">mut </span>v = atomic.load(Ordering::Relaxed);
-    <span class="kw">while </span>v &lt; value {
-        <span class="kw">match </span>atomic.compare_exchange_weak(v, value, Ordering::AcqRel, Ordering::Relaxed) {
-            <span class="prelude-val">Ok</span>(<span class="kw">_</span>) =&gt; <span class="kw">return</span>,
-            <span class="prelude-val">Err</span>(new_v) =&gt; v = new_v,
-        }
-    }
 }
 
 <span class="doccomment">/// Decodes the encoded `i16` slice to the `f32` slice.
@@ -2646,7 +2547,7 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>.card_config
     }
 
-    <span class="doccomment">/// Obtains the action tree.
+    <span class="doccomment">/// Obtains the tree configuration.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>tree_config(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>TreeConfig {
         <span class="kw-2">&amp;</span><span class="self">self</span>.tree_config
@@ -2884,13 +2785,10 @@
     </span><span class="kw">fn </span>init_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">let </span>current_memory_usage = AtomicU64::new(mem::size_of::&lt;PostFlopNode&gt;() <span class="kw">as </span>u64);
         <span class="kw">let </span>num_storage_elements = AtomicU64::new(<span class="number">0</span>);
-        <span class="kw">let </span>max_stack_size = [AtomicUsize::new(<span class="number">0</span>), AtomicUsize::new(<span class="number">0</span>)];
 
         <span class="kw">let </span>info = BuildTreeInfo {
             current_memory_usage: <span class="kw-2">&amp;</span>current_memory_usage,
             num_storage_elements: <span class="kw-2">&amp;</span>num_storage_elements,
-            stack_size: [<span class="number">0</span>, <span class="number">0</span>],
-            max_stack_size: <span class="kw-2">&amp;</span>max_stack_size,
         };
 
         <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root();
@@ -2898,25 +2796,12 @@
         root.turn = <span class="self">self</span>.card_config.turn;
         root.river = <span class="self">self</span>.card_config.river;
 
-        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, <span class="kw-2">&amp;</span><span class="self">self</span>.action_root.lock(), info);
+        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, <span class="kw-2">&amp;</span><span class="self">self</span>.action_root.lock(), <span class="kw-2">&amp;</span>info);
 
         <span class="kw">let </span>current_memory_usage = current_memory_usage.load(Ordering::Relaxed);
         <span class="kw">let </span>num_storage_elements = num_storage_elements.load(Ordering::Relaxed);
 
-        <span class="kw">let </span>stack_size = cmp::max(
-            max_stack_size[<span class="number">0</span>].load(Ordering::Relaxed),
-            max_stack_size[<span class="number">1</span>].load(Ordering::Relaxed),
-        );
-
-        <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span>STACK_UNIT_SIZE.store(<span class="number">4 </span>* stack_size, Ordering::Relaxed);
-
-        <span class="attr">#[cfg(feature = <span class="string">&quot;rayon&quot;</span>)]
-        </span><span class="kw">let </span>stack_usage = (<span class="number">4 </span>* stack_size * rayon::current_num_threads()) <span class="kw">as </span>u64;
-        <span class="attr">#[cfg(not(feature = <span class="string">&quot;rayon&quot;</span>))]
-        </span><span class="kw">let </span>stack_usage = <span class="number">4 </span>* stack_size <span class="kw">as </span>u64;
-
-        <span class="kw">let </span><span class="kw-2">mut </span>memory_usage = current_memory_usage + stack_usage;
+        <span class="kw">let </span><span class="kw-2">mut </span>memory_usage = current_memory_usage;
 
         memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.valid_indices_turn);
         memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.valid_indices_river);
@@ -2952,7 +2837,6 @@
         }
 
         <span class="self">self</span>.is_memory_allocated = <span class="bool-val">false</span>;
-        <span class="self">self</span>.stack_size = stack_size;
         <span class="self">self</span>.misc_memory_usage = memory_usage;
         <span class="self">self</span>.num_storage_elements = num_storage_elements;
 
@@ -2994,58 +2878,24 @@
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         node: <span class="kw-2">&amp;mut </span>PostFlopNode,
         action_node: <span class="kw-2">&amp;</span>ActionTreeNode,
-        info: BuildTreeInfo,
+        info: <span class="kw-2">&amp;</span>BuildTreeInfo,
     ) {
         node.player = action_node.player;
         node.amount = action_node.amount;
 
         <span class="kw">if </span>node.is_terminal() {
-            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
-                atomic_set_max(<span class="kw-2">&amp;</span>info.max_stack_size[i], info.stack_size[i]);
-            }
             <span class="kw">return</span>;
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>stack_size = info.stack_size;
-
-        <span class="comment">// chance node
-        </span><span class="kw">if </span>node.is_chance() {
-            <span class="self">self</span>.push_chances(node, <span class="kw-2">&amp;</span>info);
-
-            <span class="kw">let </span>f32_size = mem::size_of::&lt;f32&gt;();
-            <span class="kw">let </span>f64_size = mem::size_of::&lt;f64&gt;();
-            <span class="kw">let </span>col_size = f32_size * node.num_actions();
-            <span class="kw">for </span>(i, s) <span class="kw">in </span>stack_size.iter_mut().enumerate() {
-                <span class="kw-2">*</span>s += align_up(col_size * <span class="self">self</span>.num_private_hands(i));
-                <span class="kw-2">*</span>s += align_up(f64_size * <span class="self">self</span>.num_private_hands(i));
-                <span class="kw-2">*</span>s += align_up(f32_size * <span class="self">self</span>.num_private_hands(i ^ <span class="number">1</span>));
-            }
-
+        <span class="kw">if </span>node.is_chance() {
+            <span class="self">self</span>.push_chances(node, info);
             <span class="kw">for </span>child <span class="kw">in </span><span class="kw-2">&amp;</span>node.children {
-                <span class="self">self</span>.build_tree_recursive(
-                    <span class="kw-2">&amp;mut </span>child.lock(),
-                    <span class="kw-2">&amp;</span>action_node.children[<span class="number">0</span>].lock(),
-                    BuildTreeInfo { stack_size, ..info },
-                );
+                <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>child.lock(), <span class="kw-2">&amp;</span>action_node.children[<span class="number">0</span>].lock(), info);
             }
-        }
-        <span class="comment">// player node
-        </span><span class="kw">else </span>{
-            <span class="self">self</span>.push_actions(node, action_node, <span class="kw-2">&amp;</span>info);
-
-            <span class="kw">let </span>col_size = mem::size_of::&lt;f32&gt;() * node.num_actions();
-            <span class="kw">for </span>(i, s) <span class="kw">in </span>stack_size.iter_mut().enumerate() {
-                <span class="kw">let </span>n = <span class="kw">if </span>i == node.player() { <span class="number">2 </span>} <span class="kw">else </span>{ <span class="number">1 </span>};
-                <span class="kw-2">*</span>s += align_up(col_size * <span class="self">self</span>.num_private_hands(i));
-                <span class="kw-2">*</span>s += n * align_up(col_size * <span class="self">self</span>.num_private_hands(node.player()));
-            }
-
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.push_actions(node, action_node, info);
             <span class="kw">for </span>(child, action_child) <span class="kw">in </span>node.children.iter().zip(action_node.children.iter()) {
-                <span class="self">self</span>.build_tree_recursive(
-                    <span class="kw-2">&amp;mut </span>child.lock(),
-                    <span class="kw-2">&amp;</span>action_child.lock(),
-                    BuildTreeInfo { stack_size, ..info },
-                );
+                <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>child.lock(), <span class="kw-2">&amp;</span>action_child.lock(), info);
             }
         }
     }
@@ -3266,7 +3116,7 @@
 
     <span class="doccomment">/// Returns the current player (0 = OOP, 1 = IP).
     ///
-    /// If the current node is a chance node, returns an undefined value.
+    /// If the current node is a terminal node or a chance node, returns an undefined value.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>current_player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="self">self</span>.node().player()
@@ -3917,7 +3767,6 @@
             river_isomorphism_swap: Vec::default(),
             is_memory_allocated: <span class="bool-val">false</span>,
             is_compression_enabled: <span class="bool-val">false</span>,
-            stack_size: <span class="number">0</span>,
             misc_memory_usage: <span class="number">0</span>,
             num_storage_elements: <span class="number">0</span>,
             storage1: MutexLike::default(),
@@ -3974,7 +3823,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-12-07&quot;</span>;
+</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-12-08&quot;</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
 </span><span class="macro">thread_local! </span>{
@@ -4010,7 +3859,6 @@
         <span class="self">self</span>.num_combinations.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.is_memory_allocated.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.is_compression_enabled.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.stack_size.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.misc_memory_usage.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.num_storage_elements.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.storage1.encode(encoder)<span class="question-mark">?</span>;
@@ -4078,7 +3926,6 @@
             num_combinations: Decode::decode(decoder)<span class="question-mark">?</span>,
             is_memory_allocated: Decode::decode(decoder)<span class="question-mark">?</span>,
             is_compression_enabled: Decode::decode(decoder)<span class="question-mark">?</span>,
-            stack_size: Decode::decode(decoder)<span class="question-mark">?</span>,
             misc_memory_usage: Decode::decode(decoder)<span class="question-mark">?</span>,
             num_storage_elements: Decode::decode(decoder)<span class="question-mark">?</span>,
             storage1: Decode::decode(decoder)<span class="question-mark">?</span>,
@@ -4127,9 +3974,6 @@
         <span class="kw">if </span>is_normalized_weight_cached {
             game.cache_normalized_weights();
         }
-
-        <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span>STACK_UNIT_SIZE.store(<span class="number">4 </span>* game.stack_size, Ordering::Relaxed);
 
         <span class="prelude-val">Ok</span>(game)
     }
