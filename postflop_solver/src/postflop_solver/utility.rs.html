@@ -660,9 +660,28 @@
 <a href="#660" id="660">660</a>
 <a href="#661" id="661">661</a>
 <a href="#662" id="662">662</a>
-</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
+<a href="#663" id="663">663</a>
+<a href="#664" id="664">664</a>
+<a href="#665" id="665">665</a>
+<a href="#666" id="666">666</a>
+<a href="#667" id="667">667</a>
+<a href="#668" id="668">668</a>
+<a href="#669" id="669">669</a>
+<a href="#670" id="670">670</a>
+<a href="#671" id="671">671</a>
+<a href="#672" id="672">672</a>
+<a href="#673" id="673">673</a>
+<a href="#674" id="674">674</a>
+<a href="#675" id="675">675</a>
+<a href="#676" id="676">676</a>
+<a href="#677" id="677">677</a>
+<a href="#678" id="678">678</a>
+<a href="#679" id="679">679</a>
+</pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
+<span class="kw">use </span>std::mem;
 <span class="kw">use </span>std::ptr;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
@@ -687,6 +706,11 @@
 #[inline]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>for_each_child&lt;T: GameNode, OP: Fn(usize) + Sync + Send&gt;(node: <span class="kw-2">&amp;</span>T, op: OP) {
     node.actions().for_each(op);
+}
+
+<span class="attr">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>vec_memory_usage&lt;T&gt;(vec: <span class="kw-2">&amp;</span>Vec&lt;T&gt;) -&gt; u64 {
+    vec.capacity() <span class="kw">as </span>u64 * mem::size_of::&lt;T&gt;() <span class="kw">as </span>u64
 }
 
 <span class="attr">#[inline]
@@ -853,12 +877,12 @@
 <span class="doccomment">/// Finalizes the solving process.
 </span><span class="attr">#[inline]
 </span><span class="kw">pub fn </span>finalize&lt;T: Game&gt;(game: <span class="kw-2">&amp;mut </span>T) {
-    <span class="kw">if </span>!game.is_ready() {
-        <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
-    }
-
     <span class="kw">if </span>game.is_solved() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is already solved&quot;</span>);
+    }
+
+    <span class="kw">if </span>!game.is_ready() {
+        <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
@@ -891,7 +915,7 @@
 <span class="doccomment">/// Computes the exploitability of the current strategy.
 </span><span class="attr">#[inline]
 </span><span class="kw">pub fn </span>compute_exploitability&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
-    <span class="kw">if </span>!game.is_ready() {
+    <span class="kw">if </span>!game.is_ready() &amp;&amp; !game.is_solved() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
 
@@ -1013,6 +1037,16 @@
         result.iter_mut().zip(<span class="kw-2">&amp;</span>result_f64).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
             <span class="kw-2">*</span>r = v <span class="kw">as </span>f32;
         });
+
+        <span class="comment">// save the counterfactual values for IP player
+        </span><span class="kw">if </span>player == PLAYER_IP <span class="kw">as </span>usize {
+            <span class="kw">if </span>game.is_compression_enabled() {
+                <span class="kw">let </span>cfv_scale = encode_signed_slice(node.cfvalues_compressed_mut(), <span class="kw-2">&amp;</span>cfv_actions);
+                node.set_cfvalue_scale(cfv_scale);
+            } <span class="kw">else </span>{
+                node.cfvalues_mut().copy_from_slice(<span class="kw-2">&amp;</span>cfv_actions);
+            }
+        }
     }
     <span class="comment">// player node
     </span><span class="kw">else if </span>node.player() == player {
@@ -1061,7 +1095,7 @@
             add_slice(result, row);
         });
 
-        <span class="comment">// save the expected values
+        <span class="comment">// save the counterfactual values
         </span><span class="kw">if </span>game.is_compression_enabled() {
             <span class="kw">let </span>cfv_scale = encode_signed_slice(node.cfvalues_compressed_mut(), <span class="kw-2">&amp;</span>cfv_actions);
             node.set_cfvalue_scale(cfv_scale);

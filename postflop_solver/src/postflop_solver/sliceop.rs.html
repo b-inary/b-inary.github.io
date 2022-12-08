@@ -79,13 +79,13 @@
 
 <span class="doccomment">/// Returns the &quot;row&quot; slice of a slice representing a two dimensional matrix.
 </span><span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>row(slice: <span class="kw-2">&amp;</span>[f32], index: usize, row_size: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>row&lt;T&gt;(slice: <span class="kw-2">&amp;</span>[T], index: usize, row_size: usize) -&gt; <span class="kw-2">&amp;</span>[T] {
     <span class="kw-2">&amp;</span>slice[index * row_size..(index + <span class="number">1</span>) * row_size]
 }
 
 <span class="doccomment">/// Returns the mutable &quot;row&quot; slice of a slice representing a two dimensional matrix.
 </span><span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>row_mut(slice: <span class="kw-2">&amp;mut </span>[f32], index: usize, row_size: usize) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>row_mut&lt;T&gt;(slice: <span class="kw-2">&amp;mut </span>[T], index: usize, row_size: usize) -&gt; <span class="kw-2">&amp;mut </span>[T] {
     <span class="kw-2">&amp;mut </span>slice[index * row_size..(index + <span class="number">1</span>) * row_size]
 }
 </code></pre></div>
