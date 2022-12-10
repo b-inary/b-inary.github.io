@@ -760,14 +760,14 @@
 }
 
 <span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>weighted_sum(values: <span class="kw-2">&amp;</span>[f32], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
-    <span class="kw">let </span>f = |sum: f64, (<span class="kw-2">&amp;</span>v, <span class="kw-2">&amp;</span>w): (<span class="kw-2">&amp;</span>f32, <span class="kw-2">&amp;</span>f32)| sum + v <span class="kw">as </span>f64 * w <span class="kw">as </span>f64;
-    values.iter().zip(weights).fold(<span class="number">0.0</span>, f) <span class="kw">as </span>f32
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>vec_memory_usage&lt;T&gt;(vec: <span class="kw-2">&amp;</span>Vec&lt;T&gt;) -&gt; u64 {
+    vec.capacity() <span class="kw">as </span>u64 * mem::size_of::&lt;T&gt;() <span class="kw">as </span>u64
 }
 
 <span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>vec_memory_usage&lt;T&gt;(vec: <span class="kw-2">&amp;</span>Vec&lt;T&gt;) -&gt; u64 {
-    vec.capacity() <span class="kw">as </span>u64 * mem::size_of::&lt;T&gt;() <span class="kw">as </span>u64
+</span><span class="kw">fn </span>weighted_sum(values: <span class="kw-2">&amp;</span>[f32], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
+    <span class="kw">let </span>f = |sum: f64, (<span class="kw-2">&amp;</span>v, <span class="kw-2">&amp;</span>w): (<span class="kw-2">&amp;</span>f32, <span class="kw-2">&amp;</span>f32)| sum + v <span class="kw">as </span>f64 * w <span class="kw">as </span>f64;
+    values.iter().zip(weights).fold(<span class="number">0.0</span>, f) <span class="kw">as </span>f32
 }
 
 <span class="attr">#[inline]

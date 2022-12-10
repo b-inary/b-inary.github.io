@@ -2759,20 +2759,6 @@
 <a href="#2759" id="2759">2759</a>
 <a href="#2760" id="2760">2760</a>
 <a href="#2761" id="2761">2761</a>
-<a href="#2762" id="2762">2762</a>
-<a href="#2763" id="2763">2763</a>
-<a href="#2764" id="2764">2764</a>
-<a href="#2765" id="2765">2765</a>
-<a href="#2766" id="2766">2766</a>
-<a href="#2767" id="2767">2767</a>
-<a href="#2768" id="2768">2768</a>
-<a href="#2769" id="2769">2769</a>
-<a href="#2770" id="2770">2770</a>
-<a href="#2771" id="2771">2771</a>
-<a href="#2772" id="2772">2772</a>
-<a href="#2773" id="2773">2773</a>
-<a href="#2774" id="2774">2774</a>
-<a href="#2775" id="2775">2775</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -2941,24 +2927,10 @@
     }
 
     <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, result: <span class="kw-2">&amp;mut </span>[f32], node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node, player: usize, cfreach: <span class="kw-2">&amp;</span>[f32]) {
-        <span class="kw">let </span>pot = <span class="self">self</span>.tree_config.starting_pot + <span class="number">2 </span>* node.amount;
-        <span class="kw">let </span>half_pot = <span class="number">0.5 </span>* pot <span class="kw">as </span>f64;
-
-        <span class="kw">let </span>rake_basis_points = <span class="self">self</span>.tree_config.rake_basis_points;
-        <span class="kw">let </span>rake = <span class="kw">if </span>rake_basis_points == <span class="number">0 </span>{
-            <span class="number">0
-        </span>} <span class="kw">else </span>{
-            <span class="kw">let </span>rake_raw = (pot <span class="kw">as </span>i64 * rake_basis_points <span class="kw">as </span>i64) <span class="kw">as </span>f64 / <span class="number">10000.0</span>;
-            <span class="kw">let </span>rake_rounded_up = rake_raw.round();
-            <span class="kw">let </span>rake_rounded_even = <span class="kw">if </span>rake_rounded_up - rake_raw == <span class="number">0.5 </span>{
-                (rake_rounded_up <span class="kw">as </span>i32) &amp; !<span class="number">1 </span><span class="comment">// rounding half to even (PokerStars)
-            </span>} <span class="kw">else </span>{
-                rake_rounded_up <span class="kw">as </span>i32
-            };
-            i32::min(rake_rounded_even, <span class="self">self</span>.tree_config.rake_cap)
-        };
-
-        <span class="kw">let </span>amount_win = (half_pot - rake <span class="kw">as </span>f64) / <span class="self">self</span>.num_combinations;
+        <span class="kw">let </span>pot = (<span class="self">self</span>.tree_config.starting_pot + <span class="number">2 </span>* node.amount) <span class="kw">as </span>f64;
+        <span class="kw">let </span>half_pot = <span class="number">0.5 </span>* pot;
+        <span class="kw">let </span>rake = f64::min(pot * <span class="self">self</span>.tree_config.rake_rate, <span class="self">self</span>.tree_config.rake_cap);
+        <span class="kw">let </span>amount_win = (half_pot - rake) / <span class="self">self</span>.num_combinations;
         <span class="kw">let </span>amount_lose = -half_pot / <span class="self">self</span>.num_combinations;
 
         <span class="kw">let </span>player_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.private_cards[player];
@@ -3012,7 +2984,7 @@
             }
         }
         <span class="comment">// showdown (not raked)
-        </span><span class="kw">else if </span>rake == <span class="number">0 </span>{
+        </span><span class="kw">else if </span>rake == <span class="number">0.0 </span>{
             <span class="kw">let </span>hand_strength = <span class="kw-2">&amp;</span><span class="self">self</span>.hand_strength[card_pair_index(node.turn, node.river)];
             <span class="kw">let </span>player_strength = <span class="kw-2">&amp;</span>hand_strength[player];
             <span class="kw">let </span>opponent_strength = <span class="kw-2">&amp;</span>hand_strength[player ^ <span class="number">1</span>];
@@ -3067,11 +3039,11 @@
         }
         <span class="comment">// showdown (raked)
         </span><span class="kw">else </span>{
-            <span class="kw">let </span>split = -(rake + player <span class="kw">as </span>i32) / <span class="number">2</span>; <span class="comment">// OOP obtains the remainder
-            </span><span class="kw">let </span>amount_tie = split <span class="kw">as </span>f64 / <span class="self">self</span>.num_combinations;
+            <span class="kw">let </span>amount_tie = -<span class="number">0.5 </span>* rake / <span class="self">self</span>.num_combinations;
 
             <span class="kw">let </span>valid_indices = <span class="kw-2">&amp;</span><span class="self">self</span>.valid_indices_river[card_pair_index(node.turn, node.river)];
             <span class="kw">let </span>opponent_indices = <span class="kw-2">&amp;</span>valid_indices[player ^ <span class="number">1</span>];
+
             <span class="kw">for </span><span class="kw-2">&amp;</span>i <span class="kw">in </span>opponent_indices {
                 <span class="kw">unsafe </span>{
                     <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(i <span class="kw">as </span>usize);
@@ -3160,7 +3132,7 @@
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>is_raked(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.tree_config.rake_basis_points &gt; <span class="number">0
+        <span class="self">self</span>.tree_config.rake_rate &gt; <span class="number">0.0
     </span>}
 
     <span class="attr">#[inline]
@@ -5272,8 +5244,8 @@
         <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            rake_basis_points: <span class="number">500</span>,
-            rake_cap: <span class="number">10</span>,
+            rake_rate: <span class="number">0.05</span>,
+            rake_cap: <span class="number">10.0</span>,
             ..Default::default()
         };
 
@@ -5344,8 +5316,8 @@
         <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">60</span>,
             effective_stack: <span class="number">970</span>,
-            rake_basis_points: <span class="number">500</span>,
-            rake_cap: <span class="number">10</span>,
+            rake_rate: <span class="number">0.05</span>,
+            rake_cap: <span class="number">10.0</span>,
             ..Default::default()
         };
 
@@ -5509,8 +5481,8 @@
         <span class="kw">let </span>tree_config = TreeConfig {
             starting_pot: <span class="number">180</span>,
             effective_stack: <span class="number">910</span>,
-            rake_basis_points: <span class="number">500</span>,
-            rake_cap: <span class="number">30</span>,
+            rake_rate: <span class="number">0.05</span>,
+            rake_cap: <span class="number">30.0</span>,
             flop_bet_sizes: [
                 (<span class="string">&quot;52%&quot;</span>, <span class="string">&quot;45%&quot;</span>).try_into().unwrap(),
                 (<span class="string">&quot;52%&quot;</span>, <span class="string">&quot;45%&quot;</span>).try_into().unwrap(),

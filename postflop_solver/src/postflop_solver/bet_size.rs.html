@@ -345,7 +345,7 @@
 ///     vec![
 ///         PotRelative(0.5),
 ///         Additive(100),
-///         Geometric(2, f32::INFINITY),
+///         Geometric(2, f64::INFINITY),
 ///         AllIn
 ///    ]
 /// );
@@ -376,18 +376,18 @@
 #[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
 </span><span class="kw">pub enum </span>BetSize {
     <span class="doccomment">/// Bet size relative to the current pot size.
-    </span>PotRelative(f32),
+    </span>PotRelative(f64),
 
     <span class="doccomment">/// Bet size relative to the previous bet size (only valid for raise actions).
-    </span>PrevBetRelative(f32),
+    </span>PrevBetRelative(f64),
 
     <span class="doccomment">/// Bet size specifying constant addition.
     </span>Additive(i32),
 
-    <span class="doccomment">/// Geometric bet size for `i32` streets with maximum pot-relative size of `f32`.
+    <span class="doccomment">/// Geometric bet size for `i32` streets with maximum pot-relative size of `f64`.
     ///
     /// If `i32 == 0`, the number of streets is as follows: flop = 3, turn = 2, river = 1.
-    </span>Geometric(i32, f32),
+    </span>Geometric(i32, f64),
 
     <span class="doccomment">/// Bet size representing all-in.
     </span>AllIn,
@@ -477,7 +477,7 @@
                 <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Multiplier must be greater than 1.0: {s}&quot;</span>);
                 <span class="prelude-val">Err</span>(err_msg)
             } <span class="kw">else </span>{
-                <span class="prelude-val">Ok</span>(BetSize::PrevBetRelative(float <span class="kw">as </span>f32))
+                <span class="prelude-val">Ok</span>(BetSize::PrevBetRelative(float))
             }
         }
     } <span class="kw">else if let </span><span class="prelude-val">Some</span>(add) = s_lower.strip_suffix(<span class="string">&#39;c&#39;</span>) {
@@ -512,11 +512,11 @@
         };
 
         <span class="kw">let </span>max_pot_rel = <span class="kw">if </span>max_pot_rel_str.is_empty() {
-            f32::INFINITY
+            f64::INFINITY
         } <span class="kw">else </span>{
             <span class="kw">let </span>max_pot_rel_str = max_pot_rel_str.strip_suffix(<span class="string">&#39;%&#39;</span>).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
-            (parse_float(max_pot_rel_str).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">? </span>/ <span class="number">100.0</span>) <span class="kw">as </span>f32
-        };
+            parse_float(max_pot_rel_str).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">? </span>/ <span class="number">100.0
+        </span>};
 
         <span class="kw">if </span>split.next().is_some() {
             <span class="prelude-val">Err</span>(err_msg)
@@ -526,7 +526,7 @@
     } <span class="kw">else if let </span><span class="prelude-val">Some</span>(pot_rel) = s_lower.strip_suffix(<span class="string">&#39;%&#39;</span>) {
         <span class="comment">// Pot relative (must be after the geometric check)
         </span><span class="kw">let </span>float = parse_float(pot_rel).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
-        <span class="prelude-val">Ok</span>(BetSize::PotRelative((float / <span class="number">100.0</span>) <span class="kw">as </span>f32))
+        <span class="prelude-val">Ok</span>(BetSize::PotRelative(float / <span class="number">100.0</span>))
     } <span class="kw">else if </span>s_lower == <span class="string">&quot;a&quot; </span>{
         <span class="comment">// All-in
         </span><span class="prelude-val">Ok</span>(BetSize::AllIn)
@@ -551,9 +551,9 @@
             (<span class="string">&quot;3.5X&quot;</span>, PrevBetRelative(<span class="number">3.5</span>)),
             (<span class="string">&quot;0c&quot;</span>, Additive(<span class="number">0</span>)),
             (<span class="string">&quot;123C&quot;</span>, Additive(<span class="number">123</span>)),
-            (<span class="string">&quot;e&quot;</span>, Geometric(<span class="number">0</span>, f32::INFINITY)),
-            (<span class="string">&quot;E&quot;</span>, Geometric(<span class="number">0</span>, f32::INFINITY)),
-            (<span class="string">&quot;2e&quot;</span>, Geometric(<span class="number">2</span>, f32::INFINITY)),
+            (<span class="string">&quot;e&quot;</span>, Geometric(<span class="number">0</span>, f64::INFINITY)),
+            (<span class="string">&quot;E&quot;</span>, Geometric(<span class="number">0</span>, f64::INFINITY)),
+            (<span class="string">&quot;2e&quot;</span>, Geometric(<span class="number">2</span>, f64::INFINITY)),
             (<span class="string">&quot;E37.5%&quot;</span>, Geometric(<span class="number">0</span>, <span class="number">0.375</span>)),
             (<span class="string">&quot;100e.5%&quot;</span>, Geometric(<span class="number">100</span>, <span class="number">0.005</span>)),
             (<span class="string">&quot;a&quot;</span>, AllIn),
@@ -589,7 +589,7 @@
                 <span class="string">&quot;50c, e, a,&quot;</span>,
                 <span class="string">&quot;25%, 2.5x, e200%&quot;</span>,
                 BetSizeCandidates {
-                    bet: <span class="macro">vec!</span>[Additive(<span class="number">50</span>), Geometric(<span class="number">0</span>, f32::INFINITY), AllIn],
+                    bet: <span class="macro">vec!</span>[Additive(<span class="number">50</span>), Geometric(<span class="number">0</span>, f64::INFINITY), AllIn],
                     raise: <span class="macro">vec!</span>[PotRelative(<span class="number">0.25</span>), PrevBetRelative(<span class="number">2.5</span>), Geometric(<span class="number">0</span>, <span class="number">2.0</span>)],
                 },
             ),
@@ -618,7 +618,7 @@
             (
                 <span class="string">&quot;50c, e, a,&quot;</span>,
                 DonkSizeCandidates {
-                    donk: <span class="macro">vec!</span>[Additive(<span class="number">50</span>), Geometric(<span class="number">0</span>, f32::INFINITY), AllIn],
+                    donk: <span class="macro">vec!</span>[Additive(<span class="number">50</span>), Geometric(<span class="number">0</span>, f64::INFINITY), AllIn],
                 },
             ),
         ];

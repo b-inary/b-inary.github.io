@@ -1114,8 +1114,8 @@
 ///     initial_state: BoardState::Turn,
 ///     starting_pot: 200,
 ///     effective_stack: 900,
-///     rake_basis_points: 500,
-///     rake_cap: 30,
+///     rake_rate: 0.05,
+///     rake_cap: 30.0,
 ///     flop_bet_sizes: Default::default(),
 ///     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 ///     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
@@ -1138,11 +1138,11 @@
     <span class="doccomment">/// Initial effective stack. Must be greater than `0`.
     </span><span class="kw">pub </span>effective_stack: i32,
 
-    <span class="doccomment">/// Rake in basis points (100bp = 1%). Must be between `0` and `10000`, inclusive.
-    </span><span class="kw">pub </span>rake_basis_points: i32,
+    <span class="doccomment">/// Rake rate. Must be between `0.0` and `1.0`, inclusive.
+    </span><span class="kw">pub </span>rake_rate: f64,
 
     <span class="doccomment">/// Rake cap. Must be non-negative.
-    </span><span class="kw">pub </span>rake_cap: i32,
+    </span><span class="kw">pub </span>rake_cap: f64,
 
     <span class="doccomment">/// Bet size candidates of each player for the flop.
     </span><span class="kw">pub </span>flop_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
@@ -1161,13 +1161,13 @@
 
     <span class="doccomment">/// Add all-in action if the ratio of maximum bet size to the pot is below or equal to this
     /// value (set `0.0` to disable).
-    </span><span class="kw">pub </span>add_allin_threshold: f32,
+    </span><span class="kw">pub </span>add_allin_threshold: f64,
 
     <span class="doccomment">/// Force all-in action if the SPR (stack/pot) after the opponent&#39;s call is below or equal to
     /// this value (set `0.0` to disable).
     ///
     /// Personal recommendation: between `0.1` and `0.2`
-    </span><span class="kw">pub </span>force_allin_threshold: f32,
+    </span><span class="kw">pub </span>force_allin_threshold: f64,
 
     <span class="doccomment">/// Merge bet actions if there are bet actions with &quot;close&quot; values (set `0.0` to disable).
     ///
@@ -1177,7 +1177,7 @@
     /// Continue this process with the next highest bet size.
     ///
     /// Personal recommendation: around `0.1`
-    </span><span class="kw">pub </span>merging_threshold: f32,
+    </span><span class="kw">pub </span>merging_threshold: f64,
 }
 
 <span class="doccomment">/// A struct representing an abstract game tree.
@@ -1462,21 +1462,21 @@
             ));
         }
 
-        <span class="kw">if </span>config.rake_basis_points &lt; <span class="number">0 </span>{
+        <span class="kw">if </span>config.rake_rate &lt; <span class="number">0.0 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;Rake basis points must be non-negative: {}&quot;</span>,
-                config.rake_basis_points
+                <span class="string">&quot;Rake rate must be non-negative: {}&quot;</span>,
+                config.rake_rate
             ));
         }
 
-        <span class="kw">if </span>config.rake_basis_points &gt; <span class="number">10000 </span>{
+        <span class="kw">if </span>config.rake_rate &gt; <span class="number">1.0 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
-                <span class="string">&quot;Rake basis points must be less than or equal to 10000: {}&quot;</span>,
-                config.rake_basis_points
+                <span class="string">&quot;Rake rate must be less than or equal to 1.0: {}&quot;</span>,
+                config.rake_rate
             ));
         }
 
-        <span class="kw">if </span>config.rake_cap &lt; <span class="number">0 </span>{
+        <span class="kw">if </span>config.rake_cap &lt; <span class="number">0.0 </span>{
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
                 <span class="string">&quot;Rake cap must be non-negative: {}&quot;</span>,
                 config.rake_cap
@@ -1571,9 +1571,9 @@
         <span class="kw">let </span>min_amount = (prev_amount + to_call).clamp(<span class="number">1</span>, max_amount);
 
         <span class="kw">let </span>spr_after_call = opponent_stack <span class="kw">as </span>f64 / pot <span class="kw">as </span>f64;
-        <span class="kw">let </span>compute_geometric = |num_streets: i32, max_ratio: f32| {
+        <span class="kw">let </span>compute_geometric = |num_streets: i32, max_ratio: f64| {
             <span class="kw">let </span>ratio = ((<span class="number">2.0 </span>* spr_after_call + <span class="number">1.0</span>).powf(<span class="number">1.0 </span>/ num_streets <span class="kw">as </span>f64) - <span class="number">1.0</span>) / <span class="number">2.0</span>;
-            (pot <span class="kw">as </span>f64 * ratio.min(max_ratio <span class="kw">as </span>f64)).round() <span class="kw">as </span>i32
+            (pot <span class="kw">as </span>f64 * ratio.min(max_ratio)).round() <span class="kw">as </span>i32
         };
 
         <span class="kw">let </span>(candidates, donk_candidates, num_remaining_streets) = <span class="kw">match </span>node.board_state {
@@ -1599,7 +1599,7 @@
             </span><span class="kw">for </span><span class="kw-2">&amp;</span>donk_size <span class="kw">in </span><span class="kw-2">&amp;</span>donk_candidates.as_ref().unwrap().donk {
                 <span class="kw">match </span>donk_size {
                     BetSize::PotRelative(ratio) =&gt; {
-                        <span class="kw">let </span>amount = (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                        <span class="kw">let </span>amount = (pot <span class="kw">as </span>f64 * ratio).round() <span class="kw">as </span>i32;
                         actions.push(Action::Bet(amount));
                     }
                     BetSize::PrevBetRelative(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected `PrevBetRelative`&quot;</span>),
@@ -1617,7 +1617,7 @@
             }
 
             <span class="comment">// all-in
-            </span><span class="kw">if </span>max_amount &lt;= (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_allin_threshold).round() <span class="kw">as </span>i32 {
+            </span><span class="kw">if </span>max_amount &lt;= (pot <span class="kw">as </span>f64 * <span class="self">self</span>.config.add_allin_threshold).round() <span class="kw">as </span>i32 {
                 actions.push(Action::AllIn(max_amount));
             }
         } <span class="kw">else if </span><span class="macro">matches!</span>(
@@ -1631,7 +1631,7 @@
             </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].bet {
                 <span class="kw">match </span>bet_size {
                     BetSize::PotRelative(ratio) =&gt; {
-                        <span class="kw">let </span>amount = (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                        <span class="kw">let </span>amount = (pot <span class="kw">as </span>f64 * ratio).round() <span class="kw">as </span>i32;
                         actions.push(Action::Bet(amount));
                     }
                     BetSize::PrevBetRelative(<span class="kw">_</span>) =&gt; <span class="macro">panic!</span>(<span class="string">&quot;Unexpected `PrevBetRelative`&quot;</span>),
@@ -1649,7 +1649,7 @@
             }
 
             <span class="comment">// all-in
-            </span><span class="kw">if </span>max_amount &lt;= (pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_allin_threshold).round() <span class="kw">as </span>i32 {
+            </span><span class="kw">if </span>max_amount &lt;= (pot <span class="kw">as </span>f64 * <span class="self">self</span>.config.add_allin_threshold).round() <span class="kw">as </span>i32 {
                 actions.push(Action::AllIn(max_amount));
             }
         } <span class="kw">else </span>{
@@ -1664,11 +1664,11 @@
                 </span><span class="kw">for </span><span class="kw-2">&amp;</span>bet_size <span class="kw">in </span><span class="kw-2">&amp;</span>candidates[player <span class="kw">as </span>usize].raise {
                     <span class="kw">match </span>bet_size {
                         BetSize::PotRelative(ratio) =&gt; {
-                            <span class="kw">let </span>amount = prev_amount + (pot <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                            <span class="kw">let </span>amount = prev_amount + (pot <span class="kw">as </span>f64 * ratio).round() <span class="kw">as </span>i32;
                             actions.push(Action::Raise(amount));
                         }
                         BetSize::PrevBetRelative(ratio) =&gt; {
-                            <span class="kw">let </span>amount = (prev_amount <span class="kw">as </span>f32 * ratio).round() <span class="kw">as </span>i32;
+                            <span class="kw">let </span>amount = (prev_amount <span class="kw">as </span>f64 * ratio).round() <span class="kw">as </span>i32;
                             actions.push(Action::Raise(amount));
                         }
                         BetSize::Additive(adder) =&gt; {
@@ -1687,7 +1687,7 @@
                 }
 
                 <span class="comment">// all-in
-                </span><span class="kw">let </span>allin_threshold = pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.add_allin_threshold;
+                </span><span class="kw">let </span>allin_threshold = pot <span class="kw">as </span>f64 * <span class="self">self</span>.config.add_allin_threshold;
                 <span class="kw">if </span>max_amount &lt;= prev_amount + allin_threshold.round() <span class="kw">as </span>i32 {
                     actions.push(Action::AllIn(max_amount));
                 }
@@ -1697,7 +1697,7 @@
         <span class="kw">let </span>is_above_threshold = |amount: i32| {
             <span class="kw">let </span>new_amount_diff = amount - prev_amount;
             <span class="kw">let </span>new_pot = pot + <span class="number">2 </span>* new_amount_diff;
-            <span class="kw">let </span>threshold = (new_pot <span class="kw">as </span>f32 * <span class="self">self</span>.config.force_allin_threshold).round() <span class="kw">as </span>i32;
+            <span class="kw">let </span>threshold = (new_pot <span class="kw">as </span>f64 * <span class="self">self</span>.config.force_allin_threshold).round() <span class="kw">as </span>i32;
             max_amount &lt;= amount + threshold
         };
 
@@ -2063,10 +2063,10 @@
     }
 }
 
-<span class="kw">fn </span>merge_bet_actions(actions: Vec&lt;Action&gt;, pot: i32, offset: i32, param: f32) -&gt; Vec&lt;Action&gt; {
-    <span class="kw">const </span>EPS: f32 = <span class="number">2e-7</span>; <span class="comment">// 2 ulps
+<span class="kw">fn </span>merge_bet_actions(actions: Vec&lt;Action&gt;, pot: i32, offset: i32, param: f64) -&gt; Vec&lt;Action&gt; {
+    <span class="kw">const </span>EPS: f64 = <span class="number">1e-12</span>;
 
-    </span><span class="kw">let </span>get_amount = |action: Action| <span class="kw">match </span>action {
+    <span class="kw">let </span>get_amount = |action: Action| <span class="kw">match </span>action {
         Action::Bet(amount) | Action::Raise(amount) | Action::AllIn(amount) =&gt; amount,
         <span class="kw">_ </span>=&gt; -<span class="number">1</span>,
     };
@@ -2077,8 +2077,8 @@
     <span class="kw">for </span><span class="kw-2">&amp;</span>action <span class="kw">in </span>actions.iter().rev() {
         <span class="kw">let </span>amount = get_amount(action);
         <span class="kw">if </span>amount &gt; <span class="number">0 </span>{
-            <span class="kw">let </span>ratio = (amount - offset) <span class="kw">as </span>f32 / pot <span class="kw">as </span>f32;
-            <span class="kw">let </span>cur_ratio = (cur_amount - offset) <span class="kw">as </span>f32 / pot <span class="kw">as </span>f32;
+            <span class="kw">let </span>ratio = (amount - offset) <span class="kw">as </span>f64 / pot <span class="kw">as </span>f64;
+            <span class="kw">let </span>cur_ratio = (cur_amount - offset) <span class="kw">as </span>f64 / pot <span class="kw">as </span>f64;
             <span class="kw">let </span>threshold_ratio = (cur_ratio - param) / (<span class="number">1.0 </span>+ param);
             <span class="kw">if </span>ratio &lt; threshold_ratio * (<span class="number">1.0 </span>- EPS) {
                 ret.push(action);
