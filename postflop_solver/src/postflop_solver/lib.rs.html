@@ -180,6 +180,8 @@
 <a href="#180" id="180">180</a>
 <a href="#181" id="181">181</a>
 <a href="#182" id="182">182</a>
+<a href="#183" id="183">183</a>
+<a href="#184" id="184">184</a>
 </pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.
 //!
 //! # Examples
@@ -206,6 +208,8 @@
 //!     initial_state: BoardState::Turn,
 //!     starting_pot: 200,
 //!     effective_stack: 900,
+//!     rake_basis_points: 0,
+//!     rake_cap: 0,
 //!     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()], // [OOP, IP]
 //!     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 //!     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
@@ -252,7 +256,7 @@
 //! // for i in 0..max_num_iterations {
 //! //     solve_step(&amp;game, i);
 //! //     if (i + 1) % 10 == 0 {
-//! //         let exploitability = compute_exploitability(&amp;game);
+//! //         let exploitability = compute_mes_ev_average(&amp;game);
 //! //         if exploitability &lt;= target_exploitability {
 //! //             println!(&quot;Exploitability: {:.2}&quot;, exploitability);
 //! //             break;

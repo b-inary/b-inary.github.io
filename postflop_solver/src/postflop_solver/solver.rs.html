@@ -480,6 +480,9 @@
 <a href="#480" id="480">480</a>
 <a href="#481" id="481">481</a>
 <a href="#482" id="482">482</a>
+<a href="#483" id="483">483</a>
+<a href="#484" id="484">484</a>
+<a href="#485" id="485">485</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -533,20 +536,15 @@
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>root = game.root();
-
-    <span class="kw">let </span><span class="kw-2">mut </span>exploitability = compute_exploitability(game);
+    <span class="kw">let </span><span class="kw-2">mut </span>exploitability = f32::INFINITY;
 
     <span class="kw">if </span>print_progress {
         <span class="macro">print!</span>(<span class="string">&quot;iteration: 0 / {max_num_iterations} &quot;</span>);
-        <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {exploitability:.4e}[bb])&quot;</span>);
+        <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {exploitability:.4e})&quot;</span>);
         io::stdout().flush().unwrap();
     }
 
     <span class="kw">for </span>t <span class="kw">in </span><span class="number">0</span>..max_num_iterations {
-        <span class="kw">if </span>exploitability &lt;= target_exploitability {
-            <span class="kw">break</span>;
-        }
-
         <span class="kw">let </span>params = DiscountParams::new(t);
 
         <span class="comment">// alternating updates
@@ -563,13 +561,21 @@
         }
 
         <span class="kw">if </span>(t + <span class="number">1</span>) % <span class="number">10 </span>== <span class="number">0 </span>|| t + <span class="number">1 </span>== max_num_iterations {
-            exploitability = compute_exploitability(game);
+            <span class="kw">if </span>!game.is_raked() {
+                exploitability = compute_mes_ev_average(game);
+            } <span class="kw">else </span>{
+                exploitability = compute_mes_ev_average(game) - compute_current_ev_average(game);
+            }
         }
 
         <span class="kw">if </span>print_progress {
             <span class="macro">print!</span>(<span class="string">&quot;\riteration: {} / {} &quot;</span>, t + <span class="number">1</span>, max_num_iterations);
-            <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {exploitability:.4e}[bb])&quot;</span>);
+            <span class="macro">print!</span>(<span class="string">&quot;(exploitability = {exploitability:.4e})&quot;</span>);
             io::stdout().flush().unwrap();
+        }
+
+        <span class="kw">if </span>exploitability &lt;= target_exploitability {
+            <span class="kw">break</span>;
         }
     }
 

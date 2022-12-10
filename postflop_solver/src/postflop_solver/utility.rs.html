@@ -682,6 +682,53 @@
 <a href="#682" id="682">682</a>
 <a href="#683" id="683">683</a>
 <a href="#684" id="684">684</a>
+<a href="#685" id="685">685</a>
+<a href="#686" id="686">686</a>
+<a href="#687" id="687">687</a>
+<a href="#688" id="688">688</a>
+<a href="#689" id="689">689</a>
+<a href="#690" id="690">690</a>
+<a href="#691" id="691">691</a>
+<a href="#692" id="692">692</a>
+<a href="#693" id="693">693</a>
+<a href="#694" id="694">694</a>
+<a href="#695" id="695">695</a>
+<a href="#696" id="696">696</a>
+<a href="#697" id="697">697</a>
+<a href="#698" id="698">698</a>
+<a href="#699" id="699">699</a>
+<a href="#700" id="700">700</a>
+<a href="#701" id="701">701</a>
+<a href="#702" id="702">702</a>
+<a href="#703" id="703">703</a>
+<a href="#704" id="704">704</a>
+<a href="#705" id="705">705</a>
+<a href="#706" id="706">706</a>
+<a href="#707" id="707">707</a>
+<a href="#708" id="708">708</a>
+<a href="#709" id="709">709</a>
+<a href="#710" id="710">710</a>
+<a href="#711" id="711">711</a>
+<a href="#712" id="712">712</a>
+<a href="#713" id="713">713</a>
+<a href="#714" id="714">714</a>
+<a href="#715" id="715">715</a>
+<a href="#716" id="716">716</a>
+<a href="#717" id="717">717</a>
+<a href="#718" id="718">718</a>
+<a href="#719" id="719">719</a>
+<a href="#720" id="720">720</a>
+<a href="#721" id="721">721</a>
+<a href="#722" id="722">722</a>
+<a href="#723" id="723">723</a>
+<a href="#724" id="724">724</a>
+<a href="#725" id="725">725</a>
+<a href="#726" id="726">726</a>
+<a href="#727" id="727">727</a>
+<a href="#728" id="728">728</a>
+<a href="#729" id="729">729</a>
+<a href="#730" id="730">730</a>
+<a href="#731" id="731">731</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -710,6 +757,12 @@
 #[inline]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>for_each_child&lt;T: GameNode, OP: Fn(usize) + Sync + Send&gt;(node: <span class="kw-2">&amp;</span>T, op: OP) {
     node.actions().for_each(op);
+}
+
+<span class="attr">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>weighted_sum(values: <span class="kw-2">&amp;</span>[f32], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
+    <span class="kw">let </span>f = |sum: f64, (<span class="kw-2">&amp;</span>v, <span class="kw-2">&amp;</span>w): (<span class="kw-2">&amp;</span>f32, <span class="kw-2">&amp;</span>f32)| sum + v <span class="kw">as </span>f64 * w <span class="kw">as </span>f64;
+    values.iter().zip(weights).fold(<span class="number">0.0</span>, f) <span class="kw">as </span>f32
 }
 
 <span class="attr">#[inline]
@@ -903,6 +956,7 @@
             <span class="kw-2">&amp;mut </span>game.root(),
             player,
             cfreach,
+            <span class="bool-val">true</span>,
         );
     }
 
@@ -916,9 +970,40 @@
     </span>free_custom_alloc_buffer();
 }
 
-<span class="doccomment">/// Computes the exploitability of the current strategy.
+<span class="doccomment">/// Computes the average of the expected values of the current strategy.
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>compute_exploitability&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
+</span><span class="kw">pub fn </span>compute_current_ev_average&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
+    <span class="kw">if </span>!game.is_ready() &amp;&amp; !game.is_solved() {
+        <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
+    }
+
+    <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
+        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">0</span>)],
+        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">1</span>)],
+    ];
+
+    <span class="kw">let </span>reach = [game.initial_weights(<span class="number">0</span>), game.initial_weights(<span class="number">1</span>)];
+
+    <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+        compute_cfvalue_recursive(
+            <span class="kw-2">&amp;mut </span>cfvalues[player],
+            game,
+            <span class="kw-2">&amp;mut </span>game.root(),
+            player,
+            reach[player ^ <span class="number">1</span>],
+            <span class="bool-val">false</span>,
+        );
+    }
+
+    <span class="kw">let </span>get_sum = |player: usize| weighted_sum(<span class="kw-2">&amp;</span>cfvalues[player], reach[player]);
+    <span class="number">0.5 </span>* (get_sum(<span class="number">0</span>) + get_sum(<span class="number">1</span>))
+}
+
+<span class="doccomment">/// Computes the average of the expected values of the MES (Maximally Exploitative Strategy).
+///
+/// Corresponds to the exploitability value when not raked.
+</span><span class="attr">#[inline]
+</span><span class="kw">pub fn </span>compute_mes_ev_average&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
     <span class="kw">if </span>!game.is_ready() &amp;&amp; !game.is_solved() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
@@ -940,15 +1025,9 @@
         );
     }
 
-    <span class="kw">let </span>get_sum = |player: usize| {
-        cfvalues[player]
-            .iter()
-            .zip(reach[player])
-            .fold(<span class="number">0.0</span>, |sum, (<span class="kw-2">&amp;</span>cfv, <span class="kw-2">&amp;</span>reach)| sum + cfv <span class="kw">as </span>f64 * reach <span class="kw">as </span>f64)
-    };
-
-    (get_sum(<span class="number">0</span>) + get_sum(<span class="number">1</span>)) <span class="kw">as </span>f32 / <span class="number">2.0
-</span>}
+    <span class="kw">let </span>get_sum = |player: usize| weighted_sum(<span class="kw-2">&amp;</span>cfvalues[player], reach[player]);
+    <span class="number">0.5 </span>* (get_sum(<span class="number">0</span>) + get_sum(<span class="number">1</span>))
+}
 
 <span class="doccomment">/// The recursive helper function for computing the counterfactual values of the given strategy.
 </span><span class="kw">fn </span>compute_cfvalue_recursive&lt;T: Game&gt;(
@@ -957,6 +1036,7 @@
     node: <span class="kw-2">&amp;mut </span>T::Node,
     player: usize,
     cfreach: <span class="kw-2">&amp;</span>[f32],
+    save_cfvalues: bool,
 ) {
     <span class="comment">// terminal node
     </span><span class="kw">if </span>node.is_terminal() {
@@ -996,6 +1076,7 @@
                 <span class="kw-2">&amp;mut </span>node.play(action),
                 player,
                 <span class="kw-2">&amp;</span>cfreach,
+                save_cfvalues,
             );
         });
 
@@ -1043,18 +1124,20 @@
         });
 
         <span class="comment">// save the counterfactual values
-        </span><span class="kw">let </span>slice: <span class="kw-2">&amp;</span>[f32] = <span class="kw">match </span>node.cfvalue_storage(player) {
-            CfValueStorage::None =&gt; <span class="kw-2">&amp;</span>[],
-            CfValueStorage::Sum =&gt; result,
-            CfValueStorage::All =&gt; cfv_actions.as_slice(),
-        };
-        <span class="kw">if </span>!slice.is_empty() {
-            <span class="kw">if </span>game.is_compression_enabled() {
-                <span class="kw">let </span>dst = node.cfvalues_chance_compressed_mut(player);
-                <span class="kw">let </span>cfv_scale = encode_signed_slice(dst, slice);
-                node.set_cfvalue_chance_scale(player, cfv_scale);
-            } <span class="kw">else </span>{
-                node.cfvalues_chance_mut(player).copy_from_slice(slice);
+        </span><span class="kw">if </span>save_cfvalues {
+            <span class="kw">let </span>slice: <span class="kw-2">&amp;</span>[f32] = <span class="kw">match </span>node.cfvalue_storage(player) {
+                CfValueStorage::None =&gt; <span class="kw-2">&amp;</span>[],
+                CfValueStorage::Sum =&gt; result,
+                CfValueStorage::All =&gt; cfv_actions.as_slice(),
+            };
+            <span class="kw">if </span>!slice.is_empty() {
+                <span class="kw">if </span>game.is_compression_enabled() {
+                    <span class="kw">let </span>dst = node.cfvalues_chance_compressed_mut(player);
+                    <span class="kw">let </span>cfv_scale = encode_signed_slice(dst, slice);
+                    node.set_cfvalue_chance_scale(player, cfv_scale);
+                } <span class="kw">else </span>{
+                    node.cfvalues_chance_mut(player).copy_from_slice(slice);
+                }
             }
         }
     }
@@ -1095,6 +1178,7 @@
                 <span class="kw-2">&amp;mut </span>node.play(action),
                 player,
                 cfreach,
+                save_cfvalues,
             );
         });
 
@@ -1106,17 +1190,26 @@
         });
 
         <span class="comment">// save the counterfactual values
-        </span><span class="kw">if </span>game.is_compression_enabled() {
-            <span class="kw">let </span>cfv_scale = encode_signed_slice(node.cfvalues_compressed_mut(), <span class="kw-2">&amp;</span>cfv_actions);
-            node.set_cfvalue_scale(cfv_scale);
-        } <span class="kw">else </span>{
-            node.cfvalues_mut().copy_from_slice(<span class="kw-2">&amp;</span>cfv_actions);
+        </span><span class="kw">if </span>save_cfvalues {
+            <span class="kw">if </span>game.is_compression_enabled() {
+                <span class="kw">let </span>cfv_scale = encode_signed_slice(node.cfvalues_compressed_mut(), <span class="kw-2">&amp;</span>cfv_actions);
+                node.set_cfvalue_scale(cfv_scale);
+            } <span class="kw">else </span>{
+                node.cfvalues_mut().copy_from_slice(<span class="kw-2">&amp;</span>cfv_actions);
+            }
         }
     }
     <span class="comment">// opponent node
     </span><span class="kw">else if </span>num_actions == <span class="number">1 </span>{
         <span class="comment">// simply recurse when the number of actions is one
-        </span>compute_cfvalue_recursive(result, game, <span class="kw-2">&amp;mut </span>node.play(<span class="number">0</span>), player, cfreach);
+        </span>compute_cfvalue_recursive(
+            result,
+            game,
+            <span class="kw-2">&amp;mut </span>node.play(<span class="number">0</span>),
+            player,
+            cfreach,
+            save_cfvalues,
+        );
     } <span class="kw">else </span>{
         <span class="comment">// obtain the strategy
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_actions = <span class="kw">if </span>game.is_compression_enabled() {
@@ -1159,6 +1252,7 @@
                 <span class="kw-2">&amp;mut </span>node.play(action),
                 player,
                 row(<span class="kw-2">&amp;</span>cfreach_actions, action, row_size),
+                save_cfvalues,
             );
         });
 

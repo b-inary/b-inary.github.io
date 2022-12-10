@@ -240,6 +240,12 @@
 <a href="#240" id="240">240</a>
 <a href="#241" id="241">241</a>
 <a href="#242" id="242">242</a>
+<a href="#243" id="243">243</a>
+<a href="#244" id="244">244</a>
+<a href="#245" id="245">245</a>
+<a href="#246" id="246">246</a>
+<a href="#247" id="247">247</a>
+<a href="#248" id="248">248</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::ops::Range;
 
@@ -280,6 +286,12 @@
     <span class="doccomment">/// Sets the instance to be solved.
     </span><span class="attr">#[doc(hidden)]
     </span><span class="kw">fn </span>set_solved(<span class="kw-2">&amp;mut </span><span class="self">self</span>, root_cfvalue_ip: <span class="kw-2">&amp;</span>[f32]);
+
+    <span class="doccomment">/// Returns whether the game is raked.
+    </span><span class="attr">#[doc(hidden)]
+    </span><span class="kw">fn </span>is_raked(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
+        <span class="bool-val">false
+    </span>}
 
     <span class="doccomment">/// Returns the list of indices that isomorphic chances refer to.
     </span><span class="attr">#[doc(hidden)]

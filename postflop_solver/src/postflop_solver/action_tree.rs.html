@@ -1016,6 +1016,35 @@
 <a href="#1016" id="1016">1016</a>
 <a href="#1017" id="1017">1017</a>
 <a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bet_size::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 
@@ -1085,6 +1114,8 @@
 ///     initial_state: BoardState::Turn,
 ///     starting_pot: 200,
 ///     effective_stack: 900,
+///     rake_basis_points: 500,
+///     rake_cap: 30,
 ///     flop_bet_sizes: Default::default(),
 ///     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
 ///     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
@@ -1106,6 +1137,12 @@
 
     <span class="doccomment">/// Initial effective stack. Must be greater than `0`.
     </span><span class="kw">pub </span>effective_stack: i32,
+
+    <span class="doccomment">/// Rake in basis points (100bp = 1%). Must be between `0` and `10000`, inclusive.
+    </span><span class="kw">pub </span>rake_basis_points: i32,
+
+    <span class="doccomment">/// Rake cap. Must be non-negative.
+    </span><span class="kw">pub </span>rake_cap: i32,
 
     <span class="doccomment">/// Bet size candidates of each player for the flop.
     </span><span class="kw">pub </span>flop_bet_sizes: [BetSizeCandidates; <span class="number">2</span>],
@@ -1422,6 +1459,27 @@
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
                 <span class="string">&quot;Effective stack must be positive: {}&quot;</span>,
                 config.effective_stack
+            ));
+        }
+
+        <span class="kw">if </span>config.rake_basis_points &lt; <span class="number">0 </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
+                <span class="string">&quot;Rake basis points must be non-negative: {}&quot;</span>,
+                config.rake_basis_points
+            ));
+        }
+
+        <span class="kw">if </span>config.rake_basis_points &gt; <span class="number">10000 </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
+                <span class="string">&quot;Rake basis points must be less than or equal to 10000: {}&quot;</span>,
+                config.rake_basis_points
+            ));
+        }
+
+        <span class="kw">if </span>config.rake_cap &lt; <span class="number">0 </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(
+                <span class="string">&quot;Rake cap must be non-negative: {}&quot;</span>,
+                config.rake_cap
             ));
         }
 
