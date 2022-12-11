@@ -2759,6 +2759,14 @@
 <a href="#2759" id="2759">2759</a>
 <a href="#2760" id="2760">2760</a>
 <a href="#2761" id="2761">2761</a>
+<a href="#2762" id="2762">2762</a>
+<a href="#2763" id="2763">2763</a>
+<a href="#2764" id="2764">2764</a>
+<a href="#2765" id="2765">2765</a>
+<a href="#2766" id="2766">2766</a>
+<a href="#2767" id="2767">2767</a>
+<a href="#2768" id="2768">2768</a>
+<a href="#2769" id="2769">2769</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -3732,7 +3740,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>back_to_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="self">self</span>.history.clear();
@@ -3761,7 +3769,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>history(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[usize] {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw-2">&amp;</span><span class="self">self</span>.history
@@ -3777,7 +3785,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>apply_history(<span class="kw-2">&amp;mut </span><span class="self">self</span>, history: <span class="kw-2">&amp;</span>[usize]) {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="self">self</span>.back_to_root();
@@ -3793,7 +3801,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_terminal_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw">let </span>node = <span class="self">self</span>.node();
@@ -3806,7 +3814,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>is_chance_node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         !<span class="self">self</span>.is_terminal_node() &amp;&amp; <span class="self">self</span>.node().is_chance()
@@ -3822,7 +3830,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>available_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Action] {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw">match </span><span class="self">self</span>.is_terminal_node() {
@@ -3840,7 +3848,7 @@
     /// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.
     </span><span class="kw">pub fn </span>possible_cards(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw">if </span>!<span class="self">self</span>.is_chance_node() {
@@ -3879,13 +3887,14 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>current_player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="self">self</span>.node().player()
     }
 
     <span class="doccomment">/// Plays the given action. Playing an action from a terminal node is not allowed.
+    ///
     /// - `action`
     ///   - If the current node is a chance node, the `action` corresponds to the card ID of the
     ///     dealt card. The `action` can be `usize::MAX`, in which case the actual card is chosen
@@ -3893,14 +3902,16 @@
     ///   - If the current node is not a chance node, plays the `action`-th action of
     ///     [`available_actions`].
     ///
+    /// Panics if the memory is not yet allocated or the current node is a terminal node.
+    ///
     /// [`available_actions`]: #method.available_actions
     </span><span class="kw">pub fn </span>play(<span class="kw-2">&amp;mut </span><span class="self">self</span>, action: usize) {
         <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
-            <span class="macro">panic!</span>(<span class="string">&quot;memory is not allocated&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);
         }
 
         <span class="kw">if </span><span class="self">self</span>.is_terminal_node() {
-            <span class="macro">panic!</span>(<span class="string">&quot;terminal node is not allowed&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Terminal node is not allowed&quot;</span>);
         }
 
         <span class="comment">// chande node
@@ -3961,7 +3972,7 @@
 
             <span class="comment">// panic if the action is not found
             </span><span class="kw">if </span>action_index == usize::MAX {
-                <span class="macro">panic!</span>(<span class="string">&quot;invalid action&quot;</span>);
+                <span class="macro">panic!</span>(<span class="string">&quot;Invalid action&quot;</span>);
             }
 
             <span class="comment">// cache the counterfactual values
@@ -3992,7 +4003,7 @@
         </span><span class="kw">else </span>{
             <span class="comment">// panic if the action is invalid
             </span><span class="kw">if </span>action &gt;= <span class="self">self</span>.node().num_actions() {
-                <span class="macro">panic!</span>(<span class="string">&quot;invalid action&quot;</span>);
+                <span class="macro">panic!</span>(<span class="string">&quot;Invalid action&quot;</span>);
             }
 
             <span class="kw">let </span>player = <span class="self">self</span>.node().player();
@@ -4048,7 +4059,7 @@
     /// [`expected_values_detail`]: #method.expected_values_detail
     </span><span class="kw">pub fn </span>cache_normalized_weights(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw">if </span><span class="self">self</span>.is_normalized_weight_cached {
@@ -4114,7 +4125,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player]
@@ -4132,11 +4143,11 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>normalized_weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw">if </span>!<span class="self">self</span>.is_normalized_weight_cached {
-            <span class="macro">panic!</span>(<span class="string">&quot;normalized weights are not cached&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Normalized weights are not cached&quot;</span>);
         }
 
         <span class="kw-2">&amp;</span><span class="self">self</span>.normalized_weights[player]
@@ -4150,11 +4161,11 @@
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
     </span><span class="kw">pub fn </span>equity(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; Vec&lt;f32&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
-            <span class="macro">panic!</span>(<span class="string">&quot;struct is not successfully initialized&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
         <span class="kw">if </span>!<span class="self">self</span>.is_normalized_weight_cached {
-            <span class="macro">panic!</span>(<span class="string">&quot;normalized weights are not cached&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Normalized weights are not cached&quot;</span>);
         }
 
         <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
@@ -4191,17 +4202,19 @@
 
     <span class="doccomment">/// Returns the expected values of each private hand of the given player.
     ///
+    /// Panics if the game is not solved.
+    ///
     /// After mutating the current node, you must call the [`cache_normalized_weights`] method
     /// before calling this method.
     ///
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
     </span><span class="kw">pub fn </span>expected_values(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; Vec&lt;f32&gt; {
         <span class="kw">if </span><span class="self">self</span>.state != State::Solved {
-            <span class="macro">panic!</span>(<span class="string">&quot;game is not solved&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not solved&quot;</span>);
         }
 
         <span class="kw">if </span>!<span class="self">self</span>.is_normalized_weight_cached {
-            <span class="macro">panic!</span>(<span class="string">&quot;normalized weights are not cached&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Normalized weights are not cached&quot;</span>);
         }
 
         <span class="kw">let </span>expected_value_detail = <span class="self">self</span>.expected_values_detail(player);
@@ -4236,6 +4249,8 @@
     /// Otherwise, this method is the same as the [`expected_values`] method, so the return vector
     /// is the length of `#(private hands)`.
     ///
+    /// Panics if the game is not solved.
+    ///
     /// After mutating the current node, you must call the [`cache_normalized_weights`] method
     /// before calling this method.
     ///
@@ -4243,11 +4258,11 @@
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
     </span><span class="kw">pub fn </span>expected_values_detail(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; Vec&lt;f32&gt; {
         <span class="kw">if </span><span class="self">self</span>.state != State::Solved {
-            <span class="macro">panic!</span>(<span class="string">&quot;game is not solved&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Game is not solved&quot;</span>);
         }
 
         <span class="kw">if </span>!<span class="self">self</span>.is_normalized_weight_cached {
-            <span class="macro">panic!</span>(<span class="string">&quot;normalized weights are not cached&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Normalized weights are not cached&quot;</span>);
         }
 
         <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
@@ -4313,22 +4328,23 @@
 
     <span class="doccomment">/// Returns the strategy of the current player.
     ///
-    /// Panics if the current node is a terminal node or a chance node.
-    ///
     /// The return value is a vector of the length of `#(actions) * #(private hands)`.
     /// The probability of `i`-th action with `j`-th private hand is stored in the
     /// `i * #(private hands) + j`-th element.
+    ///
+    /// Panics if the current node is a terminal node or a chance node. Also, panics if the memory
+    /// is not yet allocated.
     </span><span class="kw">pub fn </span>strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;f32&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
-            <span class="macro">panic!</span>(<span class="string">&quot;memory is not allocated&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);
         }
 
         <span class="kw">if </span><span class="self">self</span>.is_terminal_node() {
-            <span class="macro">panic!</span>(<span class="string">&quot;terminal node is not allowed&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Terminal node is not allowed&quot;</span>);
         }
 
         <span class="kw">if </span><span class="self">self</span>.is_chance_node() {
-            <span class="macro">panic!</span>(<span class="string">&quot;chance node is not allowed&quot;</span>);
+            <span class="macro">panic!</span>(<span class="string">&quot;Chance node is not allowed&quot;</span>);
         }
 
         <span class="kw">let </span>player = <span class="self">self</span>.current_player();
