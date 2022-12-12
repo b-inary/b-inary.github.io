@@ -981,19 +981,26 @@
     </span>free_custom_alloc_buffer();
 }
 
-<span class="doccomment">/// Computes the average of the expected values of the current strategy.
-///
-/// If raked, the exploitability can be computed by subtracting the return value of this function
-/// from the return value of [`compute_mes_ev_average`]. If not raked, there is no need to call this
-/// function.
-///
-/// [`compute_mes_ev_average`]: fn.compute_mes_ev_average.html
+<span class="doccomment">/// Computes the exploitability of the current strategy.
 </span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>compute_current_ev_average&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
+</span><span class="kw">pub fn </span>compute_exploitability&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
     <span class="kw">if </span>!game.is_ready() &amp;&amp; !game.is_solved() {
         <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
     }
 
+    <span class="kw">if </span>!game.is_raked() {
+        compute_mes_ev_average(game)
+    } <span class="kw">else </span>{
+        compute_mes_ev_average(game) - compute_current_ev_average(game)
+    }
+}
+
+<span class="doccomment">/// Computes the average of the expected values of the current strategy.
+///
+/// If raked, the exploitability can be computed by subtracting the return value of this function
+/// from the return value of `compute_mes_ev_average`. If not raked, there is no need to call this
+/// function (since this function should always return zero).
+</span><span class="kw">fn </span>compute_current_ev_average&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
     <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
         <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">0</span>)],
         <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">1</span>)],
@@ -1019,17 +1026,10 @@
 <span class="doccomment">/// Computes the average of the expected values of the MES (Maximally Exploitative Strategy).
 ///
 /// The bias, i.e., (starting pot) / 2, is already subtracted. Therefore, the return value
-/// corresponds to the exploitability if not raked. If raked, use the [`compute_current_ev_average`]
+/// corresponds to the exploitability if not raked. If raked, use the `compute_current_ev_average`
 /// function together and subtract its return value from the return value of this function to
 /// compute the exploitability.
-///
-/// [`compute_current_ev_average`]: fn.compute_current_ev_average.html
-</span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>compute_mes_ev_average&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
-    <span class="kw">if </span>!game.is_ready() &amp;&amp; !game.is_solved() {
-        <span class="macro">panic!</span>(<span class="string">&quot;the game is not ready&quot;</span>);
-    }
-
+</span><span class="kw">fn </span>compute_mes_ev_average&lt;T: Game&gt;(game: <span class="kw-2">&amp;</span>T) -&gt; f32 {
     <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
         <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">0</span>)],
         <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">1</span>)],

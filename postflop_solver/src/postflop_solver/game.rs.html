@@ -3082,6 +3082,15 @@
 <a href="#3082" id="3082">3082</a>
 <a href="#3083" id="3083">3083</a>
 <a href="#3084" id="3084">3084</a>
+<a href="#3085" id="3085">3085</a>
+<a href="#3086" id="3086">3086</a>
+<a href="#3087" id="3087">3087</a>
+<a href="#3088" id="3088">3088</a>
+<a href="#3089" id="3089">3089</a>
+<a href="#3090" id="3090">3090</a>
+<a href="#3091" id="3091">3091</a>
+<a href="#3092" id="3092">3092</a>
+<a href="#3093" id="3093">3093</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -3204,6 +3213,15 @@
     num_storage_chances: u64,
 }
 
+<span class="attr">#[inline]
+</span><span class="kw">fn </span>min(x: f64, y: f64) -&gt; f64 {
+    <span class="kw">if </span>x &lt; y {
+        x
+    } <span class="kw">else </span>{
+        y
+    }
+}
+
 <span class="doccomment">/// Decodes the encoded `i16` slice to the `f32` slice.
 </span><span class="attr">#[inline]
 </span><span class="kw">fn </span>decode_signed_slice(slice: <span class="kw-2">&amp;</span>[i16], scale: f32) -&gt; Vec&lt;f32&gt; {
@@ -3252,7 +3270,7 @@
     <span class="kw">fn </span>evaluate(<span class="kw-2">&amp;</span><span class="self">self</span>, result: <span class="kw-2">&amp;mut </span>[f32], node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node, player: usize, cfreach: <span class="kw-2">&amp;</span>[f32]) {
         <span class="kw">let </span>pot = (<span class="self">self</span>.tree_config.starting_pot + <span class="number">2 </span>* node.amount) <span class="kw">as </span>f64;
         <span class="kw">let </span>half_pot = <span class="number">0.5 </span>* pot;
-        <span class="kw">let </span>rake = f64::min(pot * <span class="self">self</span>.tree_config.rake_rate, <span class="self">self</span>.tree_config.rake_cap);
+        <span class="kw">let </span>rake = min(pot * <span class="self">self</span>.tree_config.rake_rate, <span class="self">self</span>.tree_config.rake_cap);
         <span class="kw">let </span>amount_win = (half_pot - rake) / <span class="self">self</span>.num_combinations;
         <span class="kw">let </span>amount_lose = -half_pot / <span class="self">self</span>.num_combinations;
 
@@ -3416,7 +3434,7 @@
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>is_raked(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.tree_config.rake_rate &gt; <span class="number">0.0
+        <span class="self">self</span>.tree_config.rake_rate &gt; <span class="number">0.0 </span>&amp;&amp; <span class="self">self</span>.tree_config.rake_cap &gt; <span class="number">0.0
     </span>}
 
     <span class="attr">#[inline]
