@@ -279,21 +279,21 @@
 //! println!(&quot;Average equity: {:.2}%&quot;, 100.0 * average_equity);
 //! println!(&quot;Average EV: {:.2}&quot;, average_ev);
 //!
-//! // get available actions
+//! // get available actions (OOP)
 //! let actions = game.available_actions();
 //! assert_eq!(format!(&quot;{:?}&quot;, actions), &quot;[Check, Bet(120), Bet(216), AllIn(900)]&quot;);
 //!
 //! // play `Bet(120)`
 //! game.play(1);
 //!
-//! // get available actions
+//! // get available actions (IP)
 //! let actions = game.available_actions();
 //! assert_eq!(format!(&quot;{:?}&quot;, actions), &quot;[Fold, Call, Raise(300)]&quot;);
 //!
 //! // play `Call`
 //! game.play(1);
 //!
-//! // confirm that the current node is a chance node
+//! // confirm that the current node is a chance node (i.e., river node)
 //! assert!(game.is_chance_node());
 //!
 //! // confirm that &quot;7s&quot; may be dealt
@@ -367,4 +367,4 @@
 <span class="kw">pub use </span>solver::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>utility::<span class="kw-2">*</span>;
 </code></pre></div>
-</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (c6fcdb690 2022-12-10)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
+</section></div></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (bdb07a8ec 2022-12-11)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-af96d9e2fc13e081.css" ></div></body></html>
