@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/utility.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>utility.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-64113db173fe9e58.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-8fe2cf7ee64a76fb.css"><link rel="stylesheet" disabled href="../../static.files/dark-7aacebe982779e9a.css"><link rel="stylesheet" disabled href="../../static.files/ayu-29dcc614f7a7b461.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-a211dbb005fb8161.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/utility.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>utility.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-2bbd125050a72198.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-8fe2cf7ee64a76fb.css"><link rel="stylesheet" disabled href="../../static.files/dark-7aacebe982779e9a.css"><link rel="stylesheet" disabled href="../../static.files/ayu-29dcc614f7a7b461.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-a211dbb005fb8161.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -749,14 +749,57 @@
 <a href="#749" id="749">749</a>
 <a href="#750" id="750">750</a>
 <a href="#751" id="751">751</a>
+<a href="#752" id="752">752</a>
+<a href="#753" id="753">753</a>
+<a href="#754" id="754">754</a>
+<a href="#755" id="755">755</a>
+<a href="#756" id="756">756</a>
+<a href="#757" id="757">757</a>
+<a href="#758" id="758">758</a>
+<a href="#759" id="759">759</a>
+<a href="#760" id="760">760</a>
+<a href="#761" id="761">761</a>
+<a href="#762" id="762">762</a>
+<a href="#763" id="763">763</a>
+<a href="#764" id="764">764</a>
+<a href="#765" id="765">765</a>
+<a href="#766" id="766">766</a>
+<a href="#767" id="767">767</a>
+<a href="#768" id="768">768</a>
+<a href="#769" id="769">769</a>
+<a href="#770" id="770">770</a>
+<a href="#771" id="771">771</a>
+<a href="#772" id="772">772</a>
+<a href="#773" id="773">773</a>
+<a href="#774" id="774">774</a>
+<a href="#775" id="775">775</a>
+<a href="#776" id="776">776</a>
+<a href="#777" id="777">777</a>
+<a href="#778" id="778">778</a>
+<a href="#779" id="779">779</a>
+<a href="#780" id="780">780</a>
+<a href="#781" id="781">781</a>
+<a href="#782" id="782">782</a>
+<a href="#783" id="783">783</a>
+<a href="#784" id="784">784</a>
+<a href="#785" id="785">785</a>
+<a href="#786" id="786">786</a>
+<a href="#787" id="787">787</a>
+<a href="#788" id="788">788</a>
+<a href="#789" id="789">789</a>
+<a href="#790" id="790">790</a>
+<a href="#791" id="791">791</a>
+<a href="#792" id="792">792</a>
+<a href="#793" id="793">793</a>
+<a href="#794" id="794">794</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
-<span class="kw">use </span>std::mem;
+<span class="kw">use </span>std::mem::{<span class="self">self</span>, MaybeUninit};
 <span class="kw">use </span>std::ptr;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-</span><span class="kw">use </span>{<span class="kw">crate</span>::alloc::<span class="kw-2">*</span>, std::vec};
+</span><span class="kw">use </span><span class="kw">crate</span>::alloc::<span class="kw-2">*</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;rayon&quot;</span>)]
 </span><span class="kw">use </span>rayon::prelude::<span class="kw-2">*</span>;
@@ -963,21 +1006,22 @@
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
-        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">0</span>)],
-        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">1</span>)],
+        Vec::with_capacity(game.num_private_hands(<span class="number">0</span>)),
+        Vec::with_capacity(game.num_private_hands(<span class="number">1</span>)),
     ];
 
     <span class="comment">// compute the expected values and save them
     </span><span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
         <span class="kw">let </span>cfreach = game.initial_weights(player ^ <span class="number">1</span>);
         compute_cfvalue_recursive(
-            <span class="kw-2">&amp;mut </span>cfvalues[player],
+            cfvalues[player].spare_capacity_mut(),
             game,
             <span class="kw-2">&amp;mut </span>game.root(),
             player,
             cfreach,
             <span class="bool-val">true</span>,
         );
+        <span class="kw">unsafe </span>{ cfvalues[player].set_len(game.num_private_hands(player)) };
     }
 
     <span class="comment">// set the game solved
@@ -1017,21 +1061,22 @@
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
-        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">0</span>)],
-        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">1</span>)],
+        Vec::with_capacity(game.num_private_hands(<span class="number">0</span>)),
+        Vec::with_capacity(game.num_private_hands(<span class="number">1</span>)),
     ];
 
     <span class="kw">let </span>reach = [game.initial_weights(<span class="number">0</span>), game.initial_weights(<span class="number">1</span>)];
 
     <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
         compute_cfvalue_recursive(
-            <span class="kw-2">&amp;mut </span>cfvalues[player],
+            cfvalues[player].spare_capacity_mut(),
             game,
             <span class="kw-2">&amp;mut </span>game.root(),
             player,
             reach[player ^ <span class="number">1</span>],
             <span class="bool-val">false</span>,
         );
+        <span class="kw">unsafe </span>{ cfvalues[player].set_len(game.num_private_hands(player)) };
     }
 
     <span class="kw">let </span>get_sum = |player: usize| weighted_sum(<span class="kw-2">&amp;</span>cfvalues[player], reach[player]);
@@ -1049,20 +1094,21 @@
     }
 
     <span class="kw">let </span><span class="kw-2">mut </span>cfvalues = [
-        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">0</span>)],
-        <span class="macro">vec!</span>[<span class="number">0.0</span>; game.num_private_hands(<span class="number">1</span>)],
+        Vec::with_capacity(game.num_private_hands(<span class="number">0</span>)),
+        Vec::with_capacity(game.num_private_hands(<span class="number">1</span>)),
     ];
 
     <span class="kw">let </span>reach = [game.initial_weights(<span class="number">0</span>), game.initial_weights(<span class="number">1</span>)];
 
     <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
         compute_best_cfv_recursive(
-            <span class="kw-2">&amp;mut </span>cfvalues[player],
+            cfvalues[player].spare_capacity_mut(),
             game,
             <span class="kw-2">&amp;</span>game.root(),
             player,
             reach[player ^ <span class="number">1</span>],
         );
+        <span class="kw">unsafe </span>{ cfvalues[player].set_len(game.num_private_hands(player)) };
     }
 
     <span class="kw">let </span>get_sum = |player: usize| weighted_sum(<span class="kw-2">&amp;</span>cfvalues[player], reach[player]);
@@ -1071,7 +1117,7 @@
 
 <span class="doccomment">/// The recursive helper function for computing the counterfactual values of the given strategy.
 </span><span class="kw">fn </span>compute_cfvalue_recursive&lt;T: Game&gt;(
-    result: <span class="kw-2">&amp;mut </span>[f32],
+    result: <span class="kw-2">&amp;mut </span>[MaybeUninit&lt;f32&gt;],
     game: <span class="kw-2">&amp;</span>T,
     node: <span class="kw-2">&amp;mut </span>T::Node,
     player: usize,
@@ -1085,48 +1131,51 @@
     }
 
     <span class="kw">let </span>num_actions = node.num_actions();
-    <span class="kw">let </span>num_hands = game.num_private_hands(player);
+    <span class="kw">let </span>num_hands = result.len();
 
     <span class="comment">// allocate memory for storing the counterfactual values
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-    </span><span class="kw">let </span>cfv_actions = MutexLike::new(vec::from_elem_in(<span class="number">0.0</span>, num_actions * num_hands, StackAlloc));
+    </span><span class="kw">let </span>cfv_actions = MutexLike::new(Vec::with_capacity_in(num_actions * num_hands, StackAlloc));
     <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-    </span><span class="kw">let </span>cfv_actions = MutexLike::new(<span class="macro">vec!</span>[<span class="number">0.0</span>; num_actions * num_hands]);
+    </span><span class="kw">let </span>cfv_actions = MutexLike::new(Vec::with_capacity(num_actions * num_hands));
 
     <span class="comment">// chance node
     </span><span class="kw">if </span>node.is_chance() {
-        <span class="comment">// use 64-bit floating point values
-        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = vec::from_elem_in(<span class="number">0.0</span>, num_hands, StackAlloc);
-        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
-
         <span class="comment">// update the reach probabilities
         </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec_in(StackAlloc);
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity(cfreach.len());
         <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec();
-        mul_slice_scalar(<span class="kw-2">&amp;mut </span>cfreach, node.chance_factor());
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity(cfreach.len());
+        mul_slice_scalar_uninit(
+            cfreach_updated.spare_capacity_mut(),
+            cfreach,
+            node.chance_factor(),
+        );
+        <span class="kw">unsafe </span>{ cfreach_updated.set_len(cfreach.len()) };
 
         <span class="comment">// compute the counterfactual values of each action
         </span>for_each_child(node, |action| {
             compute_cfvalue_recursive(
-                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                row_mut(cfv_actions.lock().spare_capacity_mut(), action, num_hands),
                 game,
                 <span class="kw-2">&amp;mut </span>node.play(action),
                 player,
-                <span class="kw-2">&amp;</span>cfreach,
+                <span class="kw-2">&amp;</span>cfreach_updated,
                 save_cfvalues,
             );
         });
 
+        <span class="comment">// use 64-bit floating point values
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = Vec::with_capacity_in(num_hands, StackAlloc);
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = Vec::with_capacity(num_hands);
+
         <span class="comment">// sum up the counterfactual values
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
-        cfv_actions.chunks_exact(num_hands).for_each(|row| {
-            result_f64.iter_mut().zip(row).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
-                <span class="kw-2">*</span>r += v <span class="kw">as </span>f64;
-            });
-        });
+        <span class="kw">unsafe </span>{ cfv_actions.set_len(num_actions * num_hands) };
+        sum_slices_f64_uninit(result_f64.spare_capacity_mut(), <span class="kw-2">&amp;</span>cfv_actions);
+        <span class="kw">unsafe </span>{ result_f64.set_len(num_hands) };
 
         <span class="comment">// get information about isomorphic chances
         </span><span class="kw">let </span>isomorphic_chances = game.isomorphic_chances(node);
@@ -1160,8 +1209,10 @@
         }
 
         result.iter_mut().zip(<span class="kw-2">&amp;</span>result_f64).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
-            <span class="kw-2">*</span>r = v <span class="kw">as </span>f32;
+            r.write(v <span class="kw">as </span>f32);
         });
+
+        <span class="kw">let </span>result = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span>(result <span class="kw">as </span><span class="kw-2">*const </span><span class="kw">_ as </span><span class="kw-2">*const </span>[f32]) };
 
         <span class="comment">// save the counterfactual values
         </span><span class="kw">if </span>save_cfvalues {
@@ -1184,36 +1235,23 @@
     <span class="comment">// player node
     </span><span class="kw">else if </span>node.player() == player {
         <span class="comment">// obtain the strategy
-        </span><span class="kw">let </span><span class="kw-2">mut </span>strategy = <span class="kw">if </span>game.is_compression_enabled() {
-            <span class="kw">let </span>strategy = node.strategy_compressed();
-            <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-            </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>vec = Vec::with_capacity_in(strategy.len(), StackAlloc);
-                vec.extend(strategy.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>f32));
-                vec
-            }
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-            </span>{
-                strategy.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>f32).collect()
-            }
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span><span class="kw">let </span>strategy = <span class="kw">if </span>game.is_compression_enabled() {
+            normalized_strategy_compressed_custom_alloc(node.strategy_compressed(), num_actions)
         } <span class="kw">else </span>{
-            <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-            </span>{
-                node.strategy().to_vec_in(StackAlloc)
-            }
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-            </span>{
-                node.strategy().to_vec()
-            }
+            normalized_strategy_custom_alloc(node.strategy(), num_actions)
         };
-
-        <span class="comment">// normalize the strategy
-        </span>normalize_strategy(<span class="kw-2">&amp;mut </span>strategy, node.num_actions());
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span>strategy = <span class="kw">if </span>game.is_compression_enabled() {
+            normalized_strategy_compressed(node.strategy_compressed(), num_actions)
+        } <span class="kw">else </span>{
+            normalized_strategy(node.strategy(), num_actions)
+        };
 
         <span class="comment">// compute the counterfactual values of each action
         </span>for_each_child(node, |action| {
             compute_cfvalue_recursive(
-                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                row_mut(cfv_actions.lock().spare_capacity_mut(), action, num_hands),
                 game,
                 <span class="kw-2">&amp;mut </span>node.play(action),
                 player,
@@ -1223,11 +1261,9 @@
         });
 
         <span class="comment">// sum up the counterfactual values
-        </span><span class="kw">let </span>cfv_actions = cfv_actions.lock();
-        mul_slice(<span class="kw-2">&amp;mut </span>strategy, <span class="kw-2">&amp;</span>cfv_actions);
-        strategy.chunks_exact(num_hands).for_each(|row| {
-            add_slice(result, row);
-        });
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
+        <span class="kw">unsafe </span>{ cfv_actions.set_len(num_actions * num_hands) };
+        fma_slices_uninit(result, <span class="kw-2">&amp;</span>strategy, <span class="kw-2">&amp;</span>cfv_actions);
 
         <span class="comment">// save the counterfactual values
         </span><span class="kw">if </span>save_cfvalues {
@@ -1252,34 +1288,21 @@
         );
     } <span class="kw">else </span>{
         <span class="comment">// obtain the strategy
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_actions = <span class="kw">if </span>game.is_compression_enabled() {
-            <span class="kw">let </span>strategy = node.strategy_compressed();
-            <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-            </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>vec = Vec::with_capacity_in(strategy.len(), StackAlloc);
-                vec.extend(strategy.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>f32));
-                vec
-            }
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-            </span>{
-                strategy.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>f32).collect()
-            }
+            normalized_strategy_compressed_custom_alloc(node.strategy_compressed(), num_actions)
         } <span class="kw">else </span>{
-            <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-            </span>{
-                node.strategy().to_vec_in(StackAlloc)
-            }
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-            </span>{
-                node.strategy().to_vec()
-            }
+            normalized_strategy_custom_alloc(node.strategy(), num_actions)
+        };
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_actions = <span class="kw">if </span>game.is_compression_enabled() {
+            normalized_strategy_compressed(node.strategy_compressed(), num_actions)
+        } <span class="kw">else </span>{
+            normalized_strategy(node.strategy(), num_actions)
         };
 
-        <span class="comment">// normalize the strategy
-        </span>normalize_strategy(<span class="kw-2">&amp;mut </span>cfreach_actions, node.num_actions());
-
         <span class="comment">// update the reach probabilities
-        </span><span class="kw">let </span>row_size = cfreach_actions.len() / node.num_actions();
+        </span><span class="kw">let </span>row_size = cfreach.len();
         cfreach_actions.chunks_exact_mut(row_size).for_each(|row| {
             mul_slice(row, cfreach);
         });
@@ -1287,7 +1310,7 @@
         <span class="comment">// compute the counterfactual values of each action
         </span>for_each_child(node, |action| {
             compute_cfvalue_recursive(
-                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                row_mut(cfv_actions.lock().spare_capacity_mut(), action, num_hands),
                 game,
                 <span class="kw-2">&amp;mut </span>node.play(action),
                 player,
@@ -1297,16 +1320,15 @@
         });
 
         <span class="comment">// sum up the counterfactual values
-        </span><span class="kw">let </span>cfv_actions = cfv_actions.lock();
-        cfv_actions.chunks_exact(num_hands).for_each(|row| {
-            add_slice(result, row);
-        });
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
+        <span class="kw">unsafe </span>{ cfv_actions.set_len(num_actions * num_hands) };
+        sum_slices_uninit(result, <span class="kw-2">&amp;</span>cfv_actions);
     }
 }
 
 <span class="doccomment">/// The recursive helper function for computing the counterfactual values of best response.
 </span><span class="kw">fn </span>compute_best_cfv_recursive&lt;T: Game&gt;(
-    result: <span class="kw-2">&amp;mut </span>[f32],
+    result: <span class="kw-2">&amp;mut </span>[MaybeUninit&lt;f32&gt;],
     game: <span class="kw-2">&amp;</span>T,
     node: <span class="kw-2">&amp;</span>T::Node,
     player: usize,
@@ -1330,43 +1352,46 @@
 
     <span class="comment">// allocate memory for storing the counterfactual values
     </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-    </span><span class="kw">let </span>cfv_actions = MutexLike::new(vec::from_elem_in(<span class="number">0.0</span>, num_actions * num_hands, StackAlloc));
+    </span><span class="kw">let </span>cfv_actions = MutexLike::new(Vec::with_capacity_in(num_actions * num_hands, StackAlloc));
     <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-    </span><span class="kw">let </span>cfv_actions = MutexLike::new(<span class="macro">vec!</span>[<span class="number">0.0</span>; num_actions * num_hands]);
+    </span><span class="kw">let </span>cfv_actions = MutexLike::new(Vec::with_capacity(num_actions * num_hands));
 
     <span class="comment">// chance node
     </span><span class="kw">if </span>node.is_chance() {
-        <span class="comment">// use 64-bit floating point values
-        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = vec::from_elem_in(<span class="number">0.0</span>, num_hands, StackAlloc);
-        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
-
         <span class="comment">// update the reach probabilities
         </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec_in(StackAlloc);
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity(cfreach.len());
         <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach = cfreach.to_vec();
-        mul_slice_scalar(<span class="kw-2">&amp;mut </span>cfreach, node.chance_factor());
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity(cfreach.len());
+        mul_slice_scalar_uninit(
+            cfreach_updated.spare_capacity_mut(),
+            cfreach,
+            node.chance_factor(),
+        );
+        <span class="kw">unsafe </span>{ cfreach_updated.set_len(cfreach.len()) };
 
         <span class="comment">// compute the counterfactual values of each action
         </span>for_each_child(node, |action| {
             compute_best_cfv_recursive(
-                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                row_mut(cfv_actions.lock().spare_capacity_mut(), action, num_hands),
                 game,
                 <span class="kw-2">&amp;</span>node.play(action),
                 player,
-                <span class="kw-2">&amp;</span>cfreach,
+                <span class="kw-2">&amp;</span>cfreach_updated,
             )
         });
 
+        <span class="comment">// use 64-bit floating point values
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = Vec::with_capacity_in(num_hands, StackAlloc);
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>result_f64 = Vec::with_capacity(num_hands);
+
         <span class="comment">// sum up the counterfactual values
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
-        cfv_actions.chunks_exact(num_hands).for_each(|row| {
-            result_f64.iter_mut().zip(row).for_each(|(r, v)| {
-                <span class="kw-2">*</span>r += <span class="kw-2">*</span>v <span class="kw">as </span>f64;
-            });
-        });
+        <span class="kw">unsafe </span>{ cfv_actions.set_len(num_actions * num_hands) };
+        sum_slices_f64_uninit(result_f64.spare_capacity_mut(), <span class="kw-2">&amp;</span>cfv_actions);
+        <span class="kw">unsafe </span>{ result_f64.set_len(num_hands) };
 
         <span class="comment">// get information about isomorphic chances
         </span><span class="kw">let </span>isomorphic_chances = game.isomorphic_chances(node);
@@ -1400,7 +1425,7 @@
         }
 
         result.iter_mut().zip(<span class="kw-2">&amp;</span>result_f64).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
-            <span class="kw-2">*</span>r = v <span class="kw">as </span>f32;
+            r.write(v <span class="kw">as </span>f32);
         });
     }
     <span class="comment">// player node
@@ -1408,7 +1433,7 @@
         <span class="comment">// compute the counterfactual values of each action
         </span>for_each_child(node, |action| {
             compute_best_cfv_recursive(
-                row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                row_mut(cfv_actions.lock().spare_capacity_mut(), action, num_hands),
                 game,
                 <span class="kw-2">&amp;</span>node.play(action),
                 player,
@@ -1417,45 +1442,28 @@
         });
 
         <span class="comment">// compute element-wise maximum (take the best response)
-        </span>result.fill(f32::MIN);
-        <span class="kw">let </span>cfv_actions = cfv_actions.lock();
-        cfv_actions.chunks_exact(num_hands).for_each(|row| {
-            result.iter_mut().zip(row).for_each(|(r, v)| {
-                <span class="kw-2">*</span>r = max(<span class="kw-2">*</span>r, <span class="kw-2">*</span>v);
-            });
-        });
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
+        <span class="kw">unsafe </span>{ cfv_actions.set_len(num_actions * num_hands) };
+        max_slices_uninit(result, <span class="kw-2">&amp;</span>cfv_actions);
     }
     <span class="comment">// opponent node
     </span><span class="kw">else </span>{
         <span class="comment">// obtain the strategy
+        </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_actions = <span class="kw">if </span>game.is_compression_enabled() {
-            <span class="kw">let </span>strategy = node.strategy_compressed();
-            <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-            </span>{
-                <span class="kw">let </span><span class="kw-2">mut </span>vec = Vec::with_capacity_in(strategy.len(), StackAlloc);
-                vec.extend(strategy.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>f32));
-                vec
-            }
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-            </span>{
-                strategy.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>f32).collect()
-            }
+            normalized_strategy_compressed_custom_alloc(node.strategy_compressed(), num_actions)
         } <span class="kw">else </span>{
-            <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-            </span>{
-                node.strategy().to_vec_in(StackAlloc)
-            }
-            <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-            </span>{
-                node.strategy().to_vec()
-            }
+            normalized_strategy_custom_alloc(node.strategy(), num_actions)
+        };
+        <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_actions = <span class="kw">if </span>game.is_compression_enabled() {
+            normalized_strategy_compressed(node.strategy_compressed(), num_actions)
+        } <span class="kw">else </span>{
+            normalized_strategy(node.strategy(), num_actions)
         };
 
-        <span class="comment">// normalize the strategy
-        </span>normalize_strategy(<span class="kw-2">&amp;mut </span>cfreach_actions, node.num_actions());
-
         <span class="comment">// update the reach probabilities
-        </span><span class="kw">let </span>row_size = cfreach_actions.len() / node.num_actions();
+        </span><span class="kw">let </span>row_size = cfreach.len();
         cfreach_actions.chunks_exact_mut(row_size).for_each(|row| {
             mul_slice(row, cfreach);
         });
@@ -1465,7 +1473,7 @@
             <span class="kw">let </span>cfreach = row(<span class="kw-2">&amp;</span>cfreach_actions, action, row_size);
             <span class="kw">if </span>cfreach.iter().any(|<span class="kw-2">&amp;</span>x| x &gt; <span class="number">0.0</span>) {
                 compute_best_cfv_recursive(
-                    row_mut(<span class="kw-2">&amp;mut </span>cfv_actions.lock(), action, num_hands),
+                    row_mut(cfv_actions.lock().spare_capacity_mut(), action, num_hands),
                     game,
                     <span class="kw-2">&amp;</span>node.play(action),
                     player,
@@ -1475,30 +1483,108 @@
         });
 
         <span class="comment">// sum up the counterfactual values
-        </span><span class="kw">let </span>cfv_actions = cfv_actions.lock();
-        cfv_actions.chunks_exact(num_hands).for_each(|row| {
-            add_slice(result, row);
-        });
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
+        <span class="kw">unsafe </span>{ cfv_actions.set_len(num_actions * num_hands) };
+        sum_slices_uninit(result, <span class="kw-2">&amp;</span>cfv_actions);
     }
 }
 
-<span class="attr">#[inline]
-</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>normalize_strategy(slice: <span class="kw-2">&amp;mut </span>[f32], num_actions: usize) {
-    <span class="kw">let </span>row_size = slice.len() / num_actions;
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>normalized_strategy_custom_alloc(
+    strategy: <span class="kw-2">&amp;</span>[f32],
+    num_actions: usize,
+) -&gt; Vec&lt;f32, StackAlloc&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>normalized = Vec::with_capacity_in(strategy.len(), StackAlloc);
+    <span class="kw">let </span>uninit = normalized.spare_capacity_mut();
 
-    <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-    </span><span class="kw">let </span><span class="kw-2">mut </span>denom = vec::from_elem_in(<span class="number">0.0</span>, row_size, StackAlloc);
-    <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
-    </span><span class="kw">let </span><span class="kw-2">mut </span>denom = <span class="macro">vec!</span>[<span class="number">0.0</span>; row_size];
-
-    slice.chunks_exact(row_size).for_each(|row| {
-        add_slice(<span class="kw-2">&amp;mut </span>denom, row);
-    });
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = Vec::with_capacity_in(row_size, StackAlloc);
+    sum_slices_uninit(denom.spare_capacity_mut(), strategy);
+    <span class="kw">unsafe </span>{ denom.set_len(row_size) };
 
     <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
-    slice.chunks_exact_mut(row_size).for_each(|row| {
+    uninit
+        .chunks_exact_mut(row_size)
+        .zip(strategy.chunks_exact(row_size))
+        .for_each(|(n, s)| {
+            div_slice_uninit(n, s, <span class="kw-2">&amp;</span>denom, default);
+        });
+
+    <span class="kw">unsafe </span>{ normalized.set_len(strategy.len()) };
+    normalized
+}
+
+<span class="attr">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>normalized_strategy(strategy: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>normalized = Vec::with_capacity(strategy.len());
+    <span class="kw">let </span>uninit = normalized.spare_capacity_mut();
+
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = Vec::with_capacity(row_size);
+    sum_slices_uninit(denom.spare_capacity_mut(), strategy);
+    <span class="kw">unsafe </span>{ denom.set_len(row_size) };
+
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    uninit
+        .chunks_exact_mut(row_size)
+        .zip(strategy.chunks_exact(row_size))
+        .for_each(|(n, s)| {
+            div_slice_uninit(n, s, <span class="kw-2">&amp;</span>denom, default);
+        });
+
+    <span class="kw">unsafe </span>{ normalized.set_len(strategy.len()) };
+    normalized
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
+#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>normalized_strategy_compressed_custom_alloc(
+    strategy: <span class="kw-2">&amp;</span>[u16],
+    num_actions: usize,
+) -&gt; Vec&lt;f32, StackAlloc&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>normalized = Vec::with_capacity_in(strategy.len(), StackAlloc);
+    <span class="kw">let </span>uninit = normalized.spare_capacity_mut();
+
+    uninit.iter_mut().zip(strategy).for_each(|(n, s)| {
+        n.write(<span class="kw-2">*</span>s <span class="kw">as </span>f32);
+    });
+    <span class="kw">unsafe </span>{ normalized.set_len(strategy.len()) };
+
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = Vec::with_capacity_in(row_size, StackAlloc);
+    sum_slices_uninit(denom.spare_capacity_mut(), <span class="kw-2">&amp;</span>normalized);
+    <span class="kw">unsafe </span>{ denom.set_len(row_size) };
+
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    normalized.chunks_exact_mut(row_size).for_each(|row| {
         div_slice(row, <span class="kw-2">&amp;</span>denom, default);
     });
+
+    normalized
+}
+
+<span class="attr">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>normalized_strategy_compressed(strategy: <span class="kw-2">&amp;</span>[u16], num_actions: usize) -&gt; Vec&lt;f32&gt; {
+    <span class="kw">let </span><span class="kw-2">mut </span>normalized = Vec::with_capacity(strategy.len());
+    <span class="kw">let </span>uninit = normalized.spare_capacity_mut();
+
+    uninit.iter_mut().zip(strategy).for_each(|(n, s)| {
+        n.write(<span class="kw-2">*</span>s <span class="kw">as </span>f32);
+    });
+    <span class="kw">unsafe </span>{ normalized.set_len(strategy.len()) };
+
+    <span class="kw">let </span>row_size = strategy.len() / num_actions;
+    <span class="kw">let </span><span class="kw-2">mut </span>denom = Vec::with_capacity(row_size);
+    sum_slices_uninit(denom.spare_capacity_mut(), <span class="kw-2">&amp;</span>normalized);
+    <span class="kw">unsafe </span>{ denom.set_len(row_size) };
+
+    <span class="kw">let </span>default = <span class="number">1.0 </span>/ num_actions <span class="kw">as </span>f32;
+    normalized.chunks_exact_mut(row_size).for_each(|row| {
+        div_slice(row, <span class="kw-2">&amp;</span>denom, default);
+    });
+
+    normalized
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (1d12c3cea 2022-12-20)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (b569c9dc5 2022-12-21)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
