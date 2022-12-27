@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-2bbd125050a72198.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-8fe2cf7ee64a76fb.css"><link rel="stylesheet" disabled href="../../static.files/dark-7aacebe982779e9a.css"><link rel="stylesheet" disabled href="../../static.files/ayu-29dcc614f7a7b461.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-a211dbb005fb8161.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b07ed6aaa412307b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d695502c06d5afea.css"><link rel="stylesheet" disabled href="../../static.files/dark-aa222ca57e08648b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-4eb006a26ee168b0.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-4a084badb5778746.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3224,6 +3224,97 @@
 <a href="#3224" id="3224">3224</a>
 <a href="#3225" id="3225">3225</a>
 <a href="#3226" id="3226">3226</a>
+<a href="#3227" id="3227">3227</a>
+<a href="#3228" id="3228">3228</a>
+<a href="#3229" id="3229">3229</a>
+<a href="#3230" id="3230">3230</a>
+<a href="#3231" id="3231">3231</a>
+<a href="#3232" id="3232">3232</a>
+<a href="#3233" id="3233">3233</a>
+<a href="#3234" id="3234">3234</a>
+<a href="#3235" id="3235">3235</a>
+<a href="#3236" id="3236">3236</a>
+<a href="#3237" id="3237">3237</a>
+<a href="#3238" id="3238">3238</a>
+<a href="#3239" id="3239">3239</a>
+<a href="#3240" id="3240">3240</a>
+<a href="#3241" id="3241">3241</a>
+<a href="#3242" id="3242">3242</a>
+<a href="#3243" id="3243">3243</a>
+<a href="#3244" id="3244">3244</a>
+<a href="#3245" id="3245">3245</a>
+<a href="#3246" id="3246">3246</a>
+<a href="#3247" id="3247">3247</a>
+<a href="#3248" id="3248">3248</a>
+<a href="#3249" id="3249">3249</a>
+<a href="#3250" id="3250">3250</a>
+<a href="#3251" id="3251">3251</a>
+<a href="#3252" id="3252">3252</a>
+<a href="#3253" id="3253">3253</a>
+<a href="#3254" id="3254">3254</a>
+<a href="#3255" id="3255">3255</a>
+<a href="#3256" id="3256">3256</a>
+<a href="#3257" id="3257">3257</a>
+<a href="#3258" id="3258">3258</a>
+<a href="#3259" id="3259">3259</a>
+<a href="#3260" id="3260">3260</a>
+<a href="#3261" id="3261">3261</a>
+<a href="#3262" id="3262">3262</a>
+<a href="#3263" id="3263">3263</a>
+<a href="#3264" id="3264">3264</a>
+<a href="#3265" id="3265">3265</a>
+<a href="#3266" id="3266">3266</a>
+<a href="#3267" id="3267">3267</a>
+<a href="#3268" id="3268">3268</a>
+<a href="#3269" id="3269">3269</a>
+<a href="#3270" id="3270">3270</a>
+<a href="#3271" id="3271">3271</a>
+<a href="#3272" id="3272">3272</a>
+<a href="#3273" id="3273">3273</a>
+<a href="#3274" id="3274">3274</a>
+<a href="#3275" id="3275">3275</a>
+<a href="#3276" id="3276">3276</a>
+<a href="#3277" id="3277">3277</a>
+<a href="#3278" id="3278">3278</a>
+<a href="#3279" id="3279">3279</a>
+<a href="#3280" id="3280">3280</a>
+<a href="#3281" id="3281">3281</a>
+<a href="#3282" id="3282">3282</a>
+<a href="#3283" id="3283">3283</a>
+<a href="#3284" id="3284">3284</a>
+<a href="#3285" id="3285">3285</a>
+<a href="#3286" id="3286">3286</a>
+<a href="#3287" id="3287">3287</a>
+<a href="#3288" id="3288">3288</a>
+<a href="#3289" id="3289">3289</a>
+<a href="#3290" id="3290">3290</a>
+<a href="#3291" id="3291">3291</a>
+<a href="#3292" id="3292">3292</a>
+<a href="#3293" id="3293">3293</a>
+<a href="#3294" id="3294">3294</a>
+<a href="#3295" id="3295">3295</a>
+<a href="#3296" id="3296">3296</a>
+<a href="#3297" id="3297">3297</a>
+<a href="#3298" id="3298">3298</a>
+<a href="#3299" id="3299">3299</a>
+<a href="#3300" id="3300">3300</a>
+<a href="#3301" id="3301">3301</a>
+<a href="#3302" id="3302">3302</a>
+<a href="#3303" id="3303">3303</a>
+<a href="#3304" id="3304">3304</a>
+<a href="#3305" id="3305">3305</a>
+<a href="#3306" id="3306">3306</a>
+<a href="#3307" id="3307">3307</a>
+<a href="#3308" id="3308">3308</a>
+<a href="#3309" id="3309">3309</a>
+<a href="#3310" id="3310">3310</a>
+<a href="#3311" id="3311">3311</a>
+<a href="#3312" id="3312">3312</a>
+<a href="#3313" id="3313">3313</a>
+<a href="#3314" id="3314">3314</a>
+<a href="#3315" id="3315">3315</a>
+<a href="#3316" id="3316">3316</a>
+<a href="#3317" id="3317">3317</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -3422,7 +3513,8 @@
         result.iter_mut().for_each(|v| {
             v.write(<span class="number">0.0</span>);
         });
-        <span class="kw">let </span>result: <span class="kw-2">&amp;mut </span>[f32] = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span>(result <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_ as </span><span class="kw-2">*mut </span>[f32]) };
+
+        <span class="kw">let </span>result = <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span>(result <span class="kw">as </span><span class="kw-2">*mut </span><span class="kw">_ as </span><span class="kw-2">*mut </span>[f32]) };
 
         <span class="comment">// someone folded
         </span><span class="kw">if </span>node.player &amp; PLAYER_FOLD_FLAG == PLAYER_FOLD_FLAG {
@@ -3444,12 +3536,19 @@
             <span class="kw">let </span>opponent_indices = <span class="kw-2">&amp;</span>valid_indices[player ^ <span class="number">1</span>];
             <span class="kw">for </span><span class="kw-2">&amp;</span>i <span class="kw">in </span>opponent_indices {
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(i <span class="kw">as </span>usize);
-                    <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(i <span class="kw">as </span>usize) <span class="kw">as </span>f64;
-                    cfreach_sum += cfreach_i;
-                    <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i;
-                    <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i;
+                    <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(i <span class="kw">as </span>usize);
+                    <span class="kw">if </span>cfreach_i != <span class="number">0.0 </span>{
+                        <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(i <span class="kw">as </span>usize);
+                        <span class="kw">let </span>cfreach_i_f64 = cfreach_i <span class="kw">as </span>f64;
+                        cfreach_sum += cfreach_i_f64;
+                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i_f64;
+                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i_f64;
+                    }
                 }
+            }
+
+            <span class="kw">if </span>cfreach_sum == <span class="number">0.0 </span>{
+                <span class="kw">return</span>;
             }
 
             <span class="kw">let </span>player_indices = <span class="kw-2">&amp;</span>valid_indices[player];
@@ -3482,11 +3581,14 @@
                 <span class="kw">unsafe </span>{
                     <span class="kw">while </span>opponent_strength.get_unchecked(i).strength &lt; strength {
                         <span class="kw">let </span>opponent_index = opponent_strength.get_unchecked(i).index <span class="kw">as </span>usize;
-                        <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(opponent_index);
-                        <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(opponent_index) <span class="kw">as </span>f64;
-                        cfreach_sum += cfreach_i;
-                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i;
-                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i;
+                        <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(opponent_index);
+                        <span class="kw">if </span>cfreach_i != <span class="number">0.0 </span>{
+                            <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(opponent_index);
+                            <span class="kw">let </span>cfreach_i_f64 = cfreach_i <span class="kw">as </span>f64;
+                            cfreach_sum += cfreach_i_f64;
+                            <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i_f64;
+                            <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i_f64;
+                        }
                         i += <span class="number">1</span>;
                     }
                     <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>player_cards.get_unchecked(index <span class="kw">as </span>usize);
@@ -3505,11 +3607,14 @@
                 <span class="kw">unsafe </span>{
                     <span class="kw">while </span>opponent_strength.get_unchecked(i).strength &gt; strength {
                         <span class="kw">let </span>opponent_index = opponent_strength.get_unchecked(i).index <span class="kw">as </span>usize;
-                        <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(opponent_index);
-                        <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(opponent_index) <span class="kw">as </span>f64;
-                        cfreach_sum += cfreach_i;
-                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i;
-                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i;
+                        <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(opponent_index);
+                        <span class="kw">if </span>cfreach_i != <span class="number">0.0 </span>{
+                            <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(opponent_index);
+                            <span class="kw">let </span>cfreach_i_f64 = cfreach_i <span class="kw">as </span>f64;
+                            cfreach_sum += cfreach_i_f64;
+                            <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i_f64;
+                            <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i_f64;
+                        }
                         i -= <span class="number">1</span>;
                     }
                     <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>player_cards.get_unchecked(index <span class="kw">as </span>usize);
@@ -3535,12 +3640,19 @@
 
             <span class="kw">for </span><span class="kw-2">&amp;</span>StrengthItem { index, .. } <span class="kw">in </span>valid_opponent_strength {
                 <span class="kw">unsafe </span>{
-                    <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(index <span class="kw">as </span>usize);
-                    <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(index <span class="kw">as </span>usize) <span class="kw">as </span>f64;
-                    cfreach_sum += cfreach_i;
-                    <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i;
-                    <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i;
+                    <span class="kw">let </span>cfreach_i = <span class="kw-2">*</span>cfreach.get_unchecked(index <span class="kw">as </span>usize);
+                    <span class="kw">if </span>cfreach_i != <span class="number">0.0 </span>{
+                        <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>opponent_cards.get_unchecked(index <span class="kw">as </span>usize);
+                        <span class="kw">let </span>cfreach_i_f64 = cfreach_i <span class="kw">as </span>f64;
+                        cfreach_sum += cfreach_i_f64;
+                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c1 <span class="kw">as </span>usize) += cfreach_i_f64;
+                        <span class="kw-2">*</span>cfreach_minus.get_unchecked_mut(c2 <span class="kw">as </span>usize) += cfreach_i_f64;
+                    }
                 }
+            }
+
+            <span class="kw">if </span>cfreach_sum == <span class="number">0.0 </span>{
+                <span class="kw">return</span>;
             }
 
             <span class="kw">let </span><span class="kw-2">mut </span>cfreach_sum_win = <span class="number">0.0</span>;
@@ -3685,6 +3797,9 @@
         card_config: CardConfig,
         action_tree: ActionTree,
     ) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+        <span class="kw">if </span>!action_tree.invalid_terminals().is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Invalid terminal is found in action tree&quot;</span>.to_string());
+        }
         <span class="self">self</span>.card_config = card_config;
         (
             <span class="self">self</span>.tree_config,
@@ -4468,9 +4583,13 @@
                             <span class="kw">if let </span>Action::Chance(repr_card) = actions[repr_index <span class="kw">as </span>usize] {
                                 <span class="self">self</span>.turn_swapped_suit = <span class="prelude-val">Some</span>((action_card &amp; <span class="number">3</span>, repr_card &amp; <span class="number">3</span>));
                             }
-                            <span class="self">self</span>.turn_swap = <span class="prelude-val">Some</span>(<span class="self">self</span>.turn_isomorphism_card[i] &amp; <span class="number">3</span>);
+                            <span class="self">self</span>.turn_swap = <span class="prelude-val">Some</span>(action_card &amp; <span class="number">3</span>);
                         } <span class="kw">else </span>{
-                            <span class="self">self</span>.river_swap = <span class="prelude-val">Some</span>((
+                            <span class="comment">// `self.turn != self.node().turn` if `self.turn_swap.is_some()`.
+                            // This is possible only when the flop is monotone.
+                            // In this case, there is only one suit that can be swapped and the
+                            // following code works correctly.
+                            </span><span class="self">self</span>.river_swap = <span class="prelude-val">Some</span>((
                                 <span class="self">self</span>.turn,
                                 <span class="self">self</span>.river_isomorphism_card[<span class="self">self</span>.turn <span class="kw">as </span>usize][i] &amp; <span class="number">3</span>,
                             ));
@@ -4905,7 +5024,7 @@
             </span>.river_swap
             .map(|(turn, suit)| <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[turn <span class="kw">as </span>usize][suit <span class="kw">as </span>usize][player]);
 
-        <span class="kw">for </span>swap <span class="kw">in </span>[river_swap, turn_swap].into_iter().flatten() {
+        <span class="kw">for </span>swap <span class="kw">in </span>[turn_swap, river_swap].into_iter().flatten() {
             <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap {
                 slice.swap(i <span class="kw">as </span>usize, j <span class="kw">as </span>usize);
             }
@@ -6291,6 +6410,69 @@
     }
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>isomorphism_monotone() {
+        <span class="kw">let </span>oop_range = <span class="string">&quot;88+,A8s+,A5s-A2s:0.5,AJo+,ATo:0.75,K9s+,KQo,KJo:0.75,KTo:0.25,Q9s+,QJo:0.5,J8s+,JTo:0.25,T8s+,T7s:0.45,97s+,96s:0.45,87s,86s:0.75,85s:0.45,75s+:0.75,74s:0.45,65s:0.75,64s:0.5,63s:0.45,54s:0.75,53s:0.5,52s:0.45,43s:0.5,42s:0.45,32s:0.45&quot;</span>;
+        <span class="kw">let </span>ip_range = <span class="string">&quot;AA:0.25,99-22,AJs-A2s,AQo-A8o,K2s+,K9o+,Q2s+,Q9o+,J6s+,J9o+,T6s+,T9o,96s+,95s:0.5,98o,86s+,85s:0.5,75s+,74s:0.5,64s+,63s:0.5,54s,53s:0.5,43s&quot;</span>;
+
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;QhJh2h&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            starting_pot: <span class="number">100</span>,
+            effective_stack: <span class="number">100</span>,
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
+        game.allocate_memory(<span class="bool-val">false</span>);
+        finalize(<span class="kw-2">&amp;mut </span>game);
+
+        <span class="kw">let </span><span class="kw-2">mut </span>check = |history: <span class="kw-2">&amp;</span>[usize],
+                         expected_turn_swap: <span class="prelude-ty">Option</span>&lt;u8&gt;,
+                         expected_river_swap: <span class="prelude-ty">Option</span>&lt;(u8, u8)&gt;| {
+            game.apply_history(history);
+            game.cache_normalized_weights();
+            <span class="kw">let </span>weights = game.normalized_weights(<span class="number">0</span>);
+            <span class="kw">let </span>ev = game.expected_values(<span class="number">0</span>);
+            weights.iter().zip(ev.iter()).for_each(|(<span class="kw-2">&amp;</span>w, <span class="kw-2">&amp;</span>v)| {
+                <span class="macro">assert!</span>(!(w &gt; <span class="number">0.0 </span>&amp;&amp; v == <span class="number">50.0</span>));
+            });
+            <span class="macro">assert_eq!</span>(game.turn_swap, expected_turn_swap);
+            <span class="macro">assert_eq!</span>(game.river_swap, expected_river_swap);
+        };
+
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>], <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">6</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">7</span>], <span class="prelude-val">Some</span>(<span class="number">3</span>), <span class="prelude-val">None</span>);
+
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">8</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">9</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">4</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">11</span>], <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>((<span class="number">4</span>, <span class="number">3</span>)));
+
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">8</span>], <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">9</span>], <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>], <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">5</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">11</span>], <span class="prelude-val">Some</span>(<span class="number">1</span>), <span class="prelude-val">Some</span>((<span class="number">5</span>, <span class="number">3</span>)));
+
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">8</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">9</span>], <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>((<span class="number">6</span>, <span class="number">1</span>)));
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>], <span class="prelude-val">None</span>, <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">11</span>], <span class="prelude-val">None</span>, <span class="prelude-val">Some</span>((<span class="number">6</span>, <span class="number">3</span>)));
+
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">8</span>], <span class="prelude-val">Some</span>(<span class="number">3</span>), <span class="prelude-val">Some</span>((<span class="number">7</span>, <span class="number">1</span>)));
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">9</span>], <span class="prelude-val">Some</span>(<span class="number">3</span>), <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">10</span>], <span class="prelude-val">Some</span>(<span class="number">3</span>), <span class="prelude-val">None</span>);
+        check(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">7</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">11</span>], <span class="prelude-val">Some</span>(<span class="number">3</span>), <span class="prelude-val">None</span>);
+    }
+
+    <span class="attr">#[test]
     #[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
     </span><span class="kw">fn </span>serialize_and_deserialize() {
         <span class="kw">let </span>card_config = CardConfig {
@@ -6451,4 +6633,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (b569c9dc5 2022-12-21)" data-search-js="search-444266647c4dba98.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (88c58e3c2 2022-12-26)" data-search-js="search-181581080540673f.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
