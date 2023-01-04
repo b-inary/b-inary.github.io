@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-b07ed6aaa412307b.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d695502c06d5afea.css"><link rel="stylesheet" disabled href="../../static.files/dark-aa222ca57e08648b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-4eb006a26ee168b0.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-4a084badb5778746.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-34efc64c5083af8d.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-4a084badb5778746.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3315,6 +3315,223 @@
 <a href="#3315" id="3315">3315</a>
 <a href="#3316" id="3316">3316</a>
 <a href="#3317" id="3317">3317</a>
+<a href="#3318" id="3318">3318</a>
+<a href="#3319" id="3319">3319</a>
+<a href="#3320" id="3320">3320</a>
+<a href="#3321" id="3321">3321</a>
+<a href="#3322" id="3322">3322</a>
+<a href="#3323" id="3323">3323</a>
+<a href="#3324" id="3324">3324</a>
+<a href="#3325" id="3325">3325</a>
+<a href="#3326" id="3326">3326</a>
+<a href="#3327" id="3327">3327</a>
+<a href="#3328" id="3328">3328</a>
+<a href="#3329" id="3329">3329</a>
+<a href="#3330" id="3330">3330</a>
+<a href="#3331" id="3331">3331</a>
+<a href="#3332" id="3332">3332</a>
+<a href="#3333" id="3333">3333</a>
+<a href="#3334" id="3334">3334</a>
+<a href="#3335" id="3335">3335</a>
+<a href="#3336" id="3336">3336</a>
+<a href="#3337" id="3337">3337</a>
+<a href="#3338" id="3338">3338</a>
+<a href="#3339" id="3339">3339</a>
+<a href="#3340" id="3340">3340</a>
+<a href="#3341" id="3341">3341</a>
+<a href="#3342" id="3342">3342</a>
+<a href="#3343" id="3343">3343</a>
+<a href="#3344" id="3344">3344</a>
+<a href="#3345" id="3345">3345</a>
+<a href="#3346" id="3346">3346</a>
+<a href="#3347" id="3347">3347</a>
+<a href="#3348" id="3348">3348</a>
+<a href="#3349" id="3349">3349</a>
+<a href="#3350" id="3350">3350</a>
+<a href="#3351" id="3351">3351</a>
+<a href="#3352" id="3352">3352</a>
+<a href="#3353" id="3353">3353</a>
+<a href="#3354" id="3354">3354</a>
+<a href="#3355" id="3355">3355</a>
+<a href="#3356" id="3356">3356</a>
+<a href="#3357" id="3357">3357</a>
+<a href="#3358" id="3358">3358</a>
+<a href="#3359" id="3359">3359</a>
+<a href="#3360" id="3360">3360</a>
+<a href="#3361" id="3361">3361</a>
+<a href="#3362" id="3362">3362</a>
+<a href="#3363" id="3363">3363</a>
+<a href="#3364" id="3364">3364</a>
+<a href="#3365" id="3365">3365</a>
+<a href="#3366" id="3366">3366</a>
+<a href="#3367" id="3367">3367</a>
+<a href="#3368" id="3368">3368</a>
+<a href="#3369" id="3369">3369</a>
+<a href="#3370" id="3370">3370</a>
+<a href="#3371" id="3371">3371</a>
+<a href="#3372" id="3372">3372</a>
+<a href="#3373" id="3373">3373</a>
+<a href="#3374" id="3374">3374</a>
+<a href="#3375" id="3375">3375</a>
+<a href="#3376" id="3376">3376</a>
+<a href="#3377" id="3377">3377</a>
+<a href="#3378" id="3378">3378</a>
+<a href="#3379" id="3379">3379</a>
+<a href="#3380" id="3380">3380</a>
+<a href="#3381" id="3381">3381</a>
+<a href="#3382" id="3382">3382</a>
+<a href="#3383" id="3383">3383</a>
+<a href="#3384" id="3384">3384</a>
+<a href="#3385" id="3385">3385</a>
+<a href="#3386" id="3386">3386</a>
+<a href="#3387" id="3387">3387</a>
+<a href="#3388" id="3388">3388</a>
+<a href="#3389" id="3389">3389</a>
+<a href="#3390" id="3390">3390</a>
+<a href="#3391" id="3391">3391</a>
+<a href="#3392" id="3392">3392</a>
+<a href="#3393" id="3393">3393</a>
+<a href="#3394" id="3394">3394</a>
+<a href="#3395" id="3395">3395</a>
+<a href="#3396" id="3396">3396</a>
+<a href="#3397" id="3397">3397</a>
+<a href="#3398" id="3398">3398</a>
+<a href="#3399" id="3399">3399</a>
+<a href="#3400" id="3400">3400</a>
+<a href="#3401" id="3401">3401</a>
+<a href="#3402" id="3402">3402</a>
+<a href="#3403" id="3403">3403</a>
+<a href="#3404" id="3404">3404</a>
+<a href="#3405" id="3405">3405</a>
+<a href="#3406" id="3406">3406</a>
+<a href="#3407" id="3407">3407</a>
+<a href="#3408" id="3408">3408</a>
+<a href="#3409" id="3409">3409</a>
+<a href="#3410" id="3410">3410</a>
+<a href="#3411" id="3411">3411</a>
+<a href="#3412" id="3412">3412</a>
+<a href="#3413" id="3413">3413</a>
+<a href="#3414" id="3414">3414</a>
+<a href="#3415" id="3415">3415</a>
+<a href="#3416" id="3416">3416</a>
+<a href="#3417" id="3417">3417</a>
+<a href="#3418" id="3418">3418</a>
+<a href="#3419" id="3419">3419</a>
+<a href="#3420" id="3420">3420</a>
+<a href="#3421" id="3421">3421</a>
+<a href="#3422" id="3422">3422</a>
+<a href="#3423" id="3423">3423</a>
+<a href="#3424" id="3424">3424</a>
+<a href="#3425" id="3425">3425</a>
+<a href="#3426" id="3426">3426</a>
+<a href="#3427" id="3427">3427</a>
+<a href="#3428" id="3428">3428</a>
+<a href="#3429" id="3429">3429</a>
+<a href="#3430" id="3430">3430</a>
+<a href="#3431" id="3431">3431</a>
+<a href="#3432" id="3432">3432</a>
+<a href="#3433" id="3433">3433</a>
+<a href="#3434" id="3434">3434</a>
+<a href="#3435" id="3435">3435</a>
+<a href="#3436" id="3436">3436</a>
+<a href="#3437" id="3437">3437</a>
+<a href="#3438" id="3438">3438</a>
+<a href="#3439" id="3439">3439</a>
+<a href="#3440" id="3440">3440</a>
+<a href="#3441" id="3441">3441</a>
+<a href="#3442" id="3442">3442</a>
+<a href="#3443" id="3443">3443</a>
+<a href="#3444" id="3444">3444</a>
+<a href="#3445" id="3445">3445</a>
+<a href="#3446" id="3446">3446</a>
+<a href="#3447" id="3447">3447</a>
+<a href="#3448" id="3448">3448</a>
+<a href="#3449" id="3449">3449</a>
+<a href="#3450" id="3450">3450</a>
+<a href="#3451" id="3451">3451</a>
+<a href="#3452" id="3452">3452</a>
+<a href="#3453" id="3453">3453</a>
+<a href="#3454" id="3454">3454</a>
+<a href="#3455" id="3455">3455</a>
+<a href="#3456" id="3456">3456</a>
+<a href="#3457" id="3457">3457</a>
+<a href="#3458" id="3458">3458</a>
+<a href="#3459" id="3459">3459</a>
+<a href="#3460" id="3460">3460</a>
+<a href="#3461" id="3461">3461</a>
+<a href="#3462" id="3462">3462</a>
+<a href="#3463" id="3463">3463</a>
+<a href="#3464" id="3464">3464</a>
+<a href="#3465" id="3465">3465</a>
+<a href="#3466" id="3466">3466</a>
+<a href="#3467" id="3467">3467</a>
+<a href="#3468" id="3468">3468</a>
+<a href="#3469" id="3469">3469</a>
+<a href="#3470" id="3470">3470</a>
+<a href="#3471" id="3471">3471</a>
+<a href="#3472" id="3472">3472</a>
+<a href="#3473" id="3473">3473</a>
+<a href="#3474" id="3474">3474</a>
+<a href="#3475" id="3475">3475</a>
+<a href="#3476" id="3476">3476</a>
+<a href="#3477" id="3477">3477</a>
+<a href="#3478" id="3478">3478</a>
+<a href="#3479" id="3479">3479</a>
+<a href="#3480" id="3480">3480</a>
+<a href="#3481" id="3481">3481</a>
+<a href="#3482" id="3482">3482</a>
+<a href="#3483" id="3483">3483</a>
+<a href="#3484" id="3484">3484</a>
+<a href="#3485" id="3485">3485</a>
+<a href="#3486" id="3486">3486</a>
+<a href="#3487" id="3487">3487</a>
+<a href="#3488" id="3488">3488</a>
+<a href="#3489" id="3489">3489</a>
+<a href="#3490" id="3490">3490</a>
+<a href="#3491" id="3491">3491</a>
+<a href="#3492" id="3492">3492</a>
+<a href="#3493" id="3493">3493</a>
+<a href="#3494" id="3494">3494</a>
+<a href="#3495" id="3495">3495</a>
+<a href="#3496" id="3496">3496</a>
+<a href="#3497" id="3497">3497</a>
+<a href="#3498" id="3498">3498</a>
+<a href="#3499" id="3499">3499</a>
+<a href="#3500" id="3500">3500</a>
+<a href="#3501" id="3501">3501</a>
+<a href="#3502" id="3502">3502</a>
+<a href="#3503" id="3503">3503</a>
+<a href="#3504" id="3504">3504</a>
+<a href="#3505" id="3505">3505</a>
+<a href="#3506" id="3506">3506</a>
+<a href="#3507" id="3507">3507</a>
+<a href="#3508" id="3508">3508</a>
+<a href="#3509" id="3509">3509</a>
+<a href="#3510" id="3510">3510</a>
+<a href="#3511" id="3511">3511</a>
+<a href="#3512" id="3512">3512</a>
+<a href="#3513" id="3513">3513</a>
+<a href="#3514" id="3514">3514</a>
+<a href="#3515" id="3515">3515</a>
+<a href="#3516" id="3516">3516</a>
+<a href="#3517" id="3517">3517</a>
+<a href="#3518" id="3518">3518</a>
+<a href="#3519" id="3519">3519</a>
+<a href="#3520" id="3520">3520</a>
+<a href="#3521" id="3521">3521</a>
+<a href="#3522" id="3522">3522</a>
+<a href="#3523" id="3523">3523</a>
+<a href="#3524" id="3524">3524</a>
+<a href="#3525" id="3525">3525</a>
+<a href="#3526" id="3526">3526</a>
+<a href="#3527" id="3527">3527</a>
+<a href="#3528" id="3528">3528</a>
+<a href="#3529" id="3529">3529</a>
+<a href="#3530" id="3530">3530</a>
+<a href="#3531" id="3531">3531</a>
+<a href="#3532" id="3532">3532</a>
+<a href="#3533" id="3533">3533</a>
+<a href="#3534" id="3534">3534</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -3861,6 +4078,28 @@
         (uncompressed, compressed)
     }
 
+    <span class="doccomment">/// Remove lines after building the `PostFlopGame` but before allocating memory.
+    ///
+    /// This allows the removal of chance-specific lines (e.g., remove overbets on board-pairing
+    /// turns) which we cannot do while building an action tree.
+    </span><span class="kw">pub fn </span>remove_lines(<span class="kw-2">&amp;mut </span><span class="self">self</span>, lines: <span class="kw-2">&amp;</span>[Vec&lt;Action&gt;]) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+        <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>.to_string());
+        } <span class="kw">else if </span><span class="self">self</span>.state &gt;= State::MemoryAllocated {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Game has already been allocated&quot;</span>.to_string());
+        }
+
+        <span class="kw">for </span>line <span class="kw">in </span>lines {
+            <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root();
+            <span class="kw">let </span>info = <span class="self">self</span>.remove_line_recursive(<span class="kw-2">&amp;mut </span>root, line)<span class="question-mark">?</span>;
+            <span class="self">self</span>.misc_memory_usage -= info.memory_usage_nodes;
+            <span class="self">self</span>.num_storage_actions -= info.num_storage_actions;
+            <span class="self">self</span>.num_storage_chances -= info.num_storage_chances;
+        }
+
+        <span class="prelude-val">Ok</span>(())
+    }
+
     <span class="doccomment">/// Allocates the memory.
     </span><span class="kw">pub fn </span>allocate_memory(<span class="kw-2">&amp;mut </span><span class="self">self</span>, enable_compression: bool) {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
@@ -4281,6 +4520,97 @@
         info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
         info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
         info.num_storage_actions += node.num_elements <span class="kw">as </span>u64;
+    }
+
+    <span class="doccomment">/// Reverse the action of push_chances
+    </span><span class="kw">fn </span>reverse_push_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
+        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
+        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
+        info.num_storage_chances += (node.num_elements + node.num_elements_aux) <span class="kw">as </span>u64;
+    }
+
+    <span class="kw">fn </span>reverse_push_actions(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
+        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
+        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
+        info.num_storage_actions += node.num_elements <span class="kw">as </span>u64;
+    }
+
+    <span class="kw">fn </span>calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
+        <span class="kw">if </span>node.is_terminal() {
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">if </span>node.is_chance() {
+            <span class="self">self</span>.reverse_push_chances(node, info);
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.reverse_push_actions(node, info);
+        }
+
+        <span class="kw">for </span>action <span class="kw">in </span>node.actions() {
+            <span class="self">self</span>.calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span>node.play(action), info);
+        }
+    }
+
+    <span class="doccomment">/// Recursively remove a line from a PostFlopGame tree
+    </span><span class="kw">fn </span>remove_line_recursive(
+        <span class="kw-2">&amp;</span><span class="self">self</span>,
+        node: <span class="kw-2">&amp;mut </span>PostFlopNode,
+        line: <span class="kw-2">&amp;</span>[Action],
+    ) -&gt; <span class="prelude-ty">Result</span>&lt;BuildTreeInfo, String&gt; {
+        <span class="kw">if </span>line.is_empty() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Empty line&quot;</span>.to_string());
+        }
+
+        <span class="kw">if </span>node.is_terminal() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Unexpected terminal node&quot;</span>.to_string());
+        }
+
+        <span class="kw">let </span>action = line[<span class="number">0</span>];
+        <span class="kw">let </span>search_result = node.actions.binary_search(<span class="kw-2">&amp;</span>action);
+        <span class="kw">if </span>search_result.is_err() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action does not exist: {action:?}&quot;</span>));
+        }
+
+        <span class="kw">let </span>index = search_result.unwrap();
+        <span class="kw">if </span>line.len() &gt; <span class="number">1 </span>{
+            <span class="kw">let </span>result = <span class="self">self</span>.remove_line_recursive(<span class="kw-2">&amp;mut </span>node.children[index].lock(), <span class="kw-2">&amp;</span>line[<span class="number">1</span>..]);
+            <span class="kw">return </span>result;
+        }
+
+        <span class="kw">if </span>node.is_chance() {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Cannot remove a line ending in a chance action&quot;</span>.to_string());
+        }
+
+        <span class="kw">if </span>node.num_actions() &lt;= <span class="number">1 </span>{
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Cannot remove the last action from a node&quot;</span>.to_string());
+        }
+
+        <span class="comment">// Remove action/children at index. To do this we must
+        // 1. compute the storage space required by the tree rooted at action index
+        // 2. remove children and actions
+        // 3. re-define `num_elements` after we remove children and actions
+
+        // STEP 1
+        </span><span class="kw">let </span><span class="kw-2">mut </span>info = BuildTreeInfo {
+            memory_usage_nodes: (mem::size_of::&lt;Action&gt;() + mem::size_of::&lt;PostFlopNode&gt;()) <span class="kw">as </span>u64,
+            num_storage_actions: <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize) <span class="kw">as </span>u64,
+            num_storage_chances: <span class="number">0</span>,
+        };
+
+        <span class="kw">let </span>node_to_remove = node.play(index);
+        <span class="self">self</span>.calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span>node_to_remove, <span class="kw-2">&amp;mut </span>info);
+
+        <span class="comment">// STEP 2
+        </span>node.actions.remove(index);
+        node.children.remove(index);
+
+        node.actions.shrink_to_fit();
+        node.children.shrink_to_fit();
+
+        <span class="comment">// STEP 3
+        </span>node.num_elements -= <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize);
+
+        <span class="prelude-val">Ok</span>(info)
     }
 
     <span class="doccomment">/// Allocates memory recursively.
@@ -6410,6 +6740,110 @@
     }
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>remove_lines() {
+        <span class="kw">use </span><span class="kw">crate</span>::bet_size::BetSizeCandidates;
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [<span class="string">&quot;TT+,AKo,AQs+&quot;</span>.parse().unwrap(), <span class="string">&quot;AA&quot;</span>.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;2c6dTh&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="comment">// Simple tree: force checks on flop, and only use 1/2 pot bets on turn and river
+        </span><span class="kw">let </span>tree_config = TreeConfig {
+            starting_pot: <span class="number">60</span>,
+            effective_stack: <span class="number">970</span>,
+            turn_bet_sizes: [
+                BetSizeCandidates::try_from((<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>)).unwrap(),
+                Default::default(),
+            ],
+            river_bet_sizes: [
+                BetSizeCandidates::try_from((<span class="string">&quot;50%&quot;</span>, <span class="string">&quot;&quot;</span>)).unwrap(),
+                Default::default(),
+            ],
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
+        <span class="kw">let </span>lines = <span class="macro">vec!</span>[
+            <span class="macro">vec!</span>[
+                Action::Check,
+                Action::Check,
+                Action::Chance(<span class="number">2</span>),
+                Action::Bet(<span class="number">30</span>),
+            ],
+            <span class="macro">vec!</span>[
+                Action::Check,
+                Action::Check,
+                Action::Chance(<span class="number">2</span>),
+                Action::Check,
+                Action::Check,
+                Action::Chance(<span class="number">3</span>),
+                Action::Bet(<span class="number">30</span>),
+            ],
+        ];
+
+        <span class="kw">let </span>res = game.remove_lines(<span class="kw-2">&amp;</span>lines);
+        <span class="macro">assert!</span>(res.is_ok());
+
+        game.allocate_memory(<span class="bool-val">false</span>);
+
+        <span class="comment">// Check that the turn line is removed
+        </span>game.back_to_root();
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">2</span>);
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check]);
+        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">1</span>);
+
+        <span class="comment">// Check that other turn lines are correct
+        </span>game.back_to_root();
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">3</span>);
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check, Action::Bet(<span class="number">30</span>)]);
+        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">2</span>);
+
+        <span class="comment">// Check that the river line is removed
+        </span>game.back_to_root();
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">2</span>);
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">3</span>);
+
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check]);
+        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">1</span>);
+
+        <span class="comment">// Check that other river lines are correct
+        </span>game.back_to_root();
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">2</span>);
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">4</span>);
+
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check, Action::Bet(<span class="number">30</span>)]);
+        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">2</span>);
+
+        game.back_to_root();
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">3</span>);
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">4</span>);
+
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check, Action::Bet(<span class="number">30</span>)]);
+        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">2</span>);
+
+        solve(<span class="kw-2">&amp;mut </span>game, <span class="number">10</span>, <span class="number">0.05</span>, <span class="bool-val">false</span>);
+    }
+
+    <span class="attr">#[test]
     </span><span class="kw">fn </span>isomorphism_monotone() {
         <span class="kw">let </span>oop_range = <span class="string">&quot;88+,A8s+,A5s-A2s:0.5,AJo+,ATo:0.75,K9s+,KQo,KJo:0.75,KTo:0.25,Q9s+,QJo:0.5,J8s+,JTo:0.25,T8s+,T7s:0.45,97s+,96s:0.45,87s,86s:0.75,85s:0.45,75s+:0.75,74s:0.45,65s:0.75,64s:0.5,63s:0.45,54s:0.75,53s:0.5,52s:0.45,43s:0.5,42s:0.45,32s:0.45&quot;</span>;
         <span class="kw">let </span>ip_range = <span class="string">&quot;AA:0.25,99-22,AJs-A2s,AQo-A8o,K2s+,K9o+,Q2s+,Q9o+,J6s+,J9o+,T6s+,T9o,96s+,95s:0.5,98o,86s+,85s:0.5,75s+,74s:0.5,64s+,63s:0.5,54s,53s:0.5,43s&quot;</span>;
@@ -6633,4 +7067,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (88c58e3c2 2022-12-26)" data-search-js="search-181581080540673f.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (77429957a 2023-01-01)" data-search-js="search-181581080540673f.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
