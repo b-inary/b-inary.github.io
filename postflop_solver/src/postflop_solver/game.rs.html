@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-34efc64c5083af8d.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-4a084badb5778746.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3532,6 +3532,37 @@
 <a href="#3532" id="3532">3532</a>
 <a href="#3533" id="3533">3533</a>
 <a href="#3534" id="3534">3534</a>
+<a href="#3535" id="3535">3535</a>
+<a href="#3536" id="3536">3536</a>
+<a href="#3537" id="3537">3537</a>
+<a href="#3538" id="3538">3538</a>
+<a href="#3539" id="3539">3539</a>
+<a href="#3540" id="3540">3540</a>
+<a href="#3541" id="3541">3541</a>
+<a href="#3542" id="3542">3542</a>
+<a href="#3543" id="3543">3543</a>
+<a href="#3544" id="3544">3544</a>
+<a href="#3545" id="3545">3545</a>
+<a href="#3546" id="3546">3546</a>
+<a href="#3547" id="3547">3547</a>
+<a href="#3548" id="3548">3548</a>
+<a href="#3549" id="3549">3549</a>
+<a href="#3550" id="3550">3550</a>
+<a href="#3551" id="3551">3551</a>
+<a href="#3552" id="3552">3552</a>
+<a href="#3553" id="3553">3553</a>
+<a href="#3554" id="3554">3554</a>
+<a href="#3555" id="3555">3555</a>
+<a href="#3556" id="3556">3556</a>
+<a href="#3557" id="3557">3557</a>
+<a href="#3558" id="3558">3558</a>
+<a href="#3559" id="3559">3559</a>
+<a href="#3560" id="3560">3560</a>
+<a href="#3561" id="3561">3561</a>
+<a href="#3562" id="3562">3562</a>
+<a href="#3563" id="3563">3563</a>
+<a href="#3564" id="3564">3564</a>
+<a href="#3565" id="3565">3565</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -3582,7 +3613,7 @@
     num_combinations: f64,
     initial_weights: [Vec&lt;f32&gt;; <span class="number">2</span>],
     private_cards: [Vec&lt;(u8, u8)&gt;; <span class="number">2</span>],
-    same_hand_index: [Vec&lt;<span class="prelude-ty">Option</span>&lt;u16&gt;&gt;; <span class="number">2</span>],
+    same_hand_index: [Vec&lt;u16&gt;; <span class="number">2</span>],
     valid_indices_flop: [Vec&lt;u16&gt;; <span class="number">2</span>],
     valid_indices_turn: Vec&lt;[Vec&lt;u16&gt;; <span class="number">2</span>]&gt;,
     valid_indices_river: Vec&lt;[Vec&lt;u16&gt;; <span class="number">2</span>]&gt;,
@@ -3773,13 +3804,16 @@
             <span class="kw">for </span><span class="kw-2">&amp;</span>i <span class="kw">in </span>player_indices {
                 <span class="kw">unsafe </span>{
                     <span class="kw">let </span>(c1, c2) = <span class="kw-2">*</span>player_cards.get_unchecked(i <span class="kw">as </span>usize);
+                    <span class="kw">let </span>same_i = <span class="kw-2">*</span>same_hand_index.get_unchecked(i <span class="kw">as </span>usize);
+                    <span class="kw">let </span>cfreach_same = <span class="kw">if </span>same_i == u16::MAX {
+                        <span class="number">0.0
+                    </span>} <span class="kw">else </span>{
+                        <span class="kw-2">*</span>cfreach.get_unchecked(same_i <span class="kw">as </span>usize) <span class="kw">as </span>f64
+                    };
                     <span class="comment">// inclusion-exclusion principle
-                    </span><span class="kw">let </span>cfreach = cfreach_sum
+                    </span><span class="kw">let </span>cfreach = cfreach_sum + cfreach_same
                         - <span class="kw-2">*</span>cfreach_minus.get_unchecked(c1 <span class="kw">as </span>usize)
-                        - <span class="kw-2">*</span>cfreach_minus.get_unchecked(c2 <span class="kw">as </span>usize)
-                        + same_hand_index
-                            .get_unchecked(i <span class="kw">as </span>usize)
-                            .map_or(<span class="number">0.0</span>, |j| <span class="kw-2">*</span>cfreach.get_unchecked(j <span class="kw">as </span>usize) <span class="kw">as </span>f64);
+                        - <span class="kw-2">*</span>cfreach_minus.get_unchecked(c2 <span class="kw">as </span>usize);
                     <span class="kw-2">*</span>result.get_unchecked_mut(i <span class="kw">as </span>usize) = (payoff * cfreach) <span class="kw">as </span>f32;
                 }
             }
@@ -3929,11 +3963,12 @@
                     <span class="kw">let </span>cfreach_tie = cfreach_sum_tie
                         - cfreach_minus_tie.get_unchecked(c1 <span class="kw">as </span>usize)
                         - cfreach_minus_tie.get_unchecked(c2 <span class="kw">as </span>usize);
-                    <span class="kw">let </span>cfreach_same = same_hand_index
-                        .get_unchecked(index <span class="kw">as </span>usize)
-                        .map_or(<span class="number">0.0</span>, |opponent_index| {
-                            <span class="kw-2">*</span>cfreach.get_unchecked(opponent_index <span class="kw">as </span>usize) <span class="kw">as </span>f64
-                        });
+                    <span class="kw">let </span>same_i = <span class="kw-2">*</span>same_hand_index.get_unchecked(index <span class="kw">as </span>usize);
+                    <span class="kw">let </span>cfreach_same = <span class="kw">if </span>same_i == u16::MAX {
+                        <span class="number">0.0
+                    </span>} <span class="kw">else </span>{
+                        <span class="kw-2">*</span>cfreach.get_unchecked(same_i <span class="kw">as </span>usize) <span class="kw">as </span>f64
+                    };
 
                     <span class="kw">let </span>cfvalue = amount_win * cfreach_win
                         + amount_tie * (cfreach_tie - cfreach_win + cfreach_same)
@@ -4280,7 +4315,11 @@
             <span class="kw">let </span>player_hands = <span class="kw-2">&amp;</span><span class="self">self</span>.private_cards[player];
             <span class="kw">let </span>opponent_hands = <span class="kw-2">&amp;</span><span class="self">self</span>.private_cards[player ^ <span class="number">1</span>];
             <span class="kw">for </span>hand <span class="kw">in </span>player_hands {
-                same_hand_index.push(opponent_hands.binary_search(hand).ok().map(|i| i <span class="kw">as </span>u16));
+                same_hand_index.push(
+                    opponent_hands
+                        .binary_search(hand)
+                        .map_or(u16::MAX, |i| i <span class="kw">as </span>u16),
+                );
             }
         }
 
@@ -4869,7 +4908,7 @@
             <span class="macro">panic!</span>(<span class="string">&quot;Terminal node is not allowed&quot;</span>);
         }
 
-        <span class="comment">// chande node
+        <span class="comment">// chance node
         </span><span class="kw">if </span><span class="self">self</span>.is_chance_node() {
             <span class="kw">let </span>is_turn = <span class="self">self</span>.turn == NOT_DEALT;
             <span class="kw">let </span>actual_card = <span class="kw">if </span>action == usize::MAX {
@@ -4932,6 +4971,18 @@
             <span class="comment">// panic if the action is not found
             </span><span class="kw">if </span>action_index == usize::MAX {
                 <span class="macro">panic!</span>(<span class="string">&quot;Invalid action&quot;</span>);
+            }
+
+            <span class="comment">// update the weights
+            </span><span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+                <span class="self">self</span>.weights[player]
+                    .iter_mut()
+                    .zip(<span class="self">self</span>.private_cards[player].iter())
+                    .for_each(|(w, <span class="kw-2">&amp;</span>(c1, c2))| {
+                        <span class="kw">if </span>c1 == actual_card || c2 == actual_card {
+                            <span class="kw-2">*</span>w = <span class="number">0.0</span>;
+                        }
+                    });
             }
 
             <span class="comment">// cache the counterfactual values
@@ -5037,6 +5088,8 @@
         <span class="kw">let </span><span class="kw-2">mut </span>weight_sum_minus = [[<span class="number">0.0</span>; <span class="number">52</span>]; <span class="number">2</span>];
 
         <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+            <span class="kw">let </span>weight_sum_player = <span class="kw-2">&amp;mut </span>weight_sum[player];
+            <span class="kw">let </span>weight_sum_minus_player = <span class="kw-2">&amp;mut </span>weight_sum_minus[player];
             <span class="self">self</span>.private_cards[player]
                 .iter()
                 .zip(<span class="self">self</span>.weights[player].iter())
@@ -5044,15 +5097,16 @@
                     <span class="kw">let </span>mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
                     <span class="kw">if </span>mask &amp; board_mask == <span class="number">0 </span>{
                         <span class="kw">let </span>w = w <span class="kw">as </span>f64;
-                        weight_sum[player] += w;
-                        weight_sum_minus[player][c1 <span class="kw">as </span>usize] += w;
-                        weight_sum_minus[player][c2 <span class="kw">as </span>usize] += w;
+                        <span class="kw-2">*</span>weight_sum_player += w;
+                        weight_sum_minus_player[c1 <span class="kw">as </span>usize] += w;
+                        weight_sum_minus_player[c2 <span class="kw">as </span>usize] += w;
                     }
                 });
         }
 
         <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
             <span class="kw">let </span>player_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.private_cards[player];
+            <span class="kw">let </span>same_hand_index = <span class="kw-2">&amp;</span><span class="self">self</span>.same_hand_index[player];
             <span class="kw">let </span>player_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player];
             <span class="kw">let </span>opponent_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player ^ <span class="number">1</span>];
             <span class="kw">let </span>opponent_weight_sum = weight_sum[player ^ <span class="number">1</span>];
@@ -5065,11 +5119,15 @@
                     <span class="kw">let </span>(c1, c2) = player_cards[i];
                     <span class="kw">let </span>mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
                     <span class="kw">if </span>mask &amp; board_mask == <span class="number">0 </span>{
-                        <span class="kw">let </span>opponent_weight = opponent_weight_sum
+                        <span class="kw">let </span>same_i = same_hand_index[i];
+                        <span class="kw">let </span>opponent_weight_same = <span class="kw">if </span>same_i == u16::MAX {
+                            <span class="number">0.0
+                        </span>} <span class="kw">else </span>{
+                            opponent_weights[same_i <span class="kw">as </span>usize] <span class="kw">as </span>f64
+                        };
+                        <span class="kw">let </span>opponent_weight = opponent_weight_sum + opponent_weight_same
                             - opponent_weight_sum_minus[c1 <span class="kw">as </span>usize]
-                            - opponent_weight_sum_minus[c2 <span class="kw">as </span>usize]
-                            + <span class="self">self</span>.same_hand_index[player][i]
-                                .map_or(<span class="number">0.0</span>, |j| opponent_weights[j <span class="kw">as </span>usize] <span class="kw">as </span>f64);
+                            - opponent_weight_sum_minus[c2 <span class="kw">as </span>usize];
                         <span class="kw-2">*</span>w = player_weights[i] * opponent_weight <span class="kw">as </span>f32;
                     } <span class="kw">else </span>{
                         <span class="kw-2">*</span>w = <span class="number">0.0</span>;
@@ -5082,7 +5140,7 @@
 
     <span class="doccomment">/// Returns the weights of each private hand of the given player.
     ///
-    /// If a hand overlaps with the board, an undefined value is returned.
+    /// If a hand overlaps with the board, returns 0.0.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
@@ -5234,12 +5292,9 @@
         <span class="kw">let </span><span class="kw-2">mut </span>ret = <span class="kw">if </span><span class="self">self</span>.node().is_terminal() {
             normalizer = <span class="self">self</span>.num_combinations <span class="kw">as </span>f32;
             <span class="kw">let </span><span class="kw-2">mut </span>ret = Vec::with_capacity(num_hands);
-            <span class="self">self</span>.evaluate(
-                ret.spare_capacity_mut(),
-                <span class="self">self</span>.node(),
-                player,
-                <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player ^ <span class="number">1</span>],
-            );
+            <span class="kw">let </span><span class="kw-2">mut </span>cfreach = <span class="self">self</span>.weights[player ^ <span class="number">1</span>].clone();
+            <span class="self">self</span>.apply_swap(<span class="kw-2">&amp;mut </span>cfreach, player ^ <span class="number">1</span>, <span class="bool-val">true</span>);
+            <span class="self">self</span>.evaluate(ret.spare_capacity_mut(), <span class="self">self</span>.node(), player, <span class="kw-2">&amp;</span>cfreach);
             <span class="kw">unsafe </span>{ ret.set_len(num_hands) };
             ret
         } <span class="kw">else if </span><span class="self">self</span>.node().is_chance() {
@@ -5264,7 +5319,7 @@
             .enumerate()
             .for_each(|(action, row)| {
                 <span class="kw">let </span>is_fold = have_actions &amp;&amp; <span class="self">self</span>.node().actions[action] == Action::Fold;
-                <span class="self">self</span>.apply_swap(row, player);
+                <span class="self">self</span>.apply_swap(row, player, <span class="bool-val">false</span>);
                 row.iter_mut()
                     .zip(<span class="self">self</span>.weights[player].iter())
                     .zip(<span class="self">self</span>.normalized_weights[player].iter())
@@ -5315,7 +5370,7 @@
         };
 
         ret.chunks_exact_mut(num_hands).for_each(|chunk| {
-            <span class="self">self</span>.apply_swap(chunk, player);
+            <span class="self">self</span>.apply_swap(chunk, player, <span class="bool-val">false</span>);
         });
 
         ret
@@ -5345,7 +5400,7 @@
 
     <span class="doccomment">/// Applies the swap.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>apply_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, slice: <span class="kw-2">&amp;mut </span>[f32], player: usize) {
+    </span><span class="kw">fn </span>apply_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, slice: <span class="kw-2">&amp;mut </span>[f32], player: usize, reverse: bool) {
         <span class="kw">let </span>turn_swap = <span class="self">self
             </span>.turn_swap
             .map(|suit| <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_swap[suit <span class="kw">as </span>usize][player]);
@@ -5354,7 +5409,13 @@
             </span>.river_swap
             .map(|(turn, suit)| <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[turn <span class="kw">as </span>usize][suit <span class="kw">as </span>usize][player]);
 
-        <span class="kw">for </span>swap <span class="kw">in </span>[turn_swap, river_swap].into_iter().flatten() {
+        <span class="kw">let </span>swaps = <span class="kw">if </span>!reverse {
+            [turn_swap, river_swap]
+        } <span class="kw">else </span>{
+            [river_swap, turn_swap]
+        };
+
+        <span class="kw">for </span>swap <span class="kw">in </span>swaps.into_iter().flatten() {
             <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap {
                 slice.swap(i <span class="kw">as </span>usize, j <span class="kw">as </span>usize);
             }
@@ -5363,7 +5424,8 @@
 
     <span class="doccomment">/// Internal method for calculating the equity.
     </span><span class="kw">fn </span>equity_internal(<span class="kw-2">&amp;</span><span class="self">self</span>, result: <span class="kw-2">&amp;mut </span>[f64], player: usize, turn: u8, river: u8, amount: f64) {
-        <span class="kw">let </span>hand_strength = <span class="kw-2">&amp;</span><span class="self">self</span>.hand_strength[card_pair_index(turn, river)];
+        <span class="kw">let </span>pair_index = card_pair_index(turn, river);
+        <span class="kw">let </span>hand_strength = <span class="kw-2">&amp;</span><span class="self">self</span>.hand_strength[pair_index];
         <span class="kw">let </span>player_strength = <span class="kw-2">&amp;</span>hand_strength[player];
         <span class="kw">let </span>opponent_strength = <span class="kw-2">&amp;</span>hand_strength[player ^ <span class="number">1</span>];
 
@@ -7067,4 +7129,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (77429957a 2023-01-01)" data-search-js="search-181581080540673f.js" data-settings-js="settings-bebeae96e00e4617.js" data-settings-css="settings-58836c674e2f7bd2.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (52372f9c7 2023-01-21)" data-search-js="search-98d53477a794af0b.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-08ddfdda51b8ee2e.css" ></div></body></html>
