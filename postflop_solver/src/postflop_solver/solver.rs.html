@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/solver.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>solver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/solver.rs`."><title>solver.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-0ef3deca4ed45ad8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-f501212b8b071243.css"><link rel="stylesheet" disabled href="../../static.files/dark-e92fc12c34ff89d3.css"><link rel="stylesheet" disabled href="../../static.files/ayu-a0090c8b1ced384f.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-364b95f387bc3166.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -433,6 +433,30 @@
 <a href="#433" id="433">433</a>
 <a href="#434" id="434">434</a>
 <a href="#435" id="435">435</a>
+<a href="#436" id="436">436</a>
+<a href="#437" id="437">437</a>
+<a href="#438" id="438">438</a>
+<a href="#439" id="439">439</a>
+<a href="#440" id="440">440</a>
+<a href="#441" id="441">441</a>
+<a href="#442" id="442">442</a>
+<a href="#443" id="443">443</a>
+<a href="#444" id="444">444</a>
+<a href="#445" id="445">445</a>
+<a href="#446" id="446">446</a>
+<a href="#447" id="447">447</a>
+<a href="#448" id="448">448</a>
+<a href="#449" id="449">449</a>
+<a href="#450" id="450">450</a>
+<a href="#451" id="451">451</a>
+<a href="#452" id="452">452</a>
+<a href="#453" id="453">453</a>
+<a href="#454" id="454">454</a>
+<a href="#455" id="455">455</a>
+<a href="#456" id="456">456</a>
+<a href="#457" id="457">457</a>
+<a href="#458" id="458">458</a>
+<a href="#459" id="459">459</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -603,7 +627,7 @@
     </span><span class="kw">if </span>node.is_chance() {
         <span class="comment">// update the reach probabilities
         </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
-        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity(cfreach.len());
+        </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity_in(cfreach.len(), StackAlloc);
         <span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfreach_updated = Vec::with_capacity(cfreach.len());
         mul_slice_scalar_uninit(
@@ -674,13 +698,6 @@
     }
     <span class="comment">// if the current player is `player`
     </span><span class="kw">else if </span>node.player() == player {
-        <span class="comment">// compute the strategy by regret-maching algorithm
-        </span><span class="kw">let </span><span class="kw-2">mut </span>strategy = <span class="kw">if </span>game.is_compression_enabled() {
-            regret_matching_compressed(node.regrets_compressed(), num_actions)
-        } <span class="kw">else </span>{
-            regret_matching(node.regrets(), num_actions)
-        };
-
         <span class="comment">// compute the counterfactual values of each action
         </span>for_each_child(node, |action| {
             solve_recursive(
@@ -692,6 +709,17 @@
                 params,
             );
         });
+
+        <span class="comment">// compute the strategy by regret-maching algorithm
+        </span><span class="kw">let </span><span class="kw-2">mut </span>strategy = <span class="kw">if </span>game.is_compression_enabled() {
+            regret_matching_compressed(node.regrets_compressed(), num_actions)
+        } <span class="kw">else </span>{
+            regret_matching(node.regrets(), num_actions)
+        };
+
+        <span class="comment">// node-locking
+        </span><span class="kw">let </span>locking = game.locking_strategy(node);
+        apply_locking_strategy(<span class="kw-2">&amp;mut </span>strategy, locking);
 
         <span class="comment">// sum up the counterfactual values
         </span><span class="kw">let </span><span class="kw-2">mut </span>cfv_actions = cfv_actions.lock();
@@ -707,6 +735,14 @@
             strategy.iter_mut().zip(<span class="kw-2">&amp;*</span>cum_strategy).for_each(|(x, y)| {
                 <span class="kw-2">*</span>x += (<span class="kw-2">*</span>y <span class="kw">as </span>f32) * decoder;
             });
+
+            <span class="kw">if </span>!locking.is_empty() {
+                strategy.iter_mut().zip(locking).for_each(|(d, s)| {
+                    <span class="kw">if </span>s.is_sign_positive() {
+                        <span class="kw-2">*</span>d = <span class="number">0.0</span>;
+                    }
+                })
+            }
 
             <span class="kw">let </span>new_scale = encode_unsigned_slice(cum_strategy, <span class="kw-2">&amp;</span>strategy);
             node.set_strategy_scale(new_scale);
@@ -724,6 +760,14 @@
             cfv_actions.chunks_exact_mut(num_hands).for_each(|row| {
                 sub_slice(row, result);
             });
+
+            <span class="kw">if </span>!locking.is_empty() {
+                cfv_actions.iter_mut().zip(locking).for_each(|(d, s)| {
+                    <span class="kw">if </span>s.is_sign_positive() {
+                        <span class="kw-2">*</span>d = <span class="number">0.0</span>;
+                    }
+                })
+            }
 
             <span class="kw">let </span>new_scale = encode_signed_slice(cum_regret, <span class="kw-2">&amp;</span>cfv_actions);
             node.set_regret_scale(new_scale);
@@ -756,6 +800,10 @@
             regret_matching(node.regrets(), num_actions)
         };
 
+        <span class="comment">// node-locking
+        </span><span class="kw">let </span>locking = game.locking_strategy(node);
+        apply_locking_strategy(<span class="kw-2">&amp;mut </span>cfreach_actions, locking);
+
         <span class="comment">// update the reach probabilities
         </span><span class="kw">let </span>row_size = cfreach.len();
         cfreach_actions.chunks_exact_mut(row_size).for_each(|row| {
@@ -781,7 +829,7 @@
     }
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+<span class="doccomment">/// Computes the strategy by regret-matching algorithm.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
 #[inline]
 </span><span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32, StackAlloc&gt; {
@@ -805,7 +853,7 @@
     strategy
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+<span class="doccomment">/// Computes the strategy by regret-matching algorithm.
 </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
 #[inline]
 </span><span class="kw">fn </span>regret_matching(regret: <span class="kw-2">&amp;</span>[f32], num_actions: usize) -&gt; Vec&lt;f32&gt; {
@@ -829,7 +877,7 @@
     strategy
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+<span class="doccomment">/// Computes the strategy by regret-matching algorithm.
 </span><span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
 #[inline]
 </span><span class="kw">fn </span>regret_matching_compressed(regret: <span class="kw-2">&amp;</span>[i16], num_actions: usize) -&gt; Vec&lt;f32, StackAlloc&gt; {
@@ -849,7 +897,7 @@
     strategy
 }
 
-<span class="doccomment">/// Computes the strategy by regret-mathcing algorithm.
+<span class="doccomment">/// Computes the strategy by regret-matching algorithm.
 </span><span class="attr">#[cfg(not(feature = <span class="string">&quot;custom-alloc&quot;</span>))]
 #[inline]
 </span><span class="kw">fn </span>regret_matching_compressed(regret: <span class="kw-2">&amp;</span>[i16], num_actions: usize) -&gt; Vec&lt;f32&gt; {
@@ -869,4 +917,4 @@
     strategy
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (52372f9c7 2023-01-21)" data-search-js="search-98d53477a794af0b.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-08ddfdda51b8ee2e.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (bd39bbb4b 2023-02-07)" data-search-js="search-28136cea55c34037.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

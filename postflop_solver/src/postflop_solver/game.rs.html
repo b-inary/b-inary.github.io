@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><meta name="keywords" content="rust, rustlang, rust-lang"><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-1f7d512b176f0f72.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-124a1ca42af929b6.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-93196c7a1c3542a8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-4743e13df3dfe8c4.css"><link rel="stylesheet" disabled href="../../static.files/dark-0e1b889528bd466b.css"><link rel="stylesheet" disabled href="../../static.files/ayu-65289d5d067c7c66.css"><script id="default-settings" ></script><script src="../../static.files/storage-d43fa987303ecbbb.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-3367e395607fafc1.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-0ef3deca4ed45ad8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-f501212b8b071243.css"><link rel="stylesheet" disabled href="../../static.files/dark-e92fc12c34ff89d3.css"><link rel="stylesheet" disabled href="../../static.files/ayu-a0090c8b1ced384f.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-364b95f387bc3166.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3563,12 +3563,266 @@
 <a href="#3563" id="3563">3563</a>
 <a href="#3564" id="3564">3564</a>
 <a href="#3565" id="3565">3565</a>
+<a href="#3566" id="3566">3566</a>
+<a href="#3567" id="3567">3567</a>
+<a href="#3568" id="3568">3568</a>
+<a href="#3569" id="3569">3569</a>
+<a href="#3570" id="3570">3570</a>
+<a href="#3571" id="3571">3571</a>
+<a href="#3572" id="3572">3572</a>
+<a href="#3573" id="3573">3573</a>
+<a href="#3574" id="3574">3574</a>
+<a href="#3575" id="3575">3575</a>
+<a href="#3576" id="3576">3576</a>
+<a href="#3577" id="3577">3577</a>
+<a href="#3578" id="3578">3578</a>
+<a href="#3579" id="3579">3579</a>
+<a href="#3580" id="3580">3580</a>
+<a href="#3581" id="3581">3581</a>
+<a href="#3582" id="3582">3582</a>
+<a href="#3583" id="3583">3583</a>
+<a href="#3584" id="3584">3584</a>
+<a href="#3585" id="3585">3585</a>
+<a href="#3586" id="3586">3586</a>
+<a href="#3587" id="3587">3587</a>
+<a href="#3588" id="3588">3588</a>
+<a href="#3589" id="3589">3589</a>
+<a href="#3590" id="3590">3590</a>
+<a href="#3591" id="3591">3591</a>
+<a href="#3592" id="3592">3592</a>
+<a href="#3593" id="3593">3593</a>
+<a href="#3594" id="3594">3594</a>
+<a href="#3595" id="3595">3595</a>
+<a href="#3596" id="3596">3596</a>
+<a href="#3597" id="3597">3597</a>
+<a href="#3598" id="3598">3598</a>
+<a href="#3599" id="3599">3599</a>
+<a href="#3600" id="3600">3600</a>
+<a href="#3601" id="3601">3601</a>
+<a href="#3602" id="3602">3602</a>
+<a href="#3603" id="3603">3603</a>
+<a href="#3604" id="3604">3604</a>
+<a href="#3605" id="3605">3605</a>
+<a href="#3606" id="3606">3606</a>
+<a href="#3607" id="3607">3607</a>
+<a href="#3608" id="3608">3608</a>
+<a href="#3609" id="3609">3609</a>
+<a href="#3610" id="3610">3610</a>
+<a href="#3611" id="3611">3611</a>
+<a href="#3612" id="3612">3612</a>
+<a href="#3613" id="3613">3613</a>
+<a href="#3614" id="3614">3614</a>
+<a href="#3615" id="3615">3615</a>
+<a href="#3616" id="3616">3616</a>
+<a href="#3617" id="3617">3617</a>
+<a href="#3618" id="3618">3618</a>
+<a href="#3619" id="3619">3619</a>
+<a href="#3620" id="3620">3620</a>
+<a href="#3621" id="3621">3621</a>
+<a href="#3622" id="3622">3622</a>
+<a href="#3623" id="3623">3623</a>
+<a href="#3624" id="3624">3624</a>
+<a href="#3625" id="3625">3625</a>
+<a href="#3626" id="3626">3626</a>
+<a href="#3627" id="3627">3627</a>
+<a href="#3628" id="3628">3628</a>
+<a href="#3629" id="3629">3629</a>
+<a href="#3630" id="3630">3630</a>
+<a href="#3631" id="3631">3631</a>
+<a href="#3632" id="3632">3632</a>
+<a href="#3633" id="3633">3633</a>
+<a href="#3634" id="3634">3634</a>
+<a href="#3635" id="3635">3635</a>
+<a href="#3636" id="3636">3636</a>
+<a href="#3637" id="3637">3637</a>
+<a href="#3638" id="3638">3638</a>
+<a href="#3639" id="3639">3639</a>
+<a href="#3640" id="3640">3640</a>
+<a href="#3641" id="3641">3641</a>
+<a href="#3642" id="3642">3642</a>
+<a href="#3643" id="3643">3643</a>
+<a href="#3644" id="3644">3644</a>
+<a href="#3645" id="3645">3645</a>
+<a href="#3646" id="3646">3646</a>
+<a href="#3647" id="3647">3647</a>
+<a href="#3648" id="3648">3648</a>
+<a href="#3649" id="3649">3649</a>
+<a href="#3650" id="3650">3650</a>
+<a href="#3651" id="3651">3651</a>
+<a href="#3652" id="3652">3652</a>
+<a href="#3653" id="3653">3653</a>
+<a href="#3654" id="3654">3654</a>
+<a href="#3655" id="3655">3655</a>
+<a href="#3656" id="3656">3656</a>
+<a href="#3657" id="3657">3657</a>
+<a href="#3658" id="3658">3658</a>
+<a href="#3659" id="3659">3659</a>
+<a href="#3660" id="3660">3660</a>
+<a href="#3661" id="3661">3661</a>
+<a href="#3662" id="3662">3662</a>
+<a href="#3663" id="3663">3663</a>
+<a href="#3664" id="3664">3664</a>
+<a href="#3665" id="3665">3665</a>
+<a href="#3666" id="3666">3666</a>
+<a href="#3667" id="3667">3667</a>
+<a href="#3668" id="3668">3668</a>
+<a href="#3669" id="3669">3669</a>
+<a href="#3670" id="3670">3670</a>
+<a href="#3671" id="3671">3671</a>
+<a href="#3672" id="3672">3672</a>
+<a href="#3673" id="3673">3673</a>
+<a href="#3674" id="3674">3674</a>
+<a href="#3675" id="3675">3675</a>
+<a href="#3676" id="3676">3676</a>
+<a href="#3677" id="3677">3677</a>
+<a href="#3678" id="3678">3678</a>
+<a href="#3679" id="3679">3679</a>
+<a href="#3680" id="3680">3680</a>
+<a href="#3681" id="3681">3681</a>
+<a href="#3682" id="3682">3682</a>
+<a href="#3683" id="3683">3683</a>
+<a href="#3684" id="3684">3684</a>
+<a href="#3685" id="3685">3685</a>
+<a href="#3686" id="3686">3686</a>
+<a href="#3687" id="3687">3687</a>
+<a href="#3688" id="3688">3688</a>
+<a href="#3689" id="3689">3689</a>
+<a href="#3690" id="3690">3690</a>
+<a href="#3691" id="3691">3691</a>
+<a href="#3692" id="3692">3692</a>
+<a href="#3693" id="3693">3693</a>
+<a href="#3694" id="3694">3694</a>
+<a href="#3695" id="3695">3695</a>
+<a href="#3696" id="3696">3696</a>
+<a href="#3697" id="3697">3697</a>
+<a href="#3698" id="3698">3698</a>
+<a href="#3699" id="3699">3699</a>
+<a href="#3700" id="3700">3700</a>
+<a href="#3701" id="3701">3701</a>
+<a href="#3702" id="3702">3702</a>
+<a href="#3703" id="3703">3703</a>
+<a href="#3704" id="3704">3704</a>
+<a href="#3705" id="3705">3705</a>
+<a href="#3706" id="3706">3706</a>
+<a href="#3707" id="3707">3707</a>
+<a href="#3708" id="3708">3708</a>
+<a href="#3709" id="3709">3709</a>
+<a href="#3710" id="3710">3710</a>
+<a href="#3711" id="3711">3711</a>
+<a href="#3712" id="3712">3712</a>
+<a href="#3713" id="3713">3713</a>
+<a href="#3714" id="3714">3714</a>
+<a href="#3715" id="3715">3715</a>
+<a href="#3716" id="3716">3716</a>
+<a href="#3717" id="3717">3717</a>
+<a href="#3718" id="3718">3718</a>
+<a href="#3719" id="3719">3719</a>
+<a href="#3720" id="3720">3720</a>
+<a href="#3721" id="3721">3721</a>
+<a href="#3722" id="3722">3722</a>
+<a href="#3723" id="3723">3723</a>
+<a href="#3724" id="3724">3724</a>
+<a href="#3725" id="3725">3725</a>
+<a href="#3726" id="3726">3726</a>
+<a href="#3727" id="3727">3727</a>
+<a href="#3728" id="3728">3728</a>
+<a href="#3729" id="3729">3729</a>
+<a href="#3730" id="3730">3730</a>
+<a href="#3731" id="3731">3731</a>
+<a href="#3732" id="3732">3732</a>
+<a href="#3733" id="3733">3733</a>
+<a href="#3734" id="3734">3734</a>
+<a href="#3735" id="3735">3735</a>
+<a href="#3736" id="3736">3736</a>
+<a href="#3737" id="3737">3737</a>
+<a href="#3738" id="3738">3738</a>
+<a href="#3739" id="3739">3739</a>
+<a href="#3740" id="3740">3740</a>
+<a href="#3741" id="3741">3741</a>
+<a href="#3742" id="3742">3742</a>
+<a href="#3743" id="3743">3743</a>
+<a href="#3744" id="3744">3744</a>
+<a href="#3745" id="3745">3745</a>
+<a href="#3746" id="3746">3746</a>
+<a href="#3747" id="3747">3747</a>
+<a href="#3748" id="3748">3748</a>
+<a href="#3749" id="3749">3749</a>
+<a href="#3750" id="3750">3750</a>
+<a href="#3751" id="3751">3751</a>
+<a href="#3752" id="3752">3752</a>
+<a href="#3753" id="3753">3753</a>
+<a href="#3754" id="3754">3754</a>
+<a href="#3755" id="3755">3755</a>
+<a href="#3756" id="3756">3756</a>
+<a href="#3757" id="3757">3757</a>
+<a href="#3758" id="3758">3758</a>
+<a href="#3759" id="3759">3759</a>
+<a href="#3760" id="3760">3760</a>
+<a href="#3761" id="3761">3761</a>
+<a href="#3762" id="3762">3762</a>
+<a href="#3763" id="3763">3763</a>
+<a href="#3764" id="3764">3764</a>
+<a href="#3765" id="3765">3765</a>
+<a href="#3766" id="3766">3766</a>
+<a href="#3767" id="3767">3767</a>
+<a href="#3768" id="3768">3768</a>
+<a href="#3769" id="3769">3769</a>
+<a href="#3770" id="3770">3770</a>
+<a href="#3771" id="3771">3771</a>
+<a href="#3772" id="3772">3772</a>
+<a href="#3773" id="3773">3773</a>
+<a href="#3774" id="3774">3774</a>
+<a href="#3775" id="3775">3775</a>
+<a href="#3776" id="3776">3776</a>
+<a href="#3777" id="3777">3777</a>
+<a href="#3778" id="3778">3778</a>
+<a href="#3779" id="3779">3779</a>
+<a href="#3780" id="3780">3780</a>
+<a href="#3781" id="3781">3781</a>
+<a href="#3782" id="3782">3782</a>
+<a href="#3783" id="3783">3783</a>
+<a href="#3784" id="3784">3784</a>
+<a href="#3785" id="3785">3785</a>
+<a href="#3786" id="3786">3786</a>
+<a href="#3787" id="3787">3787</a>
+<a href="#3788" id="3788">3788</a>
+<a href="#3789" id="3789">3789</a>
+<a href="#3790" id="3790">3790</a>
+<a href="#3791" id="3791">3791</a>
+<a href="#3792" id="3792">3792</a>
+<a href="#3793" id="3793">3793</a>
+<a href="#3794" id="3794">3794</a>
+<a href="#3795" id="3795">3795</a>
+<a href="#3796" id="3796">3796</a>
+<a href="#3797" id="3797">3797</a>
+<a href="#3798" id="3798">3798</a>
+<a href="#3799" id="3799">3799</a>
+<a href="#3800" id="3800">3800</a>
+<a href="#3801" id="3801">3801</a>
+<a href="#3802" id="3802">3802</a>
+<a href="#3803" id="3803">3803</a>
+<a href="#3804" id="3804">3804</a>
+<a href="#3805" id="3805">3805</a>
+<a href="#3806" id="3806">3806</a>
+<a href="#3807" id="3807">3807</a>
+<a href="#3808" id="3808">3808</a>
+<a href="#3809" id="3809">3809</a>
+<a href="#3810" id="3810">3810</a>
+<a href="#3811" id="3811">3811</a>
+<a href="#3812" id="3812">3812</a>
+<a href="#3813" id="3813">3813</a>
+<a href="#3814" id="3814">3814</a>
+<a href="#3815" id="3815">3815</a>
+<a href="#3816" id="3816">3816</a>
+<a href="#3817" id="3817">3817</a>
+<a href="#3818" id="3818">3818</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utility::<span class="kw-2">*</span>;
+<span class="kw">use </span>std::collections::BTreeMap;
 <span class="kw">use </span>std::mem::{<span class="self">self</span>, MaybeUninit};
 <span class="kw">use </span>std::ptr;
 <span class="kw">use </span>std::slice;
@@ -3638,12 +3892,13 @@
     storage1_compressed: MutexLike&lt;Vec&lt;u16&gt;&gt;,
     storage2_compressed: MutexLike&lt;Vec&lt;i16&gt;&gt;,
     storage_chance_compressed: MutexLike&lt;Vec&lt;i16&gt;&gt;,
+    locking_strategy: BTreeMap&lt;usize, Vec&lt;f32&gt;&gt;,
 
-    <span class="comment">// result interactor
+    <span class="comment">// result interpreter
     </span>root_cfvalue_ip: Vec&lt;f32&gt;,
     history: Vec&lt;usize&gt;,
     is_normalized_weight_cached: bool,
-    node_ptr: <span class="kw-2">*const </span>PostFlopNode,
+    node_ptr: <span class="kw-2">*mut </span>PostFlopNode,
     turn: u8,
     river: u8,
     chance_factor: i32,
@@ -3665,6 +3920,7 @@
     player: u8,
     turn: u8,
     river: u8,
+    is_locked: bool,
     amount: i32,
     actions: Vec&lt;Action&gt;,
     children: Vec&lt;MutexLike&lt;PostFlopNode&gt;&gt;,
@@ -4017,6 +4273,16 @@
     }
 
     <span class="attr">#[inline]
+    </span><span class="kw">fn </span>locking_strategy(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span><span class="self">Self</span>::Node) -&gt; <span class="kw-2">&amp;</span>[f32] {
+        <span class="kw">if </span>!node.is_locked {
+            <span class="kw-2">&amp;</span>[]
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>offset = <span class="self">self</span>.node_offset(node);
+            <span class="self">self</span>.locking_strategy.get(<span class="kw-2">&amp;</span>offset).unwrap()
+        }
+    }
+
+    <span class="attr">#[inline]
     </span><span class="kw">fn </span>is_ready(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
         <span class="self">self</span>.state == State::MemoryAllocated
     }
@@ -4303,7 +4569,7 @@
     </span><span class="kw">fn </span>init(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.init_card_fields();
         <span class="self">self</span>.init_root();
-        <span class="self">self</span>.init_interactor();
+        <span class="self">self</span>.init_interpreter();
     }
 
     <span class="doccomment">/// Initializes fields related to cards.
@@ -4363,9 +4629,9 @@
         <span class="self">self</span>.clear_storage();
     }
 
-    <span class="doccomment">/// Initializes the interactor.
+    <span class="doccomment">/// Initializes the interpreter.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>init_interactor(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="kw">fn </span>init_interpreter(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="kw">let </span>vecs = [
             <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="self">self</span>.num_private_hands(<span class="number">0</span>)],
             <span class="macro">vec!</span>[<span class="number">0.0</span>; <span class="self">self</span>.num_private_hands(<span class="number">1</span>)],
@@ -4381,7 +4647,7 @@
 
     <span class="doccomment">/// Clears the storage.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>clear_storage(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="kw">fn </span>clear_storage(<span class="kw-2">&amp;</span><span class="self">self</span>) {
         <span class="self">self</span>.storage1.lock().clear();
         <span class="self">self</span>.storage2.lock().clear();
         <span class="self">self</span>.storage_chance.lock().clear();
@@ -4585,7 +4851,7 @@
             <span class="self">self</span>.reverse_push_actions(node, info);
         }
 
-        <span class="kw">for </span>action <span class="kw">in </span>node.actions() {
+        <span class="kw">for </span>action <span class="kw">in </span>node.action_indices() {
             <span class="self">self</span>.calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span>node.play(action), info);
         }
     }
@@ -4705,7 +4971,7 @@
             <span class="kw-2">*</span>action_counter += node.num_elements;
         }
 
-        <span class="kw">for </span>action <span class="kw">in </span>node.actions() {
+        <span class="kw">for </span>action <span class="kw">in </span>node.action_indices() {
             <span class="self">self</span>.allocate_memory_recursive(<span class="kw-2">&amp;mut </span>node.play(action), action_counter, chance_counter);
         }
     }
@@ -4719,7 +4985,7 @@
 
         <span class="self">self</span>.history.clear();
         <span class="self">self</span>.is_normalized_weight_cached = <span class="bool-val">false</span>;
-        <span class="self">self</span>.node_ptr = <span class="kw-2">&amp;*</span><span class="self">self</span>.root();
+        <span class="self">self</span>.node_ptr = <span class="kw-2">&amp;mut *</span><span class="self">self</span>.root();
         <span class="self">self</span>.turn = <span class="self">self</span>.card_config.turn;
         <span class="self">self</span>.river = <span class="self">self</span>.card_config.river;
         <span class="self">self</span>.chance_factor = <span class="number">1</span>;
@@ -5000,7 +5266,7 @@
             <span class="self">self</span>.cfvalues_cache[player_ip].copy_from_slice(<span class="kw-2">&amp;</span>vec);
 
             <span class="comment">// update the state
-            </span><span class="self">self</span>.node_ptr = <span class="kw-2">&amp;*</span><span class="self">self</span>.node().play(action_index);
+            </span><span class="self">self</span>.node_ptr = <span class="kw-2">&amp;mut *</span><span class="self">self</span>.node().play(action_index);
             <span class="kw">if </span>is_turn {
                 <span class="self">self</span>.turn = actual_card;
                 <span class="self">self</span>.chance_factor <span class="kw-2">*</span>= <span class="number">45</span>;
@@ -5051,7 +5317,7 @@
             }
 
             <span class="comment">// update the node
-            </span><span class="self">self</span>.node_ptr = <span class="kw-2">&amp;*</span><span class="self">self</span>.node().play(action);
+            </span><span class="self">self</span>.node_ptr = <span class="kw-2">&amp;mut *</span><span class="self">self</span>.node().play(action);
         }
 
         <span class="self">self</span>.history.push(action);
@@ -5262,8 +5528,8 @@
     <span class="doccomment">/// Returns the expected values of each action of each private hand of the given player.
     ///
     /// If the given player is the current player, the return value is a vector of the length of
-    /// `#(actions) * #(private hands)`. The expected value of `i`-th action with `j`-th private
-    /// hand is stored in the `i * #(private hands) + j`-th element.
+    /// `#(actions) * #(private hands)`. The expected value of the `i`-th action with the `j`-th
+    /// private hand is stored in the `i * #(private hands) + j`-th element.
     ///
     /// Otherwise, this method is the same as the [`expected_values`] method, so the return vector
     /// is the length of `#(private hands)`.
@@ -5339,7 +5605,7 @@
     <span class="doccomment">/// Returns the strategy of the current player.
     ///
     /// The return value is a vector of the length of `#(actions) * #(private hands)`.
-    /// The probability of `i`-th action with `j`-th private hand is stored in the
+    /// The probability of the `i`-th action with the `j`-th private hand is stored in the
     /// `i * #(private hands) + j`-th element.
     ///
     /// If a hand overlaps with the board, an undefined value is returned.
@@ -5369,6 +5635,9 @@
             normalized_strategy(<span class="self">self</span>.node().strategy(), num_actions)
         };
 
+        <span class="kw">let </span>locking = <span class="self">self</span>.locking_strategy(<span class="self">self</span>.node());
+        apply_locking_strategy(<span class="kw-2">&amp;mut </span>ret, locking);
+
         ret.chunks_exact_mut(num_hands).for_each(|chunk| {
             <span class="self">self</span>.apply_swap(chunk, player, <span class="bool-val">false</span>);
         });
@@ -5382,10 +5651,138 @@
         <span class="self">self</span>.total_bet_amount
     }
 
+    <span class="doccomment">/// Locks the strategy of the current node.
+    ///
+    /// The `strategy` argument must be a slice of the length of `#(actions) * #(private hands)`.
+    ///
+    /// - A negative value is treated as a zero.
+    /// - If the `i * #(private hands) + j`-th element of the `strategy` is positive for some `i`,
+    ///   the `j`-th private hand will be locked. The probability for each action will be normalized
+    ///   so that their sum is 1.0.
+    /// - If the `i * #(private hands) + j`-th element of the `strategy` is not positive for all
+    ///   `i`, the `j`-th private hand will not be locked. That is, the solver can adjust the
+    ///   strategy of the `j`-th private hand.
+    </span><span class="kw">pub fn </span>lock_current_strategy(<span class="kw-2">&amp;mut </span><span class="self">self</span>, strategy: <span class="kw-2">&amp;</span>[f32]) {
+        <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
+            <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.is_terminal_node() {
+            <span class="macro">panic!</span>(<span class="string">&quot;Terminal node is not allowed&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.is_chance_node() {
+            <span class="macro">panic!</span>(<span class="string">&quot;Chance node is not allowed&quot;</span>);
+        }
+
+        <span class="kw">let </span>player = <span class="self">self</span>.current_player();
+        <span class="kw">let </span>num_actions = <span class="self">self</span>.node().num_actions();
+        <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
+
+        <span class="kw">if </span>strategy.len() != num_actions * num_hands {
+            <span class="macro">panic!</span>(<span class="string">&quot;Invalid strategy length&quot;</span>);
+        }
+
+        <span class="kw">let </span><span class="kw-2">mut </span>locking = <span class="macro">vec!</span>[-<span class="number">1.0</span>; num_actions * num_hands];
+
+        <span class="kw">for </span>hand <span class="kw">in </span><span class="number">0</span>..num_hands {
+            <span class="kw">let </span><span class="kw-2">mut </span>sum = <span class="number">0.0</span>;
+            <span class="kw">let </span><span class="kw-2">mut </span>lock = <span class="bool-val">false</span>;
+
+            <span class="kw">for </span>action <span class="kw">in </span><span class="number">0</span>..num_actions {
+                <span class="kw">let </span>freq = strategy[action * num_hands + hand];
+                <span class="kw">if </span>freq &gt; <span class="number">0.0 </span>{
+                    sum += freq <span class="kw">as </span>f64;
+                    lock = <span class="bool-val">true</span>;
+                }
+            }
+
+            <span class="kw">if </span>lock {
+                <span class="kw">for </span>action <span class="kw">in </span><span class="number">0</span>..num_actions {
+                    <span class="kw">let </span>freq = strategy[action * num_hands + hand].max(<span class="number">0.0</span>) <span class="kw">as </span>f64;
+                    locking[action * num_hands + hand] = (freq / sum) <span class="kw">as </span>f32;
+                }
+            }
+        }
+
+        <span class="kw">let </span>offset = <span class="self">self</span>.node_offset(<span class="self">self</span>.node());
+        <span class="self">self</span>.locking_strategy.insert(offset, locking);
+        <span class="self">self</span>.node_mut().is_locked = <span class="bool-val">true</span>;
+    }
+
+    <span class="doccomment">/// Unlocks the strategy of the current node.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>unlock_current_strategy(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+        <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
+            <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.is_terminal_node() {
+            <span class="macro">panic!</span>(<span class="string">&quot;Terminal node is not allowed&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.is_chance_node() {
+            <span class="macro">panic!</span>(<span class="string">&quot;Chance node is not allowed&quot;</span>);
+        }
+
+        <span class="kw">if </span>!<span class="self">self</span>.node().is_locked {
+            <span class="kw">return</span>;
+        }
+
+        <span class="kw">let </span>offset = <span class="self">self</span>.node_offset(<span class="self">self</span>.node());
+        <span class="self">self</span>.locking_strategy.remove(<span class="kw-2">&amp;</span>offset);
+        <span class="self">self</span>.node_mut().is_locked = <span class="bool-val">false</span>;
+    }
+
+    <span class="doccomment">/// Returns the locking strategy of the current node.
+    ///
+    /// If the current node is not locked, `None` is returned.
+    ///
+    /// Otherwise, returns a reference to the vector of the length of
+    /// `#(actions) * #(private hands)`.
+    /// The probability of the `i`-th action with the `j`-th private hand is stored in the
+    /// `i * #(private hands) + j`-th element.
+    /// If the `j`-th private hand is not locked, returns `-1.0` for all `i`.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>current_locking_strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Vec&lt;f32&gt;&gt; {
+        <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
+            <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.is_terminal_node() {
+            <span class="macro">panic!</span>(<span class="string">&quot;Terminal node is not allowed&quot;</span>);
+        }
+
+        <span class="kw">if </span><span class="self">self</span>.is_chance_node() {
+            <span class="macro">panic!</span>(<span class="string">&quot;Chance node is not allowed&quot;</span>);
+        }
+
+        <span class="kw">let </span>offset = <span class="self">self</span>.node_offset(<span class="self">self</span>.node());
+        <span class="self">self</span>.locking_strategy.get(<span class="kw-2">&amp;</span>offset)
+    }
+
     <span class="doccomment">/// Returns the reference to the current node.
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>PostFlopNode {
         <span class="kw">unsafe </span>{ <span class="kw-2">&amp;*</span><span class="self">self</span>.node_ptr }
+    }
+
+    <span class="doccomment">/// Returns the mutable reference to the current node.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>node_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>PostFlopNode {
+        <span class="kw">unsafe </span>{ <span class="kw-2">&amp;mut *</span><span class="self">self</span>.node_ptr }
+    }
+
+    <span class="doccomment">/// Returns the offset of the given node.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>node_offset(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode) -&gt; usize {
+        <span class="kw">if </span><span class="self">self</span>.is_compression_enabled {
+            <span class="kw">let </span>base = <span class="self">self</span>.storage1_compressed.lock().as_ptr();
+            <span class="kw">unsafe </span>{ (node.storage1 <span class="kw">as </span><span class="kw-2">*const </span>u16).offset_from(base) <span class="kw">as </span>usize }
+        } <span class="kw">else </span>{
+            <span class="kw">let </span>base = <span class="self">self</span>.storage1.lock().as_ptr();
+            <span class="kw">unsafe </span>{ (node.storage1 <span class="kw">as </span><span class="kw-2">*const </span>f32).offset_from(base) <span class="kw">as </span>usize }
+        }
     }
 
     <span class="doccomment">/// Returns a card list of isomorphic chances.
@@ -5779,10 +6176,11 @@
             storage1_compressed: MutexLike::default(),
             storage2_compressed: MutexLike::default(),
             storage_chance_compressed: MutexLike::default(),
+            locking_strategy: BTreeMap::default(),
             root_cfvalue_ip: Vec::default(),
             history: Vec::default(),
             is_normalized_weight_cached: <span class="bool-val">false</span>,
-            node_ptr: ptr::null(),
+            node_ptr: ptr::null_mut(),
             turn: NOT_DEALT,
             river: NOT_DEALT,
             chance_factor: <span class="number">0</span>,
@@ -5805,6 +6203,7 @@
             player: PLAYER_OOP,
             turn: NOT_DEALT,
             river: NOT_DEALT,
+            is_locked: <span class="bool-val">false</span>,
             amount: <span class="number">0</span>,
             actions: Vec::new(),
             children: Vec::new(),
@@ -5831,7 +6230,7 @@
 }
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2022-12-11&quot;</span>;
+</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2023-02-08&quot;</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
 </span><span class="macro">thread_local! </span>{
@@ -5889,6 +6288,7 @@
         <span class="self">self</span>.storage1_compressed.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.storage2_compressed.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.storage_chance_compressed.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.locking_strategy.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.root_cfvalue_ip.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.history.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.is_normalized_weight_cached.encode(encoder)<span class="question-mark">?</span>;
@@ -5934,6 +6334,7 @@
         </span><span class="self">self</span>.player.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.turn.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.river.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.is_locked.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.amount.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.actions.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.scale1.encode(encoder)<span class="question-mark">?</span>;
@@ -5994,6 +6395,7 @@
             storage1_compressed: Decode::decode(decoder)<span class="question-mark">?</span>,
             storage2_compressed: Decode::decode(decoder)<span class="question-mark">?</span>,
             storage_chance_compressed: Decode::decode(decoder)<span class="question-mark">?</span>,
+            locking_strategy: Decode::decode(decoder)<span class="question-mark">?</span>,
             ..Default::default()
         };
 
@@ -6037,7 +6439,7 @@
         </span><span class="kw">if </span>game.state &gt;= State::TreeBuilt {
             game.init_hands();
             game.init_card_fields();
-            game.init_interactor();
+            game.init_interpreter();
 
             game.root_cfvalue_ip.copy_from_slice(<span class="kw-2">&amp;</span>root_cfvalue_ip);
             game.apply_history(<span class="kw-2">&amp;</span>history);
@@ -6058,6 +6460,7 @@
             player: Decode::decode(decoder)<span class="question-mark">?</span>,
             turn: Decode::decode(decoder)<span class="question-mark">?</span>,
             river: Decode::decode(decoder)<span class="question-mark">?</span>,
+            is_locked: Decode::decode(decoder)<span class="question-mark">?</span>,
             amount: Decode::decode(decoder)<span class="question-mark">?</span>,
             actions: Decode::decode(decoder)<span class="question-mark">?</span>,
             scale1: Decode::decode(decoder)<span class="question-mark">?</span>,
@@ -6969,6 +7372,109 @@
     }
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>node_locking() {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [<span class="string">&quot;AsAh,QsQh&quot;</span>.parse().unwrap(), <span class="string">&quot;KsKh&quot;</span>.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;2s3h4d&quot;</span>).unwrap(),
+            turn: card_from_str(<span class="string">&quot;6c&quot;</span>).unwrap(),
+            river: card_from_str(<span class="string">&quot;7c&quot;</span>).unwrap(),
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            initial_state: BoardState::River,
+            starting_pot: <span class="number">20</span>,
+            effective_stack: <span class="number">10</span>,
+            river_bet_sizes: [(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap()],
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
+        game.allocate_memory(<span class="bool-val">false</span>);
+        game.play(<span class="number">1</span>); <span class="comment">// all-in
+        </span>game.lock_current_strategy(<span class="kw-2">&amp;</span>[<span class="number">0.25</span>, <span class="number">0.75</span>]); <span class="comment">// 25% fold, 75% call
+        </span>game.back_to_root();
+
+        solve(<span class="kw-2">&amp;mut </span>game, <span class="number">1000</span>, <span class="number">0.0</span>, <span class="bool-val">false</span>);
+        game.cache_normalized_weights();
+
+        <span class="kw">let </span>ev_oop = game.expected_values(<span class="number">0</span>);
+        <span class="kw">let </span>ev_ip = game.expected_values(<span class="number">1</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">0</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-2</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">1</span>] - <span class="number">27.5</span>).abs() &lt; <span class="number">5e-2</span>);
+        <span class="macro">assert!</span>((ev_ip[<span class="number">0</span>] - <span class="number">6.25</span>).abs() &lt; <span class="number">1e-2</span>);
+
+        <span class="kw">let </span>strategy_oop = game.strategy();
+        <span class="macro">assert!</span>((strategy_oop[<span class="number">0</span>] - <span class="number">1.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// QQ check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">1</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// AA check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">2</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// QQ bet
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">3</span>] - <span class="number">1.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// AA bet
+
+        </span>game.allocate_memory(<span class="bool-val">false</span>);
+        game.play(<span class="number">1</span>); <span class="comment">// all-in
+        </span>game.lock_current_strategy(<span class="kw-2">&amp;</span>[<span class="number">0.5</span>, <span class="number">0.5</span>]); <span class="comment">// 50% fold, 50% call
+        </span>game.back_to_root();
+
+        solve(<span class="kw-2">&amp;mut </span>game, <span class="number">1000</span>, <span class="number">0.0</span>, <span class="bool-val">false</span>);
+        game.cache_normalized_weights();
+
+        <span class="kw">let </span>ev_oop = game.expected_values(<span class="number">0</span>);
+        <span class="kw">let </span>ev_ip = game.expected_values(<span class="number">1</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">0</span>] - <span class="number">5.0</span>).abs() &lt; <span class="number">1e-2</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">1</span>] - <span class="number">25.0</span>).abs() &lt; <span class="number">5e-2</span>);
+        <span class="macro">assert!</span>((ev_ip[<span class="number">0</span>] - <span class="number">5.0</span>).abs() &lt; <span class="number">1e-2</span>);
+
+        <span class="kw">let </span>strategy_oop = game.strategy();
+        <span class="macro">assert!</span>((strategy_oop[<span class="number">0</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// QQ check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">1</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// AA check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">2</span>] - <span class="number">1.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// QQ bet
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">3</span>] - <span class="number">1.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// AA bet
+    </span>}
+
+    <span class="attr">#[test]
+    </span><span class="kw">fn </span>node_locking_partial() {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [<span class="string">&quot;AsAh,QsQh,JsJh&quot;</span>.parse().unwrap(), <span class="string">&quot;KsKh&quot;</span>.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;2s3h4d&quot;</span>).unwrap(),
+            turn: card_from_str(<span class="string">&quot;6c&quot;</span>).unwrap(),
+            river: card_from_str(<span class="string">&quot;7c&quot;</span>).unwrap(),
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            initial_state: BoardState::River,
+            starting_pot: <span class="number">10</span>,
+            effective_stack: <span class="number">10</span>,
+            river_bet_sizes: [(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), (<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap()],
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
+        game.allocate_memory(<span class="bool-val">false</span>);
+        game.lock_current_strategy(<span class="kw-2">&amp;</span>[<span class="number">0.8</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.2</span>, <span class="number">0.0</span>, <span class="number">0.0</span>]); <span class="comment">// JJ -&gt; 80% check, 20% all-in
+
+        </span>solve(<span class="kw-2">&amp;mut </span>game, <span class="number">1000</span>, <span class="number">0.0</span>, <span class="bool-val">false</span>);
+        game.cache_normalized_weights();
+
+        <span class="kw">let </span>ev_oop = game.expected_values(<span class="number">0</span>);
+        <span class="kw">let </span>ev_ip = game.expected_values(<span class="number">1</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">0</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-2</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">1</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-2</span>);
+        <span class="macro">assert!</span>((ev_oop[<span class="number">2</span>] - <span class="number">15.0</span>).abs() &lt; <span class="number">5e-2</span>);
+        <span class="macro">assert!</span>((ev_ip[<span class="number">0</span>] - <span class="number">5.0</span>).abs() &lt; <span class="number">1e-2</span>);
+
+        <span class="kw">let </span>strategy_oop = game.strategy();
+        <span class="macro">assert!</span>((strategy_oop[<span class="number">0</span>] - <span class="number">0.8</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// JJ check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">1</span>] - <span class="number">0.7</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// QQ check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">2</span>] - <span class="number">0.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// AA check
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">3</span>] - <span class="number">0.2</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// JJ bet
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">4</span>] - <span class="number">0.3</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// QQ bet
+        </span><span class="macro">assert!</span>((strategy_oop[<span class="number">5</span>] - <span class="number">1.0</span>).abs() &lt; <span class="number">1e-3</span>); <span class="comment">// AA bet
+    </span>}
+
+    <span class="attr">#[test]
     #[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
     </span><span class="kw">fn </span>serialize_and_deserialize() {
         <span class="kw">let </span>card_config = CardConfig {
@@ -7129,4 +7635,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.68.0-nightly (52372f9c7 2023-01-21)" data-search-js="search-98d53477a794af0b.js" data-settings-js="settings-c3c521c753752a1a.js" data-settings-css="settings-08ddfdda51b8ee2e.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (bd39bbb4b 2023-02-07)" data-search-js="search-28136cea55c34037.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
