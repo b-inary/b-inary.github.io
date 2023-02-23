@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/action_tree.rs`."><title>action_tree.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-0ef3deca4ed45ad8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-f501212b8b071243.css"><link rel="stylesheet" disabled href="../../static.files/dark-e92fc12c34ff89d3.css"><link rel="stylesheet" disabled href="../../static.files/ayu-a0090c8b1ced384f.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-364b95f387bc3166.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/action_tree.rs`."><title>action_tree.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -1082,6 +1082,30 @@
 <a href="#1082" id="1082">1082</a>
 <a href="#1083" id="1083">1083</a>
 <a href="#1084" id="1084">1084</a>
+<a href="#1085" id="1085">1085</a>
+<a href="#1086" id="1086">1086</a>
+<a href="#1087" id="1087">1087</a>
+<a href="#1088" id="1088">1088</a>
+<a href="#1089" id="1089">1089</a>
+<a href="#1090" id="1090">1090</a>
+<a href="#1091" id="1091">1091</a>
+<a href="#1092" id="1092">1092</a>
+<a href="#1093" id="1093">1093</a>
+<a href="#1094" id="1094">1094</a>
+<a href="#1095" id="1095">1095</a>
+<a href="#1096" id="1096">1096</a>
+<a href="#1097" id="1097">1097</a>
+<a href="#1098" id="1098">1098</a>
+<a href="#1099" id="1099">1099</a>
+<a href="#1100" id="1100">1100</a>
+<a href="#1101" id="1101">1101</a>
+<a href="#1102" id="1102">1102</a>
+<a href="#1103" id="1103">1103</a>
+<a href="#1104" id="1104">1104</a>
+<a href="#1105" id="1105">1105</a>
+<a href="#1106" id="1106">1106</a>
+<a href="#1107" id="1107">1107</a>
+<a href="#1108" id="1108">1108</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::bet_size::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 
@@ -1090,8 +1114,8 @@
 
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_OOP: u8 = <span class="number">0</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_IP: u8 = <span class="number">1</span>;
-<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_MASK: u8 = <span class="number">1</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_CHANCE: u8 = <span class="number">2</span>;
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_MASK: u8 = <span class="number">3</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_ALLIN_FLAG: u8 = <span class="number">4</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_CHANCE_FLAG: u8 = <span class="number">8</span>;
 <span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">const </span>PLAYER_TERMINAL_FLAG: u8 = <span class="number">16</span>;
@@ -1239,7 +1263,7 @@
 }
 
 <span class="kw">struct </span>BuildTreeInfo {
-    last_action: Action,
+    prev_action: Action,
     allin_flag: bool,
     oop_call_flag: bool,
     stack: [i32; <span class="number">2</span>],
@@ -1636,7 +1660,7 @@
         <span class="kw">let </span><span class="kw-2">mut </span>actions = Vec::new();
 
         <span class="kw">if </span>donk_candidates.is_some()
-            &amp;&amp; <span class="macro">matches!</span>(info.last_action, Action::Chance(<span class="kw">_</span>))
+            &amp;&amp; <span class="macro">matches!</span>(info.prev_action, Action::Chance(<span class="kw">_</span>))
             &amp;&amp; info.oop_call_flag
         {
             <span class="comment">// check
@@ -1668,7 +1692,7 @@
                 actions.push(Action::AllIn(max_amount));
             }
         } <span class="kw">else if </span><span class="macro">matches!</span>(
-            info.last_action,
+            info.prev_action,
             Action::None | Action::Check | Action::Chance(<span class="kw">_</span>)
         ) {
             <span class="comment">// check
@@ -1917,12 +1941,12 @@
         <span class="kw">let </span>is_valid_bet = <span class="kw">match </span>action {
             Action::Bet(amount) <span class="kw">if </span>amount &gt;= min_amount &amp;&amp; amount &lt; max_amount =&gt; {
                 <span class="macro">matches!</span>(
-                    info.last_action,
+                    info.prev_action,
                     Action::None | Action::Check | Action::Chance(<span class="kw">_</span>)
                 )
             }
             Action::Raise(amount) <span class="kw">if </span>amount &gt;= min_amount &amp;&amp; amount &lt; max_amount =&gt; {
-                <span class="macro">matches!</span>(info.last_action, Action::Bet(<span class="kw">_</span>) | Action::Raise(<span class="kw">_</span>))
+                <span class="macro">matches!</span>(info.prev_action, Action::Bet(<span class="kw">_</span>) | Action::Raise(<span class="kw">_</span>))
             }
             Action::AllIn(amount) =&gt; amount == max_amount,
             <span class="kw">_ </span>=&gt; <span class="bool-val">false</span>,
@@ -2080,7 +2104,7 @@
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>new(stack: i32) -&gt; <span class="self">Self </span>{
         <span class="self">Self </span>{
-            last_action: Action::None,
+            prev_action: Action::None,
             allin_flag: <span class="bool-val">false</span>,
             oop_call_flag: <span class="bool-val">false</span>,
             stack: [stack, stack],
@@ -2114,7 +2138,7 @@
         }
 
         BuildTreeInfo {
-            last_action: action,
+            prev_action: action,
             allin_flag,
             oop_call_flag,
             stack,
@@ -2134,6 +2158,30 @@
             actions: Decode::decode(decoder)<span class="question-mark">?</span>,
             children: Decode::decode(decoder)<span class="question-mark">?</span>,
         })
+    }
+}
+
+<span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>count_num_action_nodes(node: <span class="kw-2">&amp;</span>ActionTreeNode) -&gt; [u64; <span class="number">3</span>] {
+    <span class="kw">let </span><span class="kw-2">mut </span>ret = [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>];
+    count_num_action_nodes_recursive(node, <span class="number">0</span>, <span class="kw-2">&amp;mut </span>ret);
+    <span class="kw">if </span>ret[<span class="number">1</span>] == <span class="number">0 </span>{
+        ret = [<span class="number">0</span>, <span class="number">0</span>, ret[<span class="number">0</span>]];
+    } <span class="kw">else if </span>ret[<span class="number">2</span>] == <span class="number">0 </span>{
+        ret = [<span class="number">0</span>, ret[<span class="number">0</span>], ret[<span class="number">1</span>]];
+    }
+    ret
+}
+
+<span class="kw">fn </span>count_num_action_nodes_recursive(node: <span class="kw-2">&amp;</span>ActionTreeNode, street: usize, count: <span class="kw-2">&amp;mut </span>[u64; <span class="number">3</span>]) {
+    count[street] += <span class="number">1</span>;
+    <span class="kw">if </span>node.is_terminal() {
+        <span class="comment">// do nothing
+    </span>} <span class="kw">else if </span>node.is_chance() {
+        count_num_action_nodes_recursive(<span class="kw-2">&amp;</span>node.children[<span class="number">0</span>].lock(), street + <span class="number">1</span>, count);
+    } <span class="kw">else </span>{
+        <span class="kw">for </span>child <span class="kw">in </span><span class="kw-2">&amp;</span>node.children {
+            count_num_action_nodes_recursive(<span class="kw-2">&amp;</span>child.lock(), street, count);
+        }
     }
 }
 
@@ -2167,4 +2215,4 @@
     ret
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (bd39bbb4b 2023-02-07)" data-search-js="search-28136cea55c34037.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (fdbc4329c 2023-02-22)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

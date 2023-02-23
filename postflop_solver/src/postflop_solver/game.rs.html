@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-0ef3deca4ed45ad8.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-f501212b8b071243.css"><link rel="stylesheet" disabled href="../../static.files/dark-e92fc12c34ff89d3.css"><link rel="stylesheet" disabled href="../../static.files/ayu-a0090c8b1ced384f.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-364b95f387bc3166.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-5ec35bf9ca753509.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game.rs`."><title>game.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-ea63cb6500f71309.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -3598,242 +3598,22 @@
 <a href="#3598" id="3598">3598</a>
 <a href="#3599" id="3599">3599</a>
 <a href="#3600" id="3600">3600</a>
-<a href="#3601" id="3601">3601</a>
-<a href="#3602" id="3602">3602</a>
-<a href="#3603" id="3603">3603</a>
-<a href="#3604" id="3604">3604</a>
-<a href="#3605" id="3605">3605</a>
-<a href="#3606" id="3606">3606</a>
-<a href="#3607" id="3607">3607</a>
-<a href="#3608" id="3608">3608</a>
-<a href="#3609" id="3609">3609</a>
-<a href="#3610" id="3610">3610</a>
-<a href="#3611" id="3611">3611</a>
-<a href="#3612" id="3612">3612</a>
-<a href="#3613" id="3613">3613</a>
-<a href="#3614" id="3614">3614</a>
-<a href="#3615" id="3615">3615</a>
-<a href="#3616" id="3616">3616</a>
-<a href="#3617" id="3617">3617</a>
-<a href="#3618" id="3618">3618</a>
-<a href="#3619" id="3619">3619</a>
-<a href="#3620" id="3620">3620</a>
-<a href="#3621" id="3621">3621</a>
-<a href="#3622" id="3622">3622</a>
-<a href="#3623" id="3623">3623</a>
-<a href="#3624" id="3624">3624</a>
-<a href="#3625" id="3625">3625</a>
-<a href="#3626" id="3626">3626</a>
-<a href="#3627" id="3627">3627</a>
-<a href="#3628" id="3628">3628</a>
-<a href="#3629" id="3629">3629</a>
-<a href="#3630" id="3630">3630</a>
-<a href="#3631" id="3631">3631</a>
-<a href="#3632" id="3632">3632</a>
-<a href="#3633" id="3633">3633</a>
-<a href="#3634" id="3634">3634</a>
-<a href="#3635" id="3635">3635</a>
-<a href="#3636" id="3636">3636</a>
-<a href="#3637" id="3637">3637</a>
-<a href="#3638" id="3638">3638</a>
-<a href="#3639" id="3639">3639</a>
-<a href="#3640" id="3640">3640</a>
-<a href="#3641" id="3641">3641</a>
-<a href="#3642" id="3642">3642</a>
-<a href="#3643" id="3643">3643</a>
-<a href="#3644" id="3644">3644</a>
-<a href="#3645" id="3645">3645</a>
-<a href="#3646" id="3646">3646</a>
-<a href="#3647" id="3647">3647</a>
-<a href="#3648" id="3648">3648</a>
-<a href="#3649" id="3649">3649</a>
-<a href="#3650" id="3650">3650</a>
-<a href="#3651" id="3651">3651</a>
-<a href="#3652" id="3652">3652</a>
-<a href="#3653" id="3653">3653</a>
-<a href="#3654" id="3654">3654</a>
-<a href="#3655" id="3655">3655</a>
-<a href="#3656" id="3656">3656</a>
-<a href="#3657" id="3657">3657</a>
-<a href="#3658" id="3658">3658</a>
-<a href="#3659" id="3659">3659</a>
-<a href="#3660" id="3660">3660</a>
-<a href="#3661" id="3661">3661</a>
-<a href="#3662" id="3662">3662</a>
-<a href="#3663" id="3663">3663</a>
-<a href="#3664" id="3664">3664</a>
-<a href="#3665" id="3665">3665</a>
-<a href="#3666" id="3666">3666</a>
-<a href="#3667" id="3667">3667</a>
-<a href="#3668" id="3668">3668</a>
-<a href="#3669" id="3669">3669</a>
-<a href="#3670" id="3670">3670</a>
-<a href="#3671" id="3671">3671</a>
-<a href="#3672" id="3672">3672</a>
-<a href="#3673" id="3673">3673</a>
-<a href="#3674" id="3674">3674</a>
-<a href="#3675" id="3675">3675</a>
-<a href="#3676" id="3676">3676</a>
-<a href="#3677" id="3677">3677</a>
-<a href="#3678" id="3678">3678</a>
-<a href="#3679" id="3679">3679</a>
-<a href="#3680" id="3680">3680</a>
-<a href="#3681" id="3681">3681</a>
-<a href="#3682" id="3682">3682</a>
-<a href="#3683" id="3683">3683</a>
-<a href="#3684" id="3684">3684</a>
-<a href="#3685" id="3685">3685</a>
-<a href="#3686" id="3686">3686</a>
-<a href="#3687" id="3687">3687</a>
-<a href="#3688" id="3688">3688</a>
-<a href="#3689" id="3689">3689</a>
-<a href="#3690" id="3690">3690</a>
-<a href="#3691" id="3691">3691</a>
-<a href="#3692" id="3692">3692</a>
-<a href="#3693" id="3693">3693</a>
-<a href="#3694" id="3694">3694</a>
-<a href="#3695" id="3695">3695</a>
-<a href="#3696" id="3696">3696</a>
-<a href="#3697" id="3697">3697</a>
-<a href="#3698" id="3698">3698</a>
-<a href="#3699" id="3699">3699</a>
-<a href="#3700" id="3700">3700</a>
-<a href="#3701" id="3701">3701</a>
-<a href="#3702" id="3702">3702</a>
-<a href="#3703" id="3703">3703</a>
-<a href="#3704" id="3704">3704</a>
-<a href="#3705" id="3705">3705</a>
-<a href="#3706" id="3706">3706</a>
-<a href="#3707" id="3707">3707</a>
-<a href="#3708" id="3708">3708</a>
-<a href="#3709" id="3709">3709</a>
-<a href="#3710" id="3710">3710</a>
-<a href="#3711" id="3711">3711</a>
-<a href="#3712" id="3712">3712</a>
-<a href="#3713" id="3713">3713</a>
-<a href="#3714" id="3714">3714</a>
-<a href="#3715" id="3715">3715</a>
-<a href="#3716" id="3716">3716</a>
-<a href="#3717" id="3717">3717</a>
-<a href="#3718" id="3718">3718</a>
-<a href="#3719" id="3719">3719</a>
-<a href="#3720" id="3720">3720</a>
-<a href="#3721" id="3721">3721</a>
-<a href="#3722" id="3722">3722</a>
-<a href="#3723" id="3723">3723</a>
-<a href="#3724" id="3724">3724</a>
-<a href="#3725" id="3725">3725</a>
-<a href="#3726" id="3726">3726</a>
-<a href="#3727" id="3727">3727</a>
-<a href="#3728" id="3728">3728</a>
-<a href="#3729" id="3729">3729</a>
-<a href="#3730" id="3730">3730</a>
-<a href="#3731" id="3731">3731</a>
-<a href="#3732" id="3732">3732</a>
-<a href="#3733" id="3733">3733</a>
-<a href="#3734" id="3734">3734</a>
-<a href="#3735" id="3735">3735</a>
-<a href="#3736" id="3736">3736</a>
-<a href="#3737" id="3737">3737</a>
-<a href="#3738" id="3738">3738</a>
-<a href="#3739" id="3739">3739</a>
-<a href="#3740" id="3740">3740</a>
-<a href="#3741" id="3741">3741</a>
-<a href="#3742" id="3742">3742</a>
-<a href="#3743" id="3743">3743</a>
-<a href="#3744" id="3744">3744</a>
-<a href="#3745" id="3745">3745</a>
-<a href="#3746" id="3746">3746</a>
-<a href="#3747" id="3747">3747</a>
-<a href="#3748" id="3748">3748</a>
-<a href="#3749" id="3749">3749</a>
-<a href="#3750" id="3750">3750</a>
-<a href="#3751" id="3751">3751</a>
-<a href="#3752" id="3752">3752</a>
-<a href="#3753" id="3753">3753</a>
-<a href="#3754" id="3754">3754</a>
-<a href="#3755" id="3755">3755</a>
-<a href="#3756" id="3756">3756</a>
-<a href="#3757" id="3757">3757</a>
-<a href="#3758" id="3758">3758</a>
-<a href="#3759" id="3759">3759</a>
-<a href="#3760" id="3760">3760</a>
-<a href="#3761" id="3761">3761</a>
-<a href="#3762" id="3762">3762</a>
-<a href="#3763" id="3763">3763</a>
-<a href="#3764" id="3764">3764</a>
-<a href="#3765" id="3765">3765</a>
-<a href="#3766" id="3766">3766</a>
-<a href="#3767" id="3767">3767</a>
-<a href="#3768" id="3768">3768</a>
-<a href="#3769" id="3769">3769</a>
-<a href="#3770" id="3770">3770</a>
-<a href="#3771" id="3771">3771</a>
-<a href="#3772" id="3772">3772</a>
-<a href="#3773" id="3773">3773</a>
-<a href="#3774" id="3774">3774</a>
-<a href="#3775" id="3775">3775</a>
-<a href="#3776" id="3776">3776</a>
-<a href="#3777" id="3777">3777</a>
-<a href="#3778" id="3778">3778</a>
-<a href="#3779" id="3779">3779</a>
-<a href="#3780" id="3780">3780</a>
-<a href="#3781" id="3781">3781</a>
-<a href="#3782" id="3782">3782</a>
-<a href="#3783" id="3783">3783</a>
-<a href="#3784" id="3784">3784</a>
-<a href="#3785" id="3785">3785</a>
-<a href="#3786" id="3786">3786</a>
-<a href="#3787" id="3787">3787</a>
-<a href="#3788" id="3788">3788</a>
-<a href="#3789" id="3789">3789</a>
-<a href="#3790" id="3790">3790</a>
-<a href="#3791" id="3791">3791</a>
-<a href="#3792" id="3792">3792</a>
-<a href="#3793" id="3793">3793</a>
-<a href="#3794" id="3794">3794</a>
-<a href="#3795" id="3795">3795</a>
-<a href="#3796" id="3796">3796</a>
-<a href="#3797" id="3797">3797</a>
-<a href="#3798" id="3798">3798</a>
-<a href="#3799" id="3799">3799</a>
-<a href="#3800" id="3800">3800</a>
-<a href="#3801" id="3801">3801</a>
-<a href="#3802" id="3802">3802</a>
-<a href="#3803" id="3803">3803</a>
-<a href="#3804" id="3804">3804</a>
-<a href="#3805" id="3805">3805</a>
-<a href="#3806" id="3806">3806</a>
-<a href="#3807" id="3807">3807</a>
-<a href="#3808" id="3808">3808</a>
-<a href="#3809" id="3809">3809</a>
-<a href="#3810" id="3810">3810</a>
-<a href="#3811" id="3811">3811</a>
-<a href="#3812" id="3812">3812</a>
-<a href="#3813" id="3813">3813</a>
-<a href="#3814" id="3814">3814</a>
-<a href="#3815" id="3815">3815</a>
-<a href="#3816" id="3816">3816</a>
-<a href="#3817" id="3817">3817</a>
-<a href="#3818" id="3818">3818</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::action_tree::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::card::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
+<span class="kw">use </span><span class="kw">crate</span>::node::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utility::<span class="kw-2">*</span>;
 <span class="kw">use </span>std::collections::BTreeMap;
+<span class="kw">use </span>std::mem::size_of;
 <span class="kw">use </span>std::mem::{<span class="self">self</span>, MaybeUninit};
 <span class="kw">use </span>std::ptr;
-<span class="kw">use </span>std::slice;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">use </span>{
-    bincode::{
-        error::{DecodeError, EncodeError},
-        Decode, Encode,
-    },
-    std::cell::Cell,
+</span><span class="kw">use </span>bincode::{
+    error::{DecodeError, EncodeError},
+    Decode, Encode,
 };
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
@@ -3863,8 +3643,7 @@
     action_root: Box&lt;MutexLike&lt;ActionTreeNode&gt;&gt;,
 
     <span class="comment">// computed from configurations
-    </span>root: Box&lt;MutexLike&lt;PostFlopNode&gt;&gt;,
-    num_combinations: f64,
+    </span>num_combinations: f64,
     initial_weights: [Vec&lt;f32&gt;; <span class="number">2</span>],
     private_cards: [Vec&lt;(u8, u8)&gt;; <span class="number">2</span>],
     same_hand_index: [Vec&lt;u16&gt;; <span class="number">2</span>],
@@ -3877,7 +3656,7 @@
     turn_isomorphism_swap: [SwapList; <span class="number">4</span>],
     river_isomorphism_ref: Vec&lt;Vec&lt;u8&gt;&gt;,
     river_isomorphism_card: Vec&lt;Vec&lt;u8&gt;&gt;,
-    river_isomorphism_swap: Vec&lt;[SwapList; <span class="number">4</span>]&gt;,
+    river_isomorphism_swap: [[SwapList; <span class="number">4</span>]; <span class="number">4</span>],
 
     <span class="comment">// store options
     </span>is_compression_enabled: bool,
@@ -3886,7 +3665,8 @@
     num_storage_chances: u64,
 
     <span class="comment">// global storage
-    </span>storage1: MutexLike&lt;Vec&lt;f32&gt;&gt;,
+    </span>node_arena: Vec&lt;MutexLike&lt;PostFlopNode&gt;&gt;,
+    storage1: MutexLike&lt;Vec&lt;f32&gt;&gt;,
     storage2: MutexLike&lt;Vec&lt;f32&gt;&gt;,
     storage_chance: MutexLike&lt;Vec&lt;f32&gt;&gt;,
     storage1_compressed: MutexLike&lt;Vec&lt;u16&gt;&gt;,
@@ -3915,28 +3695,11 @@
 <span class="kw">unsafe impl </span>Send <span class="kw">for </span>PostFlopGame {}
 <span class="kw">unsafe impl </span>Sync <span class="kw">for </span>PostFlopGame {}
 
-<span class="doccomment">/// A struct representing a node in a postflop game tree.
-</span><span class="kw">pub struct </span>PostFlopNode {
-    player: u8,
-    turn: u8,
-    river: u8,
-    is_locked: bool,
-    amount: i32,
-    actions: Vec&lt;Action&gt;,
-    children: Vec&lt;MutexLike&lt;PostFlopNode&gt;&gt;,
-    storage1: <span class="kw-2">*mut </span>u8,
-    storage2: <span class="kw-2">*mut </span>u8,
-    scale1: f32,
-    scale2: f32,
-    num_elements: usize,
-    num_elements_aux: usize,
-}
-
-<span class="kw">unsafe impl </span>Send <span class="kw">for </span>PostFlopNode {}
-<span class="kw">unsafe impl </span>Sync <span class="kw">for </span>PostFlopNode {}
-
-<span class="kw">struct </span>BuildTreeInfo {
-    memory_usage_nodes: u64,
+<span class="attr">#[derive(Default)]
+</span><span class="kw">struct </span>BuildTreeInfo {
+    flop_index: usize,
+    turn_index: usize,
+    river_index: usize,
     num_storage_actions: u64,
     num_storage_chances: u64,
 }
@@ -3965,24 +3728,12 @@
     result
 }
 
-<span class="doccomment">/// Computes the average with given weights.
-</span><span class="attr">#[inline]
-</span><span class="kw">pub fn </span>compute_average(slice: <span class="kw-2">&amp;</span>[f32], weights: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
-    <span class="kw">let </span><span class="kw-2">mut </span>weight_sum = <span class="number">0.0</span>;
-    <span class="kw">let </span><span class="kw-2">mut </span>product_sum = <span class="number">0.0</span>;
-    <span class="kw">for </span>(<span class="kw-2">&amp;</span>v, <span class="kw-2">&amp;</span>w) <span class="kw">in </span>slice.iter().zip(weights.iter()) {
-        weight_sum += w <span class="kw">as </span>f64;
-        product_sum += v <span class="kw">as </span>f64 * w <span class="kw">as </span>f64;
-    }
-    (product_sum / weight_sum) <span class="kw">as </span>f32
-}
-
 <span class="kw">impl </span>Game <span class="kw">for </span>PostFlopGame {
     <span class="kw">type </span>Node = PostFlopNode;
 
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>root(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MutexGuardLike&lt;<span class="self">Self</span>::Node&gt; {
-        <span class="self">self</span>.root.lock()
+        <span class="self">self</span>.node_arena[<span class="number">0</span>].lock()
     }
 
     <span class="attr">#[inline]
@@ -4267,7 +4018,7 @@
         <span class="kw">if </span>node.turn == NOT_DEALT {
             <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_swap[<span class="self">self</span>.turn_isomorphism_card[index] <span class="kw">as </span>usize &amp; <span class="number">3</span>]
         } <span class="kw">else </span>{
-            <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[node.turn <span class="kw">as </span>usize]
+            <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[node.turn <span class="kw">as </span>usize &amp; <span class="number">3</span>]
                 [<span class="self">self</span>.river_isomorphism_card[node.turn <span class="kw">as </span>usize][index] <span class="kw">as </span>usize &amp; <span class="number">3</span>]
         }
     }
@@ -4327,8 +4078,7 @@
         ) = action_tree.eject();
         <span class="self">self</span>.state = State::ConfigError;
         <span class="self">self</span>.check_card_config()<span class="question-mark">?</span>;
-        <span class="self">self</span>.state = State::TreeBuilt;
-        <span class="self">self</span>.init();
+        <span class="self">self</span>.init()<span class="question-mark">?</span>;
         <span class="prelude-val">Ok</span>(())
     }
 
@@ -4393,7 +4143,6 @@
         <span class="kw">for </span>line <span class="kw">in </span>lines {
             <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root();
             <span class="kw">let </span>info = <span class="self">self</span>.remove_line_recursive(<span class="kw-2">&amp;mut </span>root, line)<span class="question-mark">?</span>;
-            <span class="self">self</span>.misc_memory_usage -= info.memory_usage_nodes;
             <span class="self">self</span>.num_storage_actions -= info.num_storage_actions;
             <span class="self">self</span>.num_storage_chances -= info.num_storage_chances;
         }
@@ -4436,9 +4185,7 @@
             <span class="self">self</span>.storage_chance = MutexLike::new(<span class="macro">vec!</span>[<span class="number">0.0</span>; num_chances]);
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>action_counter = <span class="number">0</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>chance_counter = <span class="number">0</span>;
-        <span class="self">self</span>.allocate_memory_recursive(<span class="kw-2">&amp;mut </span><span class="self">self</span>.root(), <span class="kw-2">&amp;mut </span>action_counter, <span class="kw-2">&amp;mut </span>chance_counter);
+        <span class="self">self</span>.allocate_memory_nodes();
     }
 
     <span class="doccomment">/// Checks the card configuration.
@@ -4566,10 +4313,11 @@
 
     <span class="doccomment">/// Initializes the game.
     </span><span class="attr">#[inline]
-    </span><span class="kw">fn </span>init(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="kw">fn </span>init(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="self">self</span>.init_card_fields();
-        <span class="self">self</span>.init_root();
+        <span class="self">self</span>.init_root()<span class="question-mark">?</span>;
         <span class="self">self</span>.init_interpreter();
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Initializes fields related to cards.
@@ -4608,25 +4356,46 @@
     }
 
     <span class="doccomment">/// Initializes the root node of game tree.
-    </span><span class="kw">fn </span>init_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
+    </span><span class="kw">fn </span>init_root(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
+        <span class="kw">let </span>num_nodes = <span class="self">self</span>.count_num_nodes();
+        <span class="kw">let </span>total_num_nodes = num_nodes[<span class="number">0</span>] + num_nodes[<span class="number">1</span>] + num_nodes[<span class="number">2</span>];
+
+        <span class="kw">if </span>total_num_nodes &gt; u32::MAX <span class="kw">as </span>u64
+            || size_of::&lt;PostFlopNode&gt;() <span class="kw">as </span>u64 * total_num_nodes &gt; isize::MAX <span class="kw">as </span>u64
+        {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Too many nodes&quot;</span>.to_string());
+        }
+
         <span class="kw">let </span><span class="kw-2">mut </span>info = BuildTreeInfo {
-            memory_usage_nodes: mem::size_of::&lt;PostFlopNode&gt;() <span class="kw">as </span>u64,
-            num_storage_actions: <span class="number">0</span>,
-            num_storage_chances: <span class="number">0</span>,
+            turn_index: num_nodes[<span class="number">0</span>] <span class="kw">as </span>usize,
+            river_index: (num_nodes[<span class="number">0</span>] + num_nodes[<span class="number">1</span>]) <span class="kw">as </span>usize,
+            ..Default::default()
         };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.root();
-        <span class="kw-2">*</span>root = PostFlopNode::default();
+        <span class="kw">match </span><span class="self">self</span>.tree_config.initial_state {
+            BoardState::Flop =&gt; info.flop_index += <span class="number">1</span>,
+            BoardState::Turn =&gt; info.turn_index += <span class="number">1</span>,
+            BoardState::River =&gt; info.river_index += <span class="number">1</span>,
+        }
+
+        <span class="self">self</span>.node_arena = (<span class="number">0</span>..total_num_nodes)
+            .map(|<span class="kw">_</span>| MutexLike::new(PostFlopNode::default()))
+            .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+        <span class="kw">let </span><span class="kw-2">mut </span>root = <span class="self">self</span>.node_arena[<span class="number">0</span>].lock();
         root.turn = <span class="self">self</span>.card_config.turn;
         root.river = <span class="self">self</span>.card_config.river;
 
-        <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>root, <span class="kw-2">&amp;</span><span class="self">self</span>.action_root.lock(), <span class="kw-2">&amp;mut </span>info);
+        <span class="self">self</span>.build_tree_recursive(<span class="number">0</span>, <span class="kw-2">&amp;</span><span class="self">self</span>.action_root.lock(), <span class="kw-2">&amp;mut </span>info);
 
-        <span class="self">self</span>.misc_memory_usage = <span class="self">self</span>.memory_usage_internal() + info.memory_usage_nodes;
+        <span class="self">self</span>.misc_memory_usage = <span class="self">self</span>.memory_usage_internal();
         <span class="self">self</span>.num_storage_actions = info.num_storage_actions;
         <span class="self">self</span>.num_storage_chances = info.num_storage_chances;
 
         <span class="self">self</span>.clear_storage();
+        <span class="self">self</span>.state = State::TreeBuilt;
+
+        <span class="prelude-val">Ok</span>(())
     }
 
     <span class="doccomment">/// Initializes the interpreter.
@@ -4662,6 +4431,36 @@
         <span class="self">self</span>.storage_chance_compressed.lock().shrink_to_fit();
     }
 
+    <span class="doccomment">/// Counts the number of nodes in the game tree.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">fn </span>count_num_nodes(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; [u64; <span class="number">3</span>] {
+        <span class="kw">let </span>(turn_coef, river_coef) = <span class="kw">match </span>(<span class="self">self</span>.card_config.turn, <span class="self">self</span>.card_config.river) {
+            (NOT_DEALT, <span class="kw">_</span>) =&gt; {
+                <span class="kw">let </span><span class="kw-2">mut </span>river_coef = <span class="number">0</span>;
+                <span class="kw">let </span>flop = <span class="self">self</span>.card_config.flop;
+                <span class="kw">let </span>skip_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_card;
+                <span class="kw">let </span>flop_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
+                <span class="kw">let </span>skip_mask: u64 = skip_cards.iter().map(|<span class="kw-2">&amp;</span>card| <span class="number">1 </span>&lt;&lt; card).sum();
+                <span class="kw">for </span>turn <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
+                    <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; turn) &amp; (flop_mask | skip_mask) == <span class="number">0 </span>{
+                        river_coef += <span class="number">48 </span>- <span class="self">self</span>.river_isomorphism_card[turn].len();
+                    }
+                }
+                (<span class="number">49 </span>- <span class="self">self</span>.turn_isomorphism_card.len(), river_coef)
+            }
+            (turn, NOT_DEALT) =&gt; (<span class="number">1</span>, <span class="number">48 </span>- <span class="self">self</span>.river_isomorphism_card[turn <span class="kw">as </span>usize].len()),
+            <span class="kw">_ </span>=&gt; (<span class="number">0</span>, <span class="number">1</span>),
+        };
+
+        <span class="kw">let </span>num_action_nodes = count_num_action_nodes(<span class="kw-2">&amp;</span><span class="self">self</span>.action_root.lock());
+
+        [
+            num_action_nodes[<span class="number">0</span>],
+            num_action_nodes[<span class="number">1</span>] * turn_coef <span class="kw">as </span>u64,
+            num_action_nodes[<span class="number">2</span>] * river_coef <span class="kw">as </span>u64,
+        ]
+    }
+
     <span class="doccomment">/// Computes the memory usage of this struct.
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>memory_usage_internal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
@@ -4685,7 +4484,6 @@
         memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_card);
         memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_ref);
         memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_card);
-        memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap);
 
         <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
             memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.initial_weights[player]);
@@ -4711,16 +4509,19 @@
             }
         }
 
+        memory_usage += vec_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>.node_arena);
+
         memory_usage
     }
 
     <span class="doccomment">/// Builds the game tree recursively.
     </span><span class="kw">fn </span>build_tree_recursive(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        node: <span class="kw-2">&amp;mut </span>PostFlopNode,
+        node_index: usize,
         action_node: <span class="kw-2">&amp;</span>ActionTreeNode,
         info: <span class="kw-2">&amp;mut </span>BuildTreeInfo,
     ) {
+        <span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">self</span>.node_arena[node_index].lock();
         node.player = action_node.player;
         node.amount = action_node.amount;
 
@@ -4729,134 +4530,141 @@
         }
 
         <span class="kw">if </span>node.is_chance() {
-            <span class="self">self</span>.push_chances(node, info);
-            <span class="kw">for </span>child <span class="kw">in </span><span class="kw-2">&amp;</span>node.children {
-                <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>child.lock(), <span class="kw-2">&amp;</span>action_node.children[<span class="number">0</span>].lock(), info);
+            <span class="self">self</span>.push_chances(node_index, info);
+            <span class="kw">for </span>action_index <span class="kw">in </span><span class="number">0</span>..node.num_actions() {
+                <span class="kw">let </span>child_index = node_index + node.children_offset <span class="kw">as </span>usize + action_index;
+                <span class="self">self</span>.build_tree_recursive(child_index, <span class="kw-2">&amp;</span>action_node.children[<span class="number">0</span>].lock(), info);
             }
         } <span class="kw">else </span>{
-            <span class="self">self</span>.push_actions(node, action_node, info);
-            <span class="kw">for </span>(child, action_child) <span class="kw">in </span>node.children.iter().zip(action_node.children.iter()) {
-                <span class="self">self</span>.build_tree_recursive(<span class="kw-2">&amp;mut </span>child.lock(), <span class="kw-2">&amp;</span>action_child.lock(), info);
+            <span class="self">self</span>.push_actions(node_index, action_node, info);
+            <span class="kw">for </span>action_index <span class="kw">in </span><span class="number">0</span>..node.num_actions() {
+                <span class="kw">let </span>child_index = node_index + node.children_offset <span class="kw">as </span>usize + action_index;
+                <span class="self">self</span>.build_tree_recursive(
+                    child_index,
+                    <span class="kw-2">&amp;</span>action_node.children[action_index].lock(),
+                    info,
+                );
             }
         }
     }
 
     <span class="doccomment">/// Pushes the chance actions to the `node`.
-    </span><span class="kw">fn </span>push_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;mut </span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
+    </span><span class="kw">fn </span>push_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node_index: usize, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
+        <span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">self</span>.node_arena[node_index].lock();
         <span class="kw">let </span>flop = <span class="self">self</span>.card_config.flop;
         <span class="kw">let </span>flop_mask: u64 = (<span class="number">1 </span>&lt;&lt; flop[<span class="number">0</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">1</span>]) | (<span class="number">1 </span>&lt;&lt; flop[<span class="number">2</span>]);
 
         <span class="comment">// deal turn
         </span><span class="kw">if </span>node.turn == NOT_DEALT {
-            node.actions.reserve(<span class="number">49</span>);
-            node.children.reserve(<span class="number">49</span>);
+            <span class="kw">let </span>skip_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_card;
+            <span class="kw">let </span>skip_mask: u64 = skip_cards.iter().map(|<span class="kw-2">&amp;</span>card| <span class="number">1 </span>&lt;&lt; card).sum();
 
+            node.children_offset = (info.turn_index - node_index) <span class="kw">as </span>u32;
             <span class="kw">for </span>card <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
-                <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; card) &amp; flop_mask == <span class="number">0 </span>&amp;&amp; !<span class="self">self</span>.turn_isomorphism_card.contains(<span class="kw-2">&amp;</span>card) {
-                    node.actions.push(Action::Chance(card));
-                    node.children.push(MutexLike::new(PostFlopNode {
-                        turn: card,
-                        ..Default::default()
-                    }));
+                <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; card) &amp; (flop_mask | skip_mask) == <span class="number">0 </span>{
+                    node.num_children += <span class="number">1</span>;
+                    <span class="kw">let </span><span class="kw-2">mut </span>child = node.children().last().unwrap().lock();
+                    child.prev_action = Action::Chance(card);
+                    child.turn = card;
                 }
             }
+
+            info.turn_index += node.num_children <span class="kw">as </span>usize;
         }
         <span class="comment">// deal river
         </span><span class="kw">else </span>{
             <span class="kw">let </span>turn_mask = flop_mask | (<span class="number">1 </span>&lt;&lt; node.turn);
+            <span class="kw">let </span>skip_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_card[node.turn <span class="kw">as </span>usize];
+            <span class="kw">let </span>skip_mask: u64 = skip_cards.iter().map(|<span class="kw-2">&amp;</span>card| <span class="number">1 </span>&lt;&lt; card).sum();
 
-            node.actions.reserve(<span class="number">48</span>);
-            node.children.reserve(<span class="number">48</span>);
-
+            node.children_offset = (info.river_index - node_index) <span class="kw">as </span>u32;
             <span class="kw">for </span>card <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
-                <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; card) &amp; turn_mask == <span class="number">0
-                    </span>&amp;&amp; !<span class="self">self</span>.river_isomorphism_card[node.turn <span class="kw">as </span>usize].contains(<span class="kw-2">&amp;</span>card)
-                {
-                    node.actions.push(Action::Chance(card));
-                    node.children.push(MutexLike::new(PostFlopNode {
-                        turn: node.turn,
-                        river: card,
-                        ..Default::default()
-                    }));
+                <span class="kw">if </span>(<span class="number">1 </span>&lt;&lt; card) &amp; (turn_mask | skip_mask) == <span class="number">0 </span>{
+                    node.num_children += <span class="number">1</span>;
+                    <span class="kw">let </span><span class="kw-2">mut </span>child = node.children().last().unwrap().lock();
+                    child.prev_action = Action::Chance(card);
+                    child.turn = node.turn;
+                    child.river = card;
                 }
             }
-        }
 
-        node.actions.shrink_to_fit();
-        node.children.shrink_to_fit();
+            info.river_index += node.num_children <span class="kw">as </span>usize;
+        }
 
         node.num_elements = <span class="kw">match </span>node.cfvalue_storage(PLAYER_OOP <span class="kw">as </span>usize) {
             CfValueStorage::None =&gt; <span class="number">0</span>,
             CfValueStorage::Sum =&gt; <span class="self">self</span>.num_private_hands(PLAYER_OOP <span class="kw">as </span>usize),
             CfValueStorage::All =&gt; node.num_actions() * <span class="self">self</span>.num_private_hands(PLAYER_OOP <span class="kw">as </span>usize),
-        };
+        } <span class="kw">as </span>u32;
 
         node.num_elements_aux = <span class="kw">match </span>node.cfvalue_storage(PLAYER_IP <span class="kw">as </span>usize) {
             CfValueStorage::None =&gt; <span class="number">0</span>,
             CfValueStorage::Sum =&gt; <span class="self">self</span>.num_private_hands(PLAYER_IP <span class="kw">as </span>usize),
             CfValueStorage::All =&gt; node.num_actions() * <span class="self">self</span>.num_private_hands(PLAYER_IP <span class="kw">as </span>usize),
-        };
+        } <span class="kw">as </span>u32;
 
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
         info.num_storage_chances += (node.num_elements + node.num_elements_aux) <span class="kw">as </span>u64;
     }
 
     <span class="doccomment">/// Pushes the actions to the `node`.
     </span><span class="kw">fn </span>push_actions(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
-        node: <span class="kw-2">&amp;mut </span>PostFlopNode,
+        node_index: usize,
         action_node: <span class="kw-2">&amp;</span>ActionTreeNode,
         info: <span class="kw-2">&amp;mut </span>BuildTreeInfo,
     ) {
-        <span class="kw">for </span>action <span class="kw">in </span><span class="kw-2">&amp;</span>action_node.actions {
-            node.actions.push(<span class="kw-2">*</span>action);
-            node.children.push(MutexLike::new(PostFlopNode {
-                turn: node.turn,
-                river: node.river,
-                ..Default::default()
-            }));
+        <span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">self</span>.node_arena[node_index].lock();
+
+        <span class="kw">let </span>street = <span class="kw">match </span>(node.turn, node.river) {
+            (NOT_DEALT, <span class="kw">_</span>) =&gt; BoardState::Flop,
+            (<span class="kw">_</span>, NOT_DEALT) =&gt; BoardState::Turn,
+            <span class="kw">_ </span>=&gt; BoardState::River,
+        };
+
+        <span class="kw">let </span>base = <span class="kw">match </span>street {
+            BoardState::Flop =&gt; <span class="kw-2">&amp;mut </span>info.flop_index,
+            BoardState::Turn =&gt; <span class="kw-2">&amp;mut </span>info.turn_index,
+            BoardState::River =&gt; <span class="kw-2">&amp;mut </span>info.river_index,
+        };
+
+        node.children_offset = (<span class="kw-2">*</span>base - node_index) <span class="kw">as </span>u32;
+        node.num_children = action_node.children.len() <span class="kw">as </span>u32;
+        <span class="kw-2">*</span>base += node.num_children <span class="kw">as </span>usize;
+
+        <span class="kw">for </span>(child, action) <span class="kw">in </span>node.children().iter().zip(action_node.actions.iter()) {
+            <span class="kw">let </span><span class="kw-2">mut </span>child = child.lock();
+            child.prev_action = <span class="kw-2">*</span>action;
+            child.turn = node.turn;
+            child.river = node.river;
         }
 
-        node.actions.shrink_to_fit();
-        node.children.shrink_to_fit();
-        node.num_elements = node.num_actions() * <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize);
+        <span class="kw">let </span>num_private_hands = <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize);
+        node.num_elements = (node.num_actions() * num_private_hands) <span class="kw">as </span>u32;
 
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
         info.num_storage_actions += node.num_elements <span class="kw">as </span>u64;
     }
 
-    <span class="doccomment">/// Reverse the action of push_chances
-    </span><span class="kw">fn </span>reverse_push_chances(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
-        info.num_storage_chances += (node.num_elements + node.num_elements_aux) <span class="kw">as </span>u64;
-    }
-
-    <span class="kw">fn </span>reverse_push_actions(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.actions);
-        info.memory_usage_nodes += vec_memory_usage(<span class="kw-2">&amp;</span>node.children);
-        info.num_storage_actions += node.num_elements <span class="kw">as </span>u64;
-    }
-
-    <span class="kw">fn </span>calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
+    <span class="doccomment">/// Calculates the number of storage elements that will be removed.
+    </span><span class="kw">fn </span>calculate_removed_line_info_recursive(node: <span class="kw-2">&amp;mut </span>PostFlopNode, info: <span class="kw-2">&amp;mut </span>BuildTreeInfo) {
         <span class="kw">if </span>node.is_terminal() {
             <span class="kw">return</span>;
         }
 
         <span class="kw">if </span>node.is_chance() {
-            <span class="self">self</span>.reverse_push_chances(node, info);
+            info.num_storage_chances += (node.num_elements + node.num_elements_aux) <span class="kw">as </span>u64;
+            node.num_elements = <span class="number">0</span>;
+            node.num_elements_aux = <span class="number">0</span>;
         } <span class="kw">else </span>{
-            <span class="self">self</span>.reverse_push_actions(node, info);
+            info.num_storage_actions += node.num_elements <span class="kw">as </span>u64;
+            node.num_elements = <span class="number">0</span>;
         }
 
         <span class="kw">for </span>action <span class="kw">in </span>node.action_indices() {
-            <span class="self">self</span>.calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span>node.play(action), info);
+            <span class="self">Self</span>::calculate_removed_line_info_recursive(<span class="kw-2">&amp;mut </span>node.play(action), info);
         }
     }
 
-    <span class="doccomment">/// Recursively remove a line from a PostFlopGame tree
+    <span class="doccomment">/// Remove a line from a `PostFlopGame` tree.
     </span><span class="kw">fn </span>remove_line_recursive(
         <span class="kw-2">&amp;</span><span class="self">self</span>,
         node: <span class="kw-2">&amp;mut </span>PostFlopNode,
@@ -4871,14 +4679,17 @@
         }
 
         <span class="kw">let </span>action = line[<span class="number">0</span>];
-        <span class="kw">let </span>search_result = node.actions.binary_search(<span class="kw-2">&amp;</span>action);
+        <span class="kw">let </span>search_result = node
+            .children()
+            .binary_search_by(|child| child.lock().prev_action.cmp(<span class="kw-2">&amp;</span>action));
+
         <span class="kw">if </span>search_result.is_err() {
             <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Action does not exist: {action:?}&quot;</span>));
         }
 
         <span class="kw">let </span>index = search_result.unwrap();
         <span class="kw">if </span>line.len() &gt; <span class="number">1 </span>{
-            <span class="kw">let </span>result = <span class="self">self</span>.remove_line_recursive(<span class="kw-2">&amp;mut </span>node.children[index].lock(), <span class="kw-2">&amp;</span>line[<span class="number">1</span>..]);
+            <span class="kw">let </span>result = <span class="self">self</span>.remove_line_recursive(<span class="kw-2">&amp;mut </span>node.children()[index].lock(), <span class="kw-2">&amp;</span>line[<span class="number">1</span>..]);
             <span class="kw">return </span>result;
         }
 
@@ -4897,82 +4708,81 @@
 
         // STEP 1
         </span><span class="kw">let </span><span class="kw-2">mut </span>info = BuildTreeInfo {
-            memory_usage_nodes: (mem::size_of::&lt;Action&gt;() + mem::size_of::&lt;PostFlopNode&gt;()) <span class="kw">as </span>u64,
             num_storage_actions: <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize) <span class="kw">as </span>u64,
-            num_storage_chances: <span class="number">0</span>,
+            ..Default::default()
         };
 
-        <span class="kw">let </span>node_to_remove = node.play(index);
-        <span class="self">self</span>.calculate_removed_line_info_recursive(<span class="kw-2">&amp;</span>node_to_remove, <span class="kw-2">&amp;mut </span>info);
+        <span class="kw">let </span><span class="kw-2">mut </span>node_to_remove = node.play(index);
+        <span class="self">Self</span>::calculate_removed_line_info_recursive(<span class="kw-2">&amp;mut </span>node_to_remove, <span class="kw-2">&amp;mut </span>info);
 
         <span class="comment">// STEP 2
-        </span>node.actions.remove(index);
-        node.children.remove(index);
-
-        node.actions.shrink_to_fit();
-        node.children.shrink_to_fit();
+        </span><span class="kw">let </span>children = node.children();
+        <span class="kw">for </span>i <span class="kw">in </span>index..node.num_children <span class="kw">as </span>usize - <span class="number">1 </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>x = children[i].lock();
+            <span class="kw">let </span><span class="kw-2">mut </span>y = children[i + <span class="number">1</span>].lock();
+            mem::swap(<span class="kw-2">&amp;mut *</span>x, <span class="kw-2">&amp;mut *</span>y);
+            <span class="kw">if </span>x.children_offset &gt; <span class="number">0 </span>{
+                x.children_offset += <span class="number">1</span>;
+            }
+        }
+        node.num_children -= <span class="number">1</span>;
 
         <span class="comment">// STEP 3
-        </span>node.num_elements -= <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize);
+        </span>node.num_elements -= <span class="self">self</span>.num_private_hands(node.player <span class="kw">as </span>usize) <span class="kw">as </span>u32;
 
         <span class="prelude-val">Ok</span>(info)
     }
 
     <span class="doccomment">/// Allocates memory recursively.
-    </span><span class="kw">fn </span>allocate_memory_recursive(
-        <span class="kw-2">&amp;</span><span class="self">self</span>,
-        node: <span class="kw-2">&amp;mut </span>PostFlopNode,
-        action_counter: <span class="kw-2">&amp;mut </span>usize,
-        chance_counter: <span class="kw-2">&amp;mut </span>usize,
-    ) {
-        <span class="kw">if </span>node.is_terminal() {
-            <span class="kw">return</span>;
-        }
+    </span><span class="kw">fn </span>allocate_memory_nodes(<span class="kw-2">&amp;</span><span class="self">self</span>) {
+        <span class="kw">let </span><span class="kw-2">mut </span>action_counter = <span class="number">0</span>;
+        <span class="kw">let </span><span class="kw-2">mut </span>chance_counter = <span class="number">0</span>;
 
-        <span class="kw">if </span>node.is_chance() {
-            <span class="kw">if </span>node.num_elements &gt; <span class="number">0 </span>{
+        <span class="kw">for </span>node <span class="kw">in </span><span class="kw-2">&amp;</span><span class="self">self</span>.node_arena {
+            <span class="kw">let </span><span class="kw-2">mut </span>node = node.lock();
+            <span class="kw">if </span>node.is_terminal() {
+                <span class="comment">// do nothing
+            </span>} <span class="kw">else if </span>node.is_chance() {
+                <span class="kw">if </span>node.num_elements &gt; <span class="number">0 </span>{
+                    <span class="kw">unsafe </span>{
+                        <span class="kw">if </span><span class="self">self</span>.is_compression_enabled {
+                            <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance_compressed.lock().as_mut_ptr();
+                            node.storage1 = ptr.add(chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        } <span class="kw">else </span>{
+                            <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance.lock().as_mut_ptr();
+                            node.storage1 = ptr.add(chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        }
+                    }
+                    chance_counter += node.num_elements <span class="kw">as </span>usize;
+                }
+                <span class="kw">if </span>node.num_elements_aux &gt; <span class="number">0 </span>{
+                    <span class="kw">unsafe </span>{
+                        <span class="kw">if </span><span class="self">self</span>.is_compression_enabled {
+                            <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance_compressed.lock().as_mut_ptr();
+                            node.storage2 = ptr.add(chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        } <span class="kw">else </span>{
+                            <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance.lock().as_mut_ptr();
+                            node.storage2 = ptr.add(chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        }
+                    }
+                    chance_counter += node.num_elements_aux <span class="kw">as </span>usize;
+                }
+            } <span class="kw">else </span>{
                 <span class="kw">unsafe </span>{
                     <span class="kw">if </span><span class="self">self</span>.is_compression_enabled {
-                        <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance_compressed.lock().as_mut_ptr();
-                        node.storage1 = ptr.add(<span class="kw-2">*</span>chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        <span class="kw">let </span>ptr1 = <span class="self">self</span>.storage1_compressed.lock().as_mut_ptr();
+                        <span class="kw">let </span>ptr2 = <span class="self">self</span>.storage2_compressed.lock().as_mut_ptr();
+                        node.storage1 = ptr1.add(action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        node.storage2 = ptr2.add(action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
                     } <span class="kw">else </span>{
-                        <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance.lock().as_mut_ptr();
-                        node.storage1 = ptr.add(<span class="kw-2">*</span>chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        <span class="kw">let </span>ptr1 = <span class="self">self</span>.storage1.lock().as_mut_ptr();
+                        <span class="kw">let </span>ptr2 = <span class="self">self</span>.storage2.lock().as_mut_ptr();
+                        node.storage1 = ptr1.add(action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
+                        node.storage2 = ptr2.add(action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
                     }
                 }
-                <span class="kw-2">*</span>chance_counter += node.num_elements;
+                action_counter += node.num_elements <span class="kw">as </span>usize;
             }
-            <span class="kw">if </span>node.num_elements_aux &gt; <span class="number">0 </span>{
-                <span class="kw">unsafe </span>{
-                    <span class="kw">if </span><span class="self">self</span>.is_compression_enabled {
-                        <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance_compressed.lock().as_mut_ptr();
-                        node.storage2 = ptr.add(<span class="kw-2">*</span>chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-                    } <span class="kw">else </span>{
-                        <span class="kw">let </span>ptr = <span class="self">self</span>.storage_chance.lock().as_mut_ptr();
-                        node.storage2 = ptr.add(<span class="kw-2">*</span>chance_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-                    }
-                }
-                <span class="kw-2">*</span>chance_counter += node.num_elements_aux;
-            }
-        } <span class="kw">else </span>{
-            <span class="kw">unsafe </span>{
-                <span class="kw">if </span><span class="self">self</span>.is_compression_enabled {
-                    <span class="kw">let </span>ptr1 = <span class="self">self</span>.storage1_compressed.lock().as_mut_ptr();
-                    <span class="kw">let </span>ptr2 = <span class="self">self</span>.storage2_compressed.lock().as_mut_ptr();
-                    node.storage1 = ptr1.add(<span class="kw-2">*</span>action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-                    node.storage2 = ptr2.add(<span class="kw-2">*</span>action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-                } <span class="kw">else </span>{
-                    <span class="kw">let </span>ptr1 = <span class="self">self</span>.storage1.lock().as_mut_ptr();
-                    <span class="kw">let </span>ptr2 = <span class="self">self</span>.storage2.lock().as_mut_ptr();
-                    node.storage1 = ptr1.add(<span class="kw-2">*</span>action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-                    node.storage2 = ptr2.add(<span class="kw-2">*</span>action_counter) <span class="kw">as </span><span class="kw-2">*mut </span>u8;
-                }
-            }
-            <span class="kw-2">*</span>action_counter += node.num_elements;
-        }
-
-        <span class="kw">for </span>action <span class="kw">in </span>node.action_indices() {
-            <span class="self">self</span>.allocate_memory_recursive(<span class="kw-2">&amp;mut </span>node.play(action), action_counter, chance_counter);
         }
     }
 
@@ -5068,14 +4878,19 @@
     ///
     /// [`possible_cards`]: #method.possible_cards
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>available_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[Action] {
+    </span><span class="kw">pub fn </span>available_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;Action&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
             <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
-        <span class="kw">match </span><span class="self">self</span>.is_terminal_node() {
-            <span class="bool-val">true </span>=&gt; <span class="kw-2">&amp;</span>[],
-            <span class="bool-val">false </span>=&gt; <span class="kw-2">&amp;</span><span class="self">self</span>.node().actions,
+        <span class="kw">if </span><span class="self">self</span>.is_terminal_node() {
+            Vec::new()
+        } <span class="kw">else </span>{
+            <span class="self">self</span>.node()
+                .children()
+                .iter()
+                .map(|c| c.lock().prev_action)
+                .collect()
         }
     }
 
@@ -5303,7 +5118,7 @@
             <span class="self">self</span>.cfvalues_cache[player].copy_from_slice(<span class="kw-2">&amp;</span>vec);
 
             <span class="comment">// update the bet amounts
-            </span><span class="kw">match </span><span class="self">self</span>.node().actions[action] {
+            </span><span class="kw">match </span><span class="self">self</span>.node().play(action).prev_action {
                 Action::Call =&gt; {
                     <span class="self">self</span>.total_bet_amount[player] = <span class="self">self</span>.total_bet_amount[player ^ <span class="number">1</span>];
                     <span class="self">self</span>.prev_bet_amount = <span class="number">0</span>;
@@ -5584,7 +5399,7 @@
         ret.chunks_exact_mut(num_hands)
             .enumerate()
             .for_each(|(action, row)| {
-                <span class="kw">let </span>is_fold = have_actions &amp;&amp; <span class="self">self</span>.node().actions[action] == Action::Fold;
+                <span class="kw">let </span>is_fold = have_actions &amp;&amp; <span class="self">self</span>.node().play(action).prev_action == Action::Fold;
                 <span class="self">self</span>.apply_swap(row, player, <span class="bool-val">false</span>);
                 row.iter_mut()
                     .zip(<span class="self">self</span>.weights[player].iter())
@@ -5705,6 +5520,10 @@
             }
         }
 
+        locking.chunks_exact_mut(num_hands).for_each(|chunk| {
+            <span class="self">self</span>.apply_swap(chunk, player, <span class="bool-val">true</span>);
+        });
+
         <span class="kw">let </span>offset = <span class="self">self</span>.node_offset(<span class="self">self</span>.node());
         <span class="self">self</span>.locking_strategy.insert(offset, locking);
         <span class="self">self</span>.node_mut().is_locked = <span class="bool-val">true</span>;
@@ -5744,7 +5563,7 @@
     /// `i * #(private hands) + j`-th element.
     /// If the `j`-th private hand is not locked, returns `-1.0` for all `i`.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>current_locking_strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;<span class="kw-2">&amp;</span>Vec&lt;f32&gt;&gt; {
+    </span><span class="kw">pub fn </span>current_locking_strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="prelude-ty">Option</span>&lt;Vec&lt;f32&gt;&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
             <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);
         }
@@ -5758,7 +5577,15 @@
         }
 
         <span class="kw">let </span>offset = <span class="self">self</span>.node_offset(<span class="self">self</span>.node());
-        <span class="self">self</span>.locking_strategy.get(<span class="kw-2">&amp;</span>offset)
+        <span class="self">self</span>.locking_strategy.get(<span class="kw-2">&amp;</span>offset).map(|s| {
+            <span class="kw">let </span><span class="kw-2">mut </span>ret = s.clone();
+            <span class="kw">let </span>player = <span class="self">self</span>.current_player();
+            <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
+            ret.chunks_exact_mut(num_hands).for_each(|chunk| {
+                <span class="self">self</span>.apply_swap(chunk, player, <span class="bool-val">false</span>);
+            });
+            ret
+        })
     }
 
     <span class="doccomment">/// Returns the reference to the current node.
@@ -5802,9 +5629,9 @@
             </span>.turn_swap
             .map(|suit| <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_swap[suit <span class="kw">as </span>usize][player]);
 
-        <span class="kw">let </span>river_swap = <span class="self">self
-            </span>.river_swap
-            .map(|(turn, suit)| <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[turn <span class="kw">as </span>usize][suit <span class="kw">as </span>usize][player]);
+        <span class="kw">let </span>river_swap = <span class="self">self</span>.river_swap.map(|(turn, suit)| {
+            <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[turn <span class="kw">as </span>usize &amp; <span class="number">3</span>][suit <span class="kw">as </span>usize][player]
+        });
 
         <span class="kw">let </span>swaps = <span class="kw">if </span>!reverse {
             [turn_swap, river_swap]
@@ -5948,199 +5775,6 @@
     }
 }
 
-<span class="kw">impl </span>GameNode <span class="kw">for </span>PostFlopNode {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_terminal(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.player &amp; PLAYER_TERMINAL_FLAG != <span class="number">0
-    </span>}
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>is_chance(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.player &amp; PLAYER_CHANCE_FLAG != <span class="number">0
-    </span>}
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalue_storage(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; CfValueStorage {
-        <span class="kw">let </span>last_player = <span class="self">self</span>.player &amp; (PLAYER_MASK | PLAYER_CHANCE);
-        <span class="kw">let </span>allin_flag = <span class="self">self</span>.player &amp; PLAYER_ALLIN_FLAG != <span class="number">0</span>;
-        <span class="kw">let </span>pair = <span class="kw">match </span>(allin_flag, last_player) {
-            (<span class="bool-val">false</span>, PLAYER_OOP) =&gt; [CfValueStorage::None, CfValueStorage::All],
-            (<span class="bool-val">false</span>, PLAYER_IP) =&gt; [CfValueStorage::Sum, CfValueStorage::All],
-            (<span class="bool-val">true</span>, PLAYER_OOP) =&gt; [CfValueStorage::None, CfValueStorage::Sum],
-            (<span class="bool-val">true</span>, PLAYER_IP) =&gt; [CfValueStorage::Sum, CfValueStorage::None],
-            <span class="kw">_ </span>=&gt; [CfValueStorage::None, CfValueStorage::None],
-        };
-        pair[player]
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>player(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.player <span class="kw">as </span>usize
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>num_actions(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; usize {
-        <span class="self">self</span>.actions.len()
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>chance_factor(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
-        [<span class="number">1.0 </span>/ <span class="number">45.0</span>, <span class="number">1.0 </span>/ <span class="number">44.0</span>][(<span class="self">self</span>.turn != NOT_DEALT) <span class="kw">as </span>usize]
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>play(<span class="kw-2">&amp;</span><span class="self">self</span>, action: usize) -&gt; MutexGuardLike&lt;<span class="self">Self</span>&gt; {
-        <span class="self">self</span>.children[action].lock()
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*const </span>f32, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strategy_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*mut </span>f32, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>regrets(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>f32, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>regrets_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>f32, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[f32] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>f32, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>f32, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_chance(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
-        <span class="kw">let </span>(base, len) = <span class="kw">match </span>player {
-            <span class="number">0 </span>=&gt; (<span class="self">self</span>.storage1, <span class="self">self</span>.num_elements),
-            <span class="kw">_ </span>=&gt; (<span class="self">self</span>.storage2, <span class="self">self</span>.num_elements_aux),
-        };
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(base <span class="kw">as </span><span class="kw-2">*const </span>f32, len) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_chance_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;mut </span>[f32] {
-        <span class="kw">let </span>(base, len) = <span class="kw">match </span>player {
-            <span class="number">0 </span>=&gt; (<span class="self">self</span>.storage1, <span class="self">self</span>.num_elements),
-            <span class="kw">_ </span>=&gt; (<span class="self">self</span>.storage2, <span class="self">self</span>.num_elements_aux),
-        };
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(base <span class="kw">as </span><span class="kw-2">*mut </span>f32, len) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strategy_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[u16] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*const </span>u16, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strategy_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[u16] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage1 <span class="kw">as </span><span class="kw-2">*mut </span>u16, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>regrets_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[i16] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>i16, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>regrets_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>i16, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;</span>[i16] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*const </span>i16, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(<span class="self">self</span>.storage2 <span class="kw">as </span><span class="kw-2">*mut </span>i16, <span class="self">self</span>.num_elements) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_chance_compressed(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[i16] {
-        <span class="kw">let </span>(base, len) = <span class="kw">match </span>player {
-            <span class="number">0 </span>=&gt; (<span class="self">self</span>.storage1, <span class="self">self</span>.num_elements),
-            <span class="kw">_ </span>=&gt; (<span class="self">self</span>.storage2, <span class="self">self</span>.num_elements_aux),
-        };
-        <span class="kw">unsafe </span>{ slice::from_raw_parts(base <span class="kw">as </span><span class="kw-2">*const </span>i16, len) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalues_chance_compressed_mut(<span class="kw-2">&amp;mut </span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;mut </span>[i16] {
-        <span class="kw">let </span>(base, len) = <span class="kw">match </span>player {
-            <span class="number">0 </span>=&gt; (<span class="self">self</span>.storage1, <span class="self">self</span>.num_elements),
-            <span class="kw">_ </span>=&gt; (<span class="self">self</span>.storage2, <span class="self">self</span>.num_elements_aux),
-        };
-        <span class="kw">unsafe </span>{ slice::from_raw_parts_mut(base <span class="kw">as </span><span class="kw-2">*mut </span>i16, len) }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>strategy_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
-        <span class="self">self</span>.scale1
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>set_strategy_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
-        <span class="self">self</span>.scale1 = scale;
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>regret_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
-        <span class="self">self</span>.scale2
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>set_regret_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
-        <span class="self">self</span>.scale2 = scale;
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>cfvalue_scale(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; f32 {
-        <span class="self">self</span>.scale2
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>set_cfvalue_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, scale: f32) {
-        <span class="self">self</span>.scale2 = scale;
-    }
-
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>cfvalue_chance_scale(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; f32 {
-        <span class="kw">match </span>player {
-            <span class="number">0 </span>=&gt; <span class="self">self</span>.scale1,
-            <span class="kw">_ </span>=&gt; <span class="self">self</span>.scale2,
-        }
-    }
-
-    <span class="attr">#[doc(hidden)]
-    </span><span class="kw">fn </span>set_cfvalue_chance_scale(<span class="kw-2">&amp;mut </span><span class="self">self</span>, player: usize, scale: f32) {
-        <span class="kw">match </span>player {
-            <span class="number">0 </span>=&gt; <span class="self">self</span>.scale1 = scale,
-            <span class="kw">_ </span>=&gt; <span class="self">self</span>.scale2 = scale,
-        }
-    }
-
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>enable_parallelization(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; bool {
-        <span class="self">self</span>.river == NOT_DEALT
-    }
-}
-
 <span class="kw">impl </span>Default <span class="kw">for </span>PostFlopGame {
     <span class="attr">#[inline]
     </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
@@ -6151,7 +5785,6 @@
             added_lines: Vec::default(),
             removed_lines: Vec::default(),
             action_root: Box::default(),
-            root: Box::default(),
             num_combinations: <span class="number">0.0</span>,
             initial_weights: Default::default(),
             private_cards: Default::default(),
@@ -6165,11 +5798,12 @@
             turn_isomorphism_swap: Default::default(),
             river_isomorphism_ref: Vec::default(),
             river_isomorphism_card: Vec::default(),
-            river_isomorphism_swap: Vec::default(),
+            river_isomorphism_swap: Default::default(),
             is_compression_enabled: <span class="bool-val">false</span>,
             misc_memory_usage: <span class="number">0</span>,
             num_storage_actions: <span class="number">0</span>,
             num_storage_chances: <span class="number">0</span>,
+            node_arena: Vec::default(),
             storage1: MutexLike::default(),
             storage2: MutexLike::default(),
             storage_chance: MutexLike::default(),
@@ -6196,47 +5830,8 @@
     }
 }
 
-<span class="kw">impl </span>Default <span class="kw">for </span>PostFlopNode {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            player: PLAYER_OOP,
-            turn: NOT_DEALT,
-            river: NOT_DEALT,
-            is_locked: <span class="bool-val">false</span>,
-            amount: <span class="number">0</span>,
-            actions: Vec::new(),
-            children: Vec::new(),
-            storage1: ptr::null_mut(),
-            storage2: ptr::null_mut(),
-            scale1: <span class="number">0.0</span>,
-            scale2: <span class="number">0.0</span>,
-            num_elements: <span class="number">0</span>,
-            num_elements_aux: <span class="number">0</span>,
-        }
-    }
-}
-
-<span class="kw">impl </span>Default <span class="kw">for </span>CardConfig {
-    <span class="attr">#[inline]
-    </span><span class="kw">fn </span>default() -&gt; <span class="self">Self </span>{
-        <span class="self">Self </span>{
-            range: Default::default(),
-            flop: [NOT_DEALT; <span class="number">3</span>],
-            turn: NOT_DEALT,
-            river: NOT_DEALT,
-        }
-    }
-}
-
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2023-02-08&quot;</span>;
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="macro">thread_local! </span>{
-    <span class="kw">static </span>ACTION_BASE: Cell&lt;(<span class="kw-2">*mut </span>u8, <span class="kw-2">*mut </span>u8)&gt; = Cell::new((ptr::null_mut(), ptr::null_mut()));
-    <span class="kw">static </span>CHANCE_BASE: Cell&lt;<span class="kw-2">*mut </span>u8&gt; = Cell::new(ptr::null_mut());
-}
+</span><span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2023-02-23&quot;</span>;
 
 <span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
 </span><span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopGame {
@@ -6294,58 +5889,7 @@
         <span class="self">self</span>.is_normalized_weight_cached.encode(encoder)<span class="question-mark">?</span>;
 
         <span class="comment">// game tree
-        </span><span class="self">self</span>.root.encode(encoder)<span class="question-mark">?</span>;
-
-        <span class="prelude-val">Ok</span>(())
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopNode {
-    <span class="kw">fn </span>encode&lt;E: bincode::enc::Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
-        <span class="comment">// compute pointer offset
-        </span><span class="kw">let </span>(offset, offset_aux) = <span class="kw">if </span><span class="self">self</span>.is_chance() {
-            CHANCE_BASE.with(|p| {
-                <span class="kw">let </span>base = p.get();
-                <span class="kw">let </span>ret = <span class="kw">match </span><span class="self">self</span>.storage1.is_null() {
-                    <span class="bool-val">true </span>=&gt; -<span class="number">1</span>,
-                    <span class="bool-val">false </span>=&gt; <span class="kw">unsafe </span>{ <span class="self">self</span>.storage1.offset_from(base) },
-                };
-                <span class="kw">let </span>ret_aux = <span class="kw">match </span><span class="self">self</span>.storage2.is_null() {
-                    <span class="bool-val">true </span>=&gt; -<span class="number">1</span>,
-                    <span class="bool-val">false </span>=&gt; <span class="kw">unsafe </span>{ <span class="self">self</span>.storage2.offset_from(base) },
-                };
-                (ret, ret_aux)
-            })
-        } <span class="kw">else </span>{
-            ACTION_BASE.with(|ps| {
-                <span class="kw">let </span>(base1, <span class="kw">_</span>) = ps.get();
-                <span class="kw">match </span><span class="self">self</span>.storage1.is_null() {
-                    <span class="bool-val">true </span>=&gt; (-<span class="number">1</span>, -<span class="number">1</span>),
-                    <span class="bool-val">false </span>=&gt; {
-                        <span class="kw">let </span>ret = <span class="kw">unsafe </span>{ <span class="self">self</span>.storage1.offset_from(base1) };
-                        (ret, -<span class="number">1</span>)
-                    }
-                }
-            })
-        };
-
-        <span class="comment">// contents
-        </span><span class="self">self</span>.player.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.turn.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.river.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.is_locked.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.amount.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.actions.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.scale1.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.scale2.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.num_elements.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.num_elements_aux.encode(encoder)<span class="question-mark">?</span>;
-        offset.encode(encoder)<span class="question-mark">?</span>;
-        offset_aux.encode(encoder)<span class="question-mark">?</span>;
-
-        <span class="comment">// children
-        </span><span class="self">self</span>.children.encode(encoder)<span class="question-mark">?</span>;
+        </span><span class="self">self</span>.node_arena.encode(encoder)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(())
     }
@@ -6433,7 +5977,7 @@
         });
 
         <span class="comment">// game tree
-        </span>game.root = Decode::decode(decoder)<span class="question-mark">?</span>;
+        </span>game.node_arena = Decode::decode(decoder)<span class="question-mark">?</span>;
 
         <span class="comment">// initialization
         </span><span class="kw">if </span>game.state &gt;= State::TreeBuilt {
@@ -6449,48 +5993,6 @@
         }
 
         <span class="prelude-val">Ok</span>(game)
-    }
-}
-
-<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
-</span><span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopNode {
-    <span class="kw">fn </span>decode&lt;D: bincode::de::Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
-        <span class="comment">// node instance
-        </span><span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">Self </span>{
-            player: Decode::decode(decoder)<span class="question-mark">?</span>,
-            turn: Decode::decode(decoder)<span class="question-mark">?</span>,
-            river: Decode::decode(decoder)<span class="question-mark">?</span>,
-            is_locked: Decode::decode(decoder)<span class="question-mark">?</span>,
-            amount: Decode::decode(decoder)<span class="question-mark">?</span>,
-            actions: Decode::decode(decoder)<span class="question-mark">?</span>,
-            scale1: Decode::decode(decoder)<span class="question-mark">?</span>,
-            scale2: Decode::decode(decoder)<span class="question-mark">?</span>,
-            num_elements: Decode::decode(decoder)<span class="question-mark">?</span>,
-            num_elements_aux: Decode::decode(decoder)<span class="question-mark">?</span>,
-            ..Default::default()
-        };
-
-        <span class="comment">// pointers
-        </span><span class="kw">let </span>offset = isize::decode(decoder)<span class="question-mark">?</span>;
-        <span class="kw">let </span>offset_aux = isize::decode(decoder)<span class="question-mark">?</span>;
-        <span class="kw">if </span>node.is_chance() {
-            <span class="kw">let </span>base = CHANCE_BASE.with(|p| p.get());
-            <span class="kw">if </span>offset &gt;= <span class="number">0 </span>{
-                node.storage1 = <span class="kw">unsafe </span>{ base.offset(offset) };
-            }
-            <span class="kw">if </span>offset_aux &gt;= <span class="number">0 </span>{
-                node.storage2 = <span class="kw">unsafe </span>{ base.offset(offset_aux) };
-            }
-        } <span class="kw">else if </span>offset &gt;= <span class="number">0 </span>{
-            <span class="kw">let </span>(base1, base2) = ACTION_BASE.with(|ps| ps.get());
-            node.storage1 = <span class="kw">unsafe </span>{ base1.offset(offset) };
-            node.storage2 = <span class="kw">unsafe </span>{ base2.offset(offset) };
-        }
-
-        <span class="comment">// children
-        </span>node.children = Decode::decode(decoder)<span class="question-mark">?</span>;
-
-        <span class="prelude-val">Ok</span>(node)
     }
 }
 
@@ -7236,16 +6738,16 @@
                 Action::Check,
                 Action::Check,
                 Action::Chance(<span class="number">2</span>),
-                Action::Bet(<span class="number">30</span>),
+                Action::Check,
             ],
             <span class="macro">vec!</span>[
                 Action::Check,
                 Action::Check,
                 Action::Chance(<span class="number">2</span>),
-                Action::Check,
-                Action::Check,
-                Action::Chance(<span class="number">3</span>),
                 Action::Bet(<span class="number">30</span>),
+                Action::Call,
+                Action::Chance(<span class="number">3</span>),
+                Action::Bet(<span class="number">60</span>),
             ],
         ];
 
@@ -7256,54 +6758,55 @@
 
         <span class="comment">// Check that the turn line is removed
         </span>game.back_to_root();
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">0</span>);
         game.play(<span class="number">2</span>);
-        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check]);
-        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="macro">vec!</span>[Action::Bet(<span class="number">30</span>)]);
 
         <span class="comment">// Check that other turn lines are correct
         </span>game.back_to_root();
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">0</span>);
         game.play(<span class="number">3</span>);
-        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check, Action::Bet(<span class="number">30</span>)]);
-        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">2</span>);
+        <span class="macro">assert_eq!</span>(
+            game.available_actions(),
+            <span class="macro">vec!</span>[Action::Check, Action::Bet(<span class="number">30</span>)]
+        );
 
         <span class="comment">// Check that the river line is removed
         </span>game.back_to_root();
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">0</span>);
         game.play(<span class="number">2</span>);
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">1</span>);
         game.play(<span class="number">3</span>);
-
-        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check]);
-        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">1</span>);
+        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="macro">vec!</span>[Action::Check]);
 
         <span class="comment">// Check that other river lines are correct
         </span>game.back_to_root();
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">0</span>);
         game.play(<span class="number">2</span>);
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">1</span>);
         game.play(<span class="number">4</span>);
-
-        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check, Action::Bet(<span class="number">30</span>)]);
-        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">2</span>);
+        <span class="macro">assert_eq!</span>(
+            game.available_actions(),
+            <span class="macro">vec!</span>[Action::Check, Action::Bet(<span class="number">60</span>)]
+        );
 
         game.back_to_root();
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">0</span>);
+        game.play(<span class="number">0</span>);
         game.play(<span class="number">3</span>);
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
-        game.play(game.node().actions.binary_search(<span class="kw-2">&amp;</span>Action::Check).unwrap());
+        game.play(<span class="number">1</span>);
+        game.play(<span class="number">1</span>);
         game.play(<span class="number">4</span>);
-
-        <span class="macro">assert_eq!</span>(game.available_actions(), <span class="kw-2">&amp;</span>[Action::Check, Action::Bet(<span class="number">30</span>)]);
-        <span class="macro">assert_eq!</span>(game.node().children.len(), <span class="number">2</span>);
+        <span class="macro">assert_eq!</span>(
+            game.available_actions(),
+            <span class="macro">vec!</span>[Action::Check, Action::Bet(<span class="number">60</span>)]
+        );
 
         solve(<span class="kw-2">&amp;mut </span>game, <span class="number">10</span>, <span class="number">0.05</span>, <span class="bool-val">false</span>);
     }
@@ -7475,6 +6978,67 @@
     </span>}
 
     <span class="attr">#[test]
+    </span><span class="kw">fn </span>node_locking_isomorphism() {
+        <span class="kw">let </span>card_config = CardConfig {
+            range: [<span class="string">&quot;AKs&quot;</span>.parse().unwrap(), <span class="string">&quot;AKs&quot;</span>.parse().unwrap()],
+            flop: flop_from_str(<span class="string">&quot;2c3c4c&quot;</span>).unwrap(),
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>tree_config = TreeConfig {
+            starting_pot: <span class="number">10</span>,
+            effective_stack: <span class="number">10</span>,
+            river_bet_sizes: [(<span class="string">&quot;a&quot;</span>, <span class="string">&quot;&quot;</span>).try_into().unwrap(), Default::default()],
+            ..Default::default()
+        };
+
+        <span class="kw">let </span>action_tree = ActionTree::new(tree_config).unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>game = PostFlopGame::with_config(card_config, action_tree).unwrap();
+
+        game.allocate_memory(<span class="bool-val">false</span>);
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">15</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">14</span>]); <span class="comment">// Turn: Spades, River: Hearts
+        </span>game.lock_current_strategy(<span class="kw-2">&amp;</span>[<span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">1.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>, <span class="number">0.0</span>]); <span class="comment">// AhKh -&gt; check
+
+        </span>finalize(<span class="kw-2">&amp;mut </span>game);
+
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">13</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">14</span>]);
+        <span class="macro">assert_eq!</span>(
+            game.strategy(),
+            <span class="macro">vec!</span>[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.0</span>, <span class="number">0.5</span>]
+        );
+
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">13</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">15</span>]);
+        <span class="macro">assert_eq!</span>(
+            game.strategy(),
+            <span class="macro">vec!</span>[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.0</span>]
+        );
+
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">14</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">13</span>]);
+        <span class="macro">assert_eq!</span>(
+            game.strategy(),
+            <span class="macro">vec!</span>[<span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>]
+        );
+
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">14</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">15</span>]);
+        <span class="macro">assert_eq!</span>(
+            game.strategy(),
+            <span class="macro">vec!</span>[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.0</span>]
+        );
+
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">15</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">13</span>]);
+        <span class="macro">assert_eq!</span>(
+            game.strategy(),
+            <span class="macro">vec!</span>[<span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>]
+        );
+
+        game.apply_history(<span class="kw-2">&amp;</span>[<span class="number">0</span>, <span class="number">0</span>, <span class="number">15</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">14</span>]);
+        <span class="macro">assert_eq!</span>(
+            game.strategy(),
+            <span class="macro">vec!</span>[<span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">1.0</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.5</span>, <span class="number">0.0</span>, <span class="number">0.5</span>]
+        );
+    }
+
+    <span class="attr">#[test]
     #[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
     </span><span class="kw">fn </span>serialize_and_deserialize() {
         <span class="kw">let </span>card_config = CardConfig {
@@ -7635,4 +7199,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (bd39bbb4b 2023-02-07)" data-search-js="search-28136cea55c34037.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (fdbc4329c 2023-02-22)" data-search-js="search-14421e1532aead08.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
