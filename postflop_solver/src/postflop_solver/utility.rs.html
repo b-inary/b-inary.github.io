@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/utility.rs`."><title>utility.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/utility.rs`."><title>utility.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -827,11 +827,6 @@
 <a href="#827" id="827">827</a>
 <a href="#828" id="828">828</a>
 <a href="#829" id="829">829</a>
-<a href="#830" id="830">830</a>
-<a href="#831" id="831">831</a>
-<a href="#832" id="832">832</a>
-<a href="#833" id="833">833</a>
-<a href="#834" id="834">834</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::mutex_like::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -860,6 +855,16 @@
 #[inline]
 </span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>for_each_child&lt;T: GameNode, OP: Fn(usize) + Sync + Send&gt;(node: <span class="kw-2">&amp;</span>T, op: OP) {
     node.action_indices().for_each(op);
+}
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;rayon&quot;</span>)]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_par_iter(range: std::ops::Range&lt;usize&gt;) -&gt; rayon::range::Iter&lt;usize&gt; {
+    range.into_par_iter()
+}
+
+<span class="attr">#[cfg(not(feature = <span class="string">&quot;rayon&quot;</span>))]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>into_par_iter(range: std::ops::Range&lt;usize&gt;) -&gt; std::ops::Range&lt;usize&gt; {
+    range
 }
 
 <span class="attr">#[inline]
@@ -947,14 +952,14 @@
 <span class="doccomment">/// Obtains the maximum absolute value of the given slice.
 </span><span class="attr">#[cfg(not(all(target_arch = <span class="string">&quot;wasm32&quot;</span>, target_feature = <span class="string">&quot;simd128&quot;</span>)))]
 </span><span class="kw">fn </span>slice_absolute_max(slice: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
-    <span class="kw">if </span>slice.len() &lt; <span class="number">32 </span>{
+    <span class="kw">if </span>slice.len() &lt; <span class="number">16 </span>{
         slice.iter().fold(<span class="number">0.0</span>, |a, x| max(a, x.abs()))
     } <span class="kw">else </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>tmp: [f32; <span class="number">16</span>] = slice[..<span class="number">16</span>].try_into().unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>tmp: [f32; <span class="number">8</span>] = slice[..<span class="number">8</span>].try_into().unwrap();
         tmp.iter_mut().for_each(|x| <span class="kw-2">*</span>x = x.abs());
-        <span class="kw">let </span><span class="kw-2">mut </span>iter = slice[<span class="number">16</span>..].chunks_exact(<span class="number">16</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = slice[<span class="number">8</span>..].chunks_exact(<span class="number">8</span>);
         <span class="kw">for </span>chunk <span class="kw">in </span>iter.by_ref() {
-            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">16 </span>{
+            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
                 tmp[i] = max(tmp[i], chunk[i].abs());
             }
         }
@@ -1011,13 +1016,13 @@
 <span class="doccomment">/// Obtains the maximum value of the given non-negative slice.
 </span><span class="attr">#[cfg(not(all(target_arch = <span class="string">&quot;wasm32&quot;</span>, target_feature = <span class="string">&quot;simd128&quot;</span>)))]
 </span><span class="kw">fn </span>slice_nonnegative_max(slice: <span class="kw-2">&amp;</span>[f32]) -&gt; f32 {
-    <span class="kw">if </span>slice.len() &lt; <span class="number">32 </span>{
+    <span class="kw">if </span>slice.len() &lt; <span class="number">16 </span>{
         slice.iter().fold(<span class="number">0.0</span>, |a, <span class="kw-2">&amp;</span>x| max(a, x))
     } <span class="kw">else </span>{
-        <span class="kw">let </span><span class="kw-2">mut </span>tmp: [f32; <span class="number">16</span>] = slice[..<span class="number">16</span>].try_into().unwrap();
-        <span class="kw">let </span><span class="kw-2">mut </span>iter = slice[<span class="number">16</span>..].chunks_exact(<span class="number">16</span>);
+        <span class="kw">let </span><span class="kw-2">mut </span>tmp: [f32; <span class="number">8</span>] = slice[..<span class="number">8</span>].try_into().unwrap();
+        <span class="kw">let </span><span class="kw-2">mut </span>iter = slice[<span class="number">8</span>..].chunks_exact(<span class="number">8</span>);
         <span class="kw">for </span>chunk <span class="kw">in </span>iter.by_ref() {
-            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">16 </span>{
+            <span class="kw">for </span>i <span class="kw">in </span><span class="number">0</span>..<span class="number">8 </span>{
                 tmp[i] = max(tmp[i], chunk[i]);
             }
         }
@@ -1049,6 +1054,19 @@
         <span class="kw-2">*</span>d = <span class="kw">unsafe </span>{ (s * encoder + <span class="number">0.49999997</span>).to_int_unchecked::&lt;i32&gt;() <span class="kw">as </span>u16 }
     });
     scale
+}
+
+<span class="doccomment">/// Applies the given swap to the given slice.
+</span><span class="attr">#[inline]
+</span><span class="kw">pub</span>(<span class="kw">crate</span>) <span class="kw">fn </span>apply_swap&lt;T&gt;(slice: <span class="kw-2">&amp;mut </span>[T], swap_list: <span class="kw-2">&amp;</span>[(u16, u16)]) {
+    <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
+        <span class="kw">unsafe </span>{
+            ptr::swap(
+                slice.get_unchecked_mut(i <span class="kw">as </span>usize),
+                slice.get_unchecked_mut(j <span class="kw">as </span>usize),
+            );
+        }
+    }
 }
 
 <span class="doccomment">/// Finalizes the solving process.
@@ -1200,7 +1218,7 @@
         mul_slice_scalar_uninit(
             cfreach_updated.spare_capacity_mut(),
             cfreach,
-            node.chance_factor(),
+            <span class="number">1.0 </span>/ game.chance_factor(node) <span class="kw">as </span>f32,
         );
         <span class="kw">unsafe </span>{ cfreach_updated.set_len(cfreach.len()) };
 
@@ -1236,27 +1254,13 @@
             <span class="kw">let </span>swap_list = <span class="kw-2">&amp;</span>game.isomorphic_swap(node, i)[player];
             <span class="kw">let </span>tmp = row_mut(<span class="kw-2">&amp;mut </span>cfv_actions, isomorphic_index <span class="kw">as </span>usize, num_hands);
 
-            <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
-                <span class="kw">unsafe </span>{
-                    ptr::swap(
-                        tmp.get_unchecked_mut(i <span class="kw">as </span>usize),
-                        tmp.get_unchecked_mut(j <span class="kw">as </span>usize),
-                    );
-                }
-            }
+            apply_swap(tmp, swap_list);
 
             result_f64.iter_mut().zip(<span class="kw-2">&amp;*</span>tmp).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
                 <span class="kw-2">*</span>r += v <span class="kw">as </span>f64;
             });
 
-            <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
-                <span class="kw">unsafe </span>{
-                    ptr::swap(
-                        tmp.get_unchecked_mut(i <span class="kw">as </span>usize),
-                        tmp.get_unchecked_mut(j <span class="kw">as </span>usize),
-                    );
-                }
-            }
+            apply_swap(tmp, swap_list);
         }
 
         result.iter_mut().zip(<span class="kw-2">&amp;</span>result_f64).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
@@ -1427,7 +1431,7 @@
         mul_slice_scalar_uninit(
             cfreach_updated.spare_capacity_mut(),
             cfreach,
-            node.chance_factor(),
+            <span class="number">1.0 </span>/ game.chance_factor(node) <span class="kw">as </span>f32,
         );
         <span class="kw">unsafe </span>{ cfreach_updated.set_len(cfreach.len()) };
 
@@ -1462,27 +1466,13 @@
             <span class="kw">let </span>swap_list = <span class="kw-2">&amp;</span>game.isomorphic_swap(node, i)[player];
             <span class="kw">let </span>tmp = row_mut(<span class="kw-2">&amp;mut </span>cfv_actions, isomorphic_index <span class="kw">as </span>usize, num_hands);
 
-            <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
-                <span class="kw">unsafe </span>{
-                    ptr::swap(
-                        tmp.get_unchecked_mut(i <span class="kw">as </span>usize),
-                        tmp.get_unchecked_mut(j <span class="kw">as </span>usize),
-                    );
-                }
-            }
+            apply_swap(tmp, swap_list);
 
             result_f64.iter_mut().zip(<span class="kw-2">&amp;*</span>tmp).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
                 <span class="kw-2">*</span>r += v <span class="kw">as </span>f64;
             });
 
-            <span class="kw">for </span><span class="kw-2">&amp;</span>(i, j) <span class="kw">in </span>swap_list {
-                <span class="kw">unsafe </span>{
-                    ptr::swap(
-                        tmp.get_unchecked_mut(i <span class="kw">as </span>usize),
-                        tmp.get_unchecked_mut(j <span class="kw">as </span>usize),
-                    );
-                }
-            }
+            apply_swap(tmp, swap_list);
         }
 
         result.iter_mut().zip(<span class="kw-2">&amp;</span>result_f64).for_each(|(r, <span class="kw-2">&amp;</span>v)| {
@@ -1667,4 +1657,4 @@
     }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (f77bfb733 2023-03-01)" data-search-js="search-2cde8914278f97ed.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (e3dfeeaa4 2023-03-07)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>

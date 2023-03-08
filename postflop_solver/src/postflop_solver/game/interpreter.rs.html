@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game/interpreter.rs`."><title>interpreter.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-e5308b57e507db71.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-d59023bfa12059d2.css"><link rel="stylesheet" disabled href="../../../static.files/dark-1ca41bb1e10af075.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-18b4181a2f3fb862.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../postflop_solver/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game/interpreter.rs`."><title>interpreter.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../postflop_solver/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -949,6 +949,136 @@
 <a href="#949" id="949">949</a>
 <a href="#950" id="950">950</a>
 <a href="#951" id="951">951</a>
+<a href="#952" id="952">952</a>
+<a href="#953" id="953">953</a>
+<a href="#954" id="954">954</a>
+<a href="#955" id="955">955</a>
+<a href="#956" id="956">956</a>
+<a href="#957" id="957">957</a>
+<a href="#958" id="958">958</a>
+<a href="#959" id="959">959</a>
+<a href="#960" id="960">960</a>
+<a href="#961" id="961">961</a>
+<a href="#962" id="962">962</a>
+<a href="#963" id="963">963</a>
+<a href="#964" id="964">964</a>
+<a href="#965" id="965">965</a>
+<a href="#966" id="966">966</a>
+<a href="#967" id="967">967</a>
+<a href="#968" id="968">968</a>
+<a href="#969" id="969">969</a>
+<a href="#970" id="970">970</a>
+<a href="#971" id="971">971</a>
+<a href="#972" id="972">972</a>
+<a href="#973" id="973">973</a>
+<a href="#974" id="974">974</a>
+<a href="#975" id="975">975</a>
+<a href="#976" id="976">976</a>
+<a href="#977" id="977">977</a>
+<a href="#978" id="978">978</a>
+<a href="#979" id="979">979</a>
+<a href="#980" id="980">980</a>
+<a href="#981" id="981">981</a>
+<a href="#982" id="982">982</a>
+<a href="#983" id="983">983</a>
+<a href="#984" id="984">984</a>
+<a href="#985" id="985">985</a>
+<a href="#986" id="986">986</a>
+<a href="#987" id="987">987</a>
+<a href="#988" id="988">988</a>
+<a href="#989" id="989">989</a>
+<a href="#990" id="990">990</a>
+<a href="#991" id="991">991</a>
+<a href="#992" id="992">992</a>
+<a href="#993" id="993">993</a>
+<a href="#994" id="994">994</a>
+<a href="#995" id="995">995</a>
+<a href="#996" id="996">996</a>
+<a href="#997" id="997">997</a>
+<a href="#998" id="998">998</a>
+<a href="#999" id="999">999</a>
+<a href="#1000" id="1000">1000</a>
+<a href="#1001" id="1001">1001</a>
+<a href="#1002" id="1002">1002</a>
+<a href="#1003" id="1003">1003</a>
+<a href="#1004" id="1004">1004</a>
+<a href="#1005" id="1005">1005</a>
+<a href="#1006" id="1006">1006</a>
+<a href="#1007" id="1007">1007</a>
+<a href="#1008" id="1008">1008</a>
+<a href="#1009" id="1009">1009</a>
+<a href="#1010" id="1010">1010</a>
+<a href="#1011" id="1011">1011</a>
+<a href="#1012" id="1012">1012</a>
+<a href="#1013" id="1013">1013</a>
+<a href="#1014" id="1014">1014</a>
+<a href="#1015" id="1015">1015</a>
+<a href="#1016" id="1016">1016</a>
+<a href="#1017" id="1017">1017</a>
+<a href="#1018" id="1018">1018</a>
+<a href="#1019" id="1019">1019</a>
+<a href="#1020" id="1020">1020</a>
+<a href="#1021" id="1021">1021</a>
+<a href="#1022" id="1022">1022</a>
+<a href="#1023" id="1023">1023</a>
+<a href="#1024" id="1024">1024</a>
+<a href="#1025" id="1025">1025</a>
+<a href="#1026" id="1026">1026</a>
+<a href="#1027" id="1027">1027</a>
+<a href="#1028" id="1028">1028</a>
+<a href="#1029" id="1029">1029</a>
+<a href="#1030" id="1030">1030</a>
+<a href="#1031" id="1031">1031</a>
+<a href="#1032" id="1032">1032</a>
+<a href="#1033" id="1033">1033</a>
+<a href="#1034" id="1034">1034</a>
+<a href="#1035" id="1035">1035</a>
+<a href="#1036" id="1036">1036</a>
+<a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
+<a href="#1050" id="1050">1050</a>
+<a href="#1051" id="1051">1051</a>
+<a href="#1052" id="1052">1052</a>
+<a href="#1053" id="1053">1053</a>
+<a href="#1054" id="1054">1054</a>
+<a href="#1055" id="1055">1055</a>
+<a href="#1056" id="1056">1056</a>
+<a href="#1057" id="1057">1057</a>
+<a href="#1058" id="1058">1058</a>
+<a href="#1059" id="1059">1059</a>
+<a href="#1060" id="1060">1060</a>
+<a href="#1061" id="1061">1061</a>
+<a href="#1062" id="1062">1062</a>
+<a href="#1063" id="1063">1063</a>
+<a href="#1064" id="1064">1064</a>
+<a href="#1065" id="1065">1065</a>
+<a href="#1066" id="1066">1066</a>
+<a href="#1067" id="1067">1067</a>
+<a href="#1068" id="1068">1068</a>
+<a href="#1069" id="1069">1069</a>
+<a href="#1070" id="1070">1070</a>
+<a href="#1071" id="1071">1071</a>
+<a href="#1072" id="1072">1072</a>
+<a href="#1073" id="1073">1073</a>
+<a href="#1074" id="1074">1074</a>
+<a href="#1075" id="1075">1075</a>
+<a href="#1076" id="1076">1076</a>
+<a href="#1077" id="1077">1077</a>
+<a href="#1078" id="1078">1078</a>
+<a href="#1079" id="1079">1079</a>
+<a href="#1080" id="1080">1080</a>
+<a href="#1081" id="1081">1081</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -977,17 +1107,15 @@
             <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
-        <span class="self">self</span>.history.clear();
+        <span class="self">self</span>.action_history.clear();
+        <span class="self">self</span>.node_history.clear();
         <span class="self">self</span>.is_normalized_weight_cached = <span class="bool-val">false</span>;
-        <span class="self">self</span>.current_node_index = <span class="number">0</span>;
         <span class="self">self</span>.turn = <span class="self">self</span>.card_config.turn;
         <span class="self">self</span>.river = <span class="self">self</span>.card_config.river;
-        <span class="self">self</span>.chance_factor = <span class="number">1</span>;
         <span class="self">self</span>.turn_swapped_suit = <span class="prelude-val">None</span>;
         <span class="self">self</span>.turn_swap = <span class="prelude-val">None</span>;
         <span class="self">self</span>.river_swap = <span class="prelude-val">None</span>;
         <span class="self">self</span>.total_bet_amount = [<span class="number">0</span>, <span class="number">0</span>];
-        <span class="self">self</span>.prev_bet_amount = <span class="number">0</span>;
 
         <span class="self">self</span>.weights[<span class="number">0</span>].copy_from_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.initial_weights[<span class="number">0</span>]);
         <span class="self">self</span>.weights[<span class="number">1</span>].copy_from_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.initial_weights[<span class="number">1</span>]);
@@ -1005,7 +1133,7 @@
             <span class="macro">panic!</span>(<span class="string">&quot;Game is not successfully initialized&quot;</span>);
         }
 
-        <span class="kw-2">&amp;</span><span class="self">self</span>.history
+        <span class="kw-2">&amp;</span><span class="self">self</span>.action_history
     }
 
     <span class="doccomment">/// Applies the given history from the root node.
@@ -1082,6 +1210,9 @@
     /// The returned value is a 64-bit integer.
     /// The `i`-th bit is set to 1 if the card of ID `i` may be dealt.
     /// If the current node is not a chance node, returns `0`.
+    ///
+    /// Note: If the bunching effect is enabled, this method may incorrectly include some dead
+    /// cards.
     ///
     /// Card ID: `&quot;2c&quot;` =&gt; `0`, `&quot;2d&quot;` =&gt; `1`, `&quot;2h&quot;` =&gt; `2`, ..., `&quot;As&quot;` =&gt; `51`.
     </span><span class="kw">pub fn </span>possible_cards(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
@@ -1231,7 +1362,7 @@
                             // following code works correctly.
                             </span><span class="self">self</span>.river_swap = <span class="prelude-val">Some</span>((
                                 <span class="self">self</span>.turn &amp; <span class="number">3</span>,
-                                <span class="self">self</span>.river_isomorphism_card[<span class="self">self</span>.turn <span class="kw">as </span>usize][i] &amp; <span class="number">3</span>,
+                                <span class="self">self</span>.isomorphism_card_river[<span class="self">self</span>.turn <span class="kw">as </span>usize &amp; <span class="number">3</span>][i] &amp; <span class="number">3</span>,
                             ));
                         }
                         <span class="kw">break</span>;
@@ -1257,13 +1388,12 @@
             }
 
             <span class="comment">// update the state
-            </span><span class="self">self</span>.current_node_index = <span class="self">self</span>.node_index(<span class="kw-2">&amp;</span><span class="self">self</span>.node().play(action_index));
+            </span><span class="kw">let </span>node_index = <span class="self">self</span>.node_index(<span class="kw-2">&amp;</span><span class="self">self</span>.node().play(action_index));
+            <span class="self">self</span>.node_history.push(node_index);
             <span class="kw">if </span>is_turn {
                 <span class="self">self</span>.turn = actual_card;
-                <span class="self">self</span>.chance_factor <span class="kw-2">*</span>= <span class="number">45</span>;
             } <span class="kw">else </span>{
                 <span class="self">self</span>.river = actual_card;
-                <span class="self">self</span>.chance_factor <span class="kw-2">*</span>= <span class="number">44</span>;
             }
         }
         <span class="comment">// player node
@@ -1297,24 +1427,28 @@
             <span class="self">self</span>.cfvalues_cache[player].copy_from_slice(<span class="kw-2">&amp;</span>vec);
 
             <span class="comment">// update the bet amounts
-            </span><span class="kw">match </span><span class="self">self</span>.node().play(action).prev_action {
+            </span><span class="kw">let </span>node = <span class="self">self</span>.node();
+            <span class="kw">match </span>node.play(action).prev_action {
                 Action::Call =&gt; {
                     <span class="self">self</span>.total_bet_amount[player] = <span class="self">self</span>.total_bet_amount[player ^ <span class="number">1</span>];
-                    <span class="self">self</span>.prev_bet_amount = <span class="number">0</span>;
                 }
                 Action::Bet(amount) | Action::Raise(amount) | Action::AllIn(amount) =&gt; {
+                    <span class="kw">let </span>prev_bet_amount = <span class="kw">match </span>node.prev_action {
+                        Action::Bet(a) | Action::Raise(a) | Action::AllIn(a) =&gt; a,
+                        <span class="kw">_ </span>=&gt; <span class="number">0</span>,
+                    };
                     <span class="kw">let </span>to_call = <span class="self">self</span>.total_bet_amount[player ^ <span class="number">1</span>] - <span class="self">self</span>.total_bet_amount[player];
-                    <span class="self">self</span>.total_bet_amount[player] += amount - <span class="self">self</span>.prev_bet_amount + to_call;
-                    <span class="self">self</span>.prev_bet_amount = amount;
+                    <span class="self">self</span>.total_bet_amount[player] += amount - prev_bet_amount + to_call;
                 }
                 <span class="kw">_ </span>=&gt; {}
             }
 
             <span class="comment">// update the node
-            </span><span class="self">self</span>.current_node_index = <span class="self">self</span>.node_index(<span class="kw-2">&amp;</span><span class="self">self</span>.node().play(action));
+            </span><span class="kw">let </span>node_index = <span class="self">self</span>.node_index(<span class="kw-2">&amp;</span><span class="self">self</span>.node().play(action));
+            <span class="self">self</span>.node_history.push(node_index);
         }
 
-        <span class="self">self</span>.history.push(action);
+        <span class="self">self</span>.action_history.push(action);
         <span class="self">self</span>.is_normalized_weight_cached = <span class="bool-val">false</span>;
     }
 
@@ -1322,6 +1456,12 @@
     ///
     /// After mutating the current node, this method must be called once before calling
     /// [`normalized_weights`], [`equity`], [`expected_values`], or [`expected_values_detail`].
+    ///
+    /// **Time complexity:**
+    /// - (no bunching) linear in the sum of the number of combos with non-zero initial weight of
+    ///   both players.
+    /// - (bunching) proportional to the product of the number of combos with non-zero initial
+    ///   weight of both players.
     ///
     /// [`normalized_weights`]: #method.normalized_weights
     /// [`equity`]: #method.equity
@@ -1336,63 +1476,106 @@
             <span class="kw">return</span>;
         }
 
-        <span class="kw">let </span><span class="kw-2">mut </span>board_mask: u64 = <span class="number">0</span>;
-        <span class="kw">if </span><span class="self">self</span>.turn != NOT_DEALT {
-            board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.turn;
+        <span class="comment">// no bunching
+        </span><span class="kw">if </span><span class="self">self</span>.bunching_num_dead_cards == <span class="number">0 </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>board_mask: u64 = <span class="number">0</span>;
+            <span class="kw">if </span><span class="self">self</span>.turn != NOT_DEALT {
+                board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.turn;
+            }
+            <span class="kw">if </span><span class="self">self</span>.river != NOT_DEALT {
+                board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.river;
+            }
+
+            <span class="kw">let </span><span class="kw-2">mut </span>weight_sum = [<span class="number">0.0</span>; <span class="number">2</span>];
+            <span class="kw">let </span><span class="kw-2">mut </span>weight_sum_minus = [[<span class="number">0.0</span>; <span class="number">52</span>]; <span class="number">2</span>];
+
+            <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+                <span class="kw">let </span>weight_sum_player = <span class="kw-2">&amp;mut </span>weight_sum[player];
+                <span class="kw">let </span>weight_sum_minus_player = <span class="kw-2">&amp;mut </span>weight_sum_minus[player];
+                <span class="self">self</span>.private_cards[player]
+                    .iter()
+                    .zip(<span class="self">self</span>.weights[player].iter())
+                    .for_each(|(<span class="kw-2">&amp;</span>(c1, c2), <span class="kw-2">&amp;</span>w)| {
+                        <span class="kw">let </span>mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
+                        <span class="kw">if </span>mask &amp; board_mask == <span class="number">0 </span>{
+                            <span class="kw">let </span>w = w <span class="kw">as </span>f64;
+                            <span class="kw-2">*</span>weight_sum_player += w;
+                            weight_sum_minus_player[c1 <span class="kw">as </span>usize] += w;
+                            weight_sum_minus_player[c2 <span class="kw">as </span>usize] += w;
+                        }
+                    });
+            }
+
+            <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+                <span class="kw">let </span>player_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.private_cards[player];
+                <span class="kw">let </span>same_hand_index = <span class="kw-2">&amp;</span><span class="self">self</span>.same_hand_index[player];
+                <span class="kw">let </span>player_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player];
+                <span class="kw">let </span>opponent_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player ^ <span class="number">1</span>];
+                <span class="kw">let </span>opponent_weight_sum = weight_sum[player ^ <span class="number">1</span>];
+                <span class="kw">let </span>opponent_weight_sum_minus = <span class="kw-2">&amp;</span>weight_sum_minus[player ^ <span class="number">1</span>];
+
+                <span class="self">self</span>.normalized_weights[player]
+                    .iter_mut()
+                    .enumerate()
+                    .for_each(|(i, w)| {
+                        <span class="kw">let </span>(c1, c2) = player_cards[i];
+                        <span class="kw">let </span>mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
+                        <span class="kw">if </span>mask &amp; board_mask == <span class="number">0 </span>{
+                            <span class="kw">let </span>same_i = same_hand_index[i];
+                            <span class="kw">let </span>opponent_weight_same = <span class="kw">if </span>same_i == u16::MAX {
+                                <span class="number">0.0
+                            </span>} <span class="kw">else </span>{
+                                opponent_weights[same_i <span class="kw">as </span>usize] <span class="kw">as </span>f64
+                            };
+                            <span class="kw">let </span>opponent_weight = opponent_weight_sum + opponent_weight_same
+                                - opponent_weight_sum_minus[c1 <span class="kw">as </span>usize]
+                                - opponent_weight_sum_minus[c2 <span class="kw">as </span>usize];
+                            <span class="kw-2">*</span>w = player_weights[i] * opponent_weight <span class="kw">as </span>f32;
+                        } <span class="kw">else </span>{
+                            <span class="kw-2">*</span>w = <span class="number">0.0</span>;
+                        }
+                    });
+            }
         }
-        <span class="kw">if </span><span class="self">self</span>.river != NOT_DEALT {
-            board_mask |= <span class="number">1 </span>&lt;&lt; <span class="self">self</span>.river;
-        }
+        <span class="comment">// bunching
+        </span><span class="kw">else </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>weights_buf = [Vec::new(), Vec::new()];
+            <span class="kw">let </span>weights = <span class="kw">if </span><span class="self">self</span>.turn_swap.is_none() &amp;&amp; <span class="self">self</span>.river_swap.is_none() {
+                <span class="kw-2">&amp;</span><span class="self">self</span>.weights
+            } <span class="kw">else </span>{
+                weights_buf[<span class="number">0</span>].extend_from_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.weights[<span class="number">0</span>]);
+                weights_buf[<span class="number">1</span>].extend_from_slice(<span class="kw-2">&amp;</span><span class="self">self</span>.weights[<span class="number">1</span>]);
+                <span class="self">self</span>.apply_swap(<span class="kw-2">&amp;mut </span>weights_buf[<span class="number">0</span>], <span class="number">0</span>, <span class="bool-val">true</span>);
+                <span class="self">self</span>.apply_swap(<span class="kw-2">&amp;mut </span>weights_buf[<span class="number">1</span>], <span class="number">1</span>, <span class="bool-val">true</span>);
+                <span class="kw-2">&amp;</span>weights_buf
+            };
 
-        <span class="kw">let </span><span class="kw-2">mut </span>weight_sum = [<span class="number">0.0</span>; <span class="number">2</span>];
-        <span class="kw">let </span><span class="kw-2">mut </span>weight_sum_minus = [[<span class="number">0.0</span>; <span class="number">52</span>]; <span class="number">2</span>];
+            <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
+                <span class="kw">let </span>node = <span class="self">self</span>.node();
+                <span class="kw">let </span>indices = <span class="kw">if </span>node.river != NOT_DEALT {
+                    <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_num_river[player][card_pair_to_index(node.turn, node.river)]
+                } <span class="kw">else if </span>node.turn != NOT_DEALT {
+                    <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_num_turn[player][node.turn <span class="kw">as </span>usize]
+                } <span class="kw">else </span>{
+                    <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_num_flop[player]
+                };
 
-        <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
-            <span class="kw">let </span>weight_sum_player = <span class="kw-2">&amp;mut </span>weight_sum[player];
-            <span class="kw">let </span>weight_sum_minus_player = <span class="kw-2">&amp;mut </span>weight_sum_minus[player];
-            <span class="self">self</span>.private_cards[player]
-                .iter()
-                .zip(<span class="self">self</span>.weights[player].iter())
-                .for_each(|(<span class="kw-2">&amp;</span>(c1, c2), <span class="kw-2">&amp;</span>w)| {
-                    <span class="kw">let </span>mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
-                    <span class="kw">if </span>mask &amp; board_mask == <span class="number">0 </span>{
-                        <span class="kw">let </span>w = w <span class="kw">as </span>f64;
-                        <span class="kw-2">*</span>weight_sum_player += w;
-                        weight_sum_minus_player[c1 <span class="kw">as </span>usize] += w;
-                        weight_sum_minus_player[c2 <span class="kw">as </span>usize] += w;
-                    }
-                });
-        }
-
-        <span class="kw">for </span>player <span class="kw">in </span><span class="number">0</span>..<span class="number">2 </span>{
-            <span class="kw">let </span>player_cards = <span class="kw-2">&amp;</span><span class="self">self</span>.private_cards[player];
-            <span class="kw">let </span>same_hand_index = <span class="kw-2">&amp;</span><span class="self">self</span>.same_hand_index[player];
-            <span class="kw">let </span>player_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player];
-            <span class="kw">let </span>opponent_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player ^ <span class="number">1</span>];
-            <span class="kw">let </span>opponent_weight_sum = weight_sum[player ^ <span class="number">1</span>];
-            <span class="kw">let </span>opponent_weight_sum_minus = <span class="kw-2">&amp;</span>weight_sum_minus[player ^ <span class="number">1</span>];
-
-            <span class="self">self</span>.normalized_weights[player]
-                .iter_mut()
-                .enumerate()
-                .for_each(|(i, w)| {
-                    <span class="kw">let </span>(c1, c2) = player_cards[i];
-                    <span class="kw">let </span>mask: u64 = (<span class="number">1 </span>&lt;&lt; c1) | (<span class="number">1 </span>&lt;&lt; c2);
-                    <span class="kw">if </span>mask &amp; board_mask == <span class="number">0 </span>{
-                        <span class="kw">let </span>same_i = same_hand_index[i];
-                        <span class="kw">let </span>opponent_weight_same = <span class="kw">if </span>same_i == u16::MAX {
+                <span class="kw">let </span>opponent_len = <span class="self">self</span>.private_cards[player ^ <span class="number">1</span>].len();
+                <span class="kw">let </span><span class="kw-2">mut </span>normalized_weights = indices
+                    .iter()
+                    .map(|<span class="kw-2">&amp;</span>index| {
+                        <span class="kw">if </span>index != <span class="number">0 </span>{
+                            <span class="kw">let </span>slice = <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_arena[index..index + opponent_len];
+                            inner_product(<span class="kw-2">&amp;</span>weights[player ^ <span class="number">1</span>], slice)
+                        } <span class="kw">else </span>{
                             <span class="number">0.0
-                        </span>} <span class="kw">else </span>{
-                            opponent_weights[same_i <span class="kw">as </span>usize] <span class="kw">as </span>f64
-                        };
-                        <span class="kw">let </span>opponent_weight = opponent_weight_sum + opponent_weight_same
-                            - opponent_weight_sum_minus[c1 <span class="kw">as </span>usize]
-                            - opponent_weight_sum_minus[c2 <span class="kw">as </span>usize];
-                        <span class="kw-2">*</span>w = player_weights[i] * opponent_weight <span class="kw">as </span>f32;
-                    } <span class="kw">else </span>{
-                        <span class="kw-2">*</span>w = <span class="number">0.0</span>;
-                    }
-                });
+                        </span>}
+                    })
+                    .collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
+
+                <span class="self">self</span>.apply_swap(<span class="kw-2">&amp;mut </span>normalized_weights, player, <span class="bool-val">false</span>);
+                <span class="self">self</span>.normalized_weights[player] = normalized_weights;
+            }
         }
 
         <span class="self">self</span>.is_normalized_weight_cached = <span class="bool-val">true</span>;
@@ -1437,6 +1620,11 @@
     /// After mutating the current node, you must call the [`cache_normalized_weights`] method
     /// before calling this method.
     ///
+    /// **Time complexity:**
+    /// - (no bunching) (# of possible 5-card boards) * (# of combos with non-zero initial weight).
+    /// - (bunching) proportional to the product of the number of combos with non-zero initial
+    ///   weight of both players.
+    ///
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
     </span><span class="kw">pub fn </span>equity(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; Vec&lt;f32&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
@@ -1448,30 +1636,35 @@
         }
 
         <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
-        <span class="kw">let </span><span class="kw-2">mut </span>tmp = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
 
-        <span class="kw">if </span><span class="self">self</span>.river != NOT_DEALT {
-            <span class="self">self</span>.equity_internal(<span class="kw-2">&amp;mut </span>tmp, player, <span class="self">self</span>.turn, <span class="self">self</span>.river, <span class="number">0.5</span>);
-        } <span class="kw">else if </span><span class="self">self</span>.turn != NOT_DEALT {
-            <span class="kw">for </span>river <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
-                <span class="kw">if </span><span class="self">self</span>.turn != river {
-                    <span class="self">self</span>.equity_internal(<span class="kw-2">&amp;mut </span>tmp, player, <span class="self">self</span>.turn, river, <span class="number">0.5 </span>/ <span class="number">44.0</span>);
+        <span class="kw">let </span>tmp = <span class="kw">if </span><span class="self">self</span>.bunching_num_dead_cards == <span class="number">0 </span>{
+            <span class="kw">let </span><span class="kw-2">mut </span>tmp = <span class="macro">vec!</span>[<span class="number">0.0</span>; num_hands];
+            <span class="kw">if </span><span class="self">self</span>.river != NOT_DEALT {
+                <span class="self">self</span>.equity_internal(<span class="kw-2">&amp;mut </span>tmp, player, <span class="self">self</span>.turn, <span class="self">self</span>.river, <span class="number">0.5</span>);
+            } <span class="kw">else if </span><span class="self">self</span>.turn != NOT_DEALT {
+                <span class="kw">for </span>river <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
+                    <span class="kw">if </span><span class="self">self</span>.turn != river {
+                        <span class="self">self</span>.equity_internal(<span class="kw-2">&amp;mut </span>tmp, player, <span class="self">self</span>.turn, river, <span class="number">0.5 </span>/ <span class="number">44.0</span>);
+                    }
+                }
+            } <span class="kw">else </span>{
+                <span class="kw">for </span>turn <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
+                    <span class="kw">for </span>river <span class="kw">in </span>turn + <span class="number">1</span>..<span class="number">52 </span>{
+                        <span class="self">self</span>.equity_internal(<span class="kw-2">&amp;mut </span>tmp, player, turn, river, <span class="number">1.0 </span>/ (<span class="number">45.0 </span>* <span class="number">44.0</span>));
+                    }
                 }
             }
+            tmp.into_iter().map(|v| v <span class="kw">as </span>f32).collect()
         } <span class="kw">else </span>{
-            <span class="kw">for </span>turn <span class="kw">in </span><span class="number">0</span>..<span class="number">52 </span>{
-                <span class="kw">for </span>river <span class="kw">in </span>turn + <span class="number">1</span>..<span class="number">52 </span>{
-                    <span class="self">self</span>.equity_internal(<span class="kw-2">&amp;mut </span>tmp, player, turn, river, <span class="number">1.0 </span>/ (<span class="number">45.0 </span>* <span class="number">44.0</span>));
-                }
-            }
-        }
+            <span class="self">self</span>.equity_bunching_internal(player)
+        };
 
         tmp.iter()
             .zip(<span class="self">self</span>.weights[player].iter())
             .zip(<span class="self">self</span>.normalized_weights[player].iter())
             .map(|((<span class="kw-2">&amp;</span>v, <span class="kw-2">&amp;</span>w_raw), <span class="kw-2">&amp;</span>w_normalized)| {
                 <span class="kw">if </span>w_normalized &gt; <span class="number">0.0 </span>{
-                    v <span class="kw">as </span>f32 * (w_raw / w_normalized) + <span class="number">0.5
+                    v * (w_raw / w_normalized) + <span class="number">0.5
                 </span>} <span class="kw">else </span>{
                     <span class="number">0.0
                 </span>}
@@ -1547,11 +1740,24 @@
         <span class="kw">let </span>node = <span class="self">self</span>.node();
         <span class="kw">let </span>num_hands = <span class="self">self</span>.num_private_hands(player);
 
+        <span class="kw">let </span><span class="kw-2">mut </span>chance_factor = <span class="number">1</span>;
+        <span class="kw">if </span><span class="self">self</span>.card_config.turn == NOT_DEALT &amp;&amp; <span class="self">self</span>.turn != NOT_DEALT {
+            chance_factor <span class="kw-2">*</span>= <span class="number">45 </span>- <span class="self">self</span>.bunching_num_dead_cards;
+        }
+        <span class="kw">if </span><span class="self">self</span>.card_config.river == NOT_DEALT &amp;&amp; <span class="self">self</span>.river != NOT_DEALT {
+            chance_factor <span class="kw-2">*</span>= <span class="number">44 </span>- <span class="self">self</span>.bunching_num_dead_cards;
+        }
+
+        <span class="kw">let </span>num_combinations = <span class="kw">match </span><span class="self">self</span>.bunching_num_dead_cards {
+            <span class="number">0 </span>=&gt; <span class="self">self</span>.num_combinations,
+            <span class="kw">_ </span>=&gt; <span class="self">self</span>.bunching_num_combinations,
+        };
+
         <span class="kw">let </span><span class="kw-2">mut </span>have_actions = <span class="bool-val">false</span>;
-        <span class="kw">let </span><span class="kw-2">mut </span>normalizer = (<span class="self">self</span>.num_combinations * <span class="self">self</span>.chance_factor <span class="kw">as </span>f64) <span class="kw">as </span>f32;
+        <span class="kw">let </span><span class="kw-2">mut </span>normalizer = (num_combinations * chance_factor <span class="kw">as </span>f64) <span class="kw">as </span>f32;
 
         <span class="kw">let </span><span class="kw-2">mut </span>ret = <span class="kw">if </span>node.is_terminal() {
-            normalizer = <span class="self">self</span>.num_combinations <span class="kw">as </span>f32;
+            normalizer = num_combinations <span class="kw">as </span>f32;
             <span class="kw">let </span><span class="kw-2">mut </span>ret = Vec::with_capacity(num_hands);
             <span class="kw">let </span><span class="kw-2">mut </span>cfreach = <span class="self">self</span>.weights[player ^ <span class="number">1</span>].clone();
             <span class="self">self</span>.apply_swap(<span class="kw-2">&amp;mut </span>cfreach, player ^ <span class="number">1</span>, <span class="bool-val">true</span>);
@@ -1789,7 +1995,7 @@
     <span class="doccomment">/// Returns the reference to the current node.
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>node(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; MutexGuardLike&lt;PostFlopNode&gt; {
-        <span class="self">self</span>.node_arena[<span class="self">self</span>.current_node_index].lock()
+        <span class="self">self</span>.node_arena[<span class="self">self</span>.node_history.last().cloned().unwrap_or(<span class="number">0</span>)].lock()
     }
 
     <span class="doccomment">/// Returns the index of the given node.
@@ -1803,9 +2009,9 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">fn </span>isomorphic_cards(<span class="kw-2">&amp;</span><span class="self">self</span>, node: <span class="kw-2">&amp;</span>PostFlopNode) -&gt; <span class="kw-2">&amp;</span>[u8] {
         <span class="kw">if </span>node.turn == NOT_DEALT {
-            <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_card
+            <span class="kw-2">&amp;</span><span class="self">self</span>.isomorphism_card_turn
         } <span class="kw">else </span>{
-            <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_card[node.turn <span class="kw">as </span>usize]
+            <span class="kw-2">&amp;</span><span class="self">self</span>.isomorphism_card_river[node.turn <span class="kw">as </span>usize &amp; <span class="number">3</span>]
         }
     }
 
@@ -1814,10 +2020,10 @@
     </span><span class="kw">fn </span>apply_swap(<span class="kw-2">&amp;</span><span class="self">self</span>, slice: <span class="kw-2">&amp;mut </span>[f32], player: usize, reverse: bool) {
         <span class="kw">let </span>turn_swap = <span class="self">self
             </span>.turn_swap
-            .map(|suit| <span class="kw-2">&amp;</span><span class="self">self</span>.turn_isomorphism_swap[suit <span class="kw">as </span>usize][player]);
+            .map(|suit| <span class="kw-2">&amp;</span><span class="self">self</span>.isomorphism_swap_turn[suit <span class="kw">as </span>usize][player]);
 
         <span class="kw">let </span>river_swap = <span class="self">self</span>.river_swap.map(|(turn_suit, suit)| {
-            <span class="kw-2">&amp;</span><span class="self">self</span>.river_isomorphism_swap[turn_suit <span class="kw">as </span>usize][suit <span class="kw">as </span>usize][player]
+            <span class="kw-2">&amp;</span><span class="self">self</span>.isomorphism_swap_river[turn_suit <span class="kw">as </span>usize][suit <span class="kw">as </span>usize][player]
         });
 
         <span class="kw">let </span>swaps = <span class="kw">if </span>!reverse {
@@ -1835,7 +2041,7 @@
 
     <span class="doccomment">/// Internal method for calculating the equity.
     </span><span class="kw">fn </span>equity_internal(<span class="kw-2">&amp;</span><span class="self">self</span>, result: <span class="kw-2">&amp;mut </span>[f64], player: usize, turn: u8, river: u8, amount: f64) {
-        <span class="kw">let </span>pair_index = card_pair_index(turn, river);
+        <span class="kw">let </span>pair_index = card_pair_to_index(turn, river);
         <span class="kw">let </span>hand_strength = <span class="kw-2">&amp;</span><span class="self">self</span>.hand_strength[pair_index];
         <span class="kw">let </span>player_strength = <span class="kw-2">&amp;</span>hand_strength[player];
         <span class="kw">let </span>opponent_strength = <span class="kw-2">&amp;</span>hand_strength[player ^ <span class="number">1</span>];
@@ -1899,6 +2105,60 @@
             }
         }
     }
+
+    <span class="doccomment">/// Internal method for calculating the equity.
+    </span><span class="kw">fn </span>equity_bunching_internal(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; Vec&lt;f32&gt; {
+        <span class="kw">let </span>node = <span class="self">self</span>.node();
+        <span class="kw">let </span>opponent_weights = <span class="kw-2">&amp;</span><span class="self">self</span>.weights[player ^ <span class="number">1</span>];
+        <span class="kw">let </span>opponent_len = <span class="self">self</span>.private_cards[player ^ <span class="number">1</span>].len();
+
+        <span class="kw">if </span>node.river == NOT_DEALT {
+            <span class="kw">let </span>indices = <span class="kw">if </span>node.turn != NOT_DEALT {
+                <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_coef_turn[player][node.turn <span class="kw">as </span>usize]
+            } <span class="kw">else </span>{
+                <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_coef_flop[player]
+            };
+
+            indices
+                .iter()
+                .map(|<span class="kw-2">&amp;</span>index| {
+                    <span class="kw">if </span>index != <span class="number">0 </span>{
+                        <span class="kw">let </span>slice = <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_arena[index..index + opponent_len];
+                        <span class="number">0.5 </span>* inner_product(opponent_weights, slice)
+                    } <span class="kw">else </span>{
+                        <span class="number">0.0
+                    </span>}
+                })
+                .collect()
+        }
+        <span class="comment">// showdown
+        </span><span class="kw">else </span>{
+            <span class="kw">let </span>pair_index = card_pair_to_index(node.turn, node.river);
+            <span class="kw">let </span>indices = <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_num_river[player][pair_index];
+            <span class="kw">let </span>player_strength = <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_strength[pair_index][player];
+            <span class="kw">let </span>opponent_strength = <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_strength[pair_index][player ^ <span class="number">1</span>];
+
+            indices
+                .iter()
+                .zip(player_strength)
+                .map(|(<span class="kw-2">&amp;</span>index, <span class="kw-2">&amp;</span>strength)| {
+                    <span class="kw">if </span>index != <span class="number">0 </span>{
+                        inner_product_cond(
+                            opponent_weights,
+                            <span class="kw-2">&amp;</span><span class="self">self</span>.bunching_arena[index..index + opponent_len],
+                            opponent_strength,
+                            strength,
+                            <span class="number">0.5</span>,
+                            -<span class="number">0.5</span>,
+                            <span class="number">0.0</span>,
+                        )
+                    } <span class="kw">else </span>{
+                        <span class="number">0.0
+                    </span>}
+                })
+                .collect()
+        }
+    }
 }
 </code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.69.0-nightly (f77bfb733 2023-03-01)" data-search-js="search-2cde8914278f97ed.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (e3dfeeaa4 2023-03-07)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
