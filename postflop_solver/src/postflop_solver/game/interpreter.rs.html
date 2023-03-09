@@ -1091,11 +1091,6 @@
 <a href="#1091" id="1091">1091</a>
 <a href="#1092" id="1092">1092</a>
 <a href="#1093" id="1093">1093</a>
-<a href="#1094" id="1094">1094</a>
-<a href="#1095" id="1095">1095</a>
-<a href="#1096" id="1096">1096</a>
-<a href="#1097" id="1097">1097</a>
-<a href="#1098" id="1098">1098</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::sliceop::<span class="kw-2">*</span>;
@@ -1310,8 +1305,7 @@
     ///
     /// Panics if the memory is not yet allocated or the current node is a terminal node.
     ///
-    /// **Time complexity:** linear in the sum of the number of combos with non-zero initial weight
-    /// of both players.
+    /// **Time complexity:** *O*(#(OOP private hands) + #(IP private hands))
     ///
     /// [`available_actions`]: #method.available_actions
     </span><span class="kw">pub fn </span>play(<span class="kw-2">&amp;mut </span><span class="self">self</span>, action: usize) {
@@ -1478,10 +1472,8 @@
     /// [`normalized_weights`], [`equity`], [`expected_values`], or [`expected_values_detail`].
     ///
     /// **Time complexity:**
-    /// - (no bunching) linear in the sum of the number of combos with non-zero initial weight of
-    ///   both players.
-    /// - (bunching) proportional to the product of the number of combos with non-zero initial
-    ///   weight of both players.
+    /// - (no bunching) *O*(#(OOP private hands) + #(IP private hands))
+    /// - (bunching) *O*(#(OOP private hands) * #(IP private hands))
     ///
     /// [`normalized_weights`]: #method.normalized_weights
     /// [`equity`]: #method.equity
@@ -1605,7 +1597,7 @@
     ///
     /// If a hand overlaps with the board, returns 0.0.
     ///
-    /// **Time complexity:** constant.
+    /// **Time complexity:** *O*(1).
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>weights(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; <span class="kw-2">&amp;</span>[f32] {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
@@ -1623,7 +1615,7 @@
     /// After mutating the current node, you must call the [`cache_normalized_weights`] method
     /// before calling this method.
     ///
-    /// **Time complexity:** constant.
+    /// **Time complexity:** *O*(1).
     ///
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
     </span><span class="attr">#[inline]
@@ -1645,9 +1637,8 @@
     /// before calling this method.
     ///
     /// **Time complexity:**
-    /// - (no bunching) #(possible 5-card boards) * #(combos with non-zero initial weight).
-    /// - (bunching) proportional to the product of the number of combos with non-zero initial
-    ///   weight of both players.
+    /// - (no bunching) *O*(#(possible 5-card boards) * (#(OOP private hands) + #(IP private hands))).
+    /// - (bunching) *O*(#(OOP private hands) * #(IP private hands)).
     ///
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
     </span><span class="kw">pub fn </span>equity(<span class="kw-2">&amp;</span><span class="self">self</span>, player: usize) -&gt; Vec&lt;f32&gt; {
@@ -1754,9 +1745,8 @@
     /// before calling this method.
     ///
     /// **Time complexity:**
-    /// - (with bunching and the current node is terminal) proportional to the product of the number
-    ///   of combos with non-zero initial weight of both players.
-    /// - (otherwise) #(actions) * #(combos with non-zero initial weight of the given player).
+    /// - (with bunching and the current node is terminal) *O*(#(OOP private hands) * #(IP private hands)).
+    /// - (otherwise) *O*(#(actions) * #(private hands)).
     ///
     /// [`expected_values`]: #method.expected_value
     /// [`cache_normalized_weights`]: #method.cache_normalized_weights
@@ -1861,7 +1851,7 @@
     /// Panics if the current node is a terminal node or a chance node. Also, panics if the memory
     /// is not yet allocated.
     ///
-    /// **Time complexity:** #(actions) * #(combos with non-zero initial weight of the given player).
+    /// **Time complexity:** *O*(#(actions) * #(private hands)).
     </span><span class="kw">pub fn </span>strategy(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; Vec&lt;f32&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt; State::MemoryAllocated {
             <span class="macro">panic!</span>(<span class="string">&quot;Memory is not allocated&quot;</span>);

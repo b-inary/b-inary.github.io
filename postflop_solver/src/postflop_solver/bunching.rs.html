@@ -1035,6 +1035,18 @@
 <a href="#1035" id="1035">1035</a>
 <a href="#1036" id="1036">1036</a>
 <a href="#1037" id="1037">1037</a>
+<a href="#1038" id="1038">1038</a>
+<a href="#1039" id="1039">1039</a>
+<a href="#1040" id="1040">1040</a>
+<a href="#1041" id="1041">1041</a>
+<a href="#1042" id="1042">1042</a>
+<a href="#1043" id="1043">1043</a>
+<a href="#1044" id="1044">1044</a>
+<a href="#1045" id="1045">1045</a>
+<a href="#1046" id="1046">1046</a>
+<a href="#1047" id="1047">1047</a>
+<a href="#1048" id="1048">1048</a>
+<a href="#1049" id="1049">1049</a>
 </pre><pre class="rust"><code><span class="kw">use </span><span class="kw">crate</span>::atomic_float::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::range::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utility::<span class="kw-2">*</span>;
@@ -1128,6 +1140,18 @@
 ///
 /// assert!(data.is_ready());
 /// ```
+///
+/// # Memory Usage
+/// The `BunchingData` struct requires 62MB of memory to store the final result.
+///
+/// The additional memory usage required for the computation is as follows:
+///
+/// | #(fold players) | Aditional memory usage |
+/// |:---:|:---:|
+/// | 1 | 18.4KB |
+/// | 2 | 1.77MB |
+/// | 3 | 123MB |
+/// | 4 | 3.42GB |
 </span><span class="kw">pub struct </span>BunchingData {
     <span class="comment">// input
     </span>fold_ranges: Vec&lt;Range&gt;,

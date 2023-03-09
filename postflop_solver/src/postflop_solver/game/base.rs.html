@@ -1425,6 +1425,7 @@
 <a href="#1425" id="1425">1425</a>
 <a href="#1426" id="1426">1426</a>
 <a href="#1427" id="1427">1427</a>
+<a href="#1428" id="1428">1428</a>
 </pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::bunching::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
@@ -1615,6 +1616,7 @@
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>reset_bunching_effect(<span class="kw-2">&amp;mut </span><span class="self">self</span>) {
         <span class="self">self</span>.bunching_num_dead_cards = <span class="number">0</span>;
+        <span class="self">self</span>.bunching_num_combinations = <span class="number">0.0</span>;
         <span class="self">self</span>.bunching_arena = Vec::new();
         <span class="self">self</span>.bunching_strength = Vec::new();
         <span class="self">self</span>.bunching_num_flop = Default::default();
