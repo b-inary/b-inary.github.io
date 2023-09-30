@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/bet_size.rs`."><title>bet_size.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/bet_size.rs`."><title>bet_size.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (8ce4540bd 2023-09-29)" data-channel="nightly" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -316,35 +316,73 @@
 <a href="#316" id="316">316</a>
 <a href="#317" id="317">317</a>
 <a href="#318" id="318">318</a>
-</pre><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+<a href="#319" id="319">319</a>
+<a href="#320" id="320">320</a>
+<a href="#321" id="321">321</a>
+<a href="#322" id="322">322</a>
+<a href="#323" id="323">323</a>
+<a href="#324" id="324">324</a>
+<a href="#325" id="325">325</a>
+<a href="#326" id="326">326</a>
+<a href="#327" id="327">327</a>
+<a href="#328" id="328">328</a>
+<a href="#329" id="329">329</a>
+<a href="#330" id="330">330</a>
+<a href="#331" id="331">331</a>
+<a href="#332" id="332">332</a>
+<a href="#333" id="333">333</a>
+<a href="#334" id="334">334</a>
+<a href="#335" id="335">335</a>
+<a href="#336" id="336">336</a>
+<a href="#337" id="337">337</a>
+<a href="#338" id="338">338</a>
+<a href="#339" id="339">339</a>
+<a href="#340" id="340">340</a>
+<a href="#341" id="341">341</a>
+<a href="#342" id="342">342</a>
+<a href="#343" id="343">343</a>
+<a href="#344" id="344">344</a>
+<a href="#345" id="345">345</a>
+<a href="#346" id="346">346</a>
+<a href="#347" id="347">347</a>
+<a href="#348" id="348">348</a>
+<a href="#349" id="349">349</a>
+<a href="#350" id="350">350</a>
+<a href="#351" id="351">351</a>
+<a href="#352" id="352">352</a>
+<a href="#353" id="353">353</a>
+</pre></div><pre class="rust"><code><span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
 </span><span class="kw">use </span>bincode::{Decode, Encode};
 
-<span class="doccomment">/// Bet size candidates for the first bets and raises.
+<span class="doccomment">/// Bet size options for the first bets and raises.
 ///
 /// In the `try_from()` method, multiple bet sizes can be specified using a comma-separated string.
-/// Each element must be a string ending in one of the following characters: %, x, c, e, a.
+/// Each element must be a string ending in one of the following characters: %, x, c, r, e, a.
 ///
-/// - %: Percentage of the pot. Example: &quot;70%&quot;
-/// - x: Multiple of the previous bet. Valid for only raises. Example: &quot;2.5x&quot;
-/// - c: Constant value. Must be an integer. Example: &quot;100c&quot;
+/// - %: Percentage of the pot. (e.g., &quot;70%&quot;)
+/// - x: Multiple of the previous bet. Valid for only raises. (e.g., &quot;2.5x&quot;)
+/// - c: Constant value. Must be an integer. (e.g., &quot;100c&quot;)
+/// - c + r: Constant value with raise cap (for FLHE). Both values must be integers.
+///          Valid only for raises. (e.g., &quot;20c3r&quot;)
 /// - e: Geometric size.
 ///   - e: Same as &quot;3e&quot; for the flop, &quot;2e&quot; for the turn, and &quot;1e&quot; (equivalent to &quot;a&quot;) for the river.
-///   - Xe: The geometric size with X streets remaining. X must be a positive integer. Example: &quot;2e&quot;
-///   - XeY%: Same as Xe, but the maximum size is Y% of the pot. Example: &quot;3e200%&quot;.
-/// - a: All-in. Example: &quot;a&quot;
+///   - Xe: The geometric size with X streets remaining. X must be a positive integer. (e.g., &quot;2e&quot;)
+///   - XeY%: Same as Xe, but the maximum size is Y% of the pot. (e.g., &quot;3e200%&quot;)
+///   - If specified for raises, the number of previous raises is subtracted from X.
+/// - a: All-in. (e.g., &quot;a&quot;)
 ///
 /// # Examples
 /// ```
 /// use postflop_solver::BetSize::*;
-/// use postflop_solver::BetSizeCandidates;
+/// use postflop_solver::BetSizeOptions;
 ///
-/// let bet_size = BetSizeCandidates::try_from((&quot;50%, 100c, 2e, a&quot;, &quot;2.5x&quot;)).unwrap();
+/// let bet_size = BetSizeOptions::try_from((&quot;50%, 100c, 2e, a&quot;, &quot;2.5x&quot;)).unwrap();
 ///
 /// assert_eq!(
 ///     bet_size.bet,
 ///     vec![
 ///         PotRelative(0.5),
-///         Additive(100),
+///         Additive(100, 0),
 ///         Geometric(2, f64::INFINITY),
 ///         AllIn
 ///    ]
@@ -354,20 +392,20 @@
 /// ```
 </span><span class="attr">#[derive(Debug, Clone, Default, PartialEq)]
 #[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
-</span><span class="kw">pub struct </span>BetSizeCandidates {
-    <span class="doccomment">/// Bet size candidates for first bet.
+</span><span class="kw">pub struct </span>BetSizeOptions {
+    <span class="doccomment">/// Bet size options for first bet.
     </span><span class="kw">pub </span>bet: Vec&lt;BetSize&gt;,
 
-    <span class="doccomment">/// Bet size candidates for raise.
+    <span class="doccomment">/// Bet size options for raise.
     </span><span class="kw">pub </span>raise: Vec&lt;BetSize&gt;,
 }
 
-<span class="doccomment">/// Bet size candidates for the donk bets.
+<span class="doccomment">/// Bet size options for the donk bets.
 ///
-/// See the [`BetSizeCandidates`] struct for the description and examples.
+/// See the [`BetSizeOptions`] struct for the description and examples.
 </span><span class="attr">#[derive(Debug, Clone, Default, PartialEq)]
 #[cfg_attr(feature = <span class="string">&quot;bincode&quot;</span>, derive(Decode, Encode))]
-</span><span class="kw">pub struct </span>DonkSizeCandidates {
+</span><span class="kw">pub struct </span>DonkSizeOptions {
     <span class="kw">pub </span>donk: Vec&lt;BetSize&gt;,
 }
 
@@ -381,8 +419,10 @@
     <span class="doccomment">/// Bet size relative to the previous bet size (only valid for raise actions).
     </span>PrevBetRelative(f64),
 
-    <span class="doccomment">/// Bet size specifying constant addition.
-    </span>Additive(i32),
+    <span class="doccomment">/// Constant bet size of the first element with a raise cap of the second element.
+    ///
+    /// If the second element is `0`, there is no raise cap.
+    </span>Additive(i32, i32),
 
     <span class="doccomment">/// Geometric bet size for `i32` streets with maximum pot-relative size of `f64`.
     ///
@@ -393,12 +433,12 @@
     </span>AllIn,
 }
 
-<span class="kw">impl </span>TryFrom&lt;(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str)&gt; <span class="kw">for </span>BetSizeCandidates {
+<span class="kw">impl </span>TryFrom&lt;(<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str)&gt; <span class="kw">for </span>BetSizeOptions {
     <span class="kw">type </span>Error = String;
 
     <span class="doccomment">/// Attempts to convert comma-separated strings into bet sizes.
     ///
-    /// See the [`BetSizeCandidates`] struct for the description and examples.
+    /// See the [`BetSizeOptions`] struct for the description and examples.
     </span><span class="kw">fn </span>try_from((bet_str, raise_str): (<span class="kw-2">&amp;</span>str, <span class="kw-2">&amp;</span>str)) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>bet_sizes = bet_str.split(<span class="string">&#39;,&#39;</span>).map(str::trim).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
         <span class="kw">let </span><span class="kw-2">mut </span>raise_sizes = raise_str.split(<span class="string">&#39;,&#39;</span>).map(str::trim).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
@@ -425,16 +465,16 @@
         bet.sort_unstable_by(|l, r| l.partial_cmp(r).unwrap());
         raise.sort_unstable_by(|l, r| l.partial_cmp(r).unwrap());
 
-        <span class="prelude-val">Ok</span>(BetSizeCandidates { bet, raise })
+        <span class="prelude-val">Ok</span>(BetSizeOptions { bet, raise })
     }
 }
 
-<span class="kw">impl </span>TryFrom&lt;<span class="kw-2">&amp;</span>str&gt; <span class="kw">for </span>DonkSizeCandidates {
+<span class="kw">impl </span>TryFrom&lt;<span class="kw-2">&amp;</span>str&gt; <span class="kw">for </span>DonkSizeOptions {
     <span class="kw">type </span>Error = String;
 
     <span class="doccomment">/// Attempts to convert comma-separated strings into bet sizes.
     ///
-    /// See the [`BetSizeCandidates`] struct for the description and examples.
+    /// See the [`BetSizeOptions`] struct for the description and examples.
     </span><span class="kw">fn </span>try_from(donk_str: <span class="kw-2">&amp;</span>str) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, <span class="self">Self</span>::Error&gt; {
         <span class="kw">let </span><span class="kw-2">mut </span>donk_sizes = donk_str.split(<span class="string">&#39;,&#39;</span>).map(str::trim).collect::&lt;Vec&lt;<span class="kw">_</span>&gt;&gt;();
 
@@ -450,7 +490,7 @@
 
         donk.sort_unstable_by(|l, r| l.partial_cmp(r).unwrap());
 
-        <span class="prelude-val">Ok</span>(DonkSizeCandidates { donk })
+        <span class="prelude-val">Ok</span>(DonkSizeOptions { donk })
     }
 }
 
@@ -462,13 +502,13 @@
     }
 }
 
-<span class="kw">fn </span>bet_size_from_str(s: <span class="kw-2">&amp;</span>str, allow_prev_bet_rel: bool) -&gt; <span class="prelude-ty">Result</span>&lt;BetSize, String&gt; {
+<span class="kw">fn </span>bet_size_from_str(s: <span class="kw-2">&amp;</span>str, is_raise: bool) -&gt; <span class="prelude-ty">Result</span>&lt;BetSize, String&gt; {
     <span class="kw">let </span>s_lower = s.to_lowercase();
     <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Invalid bet size: {s}&quot;</span>);
 
     <span class="kw">if let </span><span class="prelude-val">Some</span>(prev_bet_rel) = s_lower.strip_suffix(<span class="string">&#39;x&#39;</span>) {
         <span class="comment">// Previous bet relative
-        </span><span class="kw">if </span>!allow_prev_bet_rel {
+        </span><span class="kw">if </span>!is_raise {
             <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Relative size to the previous bet is not allowed: {s}&quot;</span>);
             <span class="prelude-val">Err</span>(err_msg)
         } <span class="kw">else </span>{
@@ -480,15 +520,43 @@
                 <span class="prelude-val">Ok</span>(BetSize::PrevBetRelative(float))
             }
         }
-    } <span class="kw">else if let </span><span class="prelude-val">Some</span>(add) = s_lower.strip_suffix(<span class="string">&#39;c&#39;</span>) {
+    } <span class="kw">else if </span>s_lower.contains(<span class="string">&#39;c&#39;</span>) {
         <span class="comment">// Additive
-        </span><span class="kw">let </span>float = parse_float(add).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
-        <span class="kw">if </span>float.trunc() != float {
-            <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Additional size must be an integer: {s}&quot;</span>))
-        } <span class="kw">else if </span>float &gt; i32::MAX <span class="kw">as </span>f64 {
-            <span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Additional size must be less than 2^31: {s}&quot;</span>))
+        </span><span class="kw">let </span><span class="kw-2">mut </span>split = s_lower.split(<span class="string">&#39;c&#39;</span>);
+        <span class="kw">let </span>add_str = split.next().ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
+        <span class="kw">let </span>cap_str = split.next().ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>add = parse_float(add_str).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
+        <span class="kw">if </span>add.trunc() != add {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Additional size must be an integer: {s}&quot;</span>));
+        }
+        <span class="kw">if </span>add &gt; i32::MAX <span class="kw">as </span>f64 {
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="macro">format!</span>(<span class="string">&quot;Additional size must be less than 2^31: {s}&quot;</span>));
+        }
+
+        <span class="kw">let </span>cap = <span class="kw">if </span>cap_str.is_empty() {
+            <span class="number">0
+        </span>} <span class="kw">else </span>{
+            <span class="kw">if </span>!is_raise {
+                <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Raise cap is not allowed: {s}&quot;</span>);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(err_msg);
+            }
+            <span class="kw">let </span>float_str = cap_str.strip_suffix(<span class="string">&#39;r&#39;</span>).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
+            <span class="kw">let </span>float = parse_float(float_str).ok_or(<span class="kw-2">&amp;</span>err_msg)<span class="question-mark">?</span>;
+            <span class="kw">if </span>float.trunc() != float || float == <span class="number">0.0 </span>{
+                <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Raise cap must be a positive integer: {s}&quot;</span>);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(err_msg);
+            } <span class="kw">else if </span>float &gt; <span class="number">100.0 </span>{
+                <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Raise cap must be less than or equal to 100: {s}&quot;</span>);
+                <span class="kw">return </span><span class="prelude-val">Err</span>(err_msg);
+            }
+            float <span class="kw">as </span>i32
+        };
+
+        <span class="kw">if </span>split.next().is_some() {
+            <span class="prelude-val">Err</span>(err_msg)
         } <span class="kw">else </span>{
-            <span class="prelude-val">Ok</span>(BetSize::Additive(float <span class="kw">as </span>i32))
+            <span class="prelude-val">Ok</span>(BetSize::Additive(add <span class="kw">as </span>i32, cap))
         }
     } <span class="kw">else if </span>s_lower.contains(<span class="string">&#39;e&#39;</span>) {
         <span class="comment">// Geometric
@@ -506,9 +574,8 @@
             } <span class="kw">else if </span>float &gt; <span class="number">100.0 </span>{
                 <span class="kw">let </span>err_msg = <span class="macro">format!</span>(<span class="string">&quot;Number of streets must be less than or equal to 100: {s}&quot;</span>);
                 <span class="kw">return </span><span class="prelude-val">Err</span>(err_msg);
-            } <span class="kw">else </span>{
-                float <span class="kw">as </span>i32
             }
+            float <span class="kw">as </span>i32
         };
 
         <span class="kw">let </span>max_pot_rel = <span class="kw">if </span>max_pot_rel_str.is_empty() {
@@ -549,8 +616,10 @@
             (<span class="string">&quot;112.5%&quot;</span>, PotRelative(<span class="number">1.125</span>)),
             (<span class="string">&quot;1.001x&quot;</span>, PrevBetRelative(<span class="number">1.001</span>)),
             (<span class="string">&quot;3.5X&quot;</span>, PrevBetRelative(<span class="number">3.5</span>)),
-            (<span class="string">&quot;0c&quot;</span>, Additive(<span class="number">0</span>)),
-            (<span class="string">&quot;123C&quot;</span>, Additive(<span class="number">123</span>)),
+            (<span class="string">&quot;0c&quot;</span>, Additive(<span class="number">0</span>, <span class="number">0</span>)),
+            (<span class="string">&quot;123C&quot;</span>, Additive(<span class="number">123</span>, <span class="number">0</span>)),
+            (<span class="string">&quot;0c1r&quot;</span>, Additive(<span class="number">0</span>, <span class="number">1</span>)),
+            (<span class="string">&quot;100C100R&quot;</span>, Additive(<span class="number">100</span>, <span class="number">100</span>)),
             (<span class="string">&quot;e&quot;</span>, Geometric(<span class="number">0</span>, f64::INFINITY)),
             (<span class="string">&quot;E&quot;</span>, Geometric(<span class="number">0</span>, f64::INFINITY)),
             (<span class="string">&quot;2e&quot;</span>, Geometric(<span class="number">2</span>, f64::INFINITY)),
@@ -565,8 +634,9 @@
         }
 
         <span class="kw">let </span>error_tests = [
-            <span class="string">&quot;&quot;</span>, <span class="string">&quot;0&quot;</span>, <span class="string">&quot;1.23&quot;</span>, <span class="string">&quot;%&quot;</span>, <span class="string">&quot;+42%&quot;</span>, <span class="string">&quot;-30%&quot;</span>, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;0x&quot;</span>, <span class="string">&quot;1x&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;12.3c&quot;</span>, <span class="string">&quot;0e&quot;</span>, <span class="string">&quot;2.7e&quot;</span>,
-            <span class="string">&quot;101e&quot;</span>, <span class="string">&quot;3e7&quot;</span>, <span class="string">&quot;E%&quot;</span>, <span class="string">&quot;1e2e3&quot;</span>, <span class="string">&quot;bet&quot;</span>, <span class="string">&quot;1a&quot;</span>, <span class="string">&quot;a1&quot;</span>,
+            <span class="string">&quot;&quot;</span>, <span class="string">&quot;0&quot;</span>, <span class="string">&quot;1.23&quot;</span>, <span class="string">&quot;%&quot;</span>, <span class="string">&quot;+42%&quot;</span>, <span class="string">&quot;-30%&quot;</span>, <span class="string">&quot;x&quot;</span>, <span class="string">&quot;0x&quot;</span>, <span class="string">&quot;1x&quot;</span>, <span class="string">&quot;c&quot;</span>, <span class="string">&quot;12.3c&quot;</span>, <span class="string">&quot;10c10&quot;</span>, <span class="string">&quot;42cr&quot;</span>,
+            <span class="string">&quot;c3r&quot;</span>, <span class="string">&quot;0c0r&quot;</span>, <span class="string">&quot;123c101r&quot;</span>, <span class="string">&quot;1c2r3&quot;</span>, <span class="string">&quot;12c3.4r&quot;</span>, <span class="string">&quot;0e&quot;</span>, <span class="string">&quot;2.7e&quot;</span>, <span class="string">&quot;101e&quot;</span>, <span class="string">&quot;3e7&quot;</span>, <span class="string">&quot;E%&quot;</span>,
+            <span class="string">&quot;1e2e3&quot;</span>, <span class="string">&quot;bet&quot;</span>, <span class="string">&quot;1a&quot;</span>, <span class="string">&quot;a1&quot;</span>,
         ];
 
         <span class="kw">for </span>s <span class="kw">in </span>error_tests {
@@ -580,7 +650,7 @@
             (
                 <span class="string">&quot;40%, 70%&quot;</span>,
                 <span class="string">&quot;&quot;</span>,
-                BetSizeCandidates {
+                BetSizeOptions {
                     bet: <span class="macro">vec!</span>[PotRelative(<span class="number">0.4</span>), PotRelative(<span class="number">0.7</span>)],
                     raise: Vec::new(),
                 },
@@ -588,8 +658,8 @@
             (
                 <span class="string">&quot;50c, e, a,&quot;</span>,
                 <span class="string">&quot;25%, 2.5x, e200%&quot;</span>,
-                BetSizeCandidates {
-                    bet: <span class="macro">vec!</span>[Additive(<span class="number">50</span>), Geometric(<span class="number">0</span>, f64::INFINITY), AllIn],
+                BetSizeOptions {
+                    bet: <span class="macro">vec!</span>[Additive(<span class="number">50</span>, <span class="number">0</span>), Geometric(<span class="number">0</span>, f64::INFINITY), AllIn],
                     raise: <span class="macro">vec!</span>[PotRelative(<span class="number">0.25</span>), PrevBetRelative(<span class="number">2.5</span>), Geometric(<span class="number">0</span>, <span class="number">2.0</span>)],
                 },
             ),
@@ -602,7 +672,7 @@
         <span class="kw">let </span>error_tests = [(<span class="string">&quot;2.5x&quot;</span>, <span class="string">&quot;&quot;</span>), (<span class="string">&quot;,&quot;</span>, <span class="string">&quot;&quot;</span>)];
 
         <span class="kw">for </span>(bet, raise) <span class="kw">in </span>error_tests {
-            <span class="macro">assert!</span>(BetSizeCandidates::try_from((bet, raise)).is_err());
+            <span class="macro">assert!</span>(BetSizeOptions::try_from((bet, raise)).is_err());
         }
     }
 
@@ -611,14 +681,14 @@
         <span class="kw">let </span>tests = [
             (
                 <span class="string">&quot;40%, 70%&quot;</span>,
-                DonkSizeCandidates {
+                DonkSizeOptions {
                     donk: <span class="macro">vec!</span>[PotRelative(<span class="number">0.4</span>), PotRelative(<span class="number">0.7</span>)],
                 },
             ),
             (
                 <span class="string">&quot;50c, e, a,&quot;</span>,
-                DonkSizeCandidates {
-                    donk: <span class="macro">vec!</span>[Additive(<span class="number">50</span>), Geometric(<span class="number">0</span>, f64::INFINITY), AllIn],
+                DonkSizeOptions {
+                    donk: <span class="macro">vec!</span>[Additive(<span class="number">50</span>, <span class="number">0</span>), Geometric(<span class="number">0</span>, f64::INFINITY), AllIn],
                 },
             ),
         ];
@@ -630,9 +700,8 @@
         <span class="kw">let </span>error_tests = [<span class="string">&quot;2.5x&quot;</span>, <span class="string">&quot;,&quot;</span>];
 
         <span class="kw">for </span>donk <span class="kw">in </span>error_tests {
-            <span class="macro">assert!</span>(DonkSizeCandidates::try_from(donk).is_err());
+            <span class="macro">assert!</span>(DonkSizeOptions::try_from(donk).is_err());
         }
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (e3dfeeaa4 2023-03-07)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

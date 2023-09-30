@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../static.files/ayu-be46fdc453a55015.css"><script src="../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../source-files.js"></script><script defer src="../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/lib.rs`."><title>lib.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (8ce4540bd 2023-09-29)" data-channel="nightly" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../src-files.js"></script><script defer src="../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../postflop_solver/index.html"><img class="rust-logo" src="../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -87,275 +87,43 @@
 <a href="#87" id="87">87</a>
 <a href="#88" id="88">88</a>
 <a href="#89" id="89">89</a>
-<a href="#90" id="90">90</a>
-<a href="#91" id="91">91</a>
-<a href="#92" id="92">92</a>
-<a href="#93" id="93">93</a>
-<a href="#94" id="94">94</a>
-<a href="#95" id="95">95</a>
-<a href="#96" id="96">96</a>
-<a href="#97" id="97">97</a>
-<a href="#98" id="98">98</a>
-<a href="#99" id="99">99</a>
-<a href="#100" id="100">100</a>
-<a href="#101" id="101">101</a>
-<a href="#102" id="102">102</a>
-<a href="#103" id="103">103</a>
-<a href="#104" id="104">104</a>
-<a href="#105" id="105">105</a>
-<a href="#106" id="106">106</a>
-<a href="#107" id="107">107</a>
-<a href="#108" id="108">108</a>
-<a href="#109" id="109">109</a>
-<a href="#110" id="110">110</a>
-<a href="#111" id="111">111</a>
-<a href="#112" id="112">112</a>
-<a href="#113" id="113">113</a>
-<a href="#114" id="114">114</a>
-<a href="#115" id="115">115</a>
-<a href="#116" id="116">116</a>
-<a href="#117" id="117">117</a>
-<a href="#118" id="118">118</a>
-<a href="#119" id="119">119</a>
-<a href="#120" id="120">120</a>
-<a href="#121" id="121">121</a>
-<a href="#122" id="122">122</a>
-<a href="#123" id="123">123</a>
-<a href="#124" id="124">124</a>
-<a href="#125" id="125">125</a>
-<a href="#126" id="126">126</a>
-<a href="#127" id="127">127</a>
-<a href="#128" id="128">128</a>
-<a href="#129" id="129">129</a>
-<a href="#130" id="130">130</a>
-<a href="#131" id="131">131</a>
-<a href="#132" id="132">132</a>
-<a href="#133" id="133">133</a>
-<a href="#134" id="134">134</a>
-<a href="#135" id="135">135</a>
-<a href="#136" id="136">136</a>
-<a href="#137" id="137">137</a>
-<a href="#138" id="138">138</a>
-<a href="#139" id="139">139</a>
-<a href="#140" id="140">140</a>
-<a href="#141" id="141">141</a>
-<a href="#142" id="142">142</a>
-<a href="#143" id="143">143</a>
-<a href="#144" id="144">144</a>
-<a href="#145" id="145">145</a>
-<a href="#146" id="146">146</a>
-<a href="#147" id="147">147</a>
-<a href="#148" id="148">148</a>
-<a href="#149" id="149">149</a>
-<a href="#150" id="150">150</a>
-<a href="#151" id="151">151</a>
-<a href="#152" id="152">152</a>
-<a href="#153" id="153">153</a>
-<a href="#154" id="154">154</a>
-<a href="#155" id="155">155</a>
-<a href="#156" id="156">156</a>
-<a href="#157" id="157">157</a>
-<a href="#158" id="158">158</a>
-<a href="#159" id="159">159</a>
-<a href="#160" id="160">160</a>
-<a href="#161" id="161">161</a>
-<a href="#162" id="162">162</a>
-<a href="#163" id="163">163</a>
-<a href="#164" id="164">164</a>
-<a href="#165" id="165">165</a>
-<a href="#166" id="166">166</a>
-<a href="#167" id="167">167</a>
-<a href="#168" id="168">168</a>
-<a href="#169" id="169">169</a>
-<a href="#170" id="170">170</a>
-<a href="#171" id="171">171</a>
-<a href="#172" id="172">172</a>
-<a href="#173" id="173">173</a>
-<a href="#174" id="174">174</a>
-<a href="#175" id="175">175</a>
-<a href="#176" id="176">176</a>
-<a href="#177" id="177">177</a>
-<a href="#178" id="178">178</a>
-<a href="#179" id="179">179</a>
-<a href="#180" id="180">180</a>
-<a href="#181" id="181">181</a>
-<a href="#182" id="182">182</a>
-<a href="#183" id="183">183</a>
-<a href="#184" id="184">184</a>
-<a href="#185" id="185">185</a>
-<a href="#186" id="186">186</a>
-<a href="#187" id="187">187</a>
-<a href="#188" id="188">188</a>
-<a href="#189" id="189">189</a>
-<a href="#190" id="190">190</a>
-<a href="#191" id="191">191</a>
-<a href="#192" id="192">192</a>
-<a href="#193" id="193">193</a>
-<a href="#194" id="194">194</a>
-<a href="#195" id="195">195</a>
-<a href="#196" id="196">196</a>
-<a href="#197" id="197">197</a>
-<a href="#198" id="198">198</a>
-<a href="#199" id="199">199</a>
-<a href="#200" id="200">200</a>
-</pre><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.
+</pre></div><pre class="rust"><code><span class="doccomment">//! An open-source postflop solver library.
 //!
 //! # Examples
-//! ```
-//! use postflop_solver::*;
 //!
-//! // ranges of OOP and IP in string format
-//! let oop_range = &quot;66+,A8s+,A5s-A4s,AJo+,K9s+,KQo,QTs+,JTs,96s+,85s+,75s+,65s,54s&quot;;
-//! let ip_range = &quot;QQ-22,AQs-A2s,ATo+,K5s+,KJo+,Q8s+,J8s+,T7s+,96s+,86s+,75s+,64s+,53s+&quot;;
+//! See the [examples] directory.
 //!
-//! let card_config = CardConfig {
-//!     range: [oop_range.parse().unwrap(), ip_range.parse().unwrap()],
-//!     flop: flop_from_str(&quot;Td9d6h&quot;).unwrap(),
-//!     turn: card_from_str(&quot;Qc&quot;).unwrap(),
-//!     river: NOT_DEALT,
-//! };
-//!
-//! // bet sizes -&gt; 60% of the pot, geometric size, and all-in
-//! // raise sizes -&gt; 2.5x of the previous bet
-//! // see the documentation of `BetSizeCandidates` for more details
-//! let bet_sizes = BetSizeCandidates::try_from((&quot;60%, e, a&quot;, &quot;2.5x&quot;)).unwrap();
-//!
-//! let tree_config = TreeConfig {
-//!     initial_state: BoardState::Turn,
-//!     starting_pot: 200,
-//!     effective_stack: 900,
-//!     rake_rate: 0.0,
-//!     rake_cap: 0.0,
-//!     flop_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()], // [OOP, IP]
-//!     turn_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
-//!     river_bet_sizes: [bet_sizes.clone(), bet_sizes.clone()],
-//!     turn_donk_sizes: None, // use default bet sizes
-//!     river_donk_sizes: Some(DonkSizeCandidates::try_from(&quot;50%&quot;).unwrap()),
-//!     add_allin_threshold: 1.5, // add all-in if (maximum bet size) &lt;= 1.5x pot
-//!     force_allin_threshold: 0.15, // force all-in if (SPR after the opponent&#39;s call) &lt;= 0.15
-//!     merging_threshold: 0.1,
-//! };
-//!
-//! // build the game tree
-//! let action_tree = ActionTree::new(tree_config).unwrap();
-//! let mut game = PostFlopGame::with_config(card_config, action_tree).unwrap();
-//!
-//! // obtain the private hands
-//! let oop_cards = game.private_cards(0);
-//! let oop_cards_str = holes_to_strings(oop_cards).unwrap();
-//! assert_eq!(
-//!     &amp;oop_cards_str[..10],
-//!     &amp;[&quot;5c4c&quot;, &quot;Ac4c&quot;, &quot;5d4d&quot;, &quot;Ad4d&quot;, &quot;5h4h&quot;, &quot;Ah4h&quot;, &quot;5s4s&quot;, &quot;As4s&quot;, &quot;6c5c&quot;, &quot;7c5c&quot;]
-//! );
-//!
-//! // check memory usage
-//! let (mem_usage, mem_usage_compressed) = game.memory_usage();
-//! println!(
-//!     &quot;Memory usage without compression: {:.2}GB&quot;,
-//!     mem_usage as f64 / (1024.0 * 1024.0 * 1024.0)
-//! );
-//! println!(
-//!     &quot;Memory usage with compression: {:.2}GB&quot;,
-//!     mem_usage_compressed as f64 / (1024.0 * 1024.0 * 1024.0)
-//! );
-//!
-//! // allocate memory without compression
-//! game.allocate_memory(false);
-//!
-//! // allocate memory with compression
-//! // game.allocate_memory(true);
-//!
-//! // solve the game
-//! let max_num_iterations = 1000;
-//! let target_exploitability = game.tree_config().starting_pot as f32 * 0.005;
-//! let exploitability = solve(&amp;mut game, max_num_iterations, target_exploitability, true);
-//! println!(&quot;Exploitability: {:.2}&quot;, exploitability);
-//!
-//! // solve the game manually
-//! // for i in 0..max_num_iterations {
-//! //     solve_step(&amp;game, i);
-//! //     if (i + 1) % 10 == 0 {
-//! //         let exploitability = compute_exploitability(&amp;game);
-//! //         if exploitability &lt;= target_exploitability {
-//! //             println!(&quot;Exploitability: {:.2}&quot;, exploitability);
-//! //             break;
-//! //         }
-//! //     }
-//! // }
-//! // finalize(&amp;mut game);
-//!
-//! // get equity and EV of a specific hand
-//! game.cache_normalized_weights();
-//! let equity = game.equity(0); // `0` means OOP player
-//! let ev = game.expected_values(0);
-//! println!(&quot;Equity of oop_hands[0]: {:.2}%&quot;, 100.0 * equity[0]);
-//! println!(&quot;EV of oop_hands[0]: {:.2}&quot;, ev[0]);
-//!
-//! // get equity and EV of whole hand
-//! let weights = game.normalized_weights(0);
-//! let average_equity = compute_average(&amp;equity, weights);
-//! let average_ev = compute_average(&amp;ev, weights);
-//! println!(&quot;Average equity: {:.2}%&quot;, 100.0 * average_equity);
-//! println!(&quot;Average EV: {:.2}&quot;, average_ev);
-//!
-//! // get available actions (OOP)
-//! let actions = game.available_actions();
-//! assert_eq!(
-//!     format!(&quot;{:?}&quot;, actions),
-//!     &quot;[Check, Bet(120), Bet(216), AllIn(900)]&quot;
-//! );
-//!
-//! // play `Bet(120)`
-//! game.play(1);
-//!
-//! // get available actions (IP)
-//! let actions = game.available_actions();
-//! assert_eq!(format!(&quot;{:?}&quot;, actions), &quot;[Fold, Call, Raise(300)]&quot;);
-//!
-//! // confirm that IP does not fold the nut straight
-//! let ip_cards = game.private_cards(1);
-//! let strategy = game.strategy();
-//! assert_eq!(ip_cards.len(), 250);
-//! assert_eq!(strategy.len(), 750);
-//! assert_eq!(hole_to_string(ip_cards[206]).unwrap(), &quot;KsJs&quot;);
-//! assert_eq!(strategy[206], 0.0);
-//! assert!((strategy[206] + strategy[456] + strategy[706] - 1.0).abs() &lt; 1e-6);
-//!
-//! // play `Call`
-//! game.play(1);
-//!
-//! // confirm that the current node is a chance node (i.e., river node)
-//! assert!(game.is_chance_node());
-//!
-//! // confirm that &quot;7s&quot; may be dealt
-//! let card_7s = card_from_str(&quot;7s&quot;).unwrap();
-//! assert!(game.possible_cards() &amp; (1 &lt;&lt; card_7s) != 0);
-//!
-//! // deal &quot;7s&quot;
-//! game.play(card_7s as usize);
-//!
-//! // back to the root node
-//! game.back_to_root();
-//! ```
+//! [examples]: https://github.com/b-inary/postflop-solver/tree/main/examples
 //!
 //! # Implementation details
-//! - **Algorithm**: The solver uses [Discounted CFR] algorithm.
-//!   Currently, the value of γ is set to 3.0, rather than the 2.0 recommended by the original paper.
-//!   Also, the solver reset the cumulative strategy when the number of iterations is a power of 4.
-//! - **Precision**: 32-bit floating-point numbers are used in most places.
-//!   When calculating summations, temporal values use 64-bit floating-point numbers.
-//!   If the compression feature is enabled, each game node stores the values by 16-bit integers
-//!   with a single 32-bit floating-point scaling factor.
-//! - **Handling isomorphism**: The solver does not perform any abstraction.
+//! - **Algorithm**: The solver uses the state-of-the-art [Discounted CFR] algorithm.
+//!   Currently, the value of γ is set to 3.0 instead of the 2.0 recommended in the original paper.
+//!   Also, the solver resets the cumulative strategy when the number of iterations is a power of 4.
+//! - **Performance**: The solver engine is highly optimized for performance with maintainable code.
+//!   The engine supports multithreading by default, and it takes full advantage of unsafe Rust in hot spots.
+//!   The developer reviews the assembly output from the compiler and ensures that SIMD instructions are used as much as possible.
+//!   Combined with the algorithm described above, the performance surpasses paid solvers such as PioSOLVER and GTO+.
+//! - **Isomorphism**: The solver does not perform any abstraction.
 //!   However, isomorphic chances (turn and river deals) are combined into one.
 //!   For example, if the flop is monotone, the three non-dealt suits are isomorphic,
 //!   allowing us to skip the calculation for two of the three suits.
+//! - **Precision**: 32-bit floating-point numbers are used in most places.
+//!   When calculating summations, temporary values use 64-bit floating-point numbers.
+//!   There is also a compression option where each game node stores the values
+//!   by 16-bit integers with a single 32-bit floating-point scaling factor.
+//! - **Bunching effect**: At the time of writing, this is the only implementation that can handle the bunching effect.
+//!   It supports up to four folded players (6-max game).
+//!   The implementation correctly counts the number of card combinations and does not rely on heuristics
+//!   such as manipulating the probability distribution of the deck.
+//!   Note, however, that enabling the bunching effect increases the time complexity
+//!   of the evaluation at the terminal nodes and slows down the computation significantly.
 //!
 //! [Discounted CFR]: https://arxiv.org/abs/1809.04040
 //!
 //! # Crate features
-//! - `bincode`: Uses [bincode] crate (2.0.0-rc.2) to serialize and deserialize the `PostFlopGame` struct.
-//!   Disabled by default.
+//! - `bincode`: Uses [bincode] crate (2.0.0-rc.3) to serialize and deserialize the `PostFlopGame` struct.
+//!   This feature is required to save and load the game tree.
+//!   Enabled by default.
 //! - `custom-alloc`: Uses custom memory allocator in solving process (only available in nightly Rust).
 //!   It significantly reduces the number of calls of the default allocator,
 //!   so it is recommended to use this feature when the default allocator is not so efficient.
@@ -364,14 +132,21 @@
 //!   Disabled by default.
 //! - `rayon`: Uses [rayon] crate for parallelization.
 //!   Enabled by default.
+//! - `zstd`: Uses [zstd] crate to compress and decompress the game tree.
+//!   This feature is required to save and load the game tree with compression.
+//!   Disabled by default.
 //!
 //! [bincode]: https://github.com/bincode-org/bincode
 //! [rayon]: https://github.com/rayon-rs/rayon
+//! [zstd]: https://github.com/gyscos/zstd-rs
 
 </span><span class="attr">#![cfg_attr(feature = <span class="string">&quot;custom-alloc&quot;</span>, feature(allocator_api))]
 
 #[cfg(feature = <span class="string">&quot;custom-alloc&quot;</span>)]
 </span><span class="kw">mod </span>alloc;
+
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">mod </span>file;
 
 <span class="kw">mod </span>action_tree;
 <span class="kw">mod </span>atomic_float;
@@ -388,6 +163,9 @@
 <span class="kw">mod </span>solver;
 <span class="kw">mod </span>utility;
 
+<span class="attr">#[cfg(feature = <span class="string">&quot;bincode&quot;</span>)]
+</span><span class="kw">pub use </span>file::<span class="kw-2">*</span>;
+
 <span class="kw">pub use </span>action_tree::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>bet_size::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>bunching::<span class="kw-2">*</span>;
@@ -398,5 +176,4 @@
 <span class="kw">pub use </span>range::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>solver::<span class="kw-2">*</span>;
 <span class="kw">pub use </span>utility::<span class="kw-2">*</span>;
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../" data-static-root-path="../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (e3dfeeaa4 2023-03-07)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>

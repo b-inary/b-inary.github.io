@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game/serialization.rs`."><title>serialization.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-c4dbdcde0fbd8430.css" id="mainThemeStyle"><link rel="stylesheet" id="themeStyle" href="../../../static.files/light-db279b6232be9c13.css"><link rel="stylesheet" disabled href="../../../static.files/dark-cf923f49f397b216.css"><link rel="stylesheet" disabled href="../../../static.files/ayu-be46fdc453a55015.css"><script src="../../../static.files/storage-3891ce972e3a2bf8.js"></script><script defer src="../../../static.files/source-script-1b95b7cca98b26e5.js"></script><script defer src="../../../source-files.js"></script><script defer src="../../../static.files/main-98a684e84ae5b08b.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-13285aec31fa243e.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc source"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../postflop_solver/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><pre class="src-line-numbers"><a href="#1" id="1">1</a>
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="generator" content="rustdoc"><meta name="description" content="Source of the Rust file `src/game/serialization.rs`."><title>serialization.rs - source</title><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Regular-46f98efaafac5295.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Regular-018c141bf0843ffd.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/FiraSans-Medium-8f9a781e4970d388.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Regular-562dcc5011b6de7d.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceSerif4-Bold-a2c9cd1067f8b328.ttf.woff2"><link rel="preload" as="font" type="font/woff2" crossorigin href="../../../static.files/SourceCodePro-Semibold-d899c5a5c4aeb14a.ttf.woff2"><link rel="stylesheet" href="../../../static.files/normalize-76eba96aa4d2e634.css"><link rel="stylesheet" href="../../../static.files/rustdoc-fa3bb1812debf86c.css"><meta name="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.74.0-nightly (8ce4540bd 2023-09-29)" data-channel="nightly" data-search-js="search-8be46b629f5f14a8.js" data-settings-js="settings-74424d7eec62a23e.js" ><script src="../../../static.files/storage-fec3eaa3851e447d.js"></script><script defer src="../../../static.files/src-script-3280b574d94e47b4.js"></script><script defer src="../../../src-files.js"></script><script defer src="../../../static.files/main-c5bd66d33317d69f.js"></script><noscript><link rel="stylesheet" href="../../../static.files/noscript-5d8b3c7633ad77ba.css"></noscript><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-16x16-8b506e7a72182f1c.png"><link rel="alternate icon" type="image/png" href="../../../static.files/favicon-32x32-422f7d1d52889060.png"><link rel="icon" type="image/svg+xml" href="../../../static.files/favicon-2c020d218678b618.svg"></head><body class="rustdoc src"><!--[if lte IE 11]><div class="warning">This old browser is unsupported and will most likely display funky things.</div><![endif]--><nav class="sidebar"></nav><main><nav class="sub"><a class="sub-logo-container" href="../../../postflop_solver/index.html"><img class="rust-logo" src="../../../static.files/rust-logo-151179464ae7ed46.svg" alt="logo"></a><form class="search-form"><span></span><input class="search-input" name="search" aria-label="Run search in the documentation" autocomplete="off" spellcheck="false" placeholder="Click or press ‘S’ to search, ‘?’ for more options…" type="search"><div id="help-button" title="help" tabindex="-1"><a href="../../../help.html">?</a></div><div id="settings-menu" tabindex="-1"><a href="../../../settings.html" title="settings"><img width="22" height="22" alt="Change settings" src="../../../static.files/wheel-7b819b6101059cd0.svg"></a></div></form></nav><section id="main-content" class="content"><div class="example-wrap"><div data-nosnippet><pre class="src-line-numbers"><a href="#1" id="1">1</a>
 <a href="#2" id="2">2</a>
 <a href="#3" id="3">3</a>
 <a href="#4" id="4">4</a>
@@ -334,17 +334,25 @@
 <a href="#334" id="334">334</a>
 <a href="#335" id="335">335</a>
 <a href="#336" id="336">336</a>
-<a href="#337" id="337">337</a>
-</pre><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
+</pre></div><pre class="rust"><code><span class="kw">use super</span>::<span class="kw-2">*</span>;
 
 <span class="kw">use </span><span class="kw">crate</span>::interface::<span class="kw-2">*</span>;
 <span class="kw">use </span><span class="kw">crate</span>::utility::<span class="kw-2">*</span>;
-<span class="kw">use </span>bincode::error::{DecodeError, EncodeError};
 <span class="kw">use </span>std::cell::Cell;
 <span class="kw">use </span>std::ptr;
 
+<span class="kw">use </span>bincode::{
+    de::Decoder,
+    enc::Encoder,
+    error::{DecodeError, EncodeError},
+};
+
 <span class="kw">impl </span>PostFlopGame {
     <span class="doccomment">/// Returns the storage mode of this instance.
+    ///
+    /// The storage mode represents the deepest accessible node in the game tree.
+    /// For example, if the storage mode is `BoardState::Turn`, then the game tree
+    /// contains no information after the river deal.
     </span><span class="attr">#[inline]
     </span><span class="kw">pub fn </span>storage_mode(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; BoardState {
         <span class="self">self</span>.storage_mode
@@ -358,16 +366,32 @@
 
     <span class="doccomment">/// Sets the target storage mode.
     </span><span class="attr">#[inline]
-    </span><span class="kw">pub fn </span>set_target_storage_mode(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mode: BoardState) {
+    </span><span class="kw">pub fn </span>set_target_storage_mode(<span class="kw-2">&amp;mut </span><span class="self">self</span>, mode: BoardState) -&gt; <span class="prelude-ty">Result</span>&lt;(), String&gt; {
         <span class="kw">if </span>mode &gt; <span class="self">self</span>.storage_mode {
-            <span class="macro">panic!</span>(<span class="string">&quot;Cannot set target storage mode to a higher value than the current storage&quot;</span>);
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Cannot set target to a higher value than the current storage&quot;</span>.to_string());
         }
 
         <span class="kw">if </span>mode &lt; <span class="self">self</span>.tree_config.initial_state {
-            <span class="macro">panic!</span>(<span class="string">&quot;Cannot set target storage mode to a lower value than the initial state&quot;</span>);
+            <span class="kw">return </span><span class="prelude-val">Err</span>(<span class="string">&quot;Cannot set target to a lower value than the initial state&quot;</span>.to_string());
         }
 
         <span class="self">self</span>.target_storage_mode = mode;
+        <span class="prelude-val">Ok</span>(())
+    }
+
+    <span class="doccomment">/// Returns the memory usage when the target storage mode is used for serialization.
+    </span><span class="attr">#[inline]
+    </span><span class="kw">pub fn </span>target_memory_usage(<span class="kw-2">&amp;</span><span class="self">self</span>) -&gt; u64 {
+        <span class="kw">match </span><span class="self">self</span>.target_storage_mode {
+            BoardState::River =&gt; <span class="kw">match </span><span class="self">self</span>.is_compression_enabled {
+                <span class="bool-val">false </span>=&gt; <span class="self">self</span>.memory_usage().<span class="number">0</span>,
+                <span class="bool-val">true </span>=&gt; <span class="self">self</span>.memory_usage().<span class="number">1</span>,
+            },
+            <span class="kw">_ </span>=&gt; {
+                <span class="kw">let </span>num_target_storage = <span class="self">self</span>.num_target_storage();
+                num_target_storage.iter().map(|<span class="kw-2">&amp;</span>x| x <span class="kw">as </span>u64).sum::&lt;u64&gt;() + <span class="self">self</span>.misc_memory_usage
+            }
+        }
     }
 
     <span class="doccomment">/// Returns the number of storage elements required for the target storage mode.
@@ -412,7 +436,7 @@
     }
 }
 
-<span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2023-03-04&quot;</span>;
+<span class="kw">static </span>VERSION_STR: <span class="kw-2">&amp;</span>str = <span class="string">&quot;2023-03-19&quot;</span>;
 
 <span class="macro">thread_local! </span>{
     <span class="kw">static </span>PTR_BASE: Cell&lt;[<span class="kw-2">*const </span>u8; <span class="number">2</span>]&gt; = Cell::new([ptr::null(); <span class="number">2</span>]);
@@ -422,7 +446,7 @@
 }
 
 <span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopGame {
-    <span class="kw">fn </span>encode&lt;E: bincode::enc::Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
+    <span class="kw">fn </span>encode&lt;E: Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
         <span class="kw">if </span><span class="self">self</span>.state &lt;= State::Uninitialized {
             <span class="kw">return </span><span class="prelude-val">Err</span>(EncodeError::Other(<span class="string">&quot;Game is not successfully initialized&quot;</span>));
         }
@@ -432,15 +456,13 @@
         <span class="comment">// version
         </span>VERSION_STR.to_string().encode(encoder)<span class="question-mark">?</span>;
 
-        <span class="comment">// action tree
-        </span><span class="self">self</span>.tree_config.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.added_lines.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.removed_lines.encode(encoder)<span class="question-mark">?</span>;
-
         <span class="comment">// contents
         </span><span class="self">self</span>.state.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.card_config.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.num_combinations.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.tree_config.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.added_lines.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.removed_lines.encode(encoder)<span class="question-mark">?</span>;
+        <span class="self">self</span>.action_root.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.target_storage_mode.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.num_nodes.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.is_compression_enabled.encode(encoder)<span class="question-mark">?</span>;
@@ -452,7 +474,17 @@
         <span class="self">self</span>.storage2[<span class="number">0</span>..num_storage[<span class="number">1</span>]].encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.storage_ip[<span class="number">0</span>..num_storage[<span class="number">2</span>]].encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.storage_chance[<span class="number">0</span>..num_storage[<span class="number">3</span>]].encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.locking_strategy.encode(encoder)<span class="question-mark">?</span>;
+
+        <span class="kw">let </span>num_nodes = <span class="kw">match </span><span class="self">self</span>.target_storage_mode {
+            BoardState::Flop =&gt; <span class="self">self</span>.num_nodes[<span class="number">0</span>] <span class="kw">as </span>usize,
+            BoardState::Turn =&gt; (<span class="self">self</span>.num_nodes[<span class="number">0</span>] + <span class="self">self</span>.num_nodes[<span class="number">1</span>]) <span class="kw">as </span>usize,
+            BoardState::River =&gt; <span class="self">self</span>.node_arena.len(),
+        };
+
+        <span class="comment">// locking strategy (need to filter)
+        </span><span class="kw">let </span><span class="kw-2">mut </span>locking_strategy = <span class="self">self</span>.locking_strategy.clone();
+        locking_strategy.retain(|<span class="kw-2">&amp;</span>i, <span class="kw">_</span>| i &lt; num_nodes);
+        locking_strategy.encode(encoder)<span class="question-mark">?</span>;
 
         <span class="comment">// store base pointers
         </span>PTR_BASE.with(|c| {
@@ -472,23 +504,14 @@
         });
 
         <span class="comment">// game tree
-        </span><span class="kw">let </span>num_nodes = <span class="kw">match </span><span class="self">self</span>.target_storage_mode {
-            BoardState::Flop =&gt; <span class="self">self</span>.num_nodes[<span class="number">0</span>] <span class="kw">as </span>usize,
-            BoardState::Turn =&gt; (<span class="self">self</span>.num_nodes[<span class="number">0</span>] + <span class="self">self</span>.num_nodes[<span class="number">1</span>]) <span class="kw">as </span>usize,
-            BoardState::River =&gt; <span class="self">self</span>.node_arena.len(),
-        };
-        <span class="self">self</span>.node_arena[<span class="number">0</span>..num_nodes].encode(encoder)<span class="question-mark">?</span>;
-
-        <span class="comment">// interpreter
-        </span><span class="self">self</span>.action_history.encode(encoder)<span class="question-mark">?</span>;
-        <span class="self">self</span>.is_normalized_weight_cached.encode(encoder)<span class="question-mark">?</span>;
+        </span><span class="self">self</span>.node_arena[<span class="number">0</span>..num_nodes].encode(encoder)<span class="question-mark">?</span>;
 
         <span class="prelude-val">Ok</span>(())
     }
 }
 
 <span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopGame {
-    <span class="kw">fn </span>decode&lt;D: bincode::de::Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
+    <span class="kw">fn </span>decode&lt;D: Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
         <span class="comment">// version check
         </span><span class="kw">let </span>version = String::decode(decoder)<span class="question-mark">?</span>;
         <span class="kw">if </span>version != VERSION_STR {
@@ -497,29 +520,14 @@
             </span>)));
         }
 
-        <span class="kw">let </span>tree_config = TreeConfig::decode(decoder)<span class="question-mark">?</span>;
-        <span class="kw">let </span>added_lines = Vec::&lt;Vec&lt;Action&gt;&gt;::decode(decoder)<span class="question-mark">?</span>;
-        <span class="kw">let </span>removed_lines = Vec::&lt;Vec&lt;Action&gt;&gt;::decode(decoder)<span class="question-mark">?</span>;
-
-        <span class="kw">let </span><span class="kw-2">mut </span>action_tree = ActionTree::new(tree_config).unwrap();
-        <span class="kw">for </span>line <span class="kw">in </span><span class="kw-2">&amp;</span>added_lines {
-            action_tree.add_line(line).unwrap();
-        }
-        <span class="kw">for </span>line <span class="kw">in </span><span class="kw-2">&amp;</span>removed_lines {
-            action_tree.remove_line(line).unwrap();
-        }
-
-        <span class="kw">let </span>(tree_config, <span class="kw">_</span>, <span class="kw">_</span>, action_root) = action_tree.eject();
-
         <span class="comment">// game instance
         </span><span class="kw">let </span><span class="kw-2">mut </span>game = <span class="self">Self </span>{
             state: Decode::decode(decoder)<span class="question-mark">?</span>,
             card_config: Decode::decode(decoder)<span class="question-mark">?</span>,
-            tree_config,
-            added_lines,
-            removed_lines,
-            action_root,
-            num_combinations: Decode::decode(decoder)<span class="question-mark">?</span>,
+            tree_config: Decode::decode(decoder)<span class="question-mark">?</span>,
+            added_lines: Decode::decode(decoder)<span class="question-mark">?</span>,
+            removed_lines: Decode::decode(decoder)<span class="question-mark">?</span>,
+            action_root: Decode::decode(decoder)<span class="question-mark">?</span>,
             storage_mode: Decode::decode(decoder)<span class="question-mark">?</span>,
             num_nodes: Decode::decode(decoder)<span class="question-mark">?</span>,
             is_compression_enabled: Decode::decode(decoder)<span class="question-mark">?</span>,
@@ -567,26 +575,16 @@
         <span class="comment">// game tree
         </span>game.node_arena = Decode::decode(decoder)<span class="question-mark">?</span>;
 
-        <span class="comment">// interpreter
-        </span><span class="kw">let </span>action_history = Vec::&lt;usize&gt;::decode(decoder)<span class="question-mark">?</span>;
-        <span class="kw">let </span>is_normalized_weight_cached = bool::decode(decoder)<span class="question-mark">?</span>;
-
         <span class="comment">// initialization
-        </span><span class="kw">if </span>game.state &gt;= State::TreeBuilt {
-            game.init_hands();
-            game.init_card_fields();
-            game.init_interpreter();
+        </span>game.check_card_config().map_err(DecodeError::OtherString)<span class="question-mark">?</span>;
+        game.init_card_fields();
+        game.init_interpreter();
+        game.back_to_root();
 
-            <span class="comment">// restore the counterfactual values
-            </span><span class="kw">if </span>game.storage_mode == BoardState::River &amp;&amp; game.state == State::Solved {
-                game.state = State::MemoryAllocated;
-                finalize(<span class="kw-2">&amp;mut </span>game);
-            }
-
-            game.apply_history(<span class="kw-2">&amp;</span>action_history);
-            <span class="kw">if </span>is_normalized_weight_cached {
-                game.cache_normalized_weights();
-            }
+        <span class="comment">// restore the counterfactual values
+        </span><span class="kw">if </span>game.storage_mode == BoardState::River &amp;&amp; game.state == State::Solved {
+            game.state = State::MemoryAllocated;
+            finalize(<span class="kw-2">&amp;mut </span>game);
         }
 
         <span class="prelude-val">Ok</span>(game)
@@ -594,7 +592,7 @@
 }
 
 <span class="kw">impl </span>Encode <span class="kw">for </span>PostFlopNode {
-    <span class="kw">fn </span>encode&lt;E: bincode::enc::Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
+    <span class="kw">fn </span>encode&lt;E: Encoder&gt;(<span class="kw-2">&amp;</span><span class="self">self</span>, encoder: <span class="kw-2">&amp;mut </span>E) -&gt; <span class="prelude-ty">Result</span>&lt;(), EncodeError&gt; {
         <span class="comment">// contents
         </span><span class="self">self</span>.prev_action.encode(encoder)<span class="question-mark">?</span>;
         <span class="self">self</span>.player.encode(encoder)<span class="question-mark">?</span>;
@@ -631,7 +629,7 @@
 }
 
 <span class="kw">impl </span>Decode <span class="kw">for </span>PostFlopNode {
-    <span class="kw">fn </span>decode&lt;D: bincode::de::Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
+    <span class="kw">fn </span>decode&lt;D: Decoder&gt;(decoder: <span class="kw-2">&amp;mut </span>D) -&gt; <span class="prelude-ty">Result</span>&lt;<span class="self">Self</span>, DecodeError&gt; {
         <span class="comment">// node instance
         </span><span class="kw">let </span><span class="kw-2">mut </span>node = <span class="self">Self </span>{
             prev_action: Decode::decode(decoder)<span class="question-mark">?</span>,
@@ -672,5 +670,4 @@
         <span class="prelude-val">Ok</span>(node)
     }
 }
-</code></pre></div>
-</section></main><div id="rustdoc-vars" data-root-path="../../../" data-static-root-path="../../../static.files/" data-current-crate="postflop_solver" data-themes="" data-resource-suffix="" data-rustdoc-version="1.70.0-nightly (e3dfeeaa4 2023-03-07)" data-search-js="search-8a59a8356673ec1f.js" data-settings-js="settings-f0c5c39777a9a2f6.js" data-settings-css="settings-0bcba95ff279c1db.css" ></div></body></html>
+</code></pre></div></section></main></body></html>
